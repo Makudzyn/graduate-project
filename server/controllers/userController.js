@@ -1,5 +1,16 @@
 const ApiError = require("../error/apiError.js")
 const {User, History} = require("../models/models");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+// Функция создания JWT-токена
+const generateJWT = (id, email, role) => {
+  return jwt.sign(
+    {id, email, role}, // Параметры которые передаем в payload
+    process.env.SECRET_KEY, // Ключ, по которому выполняется "кодировка"
+    {expiresIn: "24h"} // Время жизни токена
+  )
+}
 
 // Функция регистрации нового пользователя
 async function registration(req, res, next) {
@@ -11,11 +22,11 @@ async function registration(req, res, next) {
   if (isExists) {
     return next(ApiError.badRequest("User with this email already exists!")); // Если есть - возвращаем ошибку
   }
-  // const hashPassword = await bcrypt.hash(password, 3); // Хешируем пароль пользователя и указываем сколько раз
-  // const user = await User.create({email, role, password: hashPassword}); // Создаем пользователя и передаем захешированный пароль
+  const hashPassword = await bcrypt.hash(password, 3); // Хешируем пароль пользователя и указываем сколько раз
+  const user = await User.create({email, role, password: hashPassword}); // Создаем пользователя и передаем захешированный пароль
   const history = await History.create({userId: user.id}); // Создаем корзину для пользователя
-  // const token = generateJWT(user.id, user.email, user.role); // Получаем токен из функции
-  // return res.json({token});
+  const token = generateJWT(user.id, user.email, user.role); // Получаем токен из функции
+  return res.json({token});
 }
 
 // Функция авторизации пользователя
@@ -25,18 +36,18 @@ async function login(req, res, next) {
   if (!user) {
     return next(ApiError.notFound("There is no user with this email!")); // Если нет возвращаем ошибку
   }
-  // let comparePassword = bcrypt.compareSync(password, user.password); // Дехешируем пароль и сравниваем с тем, который получили из тела запроса
+  let comparePassword = bcrypt.compareSync(password, user.password); // Дехешируем пароль и сравниваем с тем, который получили из тела запроса
   if (!comparePassword) {
     return next(ApiError.badRequest("Wrong password.")); // Если пароли не совпадают возвращаем ошибку
   }
-  // const token = generateJWT(user.id, user.email, user.role); // Если все ок - генерируем токен
-  // return res.json({token});
+  const token = generateJWT(user.id, user.email, user.role); // Если все ок - генерируем токен
+  return res.json({token});
 }
 
 // Функция которая возвращает новый токен
 async function check(req, res) {
-  // const token = generateJWT(req.user.id, req.user.email, req.user.role); // Генерируем новый токен
-  // return res.json({token});
+  const token = generateJWT(req.user.id, req.user.email, req.user.role); // Генерируем новый токен
+  return res.json({token});
 }
 
 // Функция удаления пользователя по ID
