@@ -1,4 +1,9 @@
 server/node_modules
-server/package-lock.json
-server/package.json
+server/*.json
 .idea
+
+client/node_modules
+client/*.json
+client/*.config.*
+client/.eslintrc.cjs
+client/src/vite-env.d.ts
