@@ -5,7 +5,7 @@ const User = sequelize.define('user', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   role: {type: DataTypes.STRING(45), defaultValue: "USER"},
   email: {type: DataTypes.STRING(80), unique: true, allowNull: false},
-  password: {type: DataTypes.STRING(100), allowNull: false},
+  password: {type: DataTypes.STRING(240), allowNull: false},
 })
 
 const History = sequelize.define('history', {
