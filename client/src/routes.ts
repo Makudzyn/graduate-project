@@ -20,10 +20,12 @@ import MainPage from "./pages/MainPage.tsx";
 
 export const authRoutes = [
     {
+        name: "Admin panel",
         path: ADMIN_PANEL_ROUTE,
         Component: AdminPanel
     },
     {
+        name: "Polynomials list",
         path: POLYNOMIALS_ROUTE,
         Component: PolynomialsPage
     },
@@ -31,31 +33,41 @@ export const authRoutes = [
 
 export const publicRoutes = [
     {
+        name: "Main",
         path: MAIN_ROUTE,
         Component: MainPage
     },
     {
-        path: LOGIN_ROUTE,
-        Component: AuthorizationPage
-    },
-    {
-        path: REGISTRATION_ROUTE,
-        Component: AuthorizationPage
-    },
-    {
+        name: "Linear-feedback shift register",
         path: LINEAR_GEN_ROUTE,
         Component: LinearGeneratorPage
     },
     {
+        name: "Matrix register",
         path: MATRIX_GEN_ROUTE,
         Component: MatrixGeneratorPage
     },
     {
+        name: "Sum and multiplication register",
         path: SUM_AND_MULTI_GEN_ROUTE,
         Component: SumAndMultiGeneratorPage
     },
     {
+        name: "Untitled",
         path: UNTITLED_ROUTE,
         Component: untitledGenerator
+    },
+]
+
+export const AuthRoutes = [
+    {
+        name: "Login",
+        path: LOGIN_ROUTE,
+        Component: AuthorizationPage
+    },
+    {
+        name: "Registration",
+        path: REGISTRATION_ROUTE,
+        Component: AuthorizationPage
     },
 ]

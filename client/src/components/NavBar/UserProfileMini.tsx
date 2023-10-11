@@ -1,51 +1,122 @@
+import { NavLink } from "react-router-dom";
+import { ADMIN_PANEL_ROUTE } from "../../utils/consts.ts";
+import { Fragment, useContext } from "react";
+import { Context } from "../../main.tsx";
+import { observer } from "mobx-react-lite";
+import { Menu, Transition } from "@headlessui/react";
 
-const UserProfileMini = () => {
+const UserProfileMini = observer(
+  ({ classNames }: { classNames: (...classes: string[]) => string }) => {
+    const { userStore } = useContext(Context)!;
+    // const navigate = useNavigate();
+    const logOut = () => {
+      userStore.setUser({});
+      userStore.setIsAuth(false);
+    };
+
     return (
-        <header className="antialiased">
-            <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-                <div className="flex flex-wrap justify-between items-center">
-                    <div className="flex items-center">
-                        <button type="button" className="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
-                            <span className="sr-only">Open user menu</span>
-                            <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo"/>
-                        </button>
+      <Menu as="div" className="relative ml-3">
+        <Menu.Button
+          type="button"
+          className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+        >
+          <span className="absolute -inset-1.5" />
+          <span className="sr-only">Open user menu</span>
+          <img
+            className="w-8 h-8 rounded-full"
+            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+            alt="user photo"
+          />
+        </Menu.Button>
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Item as="div" className="py-3 px-4">
+              <span className="block text-sm font-semibold text-gray-900 dark:text-white">
+                Elis Lens
+              </span>
+              <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
+                name@company.com
+              </span>
+            </Menu.Item>
 
-                        <div className="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown">
-                            <div className="py-3 px-4">
-                                <span className="block text-sm font-semibold text-gray-900 dark:text-white">Neil sims</span>
-                                <span className="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
-                            </div>
-                            <ul className="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
-                                <li>
-                                    <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My profile</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Account settings</a>
-                                </li>
-                            </ul>
-                            <ul className="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
-                                <li>
-                                    <a href="#" className="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        <svg className="mr-2 w-4 h-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="m1.56 6.245 8 3.924a1 1 0 0 0 .88 0l8-3.924a1 1 0 0 0 0-1.8l-8-3.925a1 1 0 0 0-.88 0l-8 3.925a1 1 0 0 0 0 1.8Z"/>
-                                            <path d="M18 8.376a1 1 0 0 0-1 1v.163l-7 3.434-7-3.434v-.163a1 1 0 0 0-2 0v.786a1 1 0 0 0 .56.9l8 3.925a1 1 0 0 0 .88 0l8-3.925a1 1 0 0 0 .56-.9v-.786a1 1 0 0 0-1-1Z"/>
-                                            <path d="M17.993 13.191a1 1 0 0 0-1 1v.163l-7 3.435-7-3.435v-.163a1 1 0 1 0-2 0v.787a1 1 0 0 0 .56.9l8 3.925a1 1 0 0 0 .88 0l8-3.925a1 1 0 0 0 .56-.9v-.787a1 1 0 0 0-1-1Z"/>
-                                        </svg>
-                                        Collections
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul className="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
-                                <li>
-                                    <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+            <Menu.Item as="div">
+              {({ active }) => (
+                <NavLink
+                  to="#"
+                  className={classNames(
+                    active ? "bg-gray-100" : "",
+                    "block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white cursor-pointer",
+                  )}
+                >
+                  My profile
+                </NavLink>
+              )}
+            </Menu.Item>
+            <Menu.Item as="div">
+              {({ active }) => (
+                <NavLink
+                  to="#"
+                  className={classNames(
+                    active ? "bg-gray-100" : "",
+                    "block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white cursor-pointer",
+                  )}
+                >
+                  Account settings
+                </NavLink>
+              )}
+            </Menu.Item>
+            <Menu.Item as="div">
+              {({ active }) => (
+                <NavLink
+                  to="#"
+                  className={classNames(
+                    active ? "bg-gray-100" : "",
+                    "flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer",
+                  )}
+                >
+                  Polynomials
+                </NavLink>
+              )}
+            </Menu.Item>
+            <Menu.Item as="div">
+              {({ active }) => (
+                <NavLink
+                  to={ADMIN_PANEL_ROUTE}
+                  className={classNames(
+                    active ? "bg-gray-100" : "",
+                    "flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer",
+                  )}
+                >
+                  Admin panel
+                </NavLink>
+              )}
+            </Menu.Item>
+            <Menu.Item as="div">
+              {({ active }) => (
+                <div
+                  onClick={() => logOut()}
+                  className={classNames(
+                    active ? "bg-gray-100" : "",
+                    "block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer",
+                  )}
+                >
+                  Sign out
                 </div>
-            </nav>
-        </header>
+              )}
+            </Menu.Item>
+          </Menu.Items>
+        </Transition>
+      </Menu>
     );
-};
+  },
+);
 
 export default UserProfileMini;
