@@ -4,7 +4,7 @@ import TitleBrand from "./TitleBrand.tsx";
 import NavPages from "./NavPages/NavPages.tsx";
 import UserProfileMini from "./UserProfileMini.tsx";
 import NavPagesBurger from "./NavPages/NavPagesBurger.tsx";
-import burgerMenuIco from "../../assets/burger-menu.svg";
+import BurgerMenuIcon from "../../assets/burger-menu.svg?react";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -26,13 +26,9 @@ const NavBar = observer(() => {
                     <span className="sr-only">Open main menu</span>
 
                     {open ? (
-                      <svg className="block w-6 h-6 sm:w-7 sm:h-7 bg-gray-800" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <image xlinkHref={burgerMenuIco} cursor="pointer" className="block w-6 h-6 sm:w-7 sm:h-7 accent-white"/>
-                      </svg>
+                      <BurgerMenuIcon className="block w-6 h-6 stroke-gray-300"/>
                     ) : (
-                      <svg className="block w-6 h-6 sm:w-7 sm:h-7 bg-gray-800" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <image xlinkHref={burgerMenuIco} cursor="pointer" className="block w-6 h-6 sm:w-7 sm:h-7 accent-white"/>
-                      </svg>
+                      <BurgerMenuIcon className="block w-6 h-6 stroke-gray-300"/>
                     )}
                   </Disclosure.Button>
                 </div>

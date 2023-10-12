@@ -4,7 +4,7 @@ import NavBar from "./components/NavBar/NavBar.tsx";
 import {useContext, useEffect, useState} from "react";
 import {check} from "./http/userAPI.ts";
 import {Context} from "./main.tsx";
-import spinnerIco from "./assets/spinner.svg";
+import SpinnerIcon from "./assets/spinner.svg?react";
 function App() {
   const {userStore} = useContext(Context)!; // Данные о пользователе из стора
   const [loading, setLoading] = useState(true);
@@ -19,10 +19,8 @@ function App() {
   if (loading) { // Если loading === true, то есть идет загрузка - отображаем спинер
     return (
       <div className="absolute w-full h-full flex items-center justify-center">
-        <svg aria-hidden="true" className="w-16 h-16 mr-2 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <image xlinkHref={spinnerIco} className="w-16 h-16"/>
-        </svg>
-        <span className="sr-only">Loading...</span>
+        <SpinnerIcon fill="#FFCD60" className="w-16 h-16 mr-2 animate-spin"/>
+        <span className="sr-only" color="#FFCD60">Loading...</span>
       </div>
     )
   }
