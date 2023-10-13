@@ -1,14 +1,20 @@
 import { NavLink } from "react-router-dom";
-import { ADMIN_PANEL_ROUTE } from "../../utils/consts.ts";
+import { ADMIN_PANEL_ROUTE, POLYNOMIALS_ROUTE } from "../../utils/consts.ts";
 import { Fragment, useContext } from "react";
 import { Context } from "../../main.tsx";
 import { observer } from "mobx-react-lite";
 import { Menu, Transition } from "@headlessui/react";
 
+const userMenuNavigation = [
+  { name: "My profile", href: "#" },
+  { name: "Account settings", href: "#" },
+  { name: "Polynomials", href: POLYNOMIALS_ROUTE },
+  { name: "Admin panel", href: ADMIN_PANEL_ROUTE },
+];
+
 const UserProfileMini = observer(
   ({ classNames }: { classNames: (...classes: string[]) => string }) => {
     const { userStore } = useContext(Context)!;
-    // const navigate = useNavigate();
     const logOut = () => {
       userStore.setUser({});
       userStore.setIsAuth(false);
@@ -47,58 +53,22 @@ const UserProfileMini = observer(
               </span>
             </Menu.Item>
 
-            <Menu.Item as="div">
-              {({ active }) => (
-                <NavLink
-                  to="#"
-                  className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white cursor-pointer",
-                  )}
-                >
-                  My profile
-                </NavLink>
-              )}
-            </Menu.Item>
-            <Menu.Item as="div">
-              {({ active }) => (
-                <NavLink
-                  to="#"
-                  className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white cursor-pointer",
-                  )}
-                >
-                  Account settings
-                </NavLink>
-              )}
-            </Menu.Item>
-            <Menu.Item as="div">
-              {({ active }) => (
-                <NavLink
-                  to="#"
-                  className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer",
-                  )}
-                >
-                  Polynomials
-                </NavLink>
-              )}
-            </Menu.Item>
-            <Menu.Item as="div">
-              {({ active }) => (
-                <NavLink
-                  to={ADMIN_PANEL_ROUTE}
-                  className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer",
-                  )}
-                >
-                  Admin panel
-                </NavLink>
-              )}
-            </Menu.Item>
+            {userMenuNavigation.map((item) => (
+              <Menu.Item>
+                {({ active }) => (
+                  <NavLink
+                    to={item.href}
+                    className={classNames(
+                      active ? "bg-gray-100" : "",
+                      "block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white cursor-pointer",
+                    )}
+                  >
+                    {item.name}
+                  </NavLink>
+                )}
+              </Menu.Item>
+            ))}
+
             <Menu.Item as="div">
               {({ active }) => (
                 <div
