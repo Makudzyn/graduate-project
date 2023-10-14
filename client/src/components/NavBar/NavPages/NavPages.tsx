@@ -11,7 +11,7 @@ const NavPages = observer(({
 }) => {
 
   return (
-    <div className="hidden sm:ml-6 sm:block">
+    <div className="hidden sm:ml-5 sm:flex sm:items-center">
       <ul className="flex space-x-4">
         {publicRoutes.map((item) => (
           <li key={item.name}>
@@ -22,7 +22,7 @@ const NavPages = observer(({
                 currentPage === item.path
                   ? "bg-gray-900 text-white"
                   : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                "rounded-md px-3 py-2 text-sm font-medium",
+                "rounded-md px-3 py-2 text-md font-medium",
               )}
             >
               {item.name}
