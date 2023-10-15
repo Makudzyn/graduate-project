@@ -1,15 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { publicRoutes } from "../../../routes.ts";
-import {observer} from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
+import classNames from "../../../functions/functions.ts";
 
-const NavPages = observer(({
-  classNames,
-  currentPage,
-}: {
-  classNames: (...classes: string[]) => string;
-  currentPage: string;
-}) => {
-
+const NavPages = observer(({ currentPage }: { currentPage: string }) => {
   return (
     <div className="hidden sm:ml-5 sm:flex sm:items-center">
       <ul className="flex space-x-4">

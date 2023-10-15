@@ -1,17 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { publicRoutes } from "../../../routes.ts";
 import { Disclosure } from "@headlessui/react";
+import classNames from "../../../functions/functions.ts";
 
-const NavPagesBurger = ({
-  classNames,
-  currentPage,
-}: {
-  classNames: (...classes: string[]) => string;
-  currentPage: string;
-}) => {
+const NavPagesBurger = ({ currentPage }: { currentPage: string }) => {
   return (
     <Disclosure.Panel className="sm:hidden">
-      <div className="space-y-1 px-2 pb-3 pt-2">
+      <div className="px-2 pt-2 pb-3 space-y-1">
         {publicRoutes.map((item) => (
           <Disclosure.Button
             key={item.name}
