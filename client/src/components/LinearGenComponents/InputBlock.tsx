@@ -1,8 +1,8 @@
-import {useState } from "react";
-import { Listbox } from "@headlessui/react";
-import CloseIcon from "../../assets/close.svg?react";
+import { useState } from "react";
+import Select from "../Select.tsx";
+import Input from "../Input.tsx";
 
-// const options = Array.from({ length: 15 }, (_, index) => index + 1);
+
 const optionsData = {
   "1": ["3"],
   "2": ["1 7 H"],
@@ -83,44 +83,18 @@ const optionsData = {
   ],
 };
 const InputBlock = () => {
-  const [selectedOption, setSelectedOption] = useState<string>("1"); // Начальное значение
+  const [selectedDegree, setSelectedDegree] = useState<string>("1"); // Начальное значение
+  const [selectedPolynomial, setSelectedPolynomial] = useState<string>("1"); // Начальное значение
 
   const options = Object.keys(optionsData);
   return (
-    <div className="flex flex-col justify-center gap-5 py-3 w-[500px]">
-      <Listbox value={selectedOption} onChange={setSelectedOption}>
-        <Listbox.Label>Оберіть ступінь поліному</Listbox.Label>
-        <Listbox.Button>{selectedOption}</Listbox.Button>
-        <Listbox.Options>
-          {options.map((option) => (
-            <Listbox.Option key={option} value={option}>
-              {({ active, selected }) => (
-                <li
-                  className={`${
-                    active ? "bg-blue-500 text-white" : "bg-white text-black"
-                  }`}
-                >
-                  {selected && <CloseIcon className={"w-3 h-3"} />}
-                  {option}
-                </li>
-              )}
-            </Listbox.Option>
-          ))}
-        </Listbox.Options>
-      </Listbox>
+    <div className="flex flex-col justify-center py-3 w-[500px]">
+      <Select selectedOption={selectedDegree} setSelectedOption={setSelectedDegree} selectLabel={"Оберіть ступінь поліному"} optionsArray={options}/>
+      <Select selectedOption={selectedPolynomial} setSelectedOption={setSelectedPolynomial} selectLabel={"Оберіть поліном"} optionsArray={options}/>
 
-      {/*<Select label="Оберіть поліном">*/}
-      {/*  {optionsData[selectedOption]?.map((data) => (*/}
-      {/*    <Option key={data} value={data}>*/}
-      {/*      {data}*/}
-      {/*    </Option>*/}
-      {/*  ))}*/}
-      {/*</Select>*/}
-
-      <input disabled={true} />
-      <label>="Введіть початковий стан"</label>
-      <input />
-    </div>
+      <Input disabled={true}/>
+      <Input inputLabel={"Введіть початковий стан"} inputPlaceholder="0000011" disabled={false}/>
+   </div>
   );
 };
 
