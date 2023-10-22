@@ -6,7 +6,7 @@ const historyRouter = require("./historyRouter");
 const userRouter = require("./userRouter");
 
 router.use('/history', historyRouter)
-router.use('/polynomial', polynomialRouter)
+router.use('/polynomials', polynomialRouter)
 router.use('/user', userRouter)
 
 

@@ -13,7 +13,7 @@ export const login = async (email: string, password: string): Promise<object> =>
     return jwtDecode(data.token);
 }
 export const check = async (): Promise<object>  => {
-    const {data} = await $authHost.get('api/user/auth', );
+    const {data} = await $authHost.get('api/user/auth');
     localStorage.setItem("token", data.token);
     return jwtDecode(data.token);
 }

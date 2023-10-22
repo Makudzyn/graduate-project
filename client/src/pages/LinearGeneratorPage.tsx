@@ -1,8 +1,15 @@
 import InputBlock from "../components/LinearGenComponents/InputBlock.tsx";
+import {useContext, useEffect} from "react";
+import {fetchPolynomials} from "../http/polynomialsAPI.ts";
+import {Context} from "../main.tsx";
 
 
 const LinearGeneratorPage = () => {
-  // Генерация массива опций от 1 до 15
+  const {polynomialsStore} = useContext(Context)!;
+  
+  useEffect(() => {
+    fetchPolynomials().then(data => polynomialsStore.setPolynomials(data))
+  }, [])
 
     return (
       <section className="h-full flex justify-center">

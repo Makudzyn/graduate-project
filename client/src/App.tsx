@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => { // С помощью функции check проверяем валидность токена, пока проверяем отображается спинер
     check().then(data => {
-      userStore.setUser(true);
+      userStore.setUser(data);
       userStore.setIsAuth(true);
     }).finally(() => setLoading(false)); // После получения ответа, вне зависимости от него убираем спинер
   }, [])

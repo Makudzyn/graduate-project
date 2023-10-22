@@ -1,6 +1,6 @@
 import {Route, Routes, Navigate} from 'react-router-dom';
 import {MAIN_ROUTE} from "../utils/consts.ts";
-import {AuthRoutes, authRoutes, publicRoutes} from "../routes.ts";
+import {authRoutes, publicRoutes, regAndLoginRoutes} from "../routes.ts";
 import {useContext} from "react";
 import {Context} from "../main.tsx";
 
@@ -17,7 +17,7 @@ const AppRouter = () => {
             {publicRoutes.map(({path, Component}) =>
                 <Route key={path} path={path} element={<Component/>}/>
             )}
-            {AuthRoutes.map(({path, Component}) =>
+            {regAndLoginRoutes.map(({path, Component}) =>
               <Route key={path} path={path} element={<Component/>}/>
             )}
 

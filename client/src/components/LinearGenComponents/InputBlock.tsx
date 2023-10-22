@@ -1,6 +1,9 @@
-import { useState } from "react";
-import Select from "../Select.tsx";
+import {useContext, useEffect, useState} from "react";
+import Select from "../SelectList/Select.tsx";
 import Input from "../Input.tsx";
+import {Context} from "../../main.tsx";
+import {Polynomial} from "../../store/PolynomialsStore.ts";
+import {observer} from "mobx-react-lite";
 
 
 const optionsData = {
@@ -82,20 +85,25 @@ const optionsData = {
     "85 1267 E",
   ],
 };
-const InputBlock = () => {
+const InputBlock = observer(() => {
+  const {polynomialsStore} = useContext(Context)!;
   const [selectedDegree, setSelectedDegree] = useState<string>("1"); // Начальное значение
-  const [selectedPolynomial, setSelectedPolynomial] = useState<string>("1"); // Начальное значение
-
+  const [selectedPolynomial, setSelectedPolynomial] = useState<string>("1");
+  const [polynomialArr, setPolynomialArr] = useState<Polynomial[]>(polynomialsStore.polynomials);
   const options = Object.keys(optionsData);
+
+  useEffect(() => {
+    setPolynomialArr(polynomialsStore.polynomials.filter(poly => poly.degree === Number(selectedDegree)));
+  }, [selectedDegree]);
+
   return (
     <div className="flex flex-col justify-center py-3 w-[500px]">
       <Select selectedOption={selectedDegree} setSelectedOption={setSelectedDegree} selectLabel={"Оберіть ступінь поліному"} optionsArray={options}/>
-      <Select selectedOption={selectedPolynomial} setSelectedOption={setSelectedPolynomial} selectLabel={"Оберіть поліном"} optionsArray={options}/>
+      <Select selectedOption={selectedPolynomial} setSelectedOption={setSelectedPolynomial} selectLabel={"Оберіть поліном"} optionsArray={polynomialArr}/>
 
-      <Input disabled={true}/>
       <Input inputLabel={"Введіть початковий стан"} inputPlaceholder="0000011" disabled={false}/>
    </div>
   );
-};
+});
 
 export default InputBlock;

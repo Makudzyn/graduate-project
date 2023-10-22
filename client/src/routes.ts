@@ -59,7 +59,7 @@ export const publicRoutes = [
     },
 ]
 
-export const AuthRoutes = [
+export const regAndLoginRoutes = [
     {
         name: "Login",
         path: LOGIN_ROUTE,

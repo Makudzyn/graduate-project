@@ -10,7 +10,7 @@ const $authHost = axios.create({
     baseURL: REACT_APP_API_URL
 })
 
-// Интерцептор который к запросам добавляет токен, котороый достает из localStorage
+// Интерцептор который к запросам добавляет токен, достает из localStorage
 const authInterceptor = (config:InternalAxiosRequestConfig) => {
     config.headers.authorization = `Bearer ${localStorage.getItem('token')}`;
     return config;
