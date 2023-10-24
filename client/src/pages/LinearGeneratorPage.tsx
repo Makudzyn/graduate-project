@@ -1,12 +1,13 @@
 import InputBlock from "../components/LinearGenComponents/InputBlock.tsx";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {fetchPolynomials} from "../http/polynomialsAPI.ts";
 import {Context} from "../main.tsx";
+import OutputField from "../components/OutputField.tsx";
 
 
 const LinearGeneratorPage = () => {
   const {polynomialsStore} = useContext(Context)!;
-  
+  const [userValue, setUserValue] = useState<string>("");
   useEffect(() => {
     fetchPolynomials().then(data => polynomialsStore.setPolynomials(data))
   }, [])
@@ -17,38 +18,31 @@ const LinearGeneratorPage = () => {
 
           <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
 
-          <div className="flex justify-evenly px-2.5 w-full">
+          <div className="flex justify-evenly pt-2.5 pb-9 w-full">
             <InputBlock/>
           </div>
 
-          <div className="flex justify-center items-center w-full p-8">
-            <button className="border-2 w-96 hover:text-gray-900/90 hover:bg-white hover:border-gray-900/90" >Розпочати генерацію</button>
-          </div>
 
           <div className="flex justify-center items-center flex-col gap-2">
             <h3 className="text-center">Структурна матриця</h3>
-            <textarea className="py-5 h-64 w-[400px] focus:border-t-gray-900">
-
-            </textarea>
-
+            <OutputField></OutputField>
             <h3 className="text-center">Матриця станів</h3>
-            <textarea className="py-5 h-64 w-[400px] focus:border-t-gray-900">
-            </textarea>
+            <OutputField></OutputField>
           </div>
 
           <div className="flex justify-center my-5">
             <div className="flex justify-between w-3/4">
-              <h5 id="periodFormula">Період по формулі T = </h5>
-              <h5 id="periodExperiment">Експериментальний період T = </h5>
-              <h5 id="prs-type">Вид послідовності = </h5>
-              <h5 id="hammingWeight">Вага Хеммінгу = </h5>
+              <h5>Період по формулі T = </h5>
+              <h5>Експериментальний період T = </h5>
+              <h5>Вид послідовності = </h5>
+              <h5>Вага Хеммінгу = </h5>
             </div>
           </div>
 
-          <label>"Згенерована послідовність"</label>
-          <textarea  className=""></textarea>
+          <label>Згенерована послідовність</label>
+          <OutputField></OutputField>
 
-          <canvas id="autocorrelationChart"></canvas>
+          <canvas></canvas>
 
         </div>
       </section>

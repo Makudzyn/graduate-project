@@ -1,31 +1,31 @@
 import { Listbox } from "@headlessui/react";
 import classNames from "../../functions/functions.ts";
-import SelectIcon from "../../assets/select.svg?react"
-import {FC} from "react";
-import {Polynomial} from "../../store/PolynomialsStore.ts";
+import SelectIcon from "../../assets/select.svg?react";
+import { FC } from "react";
+import { Polynomial } from "../../store/PolynomialsStore.ts";
 
 interface OptionListProps {
-  options: Polynomial[] | string[];
+  options: string[] | number[] | Polynomial[];
 }
-function getOptionKey(option: Polynomial | string) {
+function getOptionKey(option: Polynomial | string | number) {
   if (typeof option === "object" && "id" in option) {
-      return option.id;
+    return option.id;
   } else return option;
 }
 
-function getOptionValue(option: Polynomial | string) {
+function getOptionValue(option: Polynomial | string | number) {
   if (typeof option === "object" && "polynomial" in option) {
     return option.polynomial;
   } else return option;
 }
 
-function getOptionLabel(option: Polynomial | string) {
+function getOptionLabel(option: Polynomial | string | number) {
   if (typeof option === "object" && "name" in option) {
     return option.name;
   } else return option;
 }
 
-const OptionList: FC<OptionListProps> = ({ options }) => {
+const OptionList = ({ options }: OptionListProps) => {
   return (
     <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
       {options.map((option) => (

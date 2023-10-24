@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               userStore: new UserStore(),
               polynomialsStore: new PolynomialsStore(),
           }}>
-              <App />
+              <App/>
           </Context.Provider>
       </BrowserRouter>
   </React.StrictMode>,

@@ -1,25 +1,30 @@
-import {Dispatch, FC, SetStateAction} from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import ChevronUpIcon from "../../assets/chevron-up.svg?react";
 import ChevronDownIcon from "../../assets/chevron-down.svg?react";
 import OptionList from "./OptionList.tsx";
-import {Polynomial} from "../../store/PolynomialsStore.ts";
+import { Polynomial } from "../../store/PolynomialsStore.ts";
 
 interface SelectProps {
-  selectedOption: string;
-  setSelectedOption: Dispatch<SetStateAction<string>>;
+  selectedOption: number;
+  setSelectedOption: Dispatch<SetStateAction<number>>;
   selectLabel: string;
-  optionsArray: string[] | Polynomial[];
+  optionsArray: string[] | number[] | Polynomial[];
 }
 
-const Select: FC<SelectProps> = ({
+const Select = ({
   selectedOption,
   setSelectedOption,
   selectLabel,
   optionsArray,
-}) => {
+}: SelectProps) => {
   return (
-    <Listbox value={selectedOption} onChange={setSelectedOption} as="div" className="pb-5 pt-2">
+    <Listbox
+      value={selectedOption}
+      onChange={setSelectedOption}
+      as="div"
+      className="pt-2 pb-5"
+    >
       {({ open }) => (
         <>
           <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">
@@ -50,9 +55,7 @@ const Select: FC<SelectProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <OptionList
-                options={optionsArray}
-              />
+              <OptionList options={optionsArray} />
             </Transition>
           </div>
         </>
