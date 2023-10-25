@@ -54,7 +54,7 @@ const UserProfileMini = observer(() => {
           </Menu.Item>
 
           {userMenuNavigation.map((item) => (
-            <Menu.Item>
+            <Menu.Item key={item.name}>
               {({ active }) => (
                 <NavLink
                   to={item.href}

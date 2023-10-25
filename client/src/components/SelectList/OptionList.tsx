@@ -1,11 +1,10 @@
 import { Listbox } from "@headlessui/react";
 import classNames from "../../functions/functions.ts";
 import SelectIcon from "../../assets/select.svg?react";
-import { FC } from "react";
 import { Polynomial } from "../../store/PolynomialsStore.ts";
 
 interface OptionListProps {
-  options: string[] | number[] | Polynomial[];
+  options: (string | number | Polynomial)[];
 }
 function getOptionKey(option: Polynomial | string | number) {
   if (typeof option === "object" && "id" in option) {
