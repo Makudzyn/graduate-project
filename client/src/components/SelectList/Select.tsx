@@ -3,39 +3,34 @@ import ChevronUpIcon from "../../assets/chevron-up.svg?react";
 import ChevronDownIcon from "../../assets/chevron-down.svg?react";
 import OptionList from "./OptionList.tsx";
 import { Polynomial } from "../../store/PolynomialsStore.ts";
-import {SetURLSearchParams, useLocation} from "react-router-dom";
-import {useEffect, useState} from "react";
+import { SetURLSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 interface SelectProps {
-  setSelectedOption: SetURLSearchParams;
+  searchParams: URLSearchParams;
+  setSelectedOptionToParams: SetURLSearchParams;
   urlParamName: string;
   selectLabel?: string;
   optionsArray: (string | number | Polynomial)[];
 }
 
 const Select = ({
-  setSelectedOption,
+  searchParams,
+  setSelectedOptionToParams,
   urlParamName,
   selectLabel,
   optionsArray,
 }: SelectProps) => {
-  const [optionValue, setOptionValue] = useState("");
-
-  const location = useLocation();
+  const [optionValue, setOptionValue] = useState(selectLabel);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const paramValue = params.get(urlParamName);
-
+    const paramValue = searchParams.get(urlParamName);
     if (paramValue !== null) {
       setOptionValue(paramValue);
     }
-  }, [location.search]);
+  }, []);
   function handleChange(targetValue: string) {
-    const params = new URLSearchParams(location.search);
-    params.set(urlParamName, targetValue);
-
-    setSelectedOption(
+    setSelectedOptionToParams(
       (prev: any) => {
         prev.set(urlParamName, targetValue);
         return prev;

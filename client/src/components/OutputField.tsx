@@ -1,14 +1,18 @@
-import {ReactNode} from "react";
-
 interface OutputFieldProps {
-  children?: ReactNode;
+  dataArray?: number[][];
 }
-const OutputField = ({children} : OutputFieldProps) => {
+const OutputField = ({dataArray} : OutputFieldProps) => {
   return (
     <div
       className="p-5 h-64 w-[400px] overflow-y-auto overflow-x-hidden rounded-sm border border-gray-900 focus:border-t-gray-900"
     >
-      {children}
+      {dataArray?.map((row, index) =>
+        <div key={index}>
+          {row.map((item, i) =>
+            <span key={i}>{item}</span>
+          )}
+        </div>
+      )}
     </div>
   );
 };

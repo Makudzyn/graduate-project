@@ -4,7 +4,6 @@ import Input from "../Input.tsx";
 import { Context } from "../../main.tsx";
 import { Polynomial } from "../../store/PolynomialsStore.ts";
 import { observer } from "mobx-react-lite";
-import Button from "../Button.tsx";
 import { useLocation, useSearchParams } from "react-router-dom";
 import {
   PARAMS_SELECTED_DEGREE,
@@ -93,24 +92,27 @@ import {
 // };
 
 function createPlaceholder(polynomial: string): string {
-  return "0".repeat(polynomial.length - 1) + "1";
+  return "0".repeat(polynomial.length - 2) + "1";
 }
 
-function getSelectedDegree(searchParams: URLSearchParams): number {
-  return Number(searchParams.get(PARAMS_SELECTED_DEGREE)) || 1;
+function getSelectedDegree(searchParams: URLSearchParams): string {
+  return searchParams.get(PARAMS_SELECTED_DEGREE) || "1";
 }
 
 function getSelectedPolynomial(searchParams: URLSearchParams): string {
   return searchParams.get(PARAMS_SELECTED_POLYNOMIAL) || "11";
 }
 
+function getUserValue(searchParams: URLSearchParams): string {
+  return searchParams.get(PARAMS_USER_VALUE) || "10";
+}
+
 function generateOptions() {
   return Array.from({ length: 15 }, (_, index) => index + 1);
 }
 
-
 const InputBlock = observer(() => {
-  const { polynomialsStore } = useContext(Context)!;
+  const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
 
   const [searchParams, setSearchParams] = useSearchParams({
     degree: "1",
@@ -118,27 +120,31 @@ const InputBlock = observer(() => {
     value: "",
   });
 
-  const location = useLocation();
-
   const [polynomialArr, setPolynomialArr] = useState<Polynomial[]>(
     polynomialsStore.polynomials,
   );
 
   const [inputPlaceholder, setInputPlaceholder] = useState<string>("10");
-
   const options = generateOptions();
-  const selectedDegree = getSelectedDegree(searchParams);
-  const selectedPolynomial = getSelectedPolynomial(searchParams);
+
+  const location = useLocation();
 
   useEffect(() => {
+    const selectedDegree = getSelectedDegree(searchParams);
+    const selectedPolynomial = getSelectedPolynomial(searchParams);
+    const userValue = getUserValue(searchParams);
+
+    calculationInfoStore.setAllInputValues(
+      selectedDegree,
+      selectedPolynomial,
+      userValue,
+    );
+
     setPolynomialArr(
       polynomialsStore.polynomials.filter(
-        (poly) => poly.degree === selectedDegree,
+        (poly) => poly.degree === Number(selectedDegree),
       ),
     );
-  }, [location.search]);
-
-  useEffect(() => {
     setInputPlaceholder(createPlaceholder(selectedPolynomial));
   }, [location.search]);
 
@@ -147,13 +153,15 @@ const InputBlock = observer(() => {
       <Select
         selectLabel={"Оберіть ступінь поліному"}
         urlParamName={PARAMS_SELECTED_DEGREE}
-        setSelectedOption={setSearchParams}
+        searchParams={searchParams}
+        setSelectedOptionToParams={setSearchParams}
         optionsArray={options}
       />
       <Select
         selectLabel={"Оберіть поліном"}
         urlParamName={PARAMS_SELECTED_POLYNOMIAL}
-        setSelectedOption={setSearchParams}
+        searchParams={searchParams}
+        setSelectedOptionToParams={setSearchParams}
         optionsArray={polynomialArr}
       />
 
@@ -164,8 +172,6 @@ const InputBlock = observer(() => {
         inputPlaceholder={inputPlaceholder}
         disabled={false}
       />
-
-      <Button>Розпочати генерацію</Button>
     </div>
   );
 });
