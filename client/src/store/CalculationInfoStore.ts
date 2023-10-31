@@ -38,9 +38,10 @@ export default class CalculationInfoStore {
     this._degree = degree;
     this._polynomial = polynomial;
     this._userValue = userValue;
+
   }
 
-  get allInputValues(): { degree: string, polynomial: string, userValue: string } {
+  get allInputValues(): { degree: string, polynomial: string, userValue: string} {
     return {
       degree: this._degree,
       polynomial: this._polynomial,

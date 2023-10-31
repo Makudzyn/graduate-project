@@ -107,6 +107,7 @@ function getUserValue(searchParams: URLSearchParams): string {
   return searchParams.get(PARAMS_USER_VALUE) || "10";
 }
 
+
 function generateOptions() {
   return Array.from({ length: 15 }, (_, index) => index + 1);
 }
