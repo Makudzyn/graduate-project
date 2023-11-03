@@ -22,7 +22,7 @@ const Polynomial = sequelize.define('polynomial', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING(25), unique: true, allowNull: false},
   degree: {type: DataTypes.SMALLINT, allowNull: false},
-  polynomial: {type: DataTypes.INTEGER, allowNull: false},
+  polynomial: {type: DataTypes.STRING(40), allowNull: false, unique: true},
 })
 
 const HistoryPolynomial = sequelize.define('history_polynomial', {

@@ -2,7 +2,7 @@ import InputBlock from "../components/LinearGenComponents/InputBlock.tsx";
 import { useContext, useEffect, useState } from "react";
 import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import { Context } from "../main.tsx";
-import OutputField from "../components/OutputField.tsx";
+import Matrix from "../components/Matrix.tsx";
 import Button from "../components/Button.tsx";
 import {
   createMatrix,
@@ -14,6 +14,7 @@ import {
   hammingWeightCalc,
 } from "../functions/generatorFunctions.ts";
 import { observer } from "mobx-react-lite";
+import Sequence from "../components/Sequence.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -72,11 +73,11 @@ const LinearGeneratorPage = observer(() => {
         <div className="flex items-center justify-center gap-2">
           <div>
             <h3 className="text-center">Структурна матриця</h3>
-            <OutputField dataArray={structureMatrix} />
+            <Matrix dataArray={structureMatrix} />
           </div>
           <div>
-            <h3 className="text-center">Матриця станів</h3>
-            <OutputField dataArray={conditionMatrix} />
+            <h3 className="text-center">Послідовність станів регістру</h3>
+            <Matrix dataArray={conditionMatrix} />
           </div>
         </div>
 
@@ -94,7 +95,7 @@ const LinearGeneratorPage = observer(() => {
         </div>
 
         <label>Згенерована послідовність</label>
-        <div>{prsSequence}</div>
+        <Sequence dataArray={prsSequence}/>
 
         <canvas></canvas>
       </div>

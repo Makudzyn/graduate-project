@@ -7,6 +7,20 @@ async function addPolynomial(req, res, next) {
   return res.json(poly);
 }
 
+async function addManyPolynomials(req, res, next) {
+  const polynomials = req.body; // Предполагается, что тело запроса содержит массив полиномов
+
+  const createdPolynomials = [];
+
+  for (const polynomialData of polynomials) {
+    const { name, degree, polynomial } = polynomialData;
+    const poly = await Polynomial.create({ name, degree, polynomial });
+    createdPolynomials.push(poly);
+  }
+
+  return res.json(createdPolynomials);
+}
+
 async function getAllPolynomials(req, res) {
   const polynomials = await Polynomial.findAll();
   return res.json(polynomials);
@@ -17,7 +31,7 @@ async function removePolynomial(req, res, next) {
   try {
     const polynomial = await Polynomial.findOne({where: {id}}); // Находим полином
     if (!polynomial) {
-      return next(ApiError.notFound('History record not found')) // Если полином не найден возвращаем ошибку
+      return next(ApiError.notFound('Polynomial not found')) // Если полином не найден возвращаем ошибку
     }
     await polynomial.destroy(); // Удаляем полином
     return res.status(204).end(); // Возвращаем ответ с кодом 204 No Content
@@ -30,4 +44,4 @@ async function editPolynomial(req, res, next) {
 
 }
 
-module.exports = {addPolynomial, getAllPolynomials, removePolynomial, editPolynomial}
+module.exports = {addPolynomial, addManyPolynomials, getAllPolynomials, removePolynomial, editPolynomial}
