@@ -1,3 +1,12 @@
+export function polynomialDestructuring(poly: string) {
+  const parts = poly.split(" ");
+
+  const polyIndex = parseInt(parts[0]);
+  const polyBinary = parseInt(parts[1], 8).toString(2);
+  const polyLetter = parts[2];
+
+  return { polyIndex, polyBinary, polyLetter };
+}
 export function createMatrixRow(
   degree: number,
   polynomial: string[],
@@ -48,9 +57,22 @@ export function linearFeedbackShiftRegister(
   }
   return matrix;
 }
-
-export function calcLengthByFormula(degree: number): number {
-  return Math.pow(2, degree) - 1;
+export function findGCD(potentialLength: number, polynomialIndex: number) {
+  let a = potentialLength;
+  let b = polynomialIndex;
+  while (b !== 0) {
+    let remainder = a % b;
+    a = b;
+    b = remainder;
+  }
+  return a;
+}
+export function calcLengthByFormula(
+  degree: number,
+  polynomialIndex: number,
+): number {
+  const potentialLength = Math.pow(2, degree) - 1;
+  return potentialLength / findGCD(potentialLength, polynomialIndex);
 }
 export function experimentalPeriodLengthCalc(
   degree: number,

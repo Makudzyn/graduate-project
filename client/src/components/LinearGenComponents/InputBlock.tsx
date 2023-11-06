@@ -10,6 +10,7 @@ import {
   PARAMS_SELECTED_POLYNOMIAL,
   PARAMS_USER_VALUE,
 } from "../../utils/consts.ts";
+import { polynomialDestructuring } from "../../functions/generatorFunctions.ts";
 
 function createPlaceholder(polynomial: string): string {
   return "0".repeat(polynomial.length - 2) + "1";
@@ -27,7 +28,6 @@ function getUserValue(searchParams: URLSearchParams): string {
   return searchParams.get(PARAMS_USER_VALUE) || "10";
 }
 
-
 function generateOptions() {
   return Array.from({ length: 15 }, (_, index) => index + 1);
 }
@@ -36,9 +36,9 @@ const InputBlock = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
 
   const [searchParams, setSearchParams] = useSearchParams({
-    degree: "1",
-    polynomial: "11",
-    value: "",
+    degree: "2",
+    polynomial: "1 7 H",
+    value: "01",
   });
 
   const [polynomialArr, setPolynomialArr] = useState<Polynomial[]>(
@@ -66,7 +66,8 @@ const InputBlock = observer(() => {
         (poly) => poly.degree === Number(selectedDegree),
       ),
     );
-    setInputPlaceholder(createPlaceholder(selectedPolynomial));
+    const { polyBinary } = polynomialDestructuring(selectedPolynomial);
+    setInputPlaceholder(createPlaceholder(polyBinary));
   }, [location.search]);
 
   return (
@@ -78,6 +79,7 @@ const InputBlock = observer(() => {
         setSelectedOptionToParams={setSearchParams}
         optionsArray={options}
       />
+
       <Select
         selectLabel={"Оберіть поліном"}
         urlParamName={PARAMS_SELECTED_POLYNOMIAL}

@@ -30,7 +30,7 @@ const OptionList = ({ options }: OptionListProps) => {
       {options.map((option) => (
         <Listbox.Option
           key={getOptionKey(option)}
-          value={getOptionValue(option)}
+          value={getOptionLabel(option)}
           className={({ active }) =>
             classNames(
               active ? "bg-indigo-600 text-white" : "text-gray-900",
@@ -47,7 +47,7 @@ const OptionList = ({ options }: OptionListProps) => {
                     "ml-3 block truncate",
                   )}
                 >
-                  {getOptionLabel(option)}
+                  {getOptionValue(option)}
                 </span>
               </div>
               {selected ? (

@@ -16,7 +16,6 @@ const Input = ({
   urlParamName,
   disabled,
 }: InputProps) => {
-
   const [inputValue, setInputValue] = useState("");
 
   const location = useLocation();

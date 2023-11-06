@@ -12,6 +12,7 @@ import {
   calcLengthByFormula,
   getPrsSequence,
   hammingWeightCalc,
+  polynomialDestructuring,
 } from "../functions/generatorFunctions.ts";
 import { observer } from "mobx-react-lite";
 import Sequence from "../components/Sequence.tsx";
@@ -35,16 +36,22 @@ const LinearGeneratorPage = observer(() => {
       calculationInfoStore.allInputValues;
 
     const degreeNum = Number(degree);
-    const polynomialArr = polynomial.split("").slice(1);
+    const { polyIndex, polyBinary } = polynomialDestructuring(polynomial);
+    const polynomialArr = polyBinary.split("").slice(1);
     const userValueArr = userValue.split("").map(Number);
-    const lengthByFormula = calcLengthByFormula(degreeNum);
-    
-    const structureMatrix = 
-      createMatrix(degreeNum, createMatrixRow(degreeNum, polynomialArr));
-    
-    const conditionMatrix = 
-      linearFeedbackShiftRegister(lengthByFormula, userValueArr, structureMatrix);
-    
+    const lengthByFormula = calcLengthByFormula(degreeNum, polyIndex);
+
+    const structureMatrix = createMatrix(
+      degreeNum,
+      createMatrixRow(degreeNum, polynomialArr),
+    );
+
+    const conditionMatrix = linearFeedbackShiftRegister(
+      lengthByFormula,
+      userValueArr,
+      structureMatrix,
+    );
+
     const pseudorandomSequence = getPrsSequence(conditionMatrix);
     const hammingWeight = hammingWeightCalc(pseudorandomSequence);
 
@@ -95,7 +102,7 @@ const LinearGeneratorPage = observer(() => {
         </div>
 
         <label>Згенерована послідовність</label>
-        <Sequence dataArray={prsSequence}/>
+        <Sequence dataArray={prsSequence} />
 
         <canvas></canvas>
       </div>
