@@ -108,24 +108,24 @@ export function hammingWeightCalc(prsSequence: number[]) {
   return prsSequence.filter((item) => item === 1).length;
 }
 
-// export function convertPrs(prs: number[]) {
-//   return prs.map(i => (i === 1 ? -1 : 1));
-// }
+export function convertPrs(prs: number[]) {
+  return prs.map(i => (i === 1 ? -1 : 1));
+}
 
-// export function autocorrelation(prs) {
-//   const N = prs.length;
-//   const result = [];
-//
-//   for (let delay = 0; delay < N; delay++) {
-//     let sum = 0;
-//     for (let i = 0; i < N; i++) {
-//       sum += prs[i] * prs[(i + delay) % N];
-//     }
-//     result.push(sum / N);
-//   }
-//   result.push(result[0]);
-//   return result;
-// }
+export function autocorrelation(convertedPrs: (1 | -1)[]) {
+  const N = convertedPrs.length;
+  const result = [];
+
+  for (let delay = 0; delay < N; delay++) {
+    let sum = 0;
+    for (let i = 0; i < N; i++) {
+      sum += convertedPrs[i] * convertedPrs[(i + delay) % N];
+    }
+    result.push(sum / N);
+  }
+  result.push(result[0]);
+  return result;
+}
 
 //n=degree, initialState=userValue, poly=polynomial
 // export function generate(degree: string, polynomial:string, userValue:string) {

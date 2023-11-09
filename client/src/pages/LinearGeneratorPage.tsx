@@ -12,10 +12,11 @@ import {
   calcLengthByFormula,
   getPrsSequence,
   hammingWeightCalc,
-  polynomialDestructuring,
+  polynomialDestructuring, convertPrs, autocorrelation,
 } from "../functions/generatorFunctions.ts";
 import { observer } from "mobx-react-lite";
 import Sequence from "../components/Sequence.tsx";
+import Chart from "../components/Chart.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -63,6 +64,10 @@ const LinearGeneratorPage = observer(() => {
     setConditionMatrix(conditionMatrix);
     setPrsSequence(pseudorandomSequence);
     setHammingWeight(hammingWeight);
+
+    const convertedPrs = convertPrs(pseudorandomSequence);
+    const correlation = autocorrelation(convertedPrs);
+    console.log(convertedPrs, correlation);
   }
 
   return (
@@ -104,7 +109,7 @@ const LinearGeneratorPage = observer(() => {
         <label>Згенерована послідовність</label>
         <Sequence dataArray={prsSequence} />
 
-        <canvas></canvas>
+        <Chart/>
       </div>
     </section>
   );
