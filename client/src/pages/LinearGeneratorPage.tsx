@@ -12,11 +12,11 @@ import {
   calcLengthByFormula,
   getPrsSequence,
   hammingWeightCalc,
-  polynomialDestructuring, convertPrs, autocorrelation,
+  polynomialDestructuring, convertPrs, autocorrelation, transformArrayToObjects,
 } from "../functions/generatorFunctions.ts";
 import { observer } from "mobx-react-lite";
 import Sequence from "../components/Sequence.tsx";
-import Chart from "../components/Chart.tsx";
+import Chart, {DataPoint} from "../components/Chart/Chart.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -28,6 +28,8 @@ const LinearGeneratorPage = observer(() => {
     useState<number>(0);
   const [prsSequence, setPrsSequence] = useState<number[]>([]);
   const [hammingWeight, setHammingWeight] = useState<number>(0);
+  const [correlationObjectDots, setCorrelationObjectDots] = useState<DataPoint[]>([]);
+
   useEffect(() => {
     fetchPolynomials().then((data) => polynomialsStore.setPolynomials(data));
   }, []);
@@ -66,8 +68,9 @@ const LinearGeneratorPage = observer(() => {
     setHammingWeight(hammingWeight);
 
     const convertedPrs = convertPrs(pseudorandomSequence);
-    const correlation = autocorrelation(convertedPrs);
-    console.log(convertedPrs, correlation);
+    const correlationArr = autocorrelation(convertedPrs);
+    const correlationObjectDots = transformArrayToObjects(correlationArr);
+    setCorrelationObjectDots(correlationObjectDots);
   }
 
   return (
@@ -109,7 +112,11 @@ const LinearGeneratorPage = observer(() => {
         <label>Згенерована послідовність</label>
         <Sequence dataArray={prsSequence} />
 
-        <Chart/>
+        {correlationObjectDots[0] ?
+          <Chart data={correlationObjectDots}/>
+          :
+          <div className={"w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"}>Chart</div>
+        }
       </div>
     </section>
   );
