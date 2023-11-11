@@ -7,9 +7,10 @@ import {
   CartesianGrid,
   Tooltip,
   ReferenceArea,
-  ResponsiveContainer, ReferenceLine,
+  ResponsiveContainer,
 } from "recharts";
 import CustomTooltip from "./CustomTooltip.tsx";
+import {formatTicks} from "../../functions/chartFunctions.ts";
 
 export interface DataPoint {
   index: number;
@@ -29,32 +30,19 @@ interface State {
 }
 
 const Chart = ({ data }: { data: DataPoint[] }) => {
+  const TOP_LIMIT_Y_AXIS = 1.1;
+  const BOTTOM_LIMIT_Y_AXIS = -1.1;
+
   const [state, setState] = useState<State>({
     data,
-    left: "dataMin",
-    right: "dataMax",
+    left: "dataMin-1",
+    right: "dataMax+1",
     refAreaLeft: "",
     refAreaRight: "",
-    top: "dataMax+1",
-    bottom: "dataMin-1",
+    top: TOP_LIMIT_Y_AXIS,
+    bottom: BOTTOM_LIMIT_Y_AXIS,
     animation: true,
   });
-  const getAxisYDomain = (
-    from: number,
-    to: number,
-    ref: string,
-    offset: number,
-  ): [number, number] => {
-    const refData: any[] = data.slice(from - 1, to);
-    let [bottom, top] = [refData[0][ref], refData[0][ref]];
-
-    refData.forEach((d) => {
-      if (d[ref] > top) top = d[ref];
-      if (d[ref] < bottom) bottom = d[ref];
-    });
-
-    return [(bottom | 0) - offset, (top | 0) + offset];
-  };
 
   const zoom = () => {
     let { refAreaLeft, refAreaRight } = state;
@@ -69,18 +57,7 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
     }
 
     if (typeof refAreaLeft === "number" && typeof refAreaRight === "number") {
-      // xAxis domain
-      if (refAreaLeft > refAreaRight) {
-        [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
-      }
-
-      // yAxis domain
-      const [bottom, top] = getAxisYDomain(
-        refAreaLeft,
-        refAreaRight,
-        "correlationFirst",
-        1,
-      );
+      [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
 
       setState({
         ...state,
@@ -89,8 +66,6 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
         data: data.slice(),
         left: refAreaLeft,
         right: refAreaRight,
-        bottom,
-        top,
       });
     }
   };
@@ -101,14 +76,10 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
       data: data.slice(),
       refAreaLeft: "",
       refAreaRight: "",
-      left: "dataMin",
-      right: "dataMax",
-      top: "dataMax+1",
-      bottom: "dataMin",
+      left: "dataMin-1",
+      right: "dataMax+1",
     });
   };
-
-  const { left, right, refAreaLeft, refAreaRight, top, bottom } = state;
 
   return (
     <div className="highlight-bar-charts mb-5" style={{ userSelect: "none" }}>
@@ -119,6 +90,7 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
         <LineChart
           width={800}
           height={400}
+          margin={{ top: 5, right: 10, left: 10, bottom: 5 }}
           data={data}
           onMouseDown={(e) =>
             setState({ ...state, refAreaLeft: e.activeLabel })
@@ -130,31 +102,33 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
           onMouseUp={zoom}
         >
           <CartesianGrid strokeDasharray="2 2" />
+
           <XAxis
             allowDataOverflow
             dataKey="index"
-            domain={[left, right]}
+            domain={[state.left, state.right]}
             type="number"
             strokeWidth={2}
-            tickCount={data.length / 2}
+            tickCount={formatTicks(data.length)}
           />
+
           <YAxis
             allowDataOverflow
-            domain={[bottom, top]}
+            domain={[state.bottom, state.top]}
             type="number"
             yAxisId="1"
             label={{
               value: `Коєфіцієнт корреляції`,
-              style: { textAnchor: 'middle' },
+              style: { textAnchor: "middle" },
               angle: -90,
-              position: 'left',
+              position: "left",
               offset: 0,
             }}
             strokeWidth={2}
             tickCount={10}
-            tickFormatter={num => num.toFixed(2)}
+            tickFormatter={(num) => num.toFixed(2)}
           />
-          <Tooltip content={<CustomTooltip/>}/>
+          <Tooltip content={<CustomTooltip />} />
           <Line
             yAxisId="1"
             type="natural"
@@ -172,16 +146,17 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
               animationDuration={300}
             />
           )}
-          {/*<ReferenceLine y={1} label="Max" stroke="red" strokeDasharray="1 1" />*/}
-          {/*<ReferenceLine x={-1} label="Min" stroke="red" strokeDasharray="1 1" />*/}
-
-          {typeof refAreaLeft === "number" &&
-          typeof refAreaRight === "number" ? (
+          {typeof state.refAreaLeft === "number" &&
+          typeof state.refAreaRight === "number" ? (
             <ReferenceArea
               yAxisId="1"
-              x1={refAreaLeft}
-              x2={refAreaRight}
+              y1={1}
+              y2={-1}
+              x1={state.refAreaLeft}
+              x2={state.refAreaRight}
+              label={"Zoom in"}
               strokeOpacity={0.9}
+              ifOverflow={"visible"}
             />
           ) : null}
         </LineChart>

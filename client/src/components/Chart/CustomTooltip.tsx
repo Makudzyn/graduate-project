@@ -1,4 +1,4 @@
-import {correlationNameAndType} from "../../functions/generatorFunctions.ts";
+import {correlationNameAndType} from "../../functions/chartFunctions.ts";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
