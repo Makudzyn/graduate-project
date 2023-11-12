@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   ReferenceArea,
-  ResponsiveContainer,
+  ResponsiveContainer, ReferenceLine, ReferenceDot,
 } from "recharts";
 import CustomTooltip from "./CustomTooltip.tsx";
 import {formatTicks} from "../../functions/chartFunctions.ts";
@@ -35,8 +35,8 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
 
   const [state, setState] = useState<State>({
     data,
-    left: "dataMin-1",
-    right: "dataMax+1",
+    left: "dataMin",
+    right: "dataMax",
     refAreaLeft: "",
     refAreaRight: "",
     top: TOP_LIMIT_Y_AXIS,
@@ -57,17 +57,19 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
     }
 
     if (typeof refAreaLeft === "number" && typeof refAreaRight === "number") {
-      [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
+      if (refAreaLeft > refAreaRight) {
+        [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
+      }
 
-      setState({
-        ...state,
-        refAreaLeft: "",
-        refAreaRight: "",
-        data: data.slice(),
-        left: refAreaLeft,
-        right: refAreaRight,
-      });
-    }
+        setState({
+          ...state,
+          refAreaLeft: "",
+          refAreaRight: "",
+          data: data.slice(),
+          left: refAreaLeft,
+          right: refAreaRight,
+        });
+      }
   };
 
   const zoomOut = () => {
@@ -76,8 +78,8 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
       data: data.slice(),
       refAreaLeft: "",
       refAreaRight: "",
-      left: "dataMin-1",
-      right: "dataMax+1",
+      left: "dataMin",
+      right: "dataMax",
     });
   };
 
@@ -89,7 +91,7 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
       <ResponsiveContainer width="100%" height={600}>
         <LineChart
           width={800}
-          height={400}
+          height={600}
           margin={{ top: 5, right: 10, left: 10, bottom: 5 }}
           data={data}
           onMouseDown={(e) =>
@@ -110,6 +112,9 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
             type="number"
             strokeWidth={2}
             tickCount={formatTicks(data.length)}
+            tickSize={8}
+            interval={0}
+            allowDecimals={false}
           />
 
           <YAxis
@@ -125,8 +130,9 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
               offset: 0,
             }}
             strokeWidth={2}
-            tickCount={10}
-            tickFormatter={(num) => num.toFixed(2)}
+            tickSize={8}
+            tickCount={24}
+            interval={0}
           />
           <Tooltip content={<CustomTooltip />} />
           <Line
@@ -143,9 +149,12 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
               type="natural"
               dataKey="correlationSecond"
               stroke="#82ca9d"
+              strokeWidth={"2"}
               animationDuration={300}
             />
           )}
+          <ReferenceLine yAxisId="1" y={1} stroke="red" strokeOpacity={0.4} strokeWidth={1.5} strokeDasharray="6 3" />
+          <ReferenceLine yAxisId="1" y={-1} stroke="red" strokeOpacity={0.4} strokeWidth={1.5} strokeDasharray="6 3" />
           {typeof state.refAreaLeft === "number" &&
           typeof state.refAreaRight === "number" ? (
             <ReferenceArea

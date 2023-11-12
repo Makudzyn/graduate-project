@@ -1,3 +1,4 @@
+
 export function correlationNameAndType(corrValue: number) {
   let correlationType = "Пряма залежність";
   let correlationName = "";
@@ -31,19 +32,20 @@ export function correlationNameAndType(corrValue: number) {
 
 export function formatTicks(dataLength: number) {
   let ticksCount;
-  if (dataLength % 2 === 0) {
-    ticksCount = 2;
-  } else ticksCount = 1;
 
-  if (dataLength <= 65) {
-    ticksCount += dataLength;
-  } else if (dataLength <= 100) {
-    ticksCount += dataLength / 2;
-  } else if (dataLength <= 260) {
-    ticksCount += dataLength / 5;
+  if (dataLength <= 64) {
+    ticksCount = dataLength;
+  } else if (dataLength <= 256) {
+    ticksCount = dataLength / 2;
+  } else if (dataLength <= 512) {
+    ticksCount = dataLength / 3;
+  } else if (dataLength <= 1024) {
+    ticksCount = dataLength / 4;
   } else if (dataLength <= 2048) {
-    ticksCount += dataLength / 4;
-  } else ticksCount += dataLength / 5;
-  console.log(Math.round(ticksCount));
+    ticksCount = dataLength / 5;
+  } else if (dataLength <= 4096) {
+    ticksCount = dataLength / 6;
+  } else ticksCount = dataLength / 10;
+
   return Math.round(ticksCount);
 }
