@@ -1,4 +1,4 @@
-import InputBlock from "../components/LinearGenComponents/InputBlock.tsx";
+import InputBlock from "../components/LinearGenerator/InputBlock.tsx";
 import { useContext, useEffect, useState } from "react";
 import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import { Context } from "../main.tsx";
@@ -35,11 +35,11 @@ const LinearGeneratorPage = observer(() => {
   }, []);
 
   function calculations() {
-    const { degree, polynomial, userValue } =
+    const { degreeA, polynomialA, userValue } =
       calculationInfoStore.allInputValues;
 
-    const degreeNum = Number(degree);
-    const { polyIndex, polyBinary } = polynomialDestructuring(polynomial);
+    const degreeNum = Number(degreeA);
+    const { polyIndex, polyBinary } = polynomialDestructuring(polynomialA);
     const polynomialArr = polyBinary.split("").slice(1);
     const userValueArr = userValue.split("").map(Number);
     const lengthByFormula = calcLengthByFormula(degreeNum, polyIndex);
@@ -75,12 +75,13 @@ const LinearGeneratorPage = observer(() => {
 
   return (
     <section className="flex h-full justify-center">
-      <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center ">
+      <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
         <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
 
         <div className="flex w-full justify-evenly pb-9 pt-2.5">
           <InputBlock />
         </div>
+
         <div className={"flex justify-center items-center p-2.5 mb-5"}>
           <Button onClick={calculations}>Розпочати генерацію</Button>
         </div>

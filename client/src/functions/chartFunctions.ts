@@ -1,4 +1,3 @@
-
 export function correlationNameAndType(corrValue: number) {
   let correlationType = "Пряма залежність";
   let correlationName = "";
@@ -32,7 +31,7 @@ export function correlationNameAndType(corrValue: number) {
 
 export function formatTicks(dataLength: number) {
   let ticksCount;
-
+  console.log(dataLength)
   if (dataLength <= 64) {
     ticksCount = dataLength;
   } else if (dataLength <= 256) {
@@ -49,3 +48,4 @@ export function formatTicks(dataLength: number) {
 
   return Math.round(ticksCount);
 }
+

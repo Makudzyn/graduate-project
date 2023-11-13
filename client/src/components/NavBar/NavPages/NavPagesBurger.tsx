@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { publicRoutes } from "../../../routes.ts";
 import { Disclosure } from "@headlessui/react";
-import classNames from "../../../functions/functions.ts";
+import { classNames } from "../../../functions/functions.ts";
 
 const NavPagesBurger = ({ currentPage }: { currentPage: string }) => {
   return (

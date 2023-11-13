@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   ReferenceArea,
-  ResponsiveContainer, ReferenceLine, ReferenceDot,
+  ResponsiveContainer, ReferenceLine,
 } from "recharts";
 import CustomTooltip from "./CustomTooltip.tsx";
 import {formatTicks} from "../../functions/chartFunctions.ts";
@@ -113,7 +113,7 @@ const Chart = ({ data }: { data: DataPoint[] }) => {
             strokeWidth={2}
             tickCount={formatTicks(data.length)}
             tickSize={8}
-            interval={0}
+            interval={"equidistantPreserveStart"}
             allowDecimals={false}
           />
 

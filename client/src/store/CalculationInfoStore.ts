@@ -1,8 +1,10 @@
 import { makeAutoObservable } from "mobx";
 
 export default class CalculationInfoStore {
-  private _degree: string = "";
-  private _polynomial: string = "";
+  private _degreeA: string = "";
+  private _degreeB: string = "";
+  private _polynomialA: string = "";
+  private _polynomialB: string = "";
   private _userValue: string = "";
 
   constructor() {
@@ -10,20 +12,33 @@ export default class CalculationInfoStore {
     // и при их изменении компоненты будут перерендериться
   }
 
-  setDegree(degree: string) {
-    this._degree = degree;
+  setDegreeA(degree: string) {
+    this._degreeA = degree;
+  }
+  setDegreeB(degree: string) {
+    this._degreeB = degree;
   }
 
-  get degree(): string {
-    return this._degree;
+  get degreeA(): string {
+    return this._degreeA;
   }
 
-  setPolynomial(polynomial: string) {
-    this._polynomial = polynomial;
+  get degreeB(): string {
+    return this._degreeB;
   }
 
-  get polynomial(): string {
-    return this._polynomial;
+  setPolynomialA(polynomial: string) {
+    this._polynomialA = polynomial;
+  }
+  setPolynomialB(polynomial: string) {
+    this._polynomialB = polynomial;
+  }
+
+  get polynomialA(): string {
+    return this._polynomialA;
+  }
+  get polynomialB(): string {
+    return this._polynomialB;
   }
 
   setUserValue(userValue: string) {
@@ -34,18 +49,33 @@ export default class CalculationInfoStore {
     return this._userValue;
   }
 
-  setAllInputValues(degree: string, polynomial: string, userValue: string) {
-    this._degree = degree;
-    this._polynomial = polynomial;
-    this._userValue = userValue;
-
+  setAllInputValues(
+    degreeA: string,
+    polynomialA: string,
+    degreeB?: string,
+    polynomialB?: string,
+    userValue?: string,
+  ) {
+    this._degreeA = degreeA;
+    this._polynomialA = polynomialA;
+    degreeB && (this._degreeB = degreeB);
+    polynomialB && (this._polynomialB = polynomialB);
+    userValue && (this._userValue = userValue);
   }
 
-  get allInputValues(): { degree: string, polynomial: string, userValue: string} {
+  get allInputValues(): {
+    degreeA: string,
+    polynomialA: string,
+    degreeB: string,
+    polynomialB: string,
+    userValue: string,
+  } {
     return {
-      degree: this._degree,
-      polynomial: this._polynomial,
-      userValue: this._userValue,
+      degreeA: this._degreeA,
+      polynomialA: this._polynomialA,
+      degreeB: this._degreeB,
+      polynomialB: this._polynomialB,
+      userValue: this._userValue
     };
   }
 }

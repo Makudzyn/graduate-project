@@ -10,8 +10,13 @@ export const SUM_AND_MULTI_GEN_ROUTE = "/sum-and-multiplication-generator";
 export const UNTITLED_ROUTE = "/untitled";
 
 //URL query params
-export const PARAMS_SELECTED_DEGREE = "degree";
-export const PARAMS_SELECTED_POLYNOMIAL = "polynomial";
+export const PARAMS_DEGREE_A = "degree_a";
+export const PARAMS_DEGREE_B = "degree_b";
+export const PARAMS_POLYNOMIAL_A = "polynomial_a";
+export const PARAMS_POLYNOMIAL_B = "polynomial_b";
+export const PARAMS_OUTPUT_INDEX_I = "index_i";
+export const PARAMS_OUTPUT_INDEX_J = "index_j";
+export const PARAMS_MATRIX_RANK = "matrix_rank";
 export const PARAMS_USER_VALUE = "value";
 
 

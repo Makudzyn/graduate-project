@@ -132,3 +132,8 @@ export function transformArrayToObjects(arr: number[]) {
     return { index, correlationFirst: number };
   });
 }
+
+
+export function outputElementPossibleValues(degree: number) {
+  return Array.from({ length: degree }, (_, index) => index + 1);
+}

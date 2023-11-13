@@ -4,7 +4,7 @@ import { Fragment, useContext } from "react";
 import { Context } from "../../main.tsx";
 import { observer } from "mobx-react-lite";
 import { Menu, Transition } from "@headlessui/react";
-import classNames from "../../functions/functions.ts";
+import { classNames } from "../../functions/functions.ts";
 
 const userMenuNavigation = [
   { name: "My profile", href: "#" },

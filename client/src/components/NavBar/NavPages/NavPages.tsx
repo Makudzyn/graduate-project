@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { publicRoutes } from "../../../routes.ts";
 import { observer } from "mobx-react-lite";
-import classNames from "../../../functions/functions.ts";
+import { classNames } from "../../../functions/functions.ts";
 
 const NavPages = observer(({ currentPage }: { currentPage: string }) => {
   return (

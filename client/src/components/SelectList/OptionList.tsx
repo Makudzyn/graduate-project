@@ -1,5 +1,5 @@
 import { Listbox } from "@headlessui/react";
-import classNames from "../../functions/functions.ts";
+import {classNames} from "../../functions/functions.ts";
 import SelectIcon from "../../assets/select.svg?react";
 import { Polynomial } from "../../store/PolynomialsStore.ts";
 
