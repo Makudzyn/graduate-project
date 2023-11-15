@@ -5,9 +5,9 @@ import { Context } from "../main.tsx";
 import Matrix from "../components/Matrix.tsx";
 import Button from "../components/Button.tsx";
 import {
-  createMatrix,
+  generateStructureMatrixA,
   linearFeedbackShiftRegister,
-  createMatrixRow,
+  createMatrixInitialArray,
   experimentalPeriodLengthCalc,
   calcLengthByFormula,
   getPrsSequence,
@@ -44,9 +44,9 @@ const LinearGeneratorPage = observer(() => {
     const userValueArr = userValue.split("").map(Number);
     const lengthByFormula = calcLengthByFormula(degreeNum, polyIndex);
 
-    const structureMatrix = createMatrix(
+    const structureMatrix = generateStructureMatrixA(
       degreeNum,
-      createMatrixRow(degreeNum, polynomialArr),
+      createMatrixInitialArray(degreeNum, polynomialArr),
     );
 
     const conditionMatrix = linearFeedbackShiftRegister(

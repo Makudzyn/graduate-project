@@ -7,7 +7,7 @@ export function polynomialDestructuring(poly: string) {
 
   return { polyIndex, polyBinary, polyLetter };
 }
-export function createMatrixRow(
+export function createMatrixInitialArray(
   degree: number,
   polynomial: string[],
 ): number[] {
@@ -18,19 +18,50 @@ export function createMatrixRow(
   return tmp;
 }
 
-export function createMatrix(
+export function generateStructureMatrixA(
   degree: number,
   structureRow: number[],
 ): number[][] {
-  let matrix: number[][] = [];
-  matrix[0] = structureRow;
+  let structureMatrix: number[][] = [];
+  structureMatrix[0] = structureRow;
   for (let i = 1; i < degree; i++) {
-    matrix[i] = [];
+    structureMatrix[i] = [];
     for (let j = 0; j < degree; j++) {
-      matrix[i][j] = i === j + 1 ? 1 : 0;
+      structureMatrix[i][j] = i === j + 1 ? 1 : 0;
     }
   }
-  return matrix;
+  return structureMatrix;
+}
+
+export function generateStructureMatrixB(
+  degree: number,
+  structureColumn: number[],
+) {
+  let structureMatrix: number[][] = [];
+  for (let i = 0; i < degree; i++) {
+    structureMatrix[i] = [];
+    for (let j = 0; j < degree; j++) {
+      if (j === 0) {
+        structureMatrix[i][j] = structureColumn[i];
+      } else if (j === i + 1) {
+        structureMatrix[i][j] = 1;
+      } else {
+        structureMatrix[i][j] = 0;
+      }
+    }
+  }
+  return structureMatrix;
+}
+
+export function generateMatrixBasis(n: number, m: number, rank: number) {
+  const state: number[][] = [];
+  for (let i = 0; i < n; i++) {
+    state[i] = [];
+    for (let j = 0; j < m; j++) {
+      state[i][j] = i === j && i < rank && j < rank ? 1 : 0;
+    }
+  }
+  return state;
 }
 
 export function linearFeedbackShiftRegister(
@@ -133,7 +164,6 @@ export function transformArrayToObjects(arr: number[]) {
   });
 }
 
-
-export function outputElementPossibleValues(degree: number) {
-  return Array.from({ length: degree }, (_, index) => index + 1);
+export function calculatePossibleValues(degree: number) {
+  return Array.from({ length: degree }, (_, index) => index);
 }

@@ -14,13 +14,8 @@ import { polynomialDestructuring } from "../../functions/generatorFunctions.ts";
 import {
   createPlaceholder,
   generateOptions,
-  getSelectedDegree,
-  getSelectedPolynomial,
-  getUserValue
+  getSelectedParam,
 } from "../../functions/functions.ts";
-
-
-
 
 const InputBlock = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -41,22 +36,25 @@ const InputBlock = observer(() => {
   const location = useLocation();
 
   useEffect(() => {
-    const selectedDegree = getSelectedDegree(PARAMS_DEGREE_A, searchParams);
-    const selectedPolynomial = getSelectedPolynomial(PARAMS_POLYNOMIAL_A,searchParams);
-    const userValue = getUserValue(searchParams);
+    const degreeA = getSelectedParam(PARAMS_DEGREE_A, searchParams);
+    const polynomialA = getSelectedParam(
+      PARAMS_POLYNOMIAL_A,
+      searchParams,
+    );
+    const userValue = getSelectedParam(PARAMS_USER_VALUE, searchParams);
 
     calculationInfoStore.setAllInputValues(
-      selectedDegree,
-      selectedPolynomial,
+      degreeA,
+      polynomialA,
       userValue,
     );
 
     setPolynomialArr(
       polynomialsStore.polynomials.filter(
-        (poly) => poly.degree === Number(selectedDegree),
+        (poly) => poly.degree === Number(degreeA),
       ),
     );
-    const { polyBinary } = polynomialDestructuring(selectedPolynomial);
+    const { polyBinary } = polynomialDestructuring(polynomialA);
     setInputPlaceholder(createPlaceholder(polyBinary));
   }, [location.search]);
 

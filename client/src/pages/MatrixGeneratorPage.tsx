@@ -5,19 +5,34 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { Context } from "../main.tsx";
 import {
   PARAMS_DEGREE_A,
-  PARAMS_DEGREE_B, PARAMS_MATRIX_RANK, PARAMS_OUTPUT_INDEX_I, PARAMS_OUTPUT_INDEX_J,
+  PARAMS_DEGREE_B,
+  PARAMS_MATRIX_RANK,
+  PARAMS_OUTPUT_INDEX_I,
+  PARAMS_OUTPUT_INDEX_J,
   PARAMS_POLYNOMIAL_A,
   PARAMS_POLYNOMIAL_B,
 } from "../utils/consts.ts";
 import {
   generateOptions,
   getSelectedDegree,
+  getSelectedParam,
   getSelectedPolynomial,
 } from "../functions/functions.ts";
 import { Polynomial } from "../store/PolynomialsStore.ts";
 import MatrixSelect from "../components/MatrixGenerator/MatrixSelect.tsx";
 import MatrixOutputSelectionBlock from "../components/MatrixGenerator/MatrixOutputSelectionBlock.tsx";
-import {outputElementPossibleValues} from "../functions/generatorFunctions.ts";
+import {
+  calcLengthByFormula,
+  calculatePossibleValues,
+  createMatrixInitialArray,
+  experimentalPeriodLengthCalc,
+  generateMatrixBasis,
+  generateStructureMatrixA,
+  generateStructureMatrixB,
+  polynomialDestructuring,
+} from "../functions/generatorFunctions.ts";
+import Button from "../components/Button.tsx";
+import Matrix from "../components/Matrix.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -46,54 +61,127 @@ const MatrixGeneratorPage = observer(() => {
 
   const options = generateOptions();
 
-  const [outputValuesI, setOutputValuesI] = useState<number[]>([]);
-  const [outputValuesJ, setOutputValuesJ] = useState<number[]>([]);
+  const [outputValuesI, setOutputValuesI] = useState<number[]>([0]);
+  const [outputValuesJ, setOutputValuesJ] = useState<number[]>([0]);
+  const [matrixRank, setMatrixRank] = useState<number[]>([0]);
+
+  const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
+  const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
+  const [basisMatrix, setBasisMatrix] = useState<number[][]>([]);
+
+  const [periodLengthByFormulaA, setPeriodLengthByFormulaA] =
+    useState<number>(0);
+  const [periodLengthByFormulaB, setPeriodLengthByFormulaB] =
+    useState<number>(0);
+  const [experimentalPeriodLengthA, setExperimentalPeriodLengthA] =
+    useState<number>(0);
+  const [experimentalPeriodLengthB, setExperimentalPeriodLengthB] =
+    useState<number>(0);
 
   const location = useLocation();
 
   useEffect(() => {
-    const selectedDegreeA = getSelectedDegree(
-      PARAMS_DEGREE_A,
-      searchParams,
-    );
-    const selectedDegreeB = getSelectedDegree(
-      PARAMS_DEGREE_B,
-      searchParams,
-    );
-    const selectedPolynomialA = getSelectedPolynomial(
-      PARAMS_POLYNOMIAL_A,
-      searchParams,
-    );
-    const selectedPolynomialB = getSelectedPolynomial(
-      PARAMS_POLYNOMIAL_B,
-      searchParams,
-    );
+    const degreeA = getSelectedParam(PARAMS_DEGREE_A, searchParams);
+    const degreeB = getSelectedParam(PARAMS_DEGREE_B, searchParams);
+    const polynomialA = getSelectedParam(PARAMS_POLYNOMIAL_A, searchParams);
+    const polynomialB = getSelectedParam(PARAMS_POLYNOMIAL_B, searchParams);
+
+    const indexI = getSelectedParam(PARAMS_OUTPUT_INDEX_I, searchParams);
+    const indexJ = getSelectedParam(PARAMS_OUTPUT_INDEX_J, searchParams);
+    const matrixRank = getSelectedParam(PARAMS_MATRIX_RANK, searchParams);
 
     calculationInfoStore.setAllInputValues(
-      selectedDegreeA,
-      selectedDegreeB,
-      selectedPolynomialA,
-      selectedPolynomialB,
+      degreeA,
+      polynomialA,
+      degreeB,
+      polynomialB,
+      indexI,
+      indexJ,
+      matrixRank,
     );
 
-    const numDegreeA = Number(selectedDegreeA);
-    const numDegreeB = Number(selectedDegreeB);
+    const numDegreeA = Number(degreeA);
+    const numDegreeB = Number(degreeB);
 
     setPolynomialArrA(
-      polynomialsStore.polynomials.filter(
-        (poly) => poly.degree === numDegreeA,
-      ),
+      polynomialsStore.polynomials.filter((poly) => poly.degree === numDegreeA),
     );
 
     setPolynomialArrB(
-      polynomialsStore.polynomials.filter(
-        (poly) => poly.degree === numDegreeB,
-      ),
+      polynomialsStore.polynomials.filter((poly) => poly.degree === numDegreeB),
     );
 
-    setOutputValuesI(outputElementPossibleValues(numDegreeA));
-    setOutputValuesJ(outputElementPossibleValues(numDegreeB));
+    const valuesArrayI = calculatePossibleValues(numDegreeA);
+    const valuesArrayJ = calculatePossibleValues(numDegreeB);
+    const minDegree = Math.min(numDegreeA, numDegreeB);
+    const rankValues = calculatePossibleValues(minDegree);
+
+    setOutputValuesI(valuesArrayI);
+    setOutputValuesJ(valuesArrayJ);
+    setMatrixRank(rankValues);
   }, [location.search]);
+
+  function calculations() {
+    const {
+      degreeA,
+      polynomialA,
+      degreeB,
+      polynomialB,
+      indexI,
+      indexJ,
+      matrixRank,
+    } = calculationInfoStore.allInputValues;
+
+    const degreeNumA = Number(degreeA);
+    const degreeNumB = Number(degreeB);
+    const matrixRankNum = Number(matrixRank);
+
+    const { polyIndex: polyIndexA, polyBinary: polyBinaryA } =
+      polynomialDestructuring(polynomialA);
+    const { polyIndex: polyIndexB, polyBinary: polyBinaryB } =
+      polynomialDestructuring(polynomialB);
+
+    const polynomialArrA = polyBinaryA.split("").slice(1);
+    const polynomialArrB = polyBinaryB.split("").slice(1);
+
+    const structureMatrixA = generateStructureMatrixA(
+      degreeNumA,
+      createMatrixInitialArray(degreeNumA, polynomialArrA),
+    );
+
+    const structureMatrixB = generateStructureMatrixB(
+      degreeNumB,
+      createMatrixInitialArray(degreeNumB, polynomialArrB),
+    );
+
+    const basisMatrix = generateMatrixBasis(
+      degreeNumA,
+      degreeNumB,
+      matrixRankNum,
+    );
+
+    const lengthByFormulaA = calcLengthByFormula(degreeNumA, polyIndexA);
+    const lengthByFormulaB = calcLengthByFormula(degreeNumB, polyIndexB);
+
+    setPeriodLengthByFormulaA(lengthByFormulaA);
+    setPeriodLengthByFormulaB(lengthByFormulaB);
+
+    const experimentalPeriodLengthA = experimentalPeriodLengthCalc(
+      degreeNumA,
+      structureMatrixA,
+    );
+    const experimentalPeriodLengthB = experimentalPeriodLengthCalc(
+      degreeNumB,
+      structureMatrixB,
+    );
+
+    setExperimentalPeriodLengthA(experimentalPeriodLengthA);
+    setExperimentalPeriodLengthB(experimentalPeriodLengthB);
+
+    setBasisMatrix(basisMatrix);
+    setStructureMatrixA(structureMatrixA);
+    setStructureMatrixB(structureMatrixB);
+  }
 
   return (
     <section className="flex h-full justify-center">
@@ -120,7 +208,7 @@ const MatrixGeneratorPage = observer(() => {
             secondOptionsArray={outputValuesJ}
             secondUrlParamName={PARAMS_OUTPUT_INDEX_J}
             thirdOutputElementLabel={"Ранг матриці S"}
-            thirdOptionsArray={[1, 2, 3, 4, 5]}
+            thirdOptionsArray={matrixRank}
             thirdUrlParamName={PARAMS_MATRIX_RANK}
             searchParams={searchParams}
             setSearchParams={setSearchParams}
@@ -138,33 +226,39 @@ const MatrixGeneratorPage = observer(() => {
           />
         </div>
 
-        {/*<div className={"flex justify-center items-center p-2.5 mb-5"}>*/}
-        {/*  <Button onClick={calculations}>Розпочати генерацію</Button>*/}
-        {/*</div>*/}
+        <div className={"flex justify-center items-center p-2.5 mb-5"}>
+          <Button onClick={calculations}>Розпочати генерацію</Button>
+        </div>
 
-        {/*<div className="flex items-center justify-center gap-2">*/}
-        {/*  <div>*/}
-        {/*    <h3 className="text-center">Структурна матриця</h3>*/}
-        {/*    <Matrix dataArray={structureMatrix} />*/}
-        {/*  </div>*/}
-        {/*  <div>*/}
-        {/*    <h3 className="text-center">Послідовність станів регістру</h3>*/}
-        {/*    <Matrix dataArray={conditionMatrix} />*/}
-        {/*  </div>*/}
-        {/*</div>*/}
+        <div className="flex items-center justify-center gap-2">
+          <div>
+            <h3 className="text-center">Структурна матриця F(A)</h3>
+            <Matrix dataArray={structureMatrixA} />
+          </div>
+          <div>
+            <h3 className="text-center">Матриця S[0]</h3>
+            <Matrix dataArray={basisMatrix} />
+          </div>
+          <div>
+            <h3 className="text-center">Структурна матриця F(B)</h3>
+            <Matrix dataArray={structureMatrixB} />
+          </div>
+        </div>
 
-        {/*<div className="my-5 flex justify-center">*/}
-        {/*  <div className="flex w-3/4 justify-between">*/}
-        {/*    <h5>Період по формулі T = {periodLengthByFormula}</h5>*/}
-        {/*    <h5>Експериментальний період T = {experimentalPeriodLength}</h5>*/}
-        {/*    <h5>*/}
-        {/*      Вид послідовності ={" "}*/}
-        {/*      {periodLengthByFormula === experimentalPeriodLength ? "M" : "C"}*/}
-        {/*      -послідовність*/}
-        {/*    </h5>*/}
-        {/*    <h5>Вага Хеммінгу = {hammingWeight}</h5>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
+        <div className="my-5 flex justify-center">
+          <div className="flex w-3/4 justify-between">
+            <h5>Період по формулі T(A) = {periodLengthByFormulaA}</h5>
+            <h5>Експериментальний період T(A) = {experimentalPeriodLengthA}</h5>
+            <h5>Період по формулі T(B) = {periodLengthByFormulaB}</h5>
+            <h5>Експериментальний період T(B) = {experimentalPeriodLengthB}</h5>
+            <h5>
+              Вид послідовності T(A) =
+              {periodLengthByFormulaA === experimentalPeriodLengthA ? "M" : "C"}
+              -послідовність
+            </h5>
+            {/*<h5>Вага Хеммінгу = {hammingWeight}</h5>*/}
+          </div>
+        </div>
 
         {/*<label>Згенерована послідовність</label>*/}
         {/*<Sequence dataArray={prsSequence} />*/}
