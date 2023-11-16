@@ -106,28 +106,34 @@ export function calcLengthByFormula(
   return potentialLength / findGCD(potentialLength, polynomialIndex);
 }
 export function experimentalPeriodLengthCalc(
-  degree: number,
   structureMatrix: number[][],
+  degreeA: number,
 ): number {
   let periodExp = 0;
-  let startState = [];
-  for (let i = 0; i < degree; i++) {
-    startState[i] = 1;
-  }
-  let currentState = startState.slice();
-  while (periodExp === 0 || currentState.join("") !== startState.join("")) {
-    let nextState = [];
-    for (let i = 0; i < degree; i++) {
-      nextState[i] = 0;
-      for (let j = 0; j < degree; j++) {
-        nextState[i] = nextState[i] ^ (currentState[j] * structureMatrix[i][j]);
+  const startState = Array(degreeA).fill(1); // Используем Array.fill() для инициализации массива startState
+
+  let currentState = [...startState]; // Копируем startState с помощью spread оператора
+
+  const startStateString = startState.join(""); // Предварительно объединяем startState в строку для удобства сравнения
+
+  while (periodExp === 0 || currentState.join("") !== startStateString) {
+    const nextState = Array(degreeA).fill(0); // Используем Array.fill() для инициализации массива nextState
+
+    for (let i = 0; i < degreeA; i++) {
+      for (let j = 0; j < degreeA; j++) {
+        nextState[i] ^= currentState[j] * structureMatrix[i][j]; // Используем оператор ^= для XOR
       }
     }
-    currentState = nextState.slice();
+
+    currentState = [...nextState]; // Обновляем currentState с помощью копирования nextState
+
     periodExp++;
   }
+
   return periodExp;
 }
+
+
 
 export function getPrsSequence(conditionMatrix: number[][]): number[] {
   return conditionMatrix
@@ -164,6 +170,46 @@ export function transformArrayToObjects(arr: number[]) {
   });
 }
 
-export function calculatePossibleValues(degree: number) {
-  return Array.from({ length: degree }, (_, index) => index);
+export function calculatePossibleValues(degree: number, start: number = 0) {
+  return Array.from({ length: degree }, (_, index) => index + start);
+}
+
+function matrixMultiply(matrixA: number[][], matrixB: number[][]) {
+  const n = matrixA.length;
+  const m = matrixB[0].length;
+  const result: number[][] = [];
+
+  for (let i = 0; i < n; i++) {
+    result[i] = [];
+    for (let j = 0; j < m; j++) {
+      let sum = 0;
+      for (let k = 0; k < matrixA[i].length; k++) {
+        sum += matrixA[i][k] * matrixB[k][j];
+      }
+
+      result[i][j] = sum % 2;
+    }
+  }
+  return result;
+}
+
+export function matrixShiftRegister(
+  matrixA: number[][],
+  matrixB: number[][],
+  matrixS: number[][],
+  periodS: number,
+  outI: number,
+  outJ: number,
+) {
+  let currentState = matrixS;
+  let conditionMatrix = [];
+  let generatedPrs = [];
+  for (let i = 0; i < periodS; i++) {
+    currentState = matrixMultiply(matrixA, currentState);
+    currentState = matrixMultiply(currentState, matrixB);
+    conditionMatrix.push(...currentState);
+    generatedPrs.push(currentState[outI][outJ]);
+  }
+
+  return {conditionMatrix, generatedPrs};
 }

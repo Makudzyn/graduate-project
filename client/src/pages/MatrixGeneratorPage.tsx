@@ -28,11 +28,12 @@ import {
   experimentalPeriodLengthCalc,
   generateMatrixBasis,
   generateStructureMatrixA,
-  generateStructureMatrixB,
+  generateStructureMatrixB, matrixShiftRegister,
   polynomialDestructuring,
 } from "../functions/generatorFunctions.ts";
 import Button from "../components/Button.tsx";
 import Matrix from "../components/Matrix.tsx";
+import Sequence from "../components/Sequence.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -48,7 +49,7 @@ const MatrixGeneratorPage = observer(() => {
     polynomial_b: "1 7 H",
     index_i: "0",
     index_j: "0",
-    matrix_rank: "0",
+    matrix_rank: "1",
   });
 
   const [polynomialArrA, setPolynomialArrA] = useState<Polynomial[]>(
@@ -63,20 +64,27 @@ const MatrixGeneratorPage = observer(() => {
 
   const [outputValuesI, setOutputValuesI] = useState<number[]>([0]);
   const [outputValuesJ, setOutputValuesJ] = useState<number[]>([0]);
-  const [matrixRank, setMatrixRank] = useState<number[]>([0]);
+  const [matrixRank, setMatrixRank] = useState<number[]>([1]);
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
   const [basisMatrix, setBasisMatrix] = useState<number[][]>([]);
 
+  const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
+  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
+
+
   const [periodLengthByFormulaA, setPeriodLengthByFormulaA] =
     useState<number>(0);
   const [periodLengthByFormulaB, setPeriodLengthByFormulaB] =
+    useState<number>(0);
+  const [periodLengthByFormulaS, setPeriodLengthByFormulaS] =
     useState<number>(0);
   const [experimentalPeriodLengthA, setExperimentalPeriodLengthA] =
     useState<number>(0);
   const [experimentalPeriodLengthB, setExperimentalPeriodLengthB] =
     useState<number>(0);
+
 
   const location = useLocation();
 
@@ -114,7 +122,7 @@ const MatrixGeneratorPage = observer(() => {
     const valuesArrayI = calculatePossibleValues(numDegreeA);
     const valuesArrayJ = calculatePossibleValues(numDegreeB);
     const minDegree = Math.min(numDegreeA, numDegreeB);
-    const rankValues = calculatePossibleValues(minDegree);
+    const rankValues = calculatePossibleValues(minDegree, 1);
 
     setOutputValuesI(valuesArrayI);
     setOutputValuesJ(valuesArrayJ);
@@ -134,6 +142,8 @@ const MatrixGeneratorPage = observer(() => {
 
     const degreeNumA = Number(degreeA);
     const degreeNumB = Number(degreeB);
+    const indexNumI = Number(indexI);
+    const indexNumJ = Number(indexJ);
     const matrixRankNum = Number(matrixRank);
 
     const { polyIndex: polyIndexA, polyBinary: polyBinaryA } =
@@ -160,20 +170,24 @@ const MatrixGeneratorPage = observer(() => {
       matrixRankNum,
     );
 
+
     const lengthByFormulaA = calcLengthByFormula(degreeNumA, polyIndexA);
     const lengthByFormulaB = calcLengthByFormula(degreeNumB, polyIndexB);
+    const lengthByFormulaS = lengthByFormulaA * lengthByFormulaB;
 
     setPeriodLengthByFormulaA(lengthByFormulaA);
     setPeriodLengthByFormulaB(lengthByFormulaB);
+    setPeriodLengthByFormulaS(lengthByFormulaS);
 
     const experimentalPeriodLengthA = experimentalPeriodLengthCalc(
-      degreeNumA,
       structureMatrixA,
+      degreeNumA,
     );
     const experimentalPeriodLengthB = experimentalPeriodLengthCalc(
-      degreeNumB,
       structureMatrixB,
+      degreeNumB,
     );
+
 
     setExperimentalPeriodLengthA(experimentalPeriodLengthA);
     setExperimentalPeriodLengthB(experimentalPeriodLengthB);
@@ -181,6 +195,12 @@ const MatrixGeneratorPage = observer(() => {
     setBasisMatrix(basisMatrix);
     setStructureMatrixA(structureMatrixA);
     setStructureMatrixB(structureMatrixB);
+
+    const {conditionMatrix, generatedPrs} = matrixShiftRegister(structureMatrixA, structureMatrixB, basisMatrix, lengthByFormulaS, indexNumI, indexNumJ);
+
+
+    setConditionMatrix(conditionMatrix);
+    setPseudorandomSequence(generatedPrs);
   }
 
   return (
@@ -252,16 +272,18 @@ const MatrixGeneratorPage = observer(() => {
             <h5>Період по формулі T(B) = {periodLengthByFormulaB}</h5>
             <h5>Експериментальний період T(B) = {experimentalPeriodLengthB}</h5>
             <h5>
-              Вид послідовності T(A) =
-              {periodLengthByFormulaA === experimentalPeriodLengthA ? "M" : "C"}
-              -послідовність
             </h5>
-            {/*<h5>Вага Хеммінгу = {hammingWeight}</h5>*/}
           </div>
         </div>
 
-        {/*<label>Згенерована послідовність</label>*/}
-        {/*<Sequence dataArray={prsSequence} />*/}
+        <div>
+          <h3 className="text-center">Матриці S[1..N]</h3>
+          <Matrix dataArray={conditionMatrix}/>
+          <h5>Період по формулі T(S) = {periodLengthByFormulaS}</h5>
+        </div>
+
+        <label>Згенерована послідовність</label>
+        <Sequence dataArray={pseudorandomSequence} />
 
         {/*{correlationObjectDots[0] ?*/}
         {/*  <Chart data={correlationObjectDots}/>*/}

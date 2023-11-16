@@ -26,7 +26,7 @@ const LinearGeneratorPage = observer(() => {
   const [periodLengthByFormula, setPeriodLengthByFormula] = useState<number>(0);
   const [experimentalPeriodLength, setExperimentalPeriodLength] =
     useState<number>(0);
-  const [prsSequence, setPrsSequence] = useState<number[]>([]);
+  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [correlationObjectDots, setCorrelationObjectDots] = useState<DataPoint[]>([]);
 
@@ -64,7 +64,7 @@ const LinearGeneratorPage = observer(() => {
     );
     setStructureMatrix(structureMatrix);
     setConditionMatrix(conditionMatrix);
-    setPrsSequence(pseudorandomSequence);
+    setPseudorandomSequence(pseudorandomSequence);
     setHammingWeight(hammingWeight);
 
     const convertedPrs = convertPrs(pseudorandomSequence);
@@ -111,7 +111,7 @@ const LinearGeneratorPage = observer(() => {
         </div>
 
         <label>Згенерована послідовність</label>
-        <Sequence dataArray={prsSequence} />
+        <Sequence dataArray={pseudorandomSequence} />
 
         {correlationObjectDots[0] ?
           <Chart data={correlationObjectDots}/>
