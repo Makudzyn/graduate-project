@@ -12,12 +12,7 @@ import {
   PARAMS_POLYNOMIAL_A,
   PARAMS_POLYNOMIAL_B,
 } from "../utils/consts.ts";
-import {
-  generateOptions,
-  getSelectedDegree,
-  getSelectedParam,
-  getSelectedPolynomial,
-} from "../functions/functions.ts";
+import { generateOptions, getSelectedParam } from "../functions/functions.ts";
 import { Polynomial } from "../store/PolynomialsStore.ts";
 import MatrixSelect from "../components/MatrixGenerator/MatrixSelect.tsx";
 import MatrixOutputSelectionBlock from "../components/MatrixGenerator/MatrixOutputSelectionBlock.tsx";
@@ -26,14 +21,21 @@ import {
   calculatePossibleValues,
   createMatrixInitialArray,
   experimentalPeriodLengthCalc,
+  findGCD,
+  formatHammingWeight,
   generateMatrixBasis,
   generateStructureMatrixA,
-  generateStructureMatrixB, matrixShiftRegister,
-  polynomialDestructuring,
+  generateStructureMatrixB,
+  hammingWeightCalc,
+  calcHammingWeightSpectre,
+  matrixShiftRegister,
+  polynomialDestructuring, convertPrs, autocorrelation, transformArrayToObjects,
 } from "../functions/generatorFunctions.ts";
 import Button from "../components/Button.tsx";
 import Matrix from "../components/Matrix.tsx";
 import Sequence from "../components/Sequence.tsx";
+import Chart, {DataPoint} from "../components/Chart/Chart.tsx";
+import ConditionMatrixBlock from "../components/MatrixGenerator/ConditionMatrixBlock.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -71,8 +73,9 @@ const MatrixGeneratorPage = observer(() => {
   const [basisMatrix, setBasisMatrix] = useState<number[][]>([]);
 
   const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
-  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
-
+  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>(
+    [],
+  );
 
   const [periodLengthByFormulaA, setPeriodLengthByFormulaA] =
     useState<number>(0);
@@ -84,6 +87,15 @@ const MatrixGeneratorPage = observer(() => {
     useState<number>(0);
   const [experimentalPeriodLengthB, setExperimentalPeriodLengthB] =
     useState<number>(0);
+
+  const [condtitionS, setConditionS] = useState<number>(0);
+
+  const [hammingWeight, setHammingWeight] = useState<number>(0);
+  const [hammingWeightSpectre, setHammingWeightSpectre] = useState<string[]>([
+    "0",
+  ]);
+
+  const [correlationObjectDots, setCorrelationObjectDots] = useState<DataPoint[]>([]);
 
 
   const location = useLocation();
@@ -170,7 +182,6 @@ const MatrixGeneratorPage = observer(() => {
       matrixRankNum,
     );
 
-
     const lengthByFormulaA = calcLengthByFormula(degreeNumA, polyIndexA);
     const lengthByFormulaB = calcLengthByFormula(degreeNumB, polyIndexB);
     const lengthByFormulaS = lengthByFormulaA * lengthByFormulaB;
@@ -178,6 +189,9 @@ const MatrixGeneratorPage = observer(() => {
     setPeriodLengthByFormulaA(lengthByFormulaA);
     setPeriodLengthByFormulaB(lengthByFormulaB);
     setPeriodLengthByFormulaS(lengthByFormulaS);
+
+    const condition = findGCD(lengthByFormulaA, lengthByFormulaB);
+    setConditionS(condition);
 
     const experimentalPeriodLengthA = experimentalPeriodLengthCalc(
       structureMatrixA,
@@ -188,7 +202,6 @@ const MatrixGeneratorPage = observer(() => {
       degreeNumB,
     );
 
-
     setExperimentalPeriodLengthA(experimentalPeriodLengthA);
     setExperimentalPeriodLengthB(experimentalPeriodLengthB);
 
@@ -196,11 +209,32 @@ const MatrixGeneratorPage = observer(() => {
     setStructureMatrixA(structureMatrixA);
     setStructureMatrixB(structureMatrixB);
 
-    const {conditionMatrix, generatedPrs} = matrixShiftRegister(structureMatrixA, structureMatrixB, basisMatrix, lengthByFormulaS, indexNumI, indexNumJ);
-
+    const { conditionMatrix, generatedPrs } = matrixShiftRegister(
+      structureMatrixA,
+      structureMatrixB,
+      basisMatrix,
+      lengthByFormulaS,
+      indexNumI,
+      indexNumJ,
+    );
 
     setConditionMatrix(conditionMatrix);
     setPseudorandomSequence(generatedPrs);
+
+    const hammingWeight = hammingWeightCalc(generatedPrs);
+    const hammingWeightSpectre = calcHammingWeightSpectre(
+      matrixRankNum,
+      degreeNumA,
+      degreeNumB,
+    );
+    const formattedWeightSpectre = formatHammingWeight(hammingWeightSpectre);
+    setHammingWeight(hammingWeight);
+    setHammingWeightSpectre(formattedWeightSpectre);
+
+    const convertedPrs = convertPrs(generatedPrs);
+    const correlationArr = autocorrelation(convertedPrs);
+    const correlationObjectDots = transformArrayToObjects(correlationArr);
+    setCorrelationObjectDots(correlationObjectDots);
   }
 
   return (
@@ -271,25 +305,37 @@ const MatrixGeneratorPage = observer(() => {
             <h5>Експериментальний період T(A) = {experimentalPeriodLengthA}</h5>
             <h5>Період по формулі T(B) = {periodLengthByFormulaB}</h5>
             <h5>Експериментальний період T(B) = {experimentalPeriodLengthB}</h5>
-            <h5>
-            </h5>
+            <h5></h5>
           </div>
         </div>
 
-        <div>
-          <h3 className="text-center">Матриці S[1..N]</h3>
-          <Matrix dataArray={conditionMatrix}/>
-          <h5>Період по формулі T(S) = {periodLengthByFormulaS}</h5>
+        <div className="my-5 flex justify-center">
+          <div className="flex flex-col w-3/4 h-[400px] justify-evenly items-center">
+            <h3 className="text-center">Матриці S[1..N]</h3>
+            <ConditionMatrixBlock conditionMatrix={conditionMatrix} periodLength={periodLengthByFormulaA}/>
+            <h5>Період по формулі T(S) = {periodLengthByFormulaS}</h5>
+            <h5>Експериментальний період T(S) = {periodLengthByFormulaS}</h5>
+            <h5>Умова (T(A), T(B)) = {condtitionS}</h5>
+          </div>
         </div>
 
-        <label>Згенерована послідовність</label>
-        <Sequence dataArray={pseudorandomSequence} />
+        <div className={"w-full flex flex-col"}>
+          <label>Згенерована послідовність</label>
+          <Sequence dataArray={pseudorandomSequence} />
+          <h5>Вага Хеммінгу = {hammingWeight}</h5>
+          <h5>Спектр ваг Хеммінгу: {hammingWeightSpectre.map((item) => (
+            <span key={item}>
+              {item}
+            </span>
+          ))}
+          </h5>
+        </div>
 
-        {/*{correlationObjectDots[0] ?*/}
-        {/*  <Chart data={correlationObjectDots}/>*/}
-        {/*  :*/}
-        {/*  <div className={"w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"}>Chart</div>*/}
-        {/*}*/}
+        {correlationObjectDots[0] ?
+          <Chart data={correlationObjectDots}/>
+          :
+          <div className={"w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"}>Chart</div>
+        }
       </div>
     </section>
   );

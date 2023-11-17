@@ -60,7 +60,7 @@ const LinearGeneratorPage = observer(() => {
 
     setPeriodLengthByFormula(lengthByFormula);
     setExperimentalPeriodLength(
-      experimentalPeriodLengthCalc(degreeNum, structureMatrix),
+      experimentalPeriodLengthCalc(structureMatrix, degreeNum),
     );
     setStructureMatrix(structureMatrix);
     setConditionMatrix(conditionMatrix);

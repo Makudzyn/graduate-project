@@ -133,8 +133,6 @@ export function experimentalPeriodLengthCalc(
   return periodExp;
 }
 
-
-
 export function getPrsSequence(conditionMatrix: number[][]): number[] {
   return conditionMatrix
     .map((subArray) => subArray[subArray.length - 1])
@@ -143,6 +141,27 @@ export function getPrsSequence(conditionMatrix: number[][]): number[] {
 
 export function hammingWeightCalc(prsSequence: number[]) {
   return prsSequence.filter((item) => item === 1).length;
+}
+
+export function calcHammingWeightSpectre(
+  rankS: number,
+  degreeA: number,
+  degreeB: number,
+) {
+  let result = [];
+  for (let i = 1; i <= rankS; i++) {
+    let tmp = (Math.pow(2, i) - 1) * Math.pow(2, degreeA + degreeB - 1 - i);
+    result.push(tmp);
+  }
+  return result;
+}
+
+export function formatHammingWeight(weightSpectre: number[]) {
+  let textHammingWeight = [];
+  for (let i = 0; i < weightSpectre.length; i++) {
+    textHammingWeight.push(` wt(C(${i + 1})) = ${weightSpectre[i]}`);
+  }
+  return textHammingWeight;
 }
 
 export function convertPrs(prs: number[]) {
@@ -211,5 +230,5 @@ export function matrixShiftRegister(
     generatedPrs.push(currentState[outI][outJ]);
   }
 
-  return {conditionMatrix, generatedPrs};
+  return { conditionMatrix, generatedPrs };
 }
