@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface ConditionMatrixBlockProps {
   conditionMatrix: number[][];
   periodLength: number;
 }
 
-const ConditionMatrixBlock: React.FC<ConditionMatrixBlockProps> = ({
+const ConditionMatrixBlock = ({
   conditionMatrix,
   periodLength,
-}) => {
+}: ConditionMatrixBlockProps) => {
+  const step = Math.sqrt(periodLength + 1);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const slicedMatrix = conditionMatrix.slice(
     currentIndex,
-    currentIndex + periodLength,
+    currentIndex + step,
   );
 
   const resetState = () => {
@@ -22,25 +23,35 @@ const ConditionMatrixBlock: React.FC<ConditionMatrixBlockProps> = ({
 
   const goToPreviousState = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - periodLength);
+      setCurrentIndex(currentIndex - step);
     }
   };
 
   const goToNextState = () => {
-    if (currentIndex + periodLength < conditionMatrix.length) {
-      setCurrentIndex(currentIndex + periodLength);
+    if (currentIndex + step < conditionMatrix.length) {
+      setCurrentIndex(currentIndex + step);
     }
   };
 
   const goToLastState = () => {
-    const lastIndex = Math.max(0, conditionMatrix.length - periodLength);
+    const lastIndex = Math.max(0, conditionMatrix.length - step);
     setCurrentIndex(lastIndex);
   };
 
   return (
     <div className="flex items-center justify-evenly w-3/4">
-      <button className="px-3 py-2.5 border border-black w-24 h-12 rounded-md" onClick={resetState}>First</button>
-      <button className="px-3 py-2.5 border border-black w-24 h-12 rounded-md" onClick={goToPreviousState}>Prev</button>
+      <button
+        className="px-3 py-2.5 border border-black w-24 h-12 rounded-md"
+        onClick={resetState}
+      >
+        First
+      </button>
+      <button
+        className="px-3 py-2.5 border border-black w-24 h-12 rounded-md"
+        onClick={goToPreviousState}
+      >
+        Prev
+      </button>
 
       <div className="p-1.5 text-xl h-64 w-[400px] overflow-y-auto overflow-x-hidden text-center rounded-sm border border-gray-900 focus:border-t-gray-900">
         {slicedMatrix.map((row, rowIndex) => (
@@ -54,8 +65,18 @@ const ConditionMatrixBlock: React.FC<ConditionMatrixBlockProps> = ({
         ))}
       </div>
 
-      <button className="px-3 py-2.5 border border-black w-24 h-12 rounded-md" onClick={goToNextState}>Next</button>
-      <button className="px-3 py-2.5 border border-black w-24 h-12 rounded-md" onClick={goToLastState}>Last</button>
+      <button
+        className="px-3 py-2.5 border border-black w-24 h-12 rounded-md"
+        onClick={goToNextState}
+      >
+        Next
+      </button>
+      <button
+        className="px-3 py-2.5 border border-black w-24 h-12 rounded-md"
+        onClick={goToLastState}
+      >
+        Last
+      </button>
     </div>
   );
 };

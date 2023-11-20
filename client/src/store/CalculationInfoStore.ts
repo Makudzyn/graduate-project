@@ -1,13 +1,13 @@
 import { makeAutoObservable } from "mobx";
 
 export default class CalculationInfoStore {
-  private _degreeA: string = "";
-  private _degreeB: string = "";
+  private _degreeA: number = 0;
+  private _degreeB: number = 0;
   private _polynomialA: string = "";
   private _polynomialB: string = "";
-  private _indexI: string = "";
-  private _indexJ: string = "";
-  private _matrixRank: string = "";
+  private _indexI: number = 0;
+  private _indexJ: number = 0;
+  private _matrixRank: number = 0;
   private _userValue: string = "";
 
   constructor() {
@@ -15,34 +15,34 @@ export default class CalculationInfoStore {
     // и при их изменении компоненты будут перерендериться
   }
 
-  setAllInputValues(
-    degreeA: string,
-    polynomialA: string,
-    degreeB?: string,
+  setManyInputValues(inputValues: {
+    degreeA?: number,
+    polynomialA?: string,
+    degreeB?: number,
     polynomialB?: string,
-    indexI?: string,
-    indexJ?: string,
-    matrixRank?: string,
+    indexI?: number,
+    indexJ?: number,
+    matrixRank?: number,
     userValue?: string,
-  ) {
-    this._degreeA = degreeA;
-    this._polynomialA = polynomialA;
-    degreeB && (this._degreeB = degreeB);
-    polynomialB && (this._polynomialB = polynomialB);
-    indexI && (this._indexI = indexI);
-    indexJ && (this._indexJ = indexJ);
-    matrixRank && (this._matrixRank = matrixRank);
-    userValue && (this._userValue = userValue);
+  }) {
+    inputValues.degreeA !== undefined && (this._degreeA =inputValues. degreeA);
+    inputValues.polynomialA !== undefined && (this._polynomialA = inputValues.polynomialA);
+    inputValues.degreeB !== undefined && (this._degreeB = inputValues.degreeB);
+    inputValues.polynomialB !== undefined && (this._polynomialB = inputValues.polynomialB);
+    inputValues.indexI !== undefined && (this._indexI = inputValues.indexI);
+    inputValues.indexJ !== undefined && (this._indexJ = inputValues.indexJ);
+    inputValues.matrixRank !== undefined && (this._matrixRank = inputValues.matrixRank);
+    inputValues.userValue !== undefined && (this._userValue = inputValues.userValue);
   }
 
   get allInputValues(): {
-    degreeA: string;
+    degreeA: number;
     polynomialA: string;
-    degreeB: string;
+    degreeB: number;
     polynomialB: string;
-    indexI: string;
-    indexJ: string;
-    matrixRank: string;
+    indexI: number;
+    indexJ: number;
+    matrixRank: number;
     userValue: string;
   } {
     return {

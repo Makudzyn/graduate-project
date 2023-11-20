@@ -12,11 +12,17 @@ import {
   calcLengthByFormula,
   getPrsSequence,
   hammingWeightCalc,
-  polynomialDestructuring, convertPrs, autocorrelation, transformArrayToObjects,
+  polynomialDestructuring,
+  convertPrs,
+  autocorrelation,
+  transformArrayToObjects,
 } from "../functions/generatorFunctions.ts";
 import { observer } from "mobx-react-lite";
 import Sequence from "../components/Sequence.tsx";
-import Chart, {DataPoint} from "../components/Chart/Chart.tsx";
+import Chart, { DataPoint } from "../components/Chart/Chart.tsx";
+import PeriodInfo from "../components/PeriodInfo.tsx";
+import SequenceType from "../components/SequenceType.tsx";
+import HammingWeight from "../components/HammingWeight.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -26,9 +32,13 @@ const LinearGeneratorPage = observer(() => {
   const [periodLengthByFormula, setPeriodLengthByFormula] = useState<number>(0);
   const [experimentalPeriodLength, setExperimentalPeriodLength] =
     useState<number>(0);
-  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
+  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>(
+    [],
+  );
   const [hammingWeight, setHammingWeight] = useState<number>(0);
-  const [correlationObjectDots, setCorrelationObjectDots] = useState<DataPoint[]>([]);
+  const [correlationObjectDots, setCorrelationObjectDots] = useState<
+    DataPoint[]
+  >([]);
 
   useEffect(() => {
     fetchPolynomials().then((data) => polynomialsStore.setPolynomials(data));
@@ -38,15 +48,15 @@ const LinearGeneratorPage = observer(() => {
     const { degreeA, polynomialA, userValue } =
       calculationInfoStore.allInputValues;
 
-    const degreeNum = Number(degreeA);
     const { polyIndex, polyBinary } = polynomialDestructuring(polynomialA);
     const polynomialArr = polyBinary.split("").slice(1);
+
     const userValueArr = userValue.split("").map(Number);
-    const lengthByFormula = calcLengthByFormula(degreeNum, polyIndex);
+    const lengthByFormula = calcLengthByFormula(degreeA, polyIndex);
 
     const structureMatrix = generateStructureMatrixA(
-      degreeNum,
-      createMatrixInitialArray(degreeNum, polynomialArr),
+      degreeA,
+      createMatrixInitialArray(degreeA, polynomialArr),
     );
 
     const conditionMatrix = linearFeedbackShiftRegister(
@@ -60,7 +70,7 @@ const LinearGeneratorPage = observer(() => {
 
     setPeriodLengthByFormula(lengthByFormula);
     setExperimentalPeriodLength(
-      experimentalPeriodLengthCalc(structureMatrix, degreeNum),
+      experimentalPeriodLengthCalc(structureMatrix, degreeA),
     );
     setStructureMatrix(structureMatrix);
     setConditionMatrix(conditionMatrix);
@@ -68,9 +78,9 @@ const LinearGeneratorPage = observer(() => {
     setHammingWeight(hammingWeight);
 
     const convertedPrs = convertPrs(pseudorandomSequence);
-    const correlationArr = autocorrelation(convertedPrs);
-    const correlationObjectDots = transformArrayToObjects(correlationArr);
-    setCorrelationObjectDots(correlationObjectDots);
+    // const correlationArr = autocorrelation(convertedPrs);
+    // const correlationObjectDots = transformArrayToObjects(correlationArr);
+    // setCorrelationObjectDots(correlationObjectDots);
   }
 
   return (
@@ -98,26 +108,33 @@ const LinearGeneratorPage = observer(() => {
         </div>
 
         <div className="my-5 flex justify-center">
-          <div className="flex w-3/4 justify-between">
-            <h5>Період по формулі T = {periodLengthByFormula}</h5>
-            <h5>Експериментальний період T = {experimentalPeriodLength}</h5>
-            <h5>
-              Вид послідовності ={" "}
-              {periodLengthByFormula === experimentalPeriodLength ? "M" : "C"}
-              -послідовність
-            </h5>
-            <h5>Вага Хеммінгу = {hammingWeight}</h5>
+          <div className="flex w-1/2 justify-between">
+            <PeriodInfo
+              periodLengthByFormula={periodLengthByFormula}
+              experimentalPeriodLength={experimentalPeriodLength}
+            />
+            <SequenceType
+              periodLengthByFormula={periodLengthByFormula}
+              experimentalPeriodLength={experimentalPeriodLength}
+            />
+            <HammingWeight hammingWeight={hammingWeight}/>
           </div>
         </div>
 
         <label>Згенерована послідовність</label>
         <Sequence dataArray={pseudorandomSequence} />
 
-        {correlationObjectDots[0] ?
-          <Chart data={correlationObjectDots}/>
-          :
-          <div className={"w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"}>Chart</div>
-        }
+        {correlationObjectDots[0] ? (
+          <Chart data={correlationObjectDots} />
+        ) : (
+          <div
+            className={
+              "w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"
+            }
+          >
+            Chart
+          </div>
+        )}
       </div>
     </section>
   );

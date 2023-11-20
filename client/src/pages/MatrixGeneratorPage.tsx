@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { fetchPolynomials } from "../http/polynomialsAPI.ts";
+import { fetchPolynomials, sendGeneratedData } from "../http/polynomialsAPI.ts";
 import { observer } from "mobx-react-lite";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { Context } from "../main.tsx";
@@ -29,13 +29,18 @@ import {
   hammingWeightCalc,
   calcHammingWeightSpectre,
   matrixShiftRegister,
-  polynomialDestructuring, convertPrs, autocorrelation, transformArrayToObjects,
+  polynomialDestructuring,
+  convertPrs,
+  transformArrayToObjects,
 } from "../functions/generatorFunctions.ts";
 import Button from "../components/Button.tsx";
-import Matrix from "../components/Matrix.tsx";
 import Sequence from "../components/Sequence.tsx";
-import Chart, {DataPoint} from "../components/Chart/Chart.tsx";
+import Chart, { DataPoint } from "../components/Chart/Chart.tsx";
 import ConditionMatrixBlock from "../components/MatrixGenerator/ConditionMatrixBlock.tsx";
+import StructureMatricesBlock from "../components/MatrixGenerator/StructureMatricesBlock.tsx";
+import PeriodInfo from "../components/PeriodInfo.tsx";
+import HammingWeight from "../components/HammingWeight.tsx";
+import HammingWeightSpectre from "../components/HammingWeightSpectre.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -88,15 +93,16 @@ const MatrixGeneratorPage = observer(() => {
   const [experimentalPeriodLengthB, setExperimentalPeriodLengthB] =
     useState<number>(0);
 
-  const [condtitionS, setConditionS] = useState<number>(0);
+  const [conditionS, setConditionS] = useState<number>(0);
 
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [hammingWeightSpectre, setHammingWeightSpectre] = useState<string[]>([
     "0",
   ]);
 
-  const [correlationObjectDots, setCorrelationObjectDots] = useState<DataPoint[]>([]);
-
+  const [correlationObjectDots, setCorrelationObjectDots] = useState<
+    DataPoint[]
+  >([]);
 
   const location = useLocation();
 
@@ -110,18 +116,18 @@ const MatrixGeneratorPage = observer(() => {
     const indexJ = getSelectedParam(PARAMS_OUTPUT_INDEX_J, searchParams);
     const matrixRank = getSelectedParam(PARAMS_MATRIX_RANK, searchParams);
 
-    calculationInfoStore.setAllInputValues(
-      degreeA,
-      polynomialA,
-      degreeB,
-      polynomialB,
-      indexI,
-      indexJ,
-      matrixRank,
-    );
-
     const numDegreeA = Number(degreeA);
     const numDegreeB = Number(degreeB);
+
+    calculationInfoStore.setManyInputValues({
+      degreeA: numDegreeA,
+      polynomialA,
+      degreeB: numDegreeB,
+      polynomialB,
+      indexI: Number(indexI),
+      indexJ: Number(indexJ),
+      matrixRank: Number(matrixRank),
+    });
 
     setPolynomialArrA(
       polynomialsStore.polynomials.filter((poly) => poly.degree === numDegreeA),
@@ -141,7 +147,7 @@ const MatrixGeneratorPage = observer(() => {
     setMatrixRank(rankValues);
   }, [location.search]);
 
-  function calculations() {
+  async function matrixCalculations() {
     const {
       degreeA,
       polynomialA,
@@ -152,38 +158,28 @@ const MatrixGeneratorPage = observer(() => {
       matrixRank,
     } = calculationInfoStore.allInputValues;
 
-    const degreeNumA = Number(degreeA);
-    const degreeNumB = Number(degreeB);
-    const indexNumI = Number(indexI);
-    const indexNumJ = Number(indexJ);
-    const matrixRankNum = Number(matrixRank);
-
-    const { polyIndex: polyIndexA, polyBinary: polyBinaryA } =
+    const {polyIndex: polyIndexA, polyBinary: polyBinaryA} =
       polynomialDestructuring(polynomialA);
-    const { polyIndex: polyIndexB, polyBinary: polyBinaryB } =
+    const {polyIndex: polyIndexB, polyBinary: polyBinaryB} =
       polynomialDestructuring(polynomialB);
 
     const polynomialArrA = polyBinaryA.split("").slice(1);
     const polynomialArrB = polyBinaryB.split("").slice(1);
 
     const structureMatrixA = generateStructureMatrixA(
-      degreeNumA,
-      createMatrixInitialArray(degreeNumA, polynomialArrA),
+      degreeA,
+      createMatrixInitialArray(degreeA, polynomialArrA),
     );
 
     const structureMatrixB = generateStructureMatrixB(
-      degreeNumB,
-      createMatrixInitialArray(degreeNumB, polynomialArrB),
+      degreeB,
+      createMatrixInitialArray(degreeB, polynomialArrB),
     );
 
-    const basisMatrix = generateMatrixBasis(
-      degreeNumA,
-      degreeNumB,
-      matrixRankNum,
-    );
+    const basisMatrix = generateMatrixBasis(degreeA, degreeB, matrixRank);
 
-    const lengthByFormulaA = calcLengthByFormula(degreeNumA, polyIndexA);
-    const lengthByFormulaB = calcLengthByFormula(degreeNumB, polyIndexB);
+    const lengthByFormulaA = calcLengthByFormula(degreeA, polyIndexA);
+    const lengthByFormulaB = calcLengthByFormula(degreeB, polyIndexB);
     const lengthByFormulaS = lengthByFormulaA * lengthByFormulaB;
 
     setPeriodLengthByFormulaA(lengthByFormulaA);
@@ -195,11 +191,11 @@ const MatrixGeneratorPage = observer(() => {
 
     const experimentalPeriodLengthA = experimentalPeriodLengthCalc(
       structureMatrixA,
-      degreeNumA,
+      degreeA,
     );
     const experimentalPeriodLengthB = experimentalPeriodLengthCalc(
       structureMatrixB,
-      degreeNumB,
+      degreeB,
     );
 
     setExperimentalPeriodLengthA(experimentalPeriodLengthA);
@@ -209,13 +205,13 @@ const MatrixGeneratorPage = observer(() => {
     setStructureMatrixA(structureMatrixA);
     setStructureMatrixB(structureMatrixB);
 
-    const { conditionMatrix, generatedPrs } = matrixShiftRegister(
+    const {conditionMatrix, generatedPrs} = matrixShiftRegister(
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
       lengthByFormulaS,
-      indexNumI,
-      indexNumJ,
+      indexI,
+      indexJ,
     );
 
     setConditionMatrix(conditionMatrix);
@@ -223,18 +219,22 @@ const MatrixGeneratorPage = observer(() => {
 
     const hammingWeight = hammingWeightCalc(generatedPrs);
     const hammingWeightSpectre = calcHammingWeightSpectre(
-      matrixRankNum,
-      degreeNumA,
-      degreeNumB,
+      matrixRank,
+      degreeA,
+      degreeB,
     );
     const formattedWeightSpectre = formatHammingWeight(hammingWeightSpectre);
     setHammingWeight(hammingWeight);
     setHammingWeightSpectre(formattedWeightSpectre);
 
-    const convertedPrs = convertPrs(generatedPrs);
-    const correlationArr = autocorrelation(convertedPrs);
-    const correlationObjectDots = transformArrayToObjects(correlationArr);
-    setCorrelationObjectDots(correlationObjectDots);
+    try {
+      const correlationArr = await sendGeneratedData(generatedPrs);
+      const correlationObjectDots = transformArrayToObjects(correlationArr);
+      setCorrelationObjectDots(correlationObjectDots);
+    } catch (error) {
+      console.error('Ошибка отправки данных на сервер:', error.message);
+    }
+
   }
 
   return (
@@ -281,61 +281,62 @@ const MatrixGeneratorPage = observer(() => {
         </div>
 
         <div className={"flex justify-center items-center p-2.5 mb-5"}>
-          <Button onClick={calculations}>Розпочати генерацію</Button>
+          <Button onClick={matrixCalculations}>Розпочати генерацію</Button>
         </div>
 
-        <div className="flex items-center justify-center gap-2">
-          <div>
-            <h3 className="text-center">Структурна матриця F(A)</h3>
-            <Matrix dataArray={structureMatrixA} />
-          </div>
-          <div>
-            <h3 className="text-center">Матриця S[0]</h3>
-            <Matrix dataArray={basisMatrix} />
-          </div>
-          <div>
-            <h3 className="text-center">Структурна матриця F(B)</h3>
-            <Matrix dataArray={structureMatrixB} />
-          </div>
-        </div>
+        <StructureMatricesBlock
+          structureMatrixA={structureMatrixA}
+          structureMatrixB={structureMatrixB}
+          basisMatrix={basisMatrix}
+        />
 
-        <div className="my-5 flex justify-center">
-          <div className="flex w-3/4 justify-between">
-            <h5>Період по формулі T(A) = {periodLengthByFormulaA}</h5>
-            <h5>Експериментальний період T(A) = {experimentalPeriodLengthA}</h5>
-            <h5>Період по формулі T(B) = {periodLengthByFormulaB}</h5>
-            <h5>Експериментальний період T(B) = {experimentalPeriodLengthB}</h5>
-            <h5></h5>
-          </div>
+        <div className="my-5 gap-3 flex justify-center items-center">
+          <PeriodInfo
+            periodLengthByFormula={periodLengthByFormulaA}
+            experimentalPeriodLength={experimentalPeriodLengthA}
+            identifier={"T(A)"}
+          />
+          <PeriodInfo
+            periodLengthByFormula={periodLengthByFormulaB}
+            experimentalPeriodLength={experimentalPeriodLengthB}
+            identifier={"T(B)"}
+          />
         </div>
 
         <div className="my-5 flex justify-center">
           <div className="flex flex-col w-3/4 h-[400px] justify-evenly items-center">
             <h3 className="text-center">Матриці S[1..N]</h3>
-            <ConditionMatrixBlock conditionMatrix={conditionMatrix} periodLength={periodLengthByFormulaA}/>
-            <h5>Період по формулі T(S) = {periodLengthByFormulaS}</h5>
-            <h5>Експериментальний період T(S) = {periodLengthByFormulaS}</h5>
-            <h5>Умова (T(A), T(B)) = {condtitionS}</h5>
+            <ConditionMatrixBlock
+              conditionMatrix={conditionMatrix}
+              periodLength={periodLengthByFormulaA}
+            />
+            <PeriodInfo
+              periodLengthByFormula={periodLengthByFormulaS}
+              experimentalPeriodLength={periodLengthByFormulaS}
+              identifier={"T(S)"}
+            />
+            <h5>Умова (T(A), T(B)) = {conditionS}</h5>
           </div>
         </div>
 
         <div className={"w-full flex flex-col"}>
           <label>Згенерована послідовність</label>
           <Sequence dataArray={pseudorandomSequence} />
-          <h5>Вага Хеммінгу = {hammingWeight}</h5>
-          <h5>Спектр ваг Хеммінгу: {hammingWeightSpectre.map((item) => (
-            <span key={item}>
-              {item}
-            </span>
-          ))}
-          </h5>
+          <HammingWeight hammingWeight={hammingWeight} />
+          <HammingWeightSpectre hammingWeightSpectre={hammingWeightSpectre} />
         </div>
 
-        {correlationObjectDots[0] ?
-          <Chart data={correlationObjectDots}/>
-          :
-          <div className={"w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"}>Chart</div>
-        }
+        {correlationObjectDots[0] ? (
+          <Chart data={correlationObjectDots} />
+        ) : (
+          <div
+            className={
+              "w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"
+            }
+          >
+            Chart
+          </div>
+        )}
       </div>
     </section>
   );

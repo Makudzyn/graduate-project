@@ -1,9 +1,13 @@
 const ApiError = require("../error/apiError");
-const {Polynomial} = require("../models/models");
+const { Polynomial } = require("../models/models");
+const {
+  autocorrelation,
+  convertPrs,
+} = require("../functions/computingFunctions");
 
 async function addPolynomial(req, res, next) {
-  const {name, degree, polynomial} = req.body;
-  const poly = await Polynomial.create({name, degree, polynomial});
+  const { name, degree, polynomial } = req.body;
+  const poly = await Polynomial.create({ name, degree, polynomial });
   return res.json(poly);
 }
 
@@ -27,21 +31,37 @@ async function getAllPolynomials(req, res) {
 }
 
 async function removePolynomial(req, res, next) {
-  const {id} = req.body; // Из тела получаем ID полинома, которую нужно удалить
+  const { id } = req.body; // Из тела получаем ID полинома, которую нужно удалить
   try {
-    const polynomial = await Polynomial.findOne({where: {id}}); // Находим полином
+    const polynomial = await Polynomial.findOne({ where: { id } }); // Находим полином
     if (!polynomial) {
-      return next(ApiError.notFound('Polynomial not found')) // Если полином не найден возвращаем ошибку
+      return next(ApiError.notFound("Polynomial not found")); // Если полином не найден возвращаем ошибку
     }
     await polynomial.destroy(); // Удаляем полином
     return res.status(204).end(); // Возвращаем ответ с кодом 204 No Content
   } catch (e) {
-    return next(ApiError.internal(e.message)) // Если не удалось удалить
+    return next(ApiError.internal(e.message)); // Если не удалось удалить
   }
 }
 
-async function editPolynomial(req, res, next) {
+async function editPolynomial(req, res, next) {}
 
+async function performComputation(req, res, next) {
+  try {
+    const inputData = req.body;
+    const convertedPrs = convertPrs(inputData);
+    const result = autocorrelation(convertedPrs);
+    return res.json(result);
+  } catch (e) {
+    return next(ApiError.internal(e.message));
+  }
 }
 
-module.exports = {addPolynomial, addManyPolynomials, getAllPolynomials, removePolynomial, editPolynomial}
+module.exports = {
+  addPolynomial,
+  addManyPolynomials,
+  getAllPolynomials,
+  removePolynomial,
+  editPolynomial,
+  performComputation,
+};

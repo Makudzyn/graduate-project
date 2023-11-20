@@ -31,7 +31,6 @@ export function correlationNameAndType(corrValue: number) {
 
 export function formatTicks(dataLength: number) {
   let ticksCount;
-  console.log(dataLength)
   if (dataLength <= 64) {
     ticksCount = dataLength;
   } else if (dataLength <= 256) {

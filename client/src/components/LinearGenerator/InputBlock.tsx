@@ -43,15 +43,17 @@ const InputBlock = observer(() => {
     );
     const userValue = getSelectedParam(PARAMS_USER_VALUE, searchParams);
 
-    calculationInfoStore.setAllInputValues(
-      degreeA,
+    const degreeNumA = Number(degreeA);
+
+    calculationInfoStore.setManyInputValues({
+      degreeA: degreeNumA,
       polynomialA,
       userValue,
-    );
+    });
 
     setPolynomialArr(
       polynomialsStore.polynomials.filter(
-        (poly) => poly.degree === Number(degreeA),
+        (poly) => poly.degree === degreeNumA,
       ),
     );
     const { polyBinary } = polynomialDestructuring(polynomialA);
