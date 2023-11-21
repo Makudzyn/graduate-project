@@ -1,6 +1,10 @@
 import InputBlock from "../components/LinearGenerator/InputBlock.tsx";
 import { useContext, useEffect, useState } from "react";
-import { fetchPolynomials } from "../http/polynomialsAPI.ts";
+import {
+  fetchPolynomials,
+  sendGeneratedSequence,
+  sendLinearGeneratorData,
+} from "../http/polynomialsAPI.ts";
 import { Context } from "../main.tsx";
 import Matrix from "../components/Matrix.tsx";
 import Button from "../components/Button.tsx";
@@ -13,8 +17,6 @@ import {
   getPrsSequence,
   hammingWeightCalc,
   polynomialDestructuring,
-  convertPrs,
-  autocorrelation,
   transformArrayToObjects,
 } from "../functions/generatorFunctions.ts";
 import { observer } from "mobx-react-lite";
@@ -44,7 +46,7 @@ const LinearGeneratorPage = observer(() => {
     fetchPolynomials().then((data) => polynomialsStore.setPolynomials(data));
   }, []);
 
-  function calculations() {
+  async function calculations() {
     const { degreeA, polynomialA, userValue } =
       calculationInfoStore.allInputValues;
 
@@ -53,34 +55,53 @@ const LinearGeneratorPage = observer(() => {
 
     const userValueArr = userValue.split("").map(Number);
     const lengthByFormula = calcLengthByFormula(degreeA, polyIndex);
-
-    const structureMatrix = generateStructureMatrixA(
-      degreeA,
-      createMatrixInitialArray(degreeA, polynomialArr),
-    );
-
-    const conditionMatrix = linearFeedbackShiftRegister(
-      lengthByFormula,
-      userValueArr,
-      structureMatrix,
-    );
-
-    const pseudorandomSequence = getPrsSequence(conditionMatrix);
-    const hammingWeight = hammingWeightCalc(pseudorandomSequence);
-
     setPeriodLengthByFormula(lengthByFormula);
-    setExperimentalPeriodLength(
-      experimentalPeriodLengthCalc(structureMatrix, degreeA),
-    );
-    setStructureMatrix(structureMatrix);
-    setConditionMatrix(conditionMatrix);
-    setPseudorandomSequence(pseudorandomSequence);
-    setHammingWeight(hammingWeight);
 
-    const convertedPrs = convertPrs(pseudorandomSequence);
-    // const correlationArr = autocorrelation(convertedPrs);
-    // const correlationObjectDots = transformArrayToObjects(correlationArr);
-    // setCorrelationObjectDots(correlationObjectDots);
+    try {
+      const {
+        experimentalPeriodLength,
+        structureMatrix,
+        conditionMatrix,
+        pseudorandomSequence,
+        hammingWeight,
+        correlationObjectDots,
+      } = await sendLinearGeneratorData(
+        degreeA,
+        polynomialArr,
+        userValueArr,
+        lengthByFormula,
+      );
+      setExperimentalPeriodLength(experimentalPeriodLength);
+      setStructureMatrix(structureMatrix);
+      setConditionMatrix(conditionMatrix);
+      setPseudorandomSequence(pseudorandomSequence);
+      setHammingWeight(hammingWeight);
+      setCorrelationObjectDots(correlationObjectDots);
+    } catch (error: any) {
+      console.error("Ошибка отправки данных на сервер:", error.message);
+    }
+
+    // const structureMatrix = generateStructureMatrixA(
+    //   degreeA,
+    //   createMatrixInitialArray(degreeA, polynomialArr),
+    // );
+    //
+    // const conditionMatrix = linearFeedbackShiftRegister(
+    //   lengthByFormula,
+    //   userValueArr,
+    //   structureMatrix,
+    // );
+    //
+    // const pseudorandomSequence = getPrsSequence(conditionMatrix);
+    // const hammingWeight = hammingWeightCalc(pseudorandomSequence);
+
+    // try {
+    //   const correlationArr = await sendGeneratedSequence(pseudorandomSequence);
+    //   const correlationObjectDots = transformArrayToObjects(correlationArr);
+    //   setCorrelationObjectDots(correlationObjectDots);
+    // } catch (error: any) {
+    //   console.error('Ошибка отправки данных на сервер:', error.message);
+    // }
   }
 
   return (
@@ -117,7 +138,7 @@ const LinearGeneratorPage = observer(() => {
               periodLengthByFormula={periodLengthByFormula}
               experimentalPeriodLength={experimentalPeriodLength}
             />
-            <HammingWeight hammingWeight={hammingWeight}/>
+            <HammingWeight hammingWeight={hammingWeight} />
           </div>
         </div>
 

@@ -1,36 +1,51 @@
-const ApiError = require("../error/apiError.js")
-const {User, History} = require("../models/models");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import { Request, Response, NextFunction } from 'express';
+import ApiError from '../error/apiError';
+import { User, History } from '../models/models';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+// Типы для данных, используемых в JWT-токене
+type TokenData = {
+  id: number;
+  email: string;
+  role: string;
+};
+
+// Тип для JWT-токена
+type Token = string;
 
 // Функция создания JWT-токена
-const generateJWT = (id, email, role) => {
+const generateJWT = (id: number, email: string, role: string): Token => {
   return jwt.sign(
-    {id, email, role}, // Параметры которые передаем в payload
-    process.env.SECRET_KEY, // Ключ, по которому выполняется "кодировка"
-    {expiresIn: "24h"} // Время жизни токена
-  )
-}
+      { id, email, role } as TokenData,
+      process.env.SECRET_KEY as string,
+      { expiresIn: '24h' }
+  );
+};
 
 // Функция регистрации нового пользователя
-async function registration(req, res, next) {
-  const {email, password, role} = req.body; // Из тела запроса получаем данные пользователя
+async function registration(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+  const { email, password, role } = req.body;
   if (!email || !password) {
-    return next(ApiError.badRequest("Empty field of password or email!")); // Если email или пароль не заданы - возвращаем ошибку
+    return next(ApiError.badRequest('Empty field of password or email!'));
   }
-  const isExists = await User.findOne({where: {email}}); // Ищем есть ли уже зарегистрированный пользователь с такой почтой
-  if (isExists) {
-    return next(ApiError.badRequest("User with this email already exists!")); // Если есть - возвращаем ошибку
+  try {
+    const isExists = await User.findOne({ where: { email } });
+    if (isExists) {
+      return next(ApiError.badRequest('User with this email already exists!'));
+    }
+    const hashPassword = await bcrypt.hash(password, 3);
+    const user = await User.create({ email, role, password: hashPassword });
+    await History.create({ userId: user.id });
+    const token = generateJWT(user.id, user.email, user.role);
+    return res.json({ token });
+  } catch (error: unknown) {
+    return next(ApiError.internal((error as Error).message));
   }
-  const hashPassword = await bcrypt.hash(password, 3); // Хешируем пароль пользователя и указываем сколько раз
-  const user = await User.create({email, role, password: hashPassword}); // Создаем пользователя и передаем захешированный пароль
-  const history = await History.create({userId: user.id}); // Создаем корзину для пользователя
-  const token = generateJWT(user.id, user.email, user.role); // Получаем токен из функции
-  return res.json({token});
 }
 
 // Функция авторизации пользователя
-async function login(req, res, next) {
+async function login(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
   const {email, password} = req.body; // Получаем email и пароль из тела запроса
   const user = await User.findOne({where: {email}}); // Проверяем есть ли зарегистрированный пользователь с таким email`ом
   if (!user) {
@@ -44,14 +59,14 @@ async function login(req, res, next) {
   return res.json({token});
 }
 
-// Функция которая возвращает новый токен
-async function check(req, res) {
+// Функция, которая возвращает новый токен
+async function check(req: Request, res: Response, next: NextFunction): Promise<Response | void> { {
   const token = generateJWT(req.user.id, req.user.email, req.user.role); // Генерируем новый токен
   return res.json({token});
 }
 
 // Функция удаления пользователя по ID
-async function deleteOne(req, res, next) {
+async function deleteOne(req: Request, res: Response, next: NextFunction): Promise<Response | void> { {
   const {id} = req.params; // Получаем ID из параметров
   try {
     const user = await User.findOne({where: {id}}); // Находим пользователя
@@ -62,9 +77,14 @@ async function deleteOne(req, res, next) {
     await user.destroy(); // Удаляем пользователя
     await history.destroy(); // Удаляем карзину привязанную к пользователю
     return res.status(204).end(); // Возвращаем ответ с кодом 204 No Content
-  } catch (e) {
-    return next(ApiError.internal(e.message)); // Если не удалось удалить пользователя
+  } catch (error: unknown) {
+    return next(ApiError.internal((error as Error).message)); // Если не удалось удалить пользователя
   }
 }
 
-module.exports = {registration, login, check, deleteOne}
+  export {
+    registration,
+    login,
+    check,
+    deleteOne,
+  };

@@ -5,11 +5,35 @@ export const fetchPolynomials = async () => {
   return data;
 };
 
-export const sendGeneratedData = async (pseudorandomSequence: number[]) => {
+export const sendLinearGeneratorData = async (
+  degreeA: number,
+  polynomialArr: string[],
+  userValueArr: number[],
+  lengthByFormula: number,
+) => {
   try {
-    const { data } = await $host.post("api/polynomials/compute", pseudorandomSequence);
-    return data; // Возвращаем полученные данные от сервера
+    const { data } = await $host.post("api/polynomials/compute", {
+      degreeA,
+      polynomialArr,
+      userValueArr,
+      lengthByFormula,
+    });
+    return data;
   } catch (error) {
-    throw new Error("Ошибка отправки данных на сервер"); // Обрабатываем ошибку запроса
+    throw new Error("Помилка відправки даних для обчислення на сервер");
+  }
+};
+
+export const sendGeneratedSequence = async (pseudorandomSequence: number[]) => {
+  try {
+    const { data } = await $host.post(
+      "api/polynomials/compute",
+      pseudorandomSequence,
+    );
+    return data;
+  } catch (error) {
+    throw new Error(
+      "Помилка відправки псевдовипадкової послідовності на сервер",
+    );
   }
 };

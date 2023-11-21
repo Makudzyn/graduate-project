@@ -17,7 +17,23 @@ function autocorrelation(convertedPrs: (1 | -1)[]) {
   return result;
 }
 
-module.exports = {
+function generateStructureMatrixA(
+  degree: number,
+  structureRow: number[],
+): number[][] {
+  let structureMatrix: number[][] = [];
+  structureMatrix[0] = structureRow;
+  for (let i = 1; i < degree; i++) {
+    structureMatrix[i] = [];
+    for (let j = 0; j < degree; j++) {
+      structureMatrix[i][j] = i === j + 1 ? 1 : 0;
+    }
+  }
+  return structureMatrix;
+}
+
+export {
   autocorrelation,
   convertPrs,
+  generateStructureMatrixA,
 };

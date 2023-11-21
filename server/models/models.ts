@@ -1,12 +1,34 @@
-const sequelize = require('../db');
-const {DataTypes} = require('sequelize');
+import { DataTypes, Model, Optional } from 'sequelize';
+import sequelize from '../db';
 
-const User = sequelize.define('user', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  role: {type: DataTypes.STRING(45), defaultValue: "USER"},
-  email: {type: DataTypes.STRING(80), unique: true, allowNull: false},
-  password: {type: DataTypes.STRING(240), allowNull: false},
-})
+interface UserAttributes {
+  id: number;
+  role: string;
+  email: string;
+  password: string;
+}
+
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+
+class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+  public id!: number;
+  public role!: string;
+  public email!: string;
+  public password!: string;
+}
+
+User.init(
+    {
+      id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+      role: { type: DataTypes.STRING(45), defaultValue: 'USER' },
+      email: { type: DataTypes.STRING(80), unique: true, allowNull: false },
+      password: { type: DataTypes.STRING(240), allowNull: false },
+    },
+    {
+      sequelize,
+      modelName: 'user',
+    }
+);
 
 const History = sequelize.define('history', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -39,7 +61,7 @@ HistoryRecord.belongsTo(History);
 Polynomial.belongsToMany(HistoryRecord, {through: HistoryPolynomial});
 HistoryRecord.belongsToMany(Polynomial, {through: HistoryPolynomial});
 
-module.exports = {
+export {
   User, History, HistoryRecord,
   HistoryPolynomial, Polynomial
 }

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { fetchPolynomials, sendGeneratedData } from "../http/polynomialsAPI.ts";
+import { fetchPolynomials, sendGeneratedSequence } from "../http/polynomialsAPI.ts";
 import { observer } from "mobx-react-lite";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { Context } from "../main.tsx";
@@ -30,7 +30,6 @@ import {
   calcHammingWeightSpectre,
   matrixShiftRegister,
   polynomialDestructuring,
-  convertPrs,
   transformArrayToObjects,
 } from "../functions/generatorFunctions.ts";
 import Button from "../components/Button.tsx";
@@ -228,10 +227,10 @@ const MatrixGeneratorPage = observer(() => {
     setHammingWeightSpectre(formattedWeightSpectre);
 
     try {
-      const correlationArr = await sendGeneratedData(generatedPrs);
+      const correlationArr = await sendGeneratedSequence(generatedPrs);
       const correlationObjectDots = transformArrayToObjects(correlationArr);
       setCorrelationObjectDots(correlationObjectDots);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Ошибка отправки данных на сервер:', error.message);
     }
 

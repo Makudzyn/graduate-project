@@ -7,31 +7,31 @@ export function polynomialDestructuring(poly: string) {
 
   return { polyIndex, polyBinary, polyLetter };
 }
-export function createMatrixInitialArray(
-  degree: number,
-  polynomial: string[],
-): number[] {
-  let tmp: number[] = [];
-  for (let i = 0; i < degree; i++) {
-    tmp.push(Number(polynomial[i]));
-  }
-  return tmp;
-}
+// export function createMatrixInitialArray(
+//   degree: number,
+//   polynomial: string[],
+// ): number[] {
+//   let tmp: number[] = [];
+//   for (let i = 0; i < degree; i++) {
+//     tmp.push(Number(polynomial[i]));
+//   }
+//   return tmp;
+// }
 
-export function generateStructureMatrixA(
-  degree: number,
-  structureRow: number[],
-): number[][] {
-  let structureMatrix: number[][] = [];
-  structureMatrix[0] = structureRow;
-  for (let i = 1; i < degree; i++) {
-    structureMatrix[i] = [];
-    for (let j = 0; j < degree; j++) {
-      structureMatrix[i][j] = i === j + 1 ? 1 : 0;
-    }
-  }
-  return structureMatrix;
-}
+// export function generateStructureMatrixA(
+//   degree: number,
+//   structureRow: number[],
+// ): number[][] {
+//   let structureMatrix: number[][] = [];
+//   structureMatrix[0] = structureRow;
+//   for (let i = 1; i < degree; i++) {
+//     structureMatrix[i] = [];
+//     for (let j = 0; j < degree; j++) {
+//       structureMatrix[i][j] = i === j + 1 ? 1 : 0;
+//     }
+//   }
+//   return structureMatrix;
+// }
 
 export function generateStructureMatrixB(
   degree: number,

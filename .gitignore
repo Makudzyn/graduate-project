@@ -7,3 +7,5 @@ client/*.json
 client/*.config.*
 client/.eslintrc.cjs
 client/src/vite-env.d.ts
+
+client/src/assets/*.svg
