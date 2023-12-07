@@ -2,22 +2,14 @@ import InputBlock from "../components/LinearGenerator/InputBlock.tsx";
 import { useContext, useEffect, useState } from "react";
 import {
   fetchPolynomials,
-  sendGeneratedSequence,
   sendLinearGeneratorData,
 } from "../http/polynomialsAPI.ts";
 import { Context } from "../main.tsx";
 import Matrix from "../components/Matrix.tsx";
 import Button from "../components/Button.tsx";
 import {
-  generateStructureMatrixA,
-  linearFeedbackShiftRegister,
-  createMatrixInitialArray,
-  experimentalPeriodLengthCalc,
   calcLengthByFormula,
-  getPrsSequence,
-  hammingWeightCalc,
   polynomialDestructuring,
-  transformArrayToObjects,
 } from "../functions/generatorFunctions.ts";
 import { observer } from "mobx-react-lite";
 import Sequence from "../components/Sequence.tsx";

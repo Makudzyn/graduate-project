@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import ApiError from "../error/apiError";
-import { HistoryRecord } from "../models/models";
+import {HistoryRecord} from "../models/models";
 
 async function saveInHistory(
   req: Request,

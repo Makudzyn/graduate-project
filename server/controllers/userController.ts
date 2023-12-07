@@ -60,19 +60,25 @@ async function login(req: Request, res: Response, next: NextFunction): Promise<R
 }
 
 // Функция, которая возвращает новый токен
-async function check(req: Request, res: Response, next: NextFunction): Promise<Response | void> { {
+async function check(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+  // @ts-ignore
   const token = generateJWT(req.user.id, req.user.email, req.user.role); // Генерируем новый токен
   return res.json({token});
 }
 
+
+
 // Функция удаления пользователя по ID
-async function deleteOne(req: Request, res: Response, next: NextFunction): Promise<Response | void> { {
+async function deleteOne(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
   const {id} = req.params; // Получаем ID из параметров
   try {
     const user = await User.findOne({where: {id}}); // Находим пользователя
     const history = await History.findOne({where: {id}}); // Находим корзину пользователя
     if (!user) {
-      return next(ApiError.notFound('User not found')); // Если пользователь не был найден возвращаем ошибку
+      return next(ApiError.notFound('User is not found')); // Если пользователь не был найден возвращаем ошибку
+    }
+    if (!history) {
+      return next(ApiError.notFound('User`s history not found')); // Если пользователь не был найден возвращаем ошибку
     }
     await user.destroy(); // Удаляем пользователя
     await history.destroy(); // Удаляем карзину привязанную к пользователю

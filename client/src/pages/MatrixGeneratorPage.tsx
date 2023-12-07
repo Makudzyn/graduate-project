@@ -19,12 +19,10 @@ import MatrixOutputSelectionBlock from "../components/MatrixGenerator/MatrixOutp
 import {
   calcLengthByFormula,
   calculatePossibleValues,
-  createMatrixInitialArray,
   experimentalPeriodLengthCalc,
   findGCD,
   formatHammingWeight,
   generateMatrixBasis,
-  generateStructureMatrixA,
   generateStructureMatrixB,
   hammingWeightCalc,
   calcHammingWeightSpectre,
@@ -165,15 +163,15 @@ const MatrixGeneratorPage = observer(() => {
     const polynomialArrA = polyBinaryA.split("").slice(1);
     const polynomialArrB = polyBinaryB.split("").slice(1);
 
-    const structureMatrixA = generateStructureMatrixA(
-      degreeA,
-      createMatrixInitialArray(degreeA, polynomialArrA),
-    );
-
-    const structureMatrixB = generateStructureMatrixB(
-      degreeB,
-      createMatrixInitialArray(degreeB, polynomialArrB),
-    );
+    // const structureMatrixA = generateStructureMatrixA(
+    //   degreeA,
+    //   createMatrixInitialArray(degreeA, polynomialArrA),
+    // );
+    //
+    // const structureMatrixB = generateStructureMatrixB(
+    //   degreeB,
+    //   createMatrixInitialArray(degreeB, polynomialArrB),
+    // );
 
     const basisMatrix = generateMatrixBasis(degreeA, degreeB, matrixRank);
 

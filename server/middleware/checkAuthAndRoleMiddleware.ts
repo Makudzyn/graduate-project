@@ -1,6 +1,7 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import {Request, Response, NextFunction, RequestHandler} from "express";
+import jwt, {JwtPayload} from "jsonwebtoken";
 import ApiError from "../error/apiError";
+
 
 // Создаем пользовательский интерфейс расширяющий интерфейс Request
 interface AuthRequest extends Request {
@@ -12,6 +13,7 @@ type AuthMiddleware = (requiredRole?: string) => (
   res: Response,
   next: NextFunction,
 ) => void;
+
 
 // Универсальный middleware для проверки авторизации и роли пользователя
 const authMiddleware: AuthMiddleware = (requiredRole) => (req, res, next) => {
