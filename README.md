@@ -41,6 +41,8 @@ The application is designed to demonstrate the functionality of linear and matri
 
 ### Database
 - **PostgreSQL**: Open-source relational database.
+- **Database Schema**
+ ![Database Schema](Scheme.png)
 
 ### IDE
 - **WebStorm**: An Integrated Development Environment (IDE) for modern JavaScript development.
