@@ -39,14 +39,14 @@ const LinearGeneratorPage = observer(() => {
   }, []);
 
   async function calculations() {
-    const { degreeA, polynomialA, userValue } =
+    const { degree, polynomial, userValue } =
       calculationInfoStore.allInputValues;
 
-    const { polyIndex, polyBinary } = polynomialDestructuring(polynomialA);
+    const { polyIndex, polyBinary } = polynomialDestructuring(polynomial);
     const polynomialArr = polyBinary.split("").slice(1);
 
     const userValueArr = userValue.split("").map(Number);
-    const lengthByFormula = calcLengthByFormula(degreeA, polyIndex);
+    const lengthByFormula = calcLengthByFormula(degree, polyIndex);
     setPeriodLengthByFormula(lengthByFormula);
 
     try {
@@ -58,7 +58,7 @@ const LinearGeneratorPage = observer(() => {
         hammingWeight,
         correlationObjectDots,
       } = await sendLinearGeneratorData(
-        degreeA,
+        degree,
         polynomialArr,
         userValueArr,
         lengthByFormula,
@@ -70,30 +70,8 @@ const LinearGeneratorPage = observer(() => {
       setHammingWeight(hammingWeight);
       setCorrelationObjectDots(correlationObjectDots);
     } catch (error: any) {
-      console.error("Ошибка отправки данных на сервер:", error.message);
+      console.error("Error sending data to server:", error.message);
     }
-
-    // const structureMatrix = generateStructureMatrixA(
-    //   degreeA,
-    //   createMatrixInitialArray(degreeA, polynomialArr),
-    // );
-    //
-    // const conditionMatrix = linearFeedbackShiftRegister(
-    //   lengthByFormula,
-    //   userValueArr,
-    //   structureMatrix,
-    // );
-    //
-    // const pseudorandomSequence = getPrsSequence(conditionMatrix);
-    // const hammingWeight = hammingWeightCalc(pseudorandomSequence);
-
-    // try {
-    //   const correlationArr = await sendGeneratedSequence(pseudorandomSequence);
-    //   const correlationObjectDots = transformArrayToObjects(correlationArr);
-    //   setCorrelationObjectDots(correlationObjectDots);
-    // } catch (error: any) {
-    //   console.error('Ошибка отправки данных на сервер:', error.message);
-    // }
   }
 
   return (

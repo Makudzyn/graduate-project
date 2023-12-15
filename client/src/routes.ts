@@ -7,7 +7,7 @@ import {
     POLYNOMIALS_ROUTE,
     REGISTRATION_ROUTE,
     SUM_AND_MULTI_GEN_ROUTE,
-    UNTITLED_ROUTE
+    HAMMING_WEIGHT_ANALYSIS_ROUTE
 } from "./utils/consts.ts";
 import AdminPanel from "./pages/AdminPanel.tsx";
 import PolynomialsPage from "./pages/PolynomialsPage.tsx";
@@ -15,7 +15,7 @@ import AuthorizationPage from "./pages/AuthorizationPage.tsx";
 import LinearGeneratorPage from "./pages/LinearGeneratorPage.tsx";
 import MatrixGeneratorPage from "./pages/MatrixGeneratorPage.tsx";
 import SumAndMultiGeneratorPage from "./pages/SumAndMultiGeneratorPage.tsx";
-import untitledGenerator from "./pages/untitledGenerator.tsx";
+import untitledGenerator from "./pages/HammingWeightAnalysisPage.tsx";
 import MainPage from "./pages/MainPage.tsx";
 
 export const authRoutes = [
@@ -54,7 +54,7 @@ export const publicRoutes = [
     },
     {
         name: "Untitled",
-        path: UNTITLED_ROUTE,
+        path: HAMMING_WEIGHT_ANALYSIS_ROUTE,
         Component: untitledGenerator
     },
 ]

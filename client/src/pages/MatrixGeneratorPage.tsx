@@ -19,16 +19,13 @@ import MatrixOutputSelectionBlock from "../components/MatrixGenerator/MatrixOutp
 import {
   calcLengthByFormula,
   calculatePossibleValues,
-  experimentalPeriodLengthCalc,
   findGCD,
   formatHammingWeight,
   generateMatrixBasis,
   generateStructureMatrixB,
-  hammingWeightCalc,
   calcHammingWeightSpectre,
   matrixShiftRegister,
   polynomialDestructuring,
-  transformArrayToObjects,
 } from "../functions/generatorFunctions.ts";
 import Button from "../components/Button.tsx";
 import Sequence from "../components/Sequence.tsx";
@@ -163,15 +160,15 @@ const MatrixGeneratorPage = observer(() => {
     const polynomialArrA = polyBinaryA.split("").slice(1);
     const polynomialArrB = polyBinaryB.split("").slice(1);
 
-    // const structureMatrixA = generateStructureMatrixA(
-    //   degreeA,
-    //   createMatrixInitialArray(degreeA, polynomialArrA),
-    // );
-    //
-    // const structureMatrixB = generateStructureMatrixB(
-    //   degreeB,
-    //   createMatrixInitialArray(degreeB, polynomialArrB),
-    // );
+    const structureMatrixA = generateStructureMatrixA(
+      degreeA,
+      createMatrixInitialArray(degreeA, polynomialArrA),
+    );
+
+    const structureMatrixB = generateStructureMatrixB(
+      degreeB,
+      createMatrixInitialArray(degreeB, polynomialArrB),
+    );
 
     const basisMatrix = generateMatrixBasis(degreeA, degreeB, matrixRank);
 
@@ -186,14 +183,14 @@ const MatrixGeneratorPage = observer(() => {
     const condition = findGCD(lengthByFormulaA, lengthByFormulaB);
     setConditionS(condition);
 
-    const experimentalPeriodLengthA = experimentalPeriodLengthCalc(
-      structureMatrixA,
-      degreeA,
-    );
-    const experimentalPeriodLengthB = experimentalPeriodLengthCalc(
-      structureMatrixB,
-      degreeB,
-    );
+    // const experimentalPeriodLengthA = experimentalPeriodLengthCalc(
+    //   structureMatrixA,
+    //   degreeA,
+    // );
+    // const experimentalPeriodLengthB = experimentalPeriodLengthCalc(
+    //   structureMatrixB,
+    //   degreeB,
+    // );
 
     setExperimentalPeriodLengthA(experimentalPeriodLengthA);
     setExperimentalPeriodLengthB(experimentalPeriodLengthB);
@@ -214,7 +211,7 @@ const MatrixGeneratorPage = observer(() => {
     setConditionMatrix(conditionMatrix);
     setPseudorandomSequence(generatedPrs);
 
-    const hammingWeight = hammingWeightCalc(generatedPrs);
+    // const hammingWeight = hammingWeightCalc(generatedPrs);
     const hammingWeightSpectre = calcHammingWeightSpectre(
       matrixRank,
       degreeA,
@@ -225,8 +222,8 @@ const MatrixGeneratorPage = observer(() => {
     setHammingWeightSpectre(formattedWeightSpectre);
 
     try {
-      const correlationArr = await sendGeneratedSequence(generatedPrs);
-      const correlationObjectDots = transformArrayToObjects(correlationArr);
+      // const correlationArr = await sendGeneratedSequence(generatedPrs);
+      // const correlationObjectDots = transformArrayToObjects(correlationArr);
       setCorrelationObjectDots(correlationObjectDots);
     } catch (error: any) {
       console.error('Ошибка отправки данных на сервер:', error.message);
@@ -323,17 +320,17 @@ const MatrixGeneratorPage = observer(() => {
           <HammingWeightSpectre hammingWeightSpectre={hammingWeightSpectre} />
         </div>
 
-        {correlationObjectDots[0] ? (
-          <Chart data={correlationObjectDots} />
-        ) : (
-          <div
-            className={
-              "w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"
-            }
-          >
-            Chart
-          </div>
-        )}
+        {/*{correlationObjectDots[0] ? (*/}
+        {/*  <Chart data={correlationObjectDots} />*/}
+        {/*) : (*/}
+        {/*  <div*/}
+        {/*    className={*/}
+        {/*      "w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"*/}
+        {/*    }*/}
+        {/*  >*/}
+        {/*    Chart*/}
+        {/*  </div>*/}
+        {/*)}*/}
       </div>
     </section>
   );

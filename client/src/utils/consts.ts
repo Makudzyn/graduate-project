@@ -7,11 +7,13 @@ export const POLYNOMIALS_ROUTE = "/polynomials";
 export const LINEAR_GEN_ROUTE = "/linear-generator";
 export const MATRIX_GEN_ROUTE = "/matrix-generator";
 export const SUM_AND_MULTI_GEN_ROUTE = "/sum-and-multiplication-generator";
-export const UNTITLED_ROUTE = "/untitled";
+export const HAMMING_WEIGHT_ANALYSIS_ROUTE = "/hamming-weight-analysis";
 
 //URL query params
+export const PARAMS_DEGREE = "degree";
 export const PARAMS_DEGREE_A = "degree_a";
 export const PARAMS_DEGREE_B = "degree_b";
+export const PARAMS_POLYNOMIAL = "polynomial";
 export const PARAMS_POLYNOMIAL_A = "polynomial_a";
 export const PARAMS_POLYNOMIAL_B = "polynomial_b";
 export const PARAMS_OUTPUT_INDEX_I = "index_i";

@@ -1,8 +1,10 @@
 import { makeAutoObservable } from "mobx";
 
 export default class CalculationInfoStore {
+  private _degree: number = 0;
   private _degreeA: number = 0;
   private _degreeB: number = 0;
+  private _polynomial: string = "";
   private _polynomialA: string = "";
   private _polynomialB: string = "";
   private _indexI: number = 0;
@@ -16,16 +18,20 @@ export default class CalculationInfoStore {
   }
 
   setManyInputValues(inputValues: {
-    degreeA?: number,
-    polynomialA?: string,
-    degreeB?: number,
-    polynomialB?: string,
-    indexI?: number,
-    indexJ?: number,
-    matrixRank?: number,
-    userValue?: string,
+    degree?: number;
+    polynomial?: string;
+    degreeA?: number;
+    polynomialA?: string;
+    degreeB?: number;
+    polynomialB?: string;
+    indexI?: number;
+    indexJ?: number;
+    matrixRank?: number;
+    userValue?: string;
   }) {
-    inputValues.degreeA !== undefined && (this._degreeA =inputValues. degreeA);
+    inputValues.degree !== undefined && (this._degree = inputValues.degree);
+    inputValues.polynomial !== undefined && (this._polynomial = inputValues.polynomial);
+    inputValues.degreeA !== undefined && (this._degreeA = inputValues.degreeA);
     inputValues.polynomialA !== undefined && (this._polynomialA = inputValues.polynomialA);
     inputValues.degreeB !== undefined && (this._degreeB = inputValues.degreeB);
     inputValues.polynomialB !== undefined && (this._polynomialB = inputValues.polynomialB);
@@ -36,6 +42,8 @@ export default class CalculationInfoStore {
   }
 
   get allInputValues(): {
+    degree: number;
+    polynomial: string;
     degreeA: number;
     polynomialA: string;
     degreeB: number;
@@ -46,6 +54,8 @@ export default class CalculationInfoStore {
     userValue: string;
   } {
     return {
+      degree: this._degree,
+      polynomial: this._polynomial,
       degreeA: this._degreeA,
       polynomialA: this._polynomialA,
       degreeB: this._degreeB,

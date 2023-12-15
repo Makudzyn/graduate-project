@@ -12,7 +12,7 @@ export const sendLinearGeneratorData = async (
   lengthByFormula: number,
 ) => {
   try {
-    const { data } = await $host.post("api/polynomials/compute", {
+    const { data } = await $host.post("api/polynomials/compute-linear", {
       degreeA,
       polynomialArr,
       userValueArr,
@@ -20,7 +20,7 @@ export const sendLinearGeneratorData = async (
     });
     return data;
   } catch (error) {
-    throw new Error("Помилка відправки даних для обчислення на сервер");
+    throw new Error("Error sending linear generator data for computation on server.");
   }
 };
 

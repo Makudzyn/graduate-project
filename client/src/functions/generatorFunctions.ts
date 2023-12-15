@@ -64,30 +64,30 @@ export function generateMatrixBasis(n: number, m: number, rank: number) {
   return state;
 }
 
-export function linearFeedbackShiftRegister(
-  steps: number,
-  currentStates: number[],
-  structureMatrix: number[][],
-) {
-  let matrix = [];
-  matrix.push(currentStates);
-
-  for (let i = 1; i < steps; i++) {
-    let nextStates = [];
-    for (let j = 0; j < structureMatrix.length; j++) {
-      let row = structureMatrix[j];
-      let sum = 0;
-      for (let k = 0; k < row.length; k++) {
-        sum += row[k] * currentStates[k];
-      }
-      nextStates.push(sum % 2);
-    }
-
-    currentStates = nextStates;
-    matrix.push(currentStates);
-  }
-  return matrix;
-}
+// export function linearFeedbackShiftRegister(
+//   steps: number,
+//   currentStates: number[],
+//   structureMatrix: number[][],
+// ) {
+//   let matrix = [];
+//   matrix.push(currentStates);
+//
+//   for (let i = 1; i < steps; i++) {
+//     let nextStates = [];
+//     for (let j = 0; j < structureMatrix.length; j++) {
+//       let row = structureMatrix[j];
+//       let sum = 0;
+//       for (let k = 0; k < row.length; k++) {
+//         sum += row[k] * currentStates[k];
+//       }
+//       nextStates.push(sum % 2);
+//     }
+//
+//     currentStates = nextStates;
+//     matrix.push(currentStates);
+//   }
+//   return matrix;
+// }
 export function findGCD(potentialLength: number, polynomialIndex: number) {
   let a = potentialLength;
   let b = polynomialIndex;
@@ -105,43 +105,43 @@ export function calcLengthByFormula(
   const potentialLength = Math.pow(2, degree) - 1;
   return potentialLength / findGCD(potentialLength, polynomialIndex);
 }
-export function experimentalPeriodLengthCalc(
-  structureMatrix: number[][],
-  degreeA: number,
-): number {
-  let periodExp = 0;
-  const startState = Array(degreeA).fill(1); // Используем Array.fill() для инициализации массива startState
+// export function experimentalPeriodLengthCalc(
+//   structureMatrix: number[][],
+//   degreeA: number,
+// ): number {
+//   let periodExp = 0;
+//   const startState = Array(degreeA).fill(1); // Используем Array.fill() для инициализации массива startState
+//
+//   let currentState = [...startState]; // Копируем startState с помощью spread оператора
+//
+//   const startStateString = startState.join(""); // Предварительно объединяем startState в строку для удобства сравнения
+//
+//   while (periodExp === 0 || currentState.join("") !== startStateString) {
+//     const nextState = Array(degreeA).fill(0); // Используем Array.fill() для инициализации массива nextState
+//
+//     for (let i = 0; i < degreeA; i++) {
+//       for (let j = 0; j < degreeA; j++) {
+//         nextState[i] ^= currentState[j] * structureMatrix[i][j]; // Используем оператор ^= для XOR
+//       }
+//     }
+//
+//     currentState = [...nextState]; // Обновляем currentState с помощью копирования nextState
+//
+//     periodExp++;
+//   }
+//
+//   return periodExp;
+// }
 
-  let currentState = [...startState]; // Копируем startState с помощью spread оператора
+// export function getPrsSequence(conditionMatrix: number[][]): number[] {
+//   return conditionMatrix
+//     .map((subArray) => subArray[subArray.length - 1])
+//     .filter((number) => number !== undefined);
+// }
 
-  const startStateString = startState.join(""); // Предварительно объединяем startState в строку для удобства сравнения
-
-  while (periodExp === 0 || currentState.join("") !== startStateString) {
-    const nextState = Array(degreeA).fill(0); // Используем Array.fill() для инициализации массива nextState
-
-    for (let i = 0; i < degreeA; i++) {
-      for (let j = 0; j < degreeA; j++) {
-        nextState[i] ^= currentState[j] * structureMatrix[i][j]; // Используем оператор ^= для XOR
-      }
-    }
-
-    currentState = [...nextState]; // Обновляем currentState с помощью копирования nextState
-
-    periodExp++;
-  }
-
-  return periodExp;
-}
-
-export function getPrsSequence(conditionMatrix: number[][]): number[] {
-  return conditionMatrix
-    .map((subArray) => subArray[subArray.length - 1])
-    .filter((number) => number !== undefined);
-}
-
-export function hammingWeightCalc(prsSequence: number[]) {
-  return prsSequence.filter((item) => item === 1).length;
-}
+// export function hammingWeightCalc(prsSequence: number[]) {
+//   return prsSequence.filter((item) => item === 1).length;
+// }
 
 export function calcHammingWeightSpectre(
   rankS: number,
@@ -165,11 +165,11 @@ export function formatHammingWeight(weightSpectre: number[]) {
 }
 
 
-export function transformArrayToObjects(arr: number[]) {
-  return arr.map((number, index) => {
-    return { index, correlationFirst: number };
-  });
-}
+// export function transformArrayToObjects(arr: number[]) {
+//   return arr.map((number, index) => {
+//     return { index, correlationFirst: number };
+//   });
+// }
 
 export function calculatePossibleValues(degree: number, start: number = 0) {
   return Array.from({ length: degree }, (_, index) => index + start);

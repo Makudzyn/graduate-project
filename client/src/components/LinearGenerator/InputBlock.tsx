@@ -6,8 +6,7 @@ import { Polynomial } from "../../store/PolynomialsStore.ts";
 import { observer } from "mobx-react-lite";
 import { useLocation, useSearchParams } from "react-router-dom";
 import {
-  PARAMS_DEGREE_A,
-  PARAMS_POLYNOMIAL_A,
+  PARAMS_DEGREE, PARAMS_POLYNOMIAL,
   PARAMS_USER_VALUE,
 } from "../../utils/consts.ts";
 import { polynomialDestructuring } from "../../functions/generatorFunctions.ts";
@@ -21,8 +20,8 @@ const InputBlock = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
 
   const [searchParams, setSearchParams] = useSearchParams({
-    degree_a: "2",
-    polynomial_a: "1 7 H",
+    degree: "2",
+    polynomial: "1 7 H",
     value: "01",
   });
 
@@ -36,27 +35,27 @@ const InputBlock = observer(() => {
   const location = useLocation();
 
   useEffect(() => {
-    const degreeA = getSelectedParam(PARAMS_DEGREE_A, searchParams);
-    const polynomialA = getSelectedParam(
-      PARAMS_POLYNOMIAL_A,
+    const degree = getSelectedParam(PARAMS_DEGREE, searchParams);
+    const polynomial = getSelectedParam(
+      PARAMS_POLYNOMIAL,
       searchParams,
     );
     const userValue = getSelectedParam(PARAMS_USER_VALUE, searchParams);
 
-    const degreeNumA = Number(degreeA);
+    const degreeNum = Number(degree);
 
     calculationInfoStore.setManyInputValues({
-      degreeA: degreeNumA,
-      polynomialA,
+      degree: degreeNum,
+      polynomial: polynomial,
       userValue,
     });
 
     setPolynomialArr(
       polynomialsStore.polynomials.filter(
-        (poly) => poly.degree === degreeNumA,
+        (poly) => poly.degree === degreeNum,
       ),
     );
-    const { polyBinary } = polynomialDestructuring(polynomialA);
+    const { polyBinary } = polynomialDestructuring(polynomial);
     setInputPlaceholder(createPlaceholder(polyBinary));
   }, [location.search]);
 
@@ -64,7 +63,7 @@ const InputBlock = observer(() => {
     <div className="flex flex-col justify-center py-3 w-[500px]">
       <Select
         selectLabel={"Оберіть ступінь поліному"}
-        urlParamName={PARAMS_DEGREE_A}
+        urlParamName={PARAMS_DEGREE}
         searchParams={searchParams}
         setSelectedOptionToParams={setSearchParams}
         optionsArray={options}
@@ -72,7 +71,7 @@ const InputBlock = observer(() => {
 
       <Select
         selectLabel={"Оберіть поліном"}
-        urlParamName={PARAMS_POLYNOMIAL_A}
+        urlParamName={PARAMS_POLYNOMIAL}
         searchParams={searchParams}
         setSelectedOptionToParams={setSearchParams}
         optionsArray={polynomialArr}

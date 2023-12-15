@@ -1,7 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import ApiError from '../error/apiError';
 import { Polynomial } from '../models/models';
-import { autocorrelation, convertPrs } from '../functions/computingFunctions';
+import {
+  autocorrelation,
+  convertPrs,
+  createMatrixInitialArray, experimentalPeriodLengthCalc,
+  generateStructureMatrixA, getPrsSequence, hammingWeightCalc, linearFeedbackShiftRegister, transformArrayToObjects
+} from '../functions/computingFunctions';
 
 async function addPolynomial(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
   try {
@@ -64,12 +69,37 @@ async function editPolynomial(req: Request, res: Response, next: NextFunction): 
   // Типизированный код редактирования полинома
 }
 
-async function performComputation(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+async function performLinearComputation(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
   try {
-    const inputData = req.body;
-    const convertedPrs = convertPrs(inputData);
-    const result = autocorrelation(convertedPrs);
-    return res.json(result);
+    const {degreeA, polynomialArr, userValueArr, lengthByFormula} = req.body;
+
+    const structureMatrix = generateStructureMatrixA(
+      degreeA,
+      createMatrixInitialArray(degreeA, polynomialArr),
+    );
+
+    const experimentalPeriodLength = experimentalPeriodLengthCalc(structureMatrix, degreeA);
+
+    const conditionMatrix = linearFeedbackShiftRegister(
+      lengthByFormula,
+      userValueArr,
+      structureMatrix,
+    );
+
+    const pseudorandomSequence = getPrsSequence(conditionMatrix);
+    const hammingWeight = hammingWeightCalc(pseudorandomSequence);
+    const convertedPrs = convertPrs(pseudorandomSequence);
+    const correlation = autocorrelation(convertedPrs);
+    const correlationObjectDots = transformArrayToObjects(correlation);
+
+    return res.json({
+      experimentalPeriodLength,
+      structureMatrix,
+      conditionMatrix,
+      pseudorandomSequence,
+      hammingWeight,
+      correlationObjectDots
+    });
   } catch (error: unknown) {
     // явно указываем тип для ошибки как unknown
     return next(ApiError.internal((error as Error).message)); // приведение типа к Error
@@ -82,5 +112,5 @@ export {
   getAllPolynomials,
   removePolynomial,
   editPolynomial,
-  performComputation,
+  performLinearComputation,
 };
