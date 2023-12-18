@@ -1,5 +1,5 @@
-import InputBlock from "../components/LinearGenerator/InputBlock.tsx";
-import { useContext, useEffect, useState } from "react";
+import LinearInputBlock from "../components/LinearGenerator/LinearInputBlock.tsx";
+import { useContext, useState } from "react";
 import {
   fetchPolynomials,
   sendLinearGeneratorData,
@@ -9,6 +9,8 @@ import Matrix from "../components/Matrix.tsx";
 import Button from "../components/Button.tsx";
 import {
   calcLengthByFormula,
+  createMatrixInitialArray,
+  generateStructureMatrixA,
   polynomialDestructuring,
 } from "../functions/generatorFunctions.ts";
 import { observer } from "mobx-react-lite";
@@ -17,6 +19,8 @@ import Chart, { DataPoint } from "../components/Chart/Chart.tsx";
 import PeriodInfo from "../components/PeriodInfo.tsx";
 import SequenceType from "../components/SequenceType.tsx";
 import HammingWeight from "../components/HammingWeight.tsx";
+import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
+import PlotlyChart from "../components/Chart/PlotlyChart.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -33,12 +37,10 @@ const LinearGeneratorPage = observer(() => {
   const [correlationObjectDots, setCorrelationObjectDots] = useState<
     DataPoint[]
   >([]);
+  const [correlation, setCorrelation] = useState<number[]>([]);
+  usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
-  useEffect(() => {
-    fetchPolynomials().then((data) => polynomialsStore.setPolynomials(data));
-  }, []);
-
-  async function calculations() {
+  async function linearCalculations() {
     const { degree, polynomial, userValue } =
       calculationInfoStore.allInputValues;
 
@@ -46,28 +48,35 @@ const LinearGeneratorPage = observer(() => {
     const polynomialArr = polyBinary.split("").slice(1);
 
     const userValueArr = userValue.split("").map(Number);
+
     const lengthByFormula = calcLengthByFormula(degree, polyIndex);
     setPeriodLengthByFormula(lengthByFormula);
+
+    const structureMatrix = generateStructureMatrixA(
+      degree,
+      createMatrixInitialArray(degree, polynomialArr),
+    );
+    setStructureMatrix(structureMatrix);
 
     try {
       const {
         experimentalPeriodLength,
-        structureMatrix,
         conditionMatrix,
         pseudorandomSequence,
         hammingWeight,
+        correlation,
         correlationObjectDots,
       } = await sendLinearGeneratorData(
         degree,
-        polynomialArr,
+        structureMatrix,
         userValueArr,
         lengthByFormula,
       );
       setExperimentalPeriodLength(experimentalPeriodLength);
-      setStructureMatrix(structureMatrix);
       setConditionMatrix(conditionMatrix);
       setPseudorandomSequence(pseudorandomSequence);
       setHammingWeight(hammingWeight);
+      setCorrelation(correlation)
       setCorrelationObjectDots(correlationObjectDots);
     } catch (error: any) {
       console.error("Error sending data to server:", error.message);
@@ -80,11 +89,11 @@ const LinearGeneratorPage = observer(() => {
         <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
 
         <div className="flex w-full justify-evenly pb-9 pt-2.5">
-          <InputBlock />
+          <LinearInputBlock />
         </div>
 
         <div className={"flex justify-center items-center p-2.5 mb-5"}>
-          <Button onClick={calculations}>Розпочати генерацію</Button>
+          <Button onClick={linearCalculations}>Розпочати генерацію</Button>
         </div>
 
         <div className="flex items-center justify-center gap-2">
@@ -115,17 +124,21 @@ const LinearGeneratorPage = observer(() => {
         <label>Згенерована послідовність</label>
         <Sequence dataArray={pseudorandomSequence} />
 
-        {correlationObjectDots[0] ? (
-          <Chart data={correlationObjectDots} />
-        ) : (
-          <div
-            className={
-              "w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"
-            }
-          >
-            Chart
-          </div>
-        )}
+        <div className="flex justify-center items-center w-full h-full">
+          <PlotlyChart data={correlation} />
+        </div>
+
+        {/*{correlationObjectDots[0] ? (*/}
+        {/*  <Chart data={correlationObjectDots} />*/}
+        {/*) : (*/}
+        {/*  <div*/}
+        {/*    className={*/}
+        {/*      "w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"*/}
+        {/*    }*/}
+        {/*  >*/}
+        {/*    Chart*/}
+        {/*  </div>*/}
+        {/*)}*/}
       </div>
     </section>
   );

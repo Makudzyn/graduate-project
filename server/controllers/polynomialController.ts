@@ -1,14 +1,22 @@
-import { Request, Response, NextFunction } from 'express';
-import ApiError from '../error/apiError';
-import { Polynomial } from '../models/models';
+import { Request, Response, NextFunction } from "express";
+import ApiError from "../error/apiError";
+import { Polynomial } from "../models/models";
 import {
   autocorrelation,
   convertPrs,
-  createMatrixInitialArray, experimentalPeriodLengthCalc,
-  generateStructureMatrixA, getPrsSequence, hammingWeightCalc, linearFeedbackShiftRegister, transformArrayToObjects
-} from '../functions/computingFunctions';
+  experimentalPeriodLengthCalc,
+  getPrsSequence,
+  hammingWeightCalc,
+  linearFeedbackShiftRegister,
+  matrixShiftRegister,
+  transformArrayToObjects,
+} from "../functions/computingFunctions";
 
-async function addPolynomial(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+async function addPolynomial(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | void> {
   try {
     const { name, degree, polynomial } = req.body;
     const poly = await Polynomial.create({ name, degree, polynomial });
@@ -19,7 +27,11 @@ async function addPolynomial(req: Request, res: Response, next: NextFunction): P
   }
 }
 
-async function addManyPolynomials(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+async function addManyPolynomials(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | void> {
   try {
     const polynomials = req.body;
 
@@ -38,7 +50,11 @@ async function addManyPolynomials(req: Request, res: Response, next: NextFunctio
   }
 }
 
-async function getAllPolynomials(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+async function getAllPolynomials(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | void> {
   try {
     const polynomials = await Polynomial.findAll();
     return res.json(polynomials);
@@ -48,7 +64,11 @@ async function getAllPolynomials(req: Request, res: Response, next: NextFunction
   }
 }
 
-async function removePolynomial(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+async function removePolynomial(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | void> {
   try {
     const { id } = req.body;
     const polynomial = await Polynomial.findOne({ where: { id } });
@@ -65,20 +85,26 @@ async function removePolynomial(req: Request, res: Response, next: NextFunction)
   }
 }
 
-async function editPolynomial(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+async function editPolynomial(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | void> {
   // Типизированный код редактирования полинома
 }
 
-async function performLinearComputation(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+async function performLinearComputation(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | void> {
   try {
-    const {degreeA, polynomialArr, userValueArr, lengthByFormula} = req.body;
+    const { degree, structureMatrix, userValueArr, lengthByFormula } = req.body;
 
-    const structureMatrix = generateStructureMatrixA(
-      degreeA,
-      createMatrixInitialArray(degreeA, polynomialArr),
+    const experimentalPeriodLength = experimentalPeriodLengthCalc(
+      structureMatrix,
+      degree,
     );
-
-    const experimentalPeriodLength = experimentalPeriodLengthCalc(structureMatrix, degreeA);
 
     const conditionMatrix = linearFeedbackShiftRegister(
       lengthByFormula,
@@ -94,11 +120,52 @@ async function performLinearComputation(req: Request, res: Response, next: NextF
 
     return res.json({
       experimentalPeriodLength,
-      structureMatrix,
       conditionMatrix,
       pseudorandomSequence,
       hammingWeight,
-      correlationObjectDots
+      correlation,
+      correlationObjectDots,
+    });
+  } catch (error: unknown) {
+    // явно указываем тип для ошибки как unknown
+    return next(ApiError.internal((error as Error).message)); // приведение типа к Error
+  }
+}
+
+async function performMatrixComputation(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | void> {
+  try {
+    const {
+      structureMatrixA,
+      structureMatrixB,
+      basisMatrix,
+      lengthByFormulaS,
+      indexI,
+      indexJ,
+    } = req.body;
+
+    const { conditionMatrix, pseudorandomSequence } = matrixShiftRegister(
+      structureMatrixA,
+      structureMatrixB,
+      basisMatrix,
+      lengthByFormulaS,
+      indexI,
+      indexJ,
+    );
+
+    const hammingWeight = hammingWeightCalc(pseudorandomSequence);
+    const convertedPrs = convertPrs(pseudorandomSequence);
+    const correlation = autocorrelation(convertedPrs);
+    const correlationObjectDots = transformArrayToObjects(correlation);
+
+    return res.json({
+      conditionMatrix,
+      pseudorandomSequence,
+      hammingWeight,
+      correlationObjectDots,
     });
   } catch (error: unknown) {
     // явно указываем тип для ошибки как unknown
@@ -113,4 +180,5 @@ export {
   removePolynomial,
   editPolynomial,
   performLinearComputation,
+  performMatrixComputation,
 };

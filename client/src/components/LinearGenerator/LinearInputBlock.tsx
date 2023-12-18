@@ -6,7 +6,8 @@ import { Polynomial } from "../../store/PolynomialsStore.ts";
 import { observer } from "mobx-react-lite";
 import { useLocation, useSearchParams } from "react-router-dom";
 import {
-  PARAMS_DEGREE, PARAMS_POLYNOMIAL,
+  PARAMS_DEGREE,
+  PARAMS_POLYNOMIAL,
   PARAMS_USER_VALUE,
 } from "../../utils/consts.ts";
 import { polynomialDestructuring } from "../../functions/generatorFunctions.ts";
@@ -16,7 +17,7 @@ import {
   getSelectedParam,
 } from "../../functions/functions.ts";
 
-const InputBlock = observer(() => {
+const LinearInputBlock = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
 
   const [searchParams, setSearchParams] = useSearchParams({
@@ -36,25 +37,21 @@ const InputBlock = observer(() => {
 
   useEffect(() => {
     const degree = getSelectedParam(PARAMS_DEGREE, searchParams);
-    const polynomial = getSelectedParam(
-      PARAMS_POLYNOMIAL,
-      searchParams,
-    );
+    const polynomial = getSelectedParam(PARAMS_POLYNOMIAL, searchParams);
     const userValue = getSelectedParam(PARAMS_USER_VALUE, searchParams);
 
-    const degreeNum = Number(degree);
+    const numDegree = Number(degree);
 
     calculationInfoStore.setManyInputValues({
-      degree: degreeNum,
+      degree: numDegree,
       polynomial: polynomial,
       userValue,
     });
 
     setPolynomialArr(
-      polynomialsStore.polynomials.filter(
-        (poly) => poly.degree === degreeNum,
-      ),
+      polynomialsStore.polynomials.filter((poly) => poly.degree === numDegree),
     );
+
     const { polyBinary } = polynomialDestructuring(polynomial);
     setInputPlaceholder(createPlaceholder(polyBinary));
   }, [location.search]);
@@ -88,4 +85,4 @@ const InputBlock = observer(() => {
   );
 });
 
-export default InputBlock;
+export default LinearInputBlock;

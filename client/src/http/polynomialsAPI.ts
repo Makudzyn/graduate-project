@@ -6,34 +6,47 @@ export const fetchPolynomials = async () => {
 };
 
 export const sendLinearGeneratorData = async (
-  degreeA: number,
-  polynomialArr: string[],
+  degree: number,
+  structureMatrix: number[][],
   userValueArr: number[],
   lengthByFormula: number,
 ) => {
   try {
     const { data } = await $host.post("api/polynomials/compute-linear", {
-      degreeA,
-      polynomialArr,
+      degree,
+      structureMatrix,
       userValueArr,
       lengthByFormula,
     });
     return data;
   } catch (error) {
-    throw new Error("Error sending linear generator data for computation on server.");
+    throw new Error(
+      "Error sending linear generator data for computation on server.",
+    );
   }
 };
 
-export const sendGeneratedSequence = async (pseudorandomSequence: number[]) => {
+export const sendMatrixGeneratorData = async (
+  structureMatrixA: number[][],
+  structureMatrixB: number[][],
+  basisMatrix: number[][],
+  lengthByFormulaS: number,
+  indexI: number,
+  indexJ: number,
+) => {
   try {
-    const { data } = await $host.post(
-      "api/polynomials/compute",
-      pseudorandomSequence,
-    );
+    const { data } = await $host.post("api/polynomials/compute-matrix", {
+      structureMatrixA,
+      structureMatrixB,
+      basisMatrix,
+      lengthByFormulaS,
+      indexI,
+      indexJ,
+    });
     return data;
   } catch (error) {
     throw new Error(
-      "Помилка відправки псевдовипадкової послідовності на сервер",
+      "Error sending matrix generator data for computation on server.",
     );
   }
 };

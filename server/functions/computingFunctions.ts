@@ -17,31 +17,6 @@ function autocorrelation(convertedPrs: (1 | -1)[]) {
   return result;
 }
 
-function generateStructureMatrixA(
-  degree: number,
-  structureRow: number[],
-): number[][] {
-  let structureMatrix: number[][] = [];
-  structureMatrix[0] = structureRow;
-  for (let i = 1; i < degree; i++) {
-    structureMatrix[i] = [];
-    for (let j = 0; j < degree; j++) {
-      structureMatrix[i][j] = i === j + 1 ? 1 : 0;
-    }
-  }
-  return structureMatrix;
-}
-
-function createMatrixInitialArray(
-  degree: number,
-  polynomial: string[],
-): number[] {
-  let tmp: number[] = [];
-  for (let i = 0; i < degree; i++) {
-    tmp.push(Number(polynomial[i]));
-  }
-  return tmp;
-}
 
 function linearFeedbackShiftRegister(
   steps: number,
@@ -112,14 +87,65 @@ function experimentalPeriodLengthCalc(
   return periodExp;
 }
 
+function findGCD(potentialLength: number, polynomialIndex: number) {
+  let a = potentialLength;
+  let b = polynomialIndex;
+  while (b !== 0) {
+    let remainder = a % b;
+    a = b;
+    b = remainder;
+  }
+  return a;
+}
+
+function matrixMultiply(matrixA: number[][], matrixB: number[][]) {
+  const n = matrixA.length;
+  const m = matrixB[0].length;
+  const result: number[][] = [];
+
+  for (let i = 0; i < n; i++) {
+    result[i] = [];
+    for (let j = 0; j < m; j++) {
+      let sum = 0;
+      for (let k = 0; k < matrixA[i].length; k++) {
+        sum += matrixA[i][k] * matrixB[k][j];
+      }
+
+      result[i][j] = sum % 2;
+    }
+  }
+  return result;
+}
+
+function matrixShiftRegister(
+  matrixA: number[][],
+  matrixB: number[][],
+  matrixS: number[][],
+  periodS: number,
+  outI: number,
+  outJ: number,
+) {
+  let currentState = matrixS;
+  let conditionMatrix = [];
+  let pseudorandomSequence = [];
+  for (let i = 0; i < periodS; i++) {
+    currentState = matrixMultiply(matrixA, currentState);
+    currentState = matrixMultiply(currentState, matrixB);
+    conditionMatrix.push(...currentState);
+    pseudorandomSequence.push(currentState[outI][outJ]);
+  }
+
+  return { conditionMatrix, pseudorandomSequence };
+}
+
 export {
   autocorrelation,
   convertPrs,
-  generateStructureMatrixA,
-  createMatrixInitialArray,
   linearFeedbackShiftRegister,
+  matrixShiftRegister,
   getPrsSequence,
   hammingWeightCalc,
   transformArrayToObjects,
-  experimentalPeriodLengthCalc
+  experimentalPeriodLengthCalc,
+  findGCD,
 };
