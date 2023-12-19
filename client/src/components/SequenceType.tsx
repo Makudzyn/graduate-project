@@ -1,16 +1,16 @@
 interface SequenceTypeProps {
   periodLengthByFormula: number;
-  experimentalPeriodLength: number;
+  potentialPeriodLength: number;
 }
 
 const SequenceType = ({
   periodLengthByFormula,
-  experimentalPeriodLength,
+  potentialPeriodLength,
 }: SequenceTypeProps) => {
   return (
     <h5>
       Вид послідовності ={" "}
-      {periodLengthByFormula === experimentalPeriodLength ? "M" : "C"}
+      {periodLengthByFormula === potentialPeriodLength ? "M" : "C"}
       -послідовність
     </h5>
   );

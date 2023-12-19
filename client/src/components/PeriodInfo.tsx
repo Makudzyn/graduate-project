@@ -1,20 +1,22 @@
 interface PeriodInfoProps {
-  periodLengthByFormula: number;
-  experimentalPeriodLength: number;
+  potentialPeriodLength?: number;
+  factualPeriodLength: number;
   identifier?: string;
 }
 const PeriodInfo = ({
-  periodLengthByFormula,
-  experimentalPeriodLength,
+  potentialPeriodLength,
+  factualPeriodLength,
   identifier,
 }: PeriodInfoProps) => {
   return (
     <div>
+      {potentialPeriodLength && (
+        <h5>
+          Потенційний період {identifier} = {potentialPeriodLength}
+        </h5>
+      )}
       <h5>
-        Період по формулі {identifier} = {periodLengthByFormula}
-      </h5>
-      <h5>
-        Експериментальний період {identifier} = {experimentalPeriodLength}
+        Фактичний період {identifier} = {factualPeriodLength}
       </h5>
     </div>
   );

@@ -18,7 +18,6 @@ import {
 } from "../functions/generatorFunctions.ts";
 import Button from "../components/Button.tsx";
 import Sequence from "../components/Sequence.tsx";
-import Chart, { DataPoint } from "../components/Chart/Chart.tsx";
 import ConditionMatrixBlock from "../components/MatrixGenerator/ConditionMatrixBlock.tsx";
 import StructureMatricesBlock from "../components/MatrixGenerator/StructureMatricesBlock.tsx";
 import PeriodInfo from "../components/PeriodInfo.tsx";
@@ -26,6 +25,7 @@ import HammingWeight from "../components/HammingWeight.tsx";
 import HammingWeightSpectre from "../components/HammingWeightSpectre.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import MatrixInputBlock from "../components/MatrixGenerator/MatrixInputBlock.tsx";
+import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -41,27 +41,20 @@ const MatrixGeneratorPage = observer(() => {
     [],
   );
 
-  const [periodLengthByFormulaA, setPeriodLengthByFormulaA] =
+  const [potentialPeriodLengthA, setPotentialPeriodLengthA] =
     useState<number>(0);
-  const [periodLengthByFormulaB, setPeriodLengthByFormulaB] =
+  const [potentialPeriodLengthB, setPotentialPeriodLengthB] =
     useState<number>(0);
-  const [periodLengthByFormulaS, setPeriodLengthByFormulaS] =
-    useState<number>(0);
-  const [experimentalPeriodLengthA, setExperimentalPeriodLengthA] =
-    useState<number>(0);
-  const [experimentalPeriodLengthB, setExperimentalPeriodLengthB] =
-    useState<number>(0);
-
+  const [factualPeriodLengthA, setFactualPeriodLengthA] = useState<number>(0);
+  const [factualPeriodLengthB, setFactualPeriodLengthB] = useState<number>(0);
+  const [periodLengthS, setPeriodLengthS] = useState<number>(0);
   const [conditionS, setConditionS] = useState<number>(0);
 
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [hammingWeightSpectre, setHammingWeightSpectre] = useState<string[]>([
     "0",
   ]);
-
-  const [correlationObjectDots, setCorrelationObjectDots] = useState<
-    DataPoint[]
-  >([]);
+  const [correlation, setCorrelation] = useState<number[]>([]);
 
   async function matrixCalculations() {
     const {
@@ -82,25 +75,19 @@ const MatrixGeneratorPage = observer(() => {
     const polynomialArrA = polyBinaryA.split("").slice(1);
     const polynomialArrB = polyBinaryB.split("").slice(1);
 
-    const lengthByFormulaA = calcLengthByFormula(degreeA, polyIndexA);
-    const lengthByFormulaB = calcLengthByFormula(degreeB, polyIndexB);
-    const lengthByFormulaS = lengthByFormulaA * lengthByFormulaB;
+    const potentialPeriodLengthA = Math.pow(2, degreeA) - 1;
+    const potentialPeriodLengthB = Math.pow(2, degreeB) - 1;
 
-    setPeriodLengthByFormulaA(lengthByFormulaA);
-    setPeriodLengthByFormulaB(lengthByFormulaB);
-    setPeriodLengthByFormulaS(lengthByFormulaS);
+    setPotentialPeriodLengthA(potentialPeriodLengthA);
+    setPotentialPeriodLengthB(potentialPeriodLengthB);
 
-    // const experimentalPeriodLengthA = experimentalPeriodLengthCalc(
-    //   structureMatrixA,
-    //   degreeA,
-    // );
-    // const experimentalPeriodLengthB = experimentalPeriodLengthCalc(
-    //   structureMatrixB,
-    //   degreeB,
-    // );
+    const periodLengthA = calcLengthByFormula(degreeA, polyIndexA);
+    const periodLengthB = calcLengthByFormula(degreeB, polyIndexB);
+    const periodLengthS = periodLengthA * periodLengthB;
 
-    setExperimentalPeriodLengthA(lengthByFormulaA);
-    setExperimentalPeriodLengthB(lengthByFormulaB);
+    setFactualPeriodLengthA(periodLengthA);
+    setFactualPeriodLengthB(periodLengthB);
+    setPeriodLengthS(periodLengthS);
 
     const structureMatrixA = generateStructureMatrixA(
       degreeA,
@@ -118,7 +105,7 @@ const MatrixGeneratorPage = observer(() => {
     setStructureMatrixB(structureMatrixB);
     setBasisMatrix(basisMatrix);
 
-    const condition = findGCD(lengthByFormulaA, lengthByFormulaB);
+    const condition = findGCD(periodLengthA, periodLengthB);
     setConditionS(condition);
 
     const hammingWeightSpectre = calcHammingWeightSpectre(
@@ -134,20 +121,19 @@ const MatrixGeneratorPage = observer(() => {
         conditionMatrix,
         pseudorandomSequence,
         hammingWeight,
-        correlationObjectDots,
+        correlation
       } = await sendMatrixGeneratorData(
         structureMatrixA,
         structureMatrixB,
         basisMatrix,
-        lengthByFormulaS,
+        periodLengthS,
         indexI,
         indexJ,
       );
-
       setConditionMatrix(conditionMatrix);
       setPseudorandomSequence(pseudorandomSequence);
       setHammingWeight(hammingWeight);
-      setCorrelationObjectDots(correlationObjectDots);
+      setCorrelation(correlation);
     } catch (error: any) {
       console.error("Error sending data to server:", error.message);
     }
@@ -159,7 +145,7 @@ const MatrixGeneratorPage = observer(() => {
         <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
 
         <div className="flex w-full justify-evenly pb-9 pt-2.5">
-          <MatrixInputBlock />
+          <MatrixInputBlock/>
         </div>
 
         <div className={"flex justify-center items-center p-2.5 mb-5"}>
@@ -174,13 +160,13 @@ const MatrixGeneratorPage = observer(() => {
 
         <div className="my-5 gap-3 flex justify-center items-center">
           <PeriodInfo
-            periodLengthByFormula={periodLengthByFormulaA}
-            experimentalPeriodLength={experimentalPeriodLengthA}
+            potentialPeriodLength={potentialPeriodLengthA}
+            factualPeriodLength={factualPeriodLengthA}
             identifier={"T(A)"}
           />
           <PeriodInfo
-            periodLengthByFormula={periodLengthByFormulaB}
-            experimentalPeriodLength={experimentalPeriodLengthB}
+            potentialPeriodLength={potentialPeriodLengthB}
+            factualPeriodLength={factualPeriodLengthB}
             identifier={"T(B)"}
           />
         </div>
@@ -190,11 +176,10 @@ const MatrixGeneratorPage = observer(() => {
             <h3 className="text-center">Матриці S[1..N]</h3>
             <ConditionMatrixBlock
               conditionMatrix={conditionMatrix}
-              periodLength={periodLengthByFormulaA}
+              periodLength={potentialPeriodLengthA}
             />
             <PeriodInfo
-              periodLengthByFormula={periodLengthByFormulaS}
-              experimentalPeriodLength={periodLengthByFormulaS}
+              factualPeriodLength={periodLengthS}
               identifier={"T(S)"}
             />
             <h5>Умова (T(A), T(B)) = {conditionS}</h5>
@@ -203,22 +188,15 @@ const MatrixGeneratorPage = observer(() => {
 
         <div className={"w-full flex flex-col"}>
           <label>Згенерована послідовність</label>
-          <Sequence dataArray={pseudorandomSequence} />
-          <HammingWeight hammingWeight={hammingWeight} />
-          <HammingWeightSpectre hammingWeightSpectre={hammingWeightSpectre} />
+          <Sequence dataArray={pseudorandomSequence}/>
+          <HammingWeight hammingWeight={hammingWeight}/>
+          <HammingWeightSpectre hammingWeightSpectre={hammingWeightSpectre}/>
         </div>
 
-        {correlationObjectDots[0] ? (
-          <Chart data={correlationObjectDots} />
-        ) : (
-          <div
-            className={
-              "w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"
-            }
-          >
-            Chart
-          </div>
-        )}
+        <div className="flex justify-center items-center w-full h-full">
+          <PlotlyChart data={correlation}/>
+        </div>
+
       </div>
     </section>
   );

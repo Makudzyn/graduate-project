@@ -15,29 +15,25 @@ import {
 } from "../functions/generatorFunctions.ts";
 import { observer } from "mobx-react-lite";
 import Sequence from "../components/Sequence.tsx";
-import Chart, { DataPoint } from "../components/Chart/Chart.tsx";
 import PeriodInfo from "../components/PeriodInfo.tsx";
 import SequenceType from "../components/SequenceType.tsx";
 import HammingWeight from "../components/HammingWeight.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
-import PlotlyChart from "../components/Chart/PlotlyChart.tsx";
+import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
 
-  const [periodLengthByFormula, setPeriodLengthByFormula] = useState<number>(0);
-  const [experimentalPeriodLength, setExperimentalPeriodLength] =
-    useState<number>(0);
+  const [potentialPeriodLength, setPotentialPeriodLength] = useState<number>(0);
+  const [factualPeriodLength, setFactualPeriodLength] = useState<number>(0);
   const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>(
     [],
   );
   const [hammingWeight, setHammingWeight] = useState<number>(0);
-  const [correlationObjectDots, setCorrelationObjectDots] = useState<
-    DataPoint[]
-  >([]);
   const [correlation, setCorrelation] = useState<number[]>([]);
+
   usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
   async function linearCalculations() {
@@ -49,8 +45,11 @@ const LinearGeneratorPage = observer(() => {
 
     const userValueArr = userValue.split("").map(Number);
 
-    const lengthByFormula = calcLengthByFormula(degree, polyIndex);
-    setPeriodLengthByFormula(lengthByFormula);
+    const potentialLength = Math.pow(2, degree) - 1;
+    setPotentialPeriodLength(potentialLength);
+
+    const factualLength = calcLengthByFormula(degree, polyIndex);
+    setFactualPeriodLength(factualLength);
 
     const structureMatrix = generateStructureMatrixA(
       degree,
@@ -60,24 +59,19 @@ const LinearGeneratorPage = observer(() => {
 
     try {
       const {
-        experimentalPeriodLength,
         conditionMatrix,
         pseudorandomSequence,
         hammingWeight,
         correlation,
-        correlationObjectDots,
       } = await sendLinearGeneratorData(
-        degree,
         structureMatrix,
         userValueArr,
-        lengthByFormula,
+        factualLength,
       );
-      setExperimentalPeriodLength(experimentalPeriodLength);
       setConditionMatrix(conditionMatrix);
       setPseudorandomSequence(pseudorandomSequence);
       setHammingWeight(hammingWeight);
-      setCorrelation(correlation)
-      setCorrelationObjectDots(correlationObjectDots);
+      setCorrelation(correlation);
     } catch (error: any) {
       console.error("Error sending data to server:", error.message);
     }
@@ -110,12 +104,12 @@ const LinearGeneratorPage = observer(() => {
         <div className="my-5 flex justify-center">
           <div className="flex w-1/2 justify-between">
             <PeriodInfo
-              periodLengthByFormula={periodLengthByFormula}
-              experimentalPeriodLength={experimentalPeriodLength}
+              potentialPeriodLength={potentialPeriodLength}
+              factualPeriodLength={factualPeriodLength}
             />
             <SequenceType
-              periodLengthByFormula={periodLengthByFormula}
-              experimentalPeriodLength={experimentalPeriodLength}
+              periodLengthByFormula={factualPeriodLength}
+              potentialPeriodLength={potentialPeriodLength}
             />
             <HammingWeight hammingWeight={hammingWeight} />
           </div>
@@ -127,18 +121,6 @@ const LinearGeneratorPage = observer(() => {
         <div className="flex justify-center items-center w-full h-full">
           <PlotlyChart data={correlation} />
         </div>
-
-        {/*{correlationObjectDots[0] ? (*/}
-        {/*  <Chart data={correlationObjectDots} />*/}
-        {/*) : (*/}
-        {/*  <div*/}
-        {/*    className={*/}
-        {/*      "w-full h-[600px] border-2 rounded-md mb-5 flex justify-center items-center text-3xl text-gray-500"*/}
-        {/*    }*/}
-        {/*  >*/}
-        {/*    Chart*/}
-        {/*  </div>*/}
-        {/*)}*/}
       </div>
     </section>
   );

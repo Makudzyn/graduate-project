@@ -48,3 +48,4 @@ export function formatTicks(dataLength: number) {
   return Math.round(ticksCount);
 }
 
+

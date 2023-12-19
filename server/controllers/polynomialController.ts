@@ -99,15 +99,10 @@ async function performLinearComputation(
   next: NextFunction,
 ): Promise<Response | void> {
   try {
-    const { degree, structureMatrix, userValueArr, lengthByFormula } = req.body;
-
-    const experimentalPeriodLength = experimentalPeriodLengthCalc(
-      structureMatrix,
-      degree,
-    );
+    const { structureMatrix, userValueArr, factualLength } = req.body;
 
     const conditionMatrix = linearFeedbackShiftRegister(
-      lengthByFormula,
+      factualLength,
       userValueArr,
       structureMatrix,
     );
@@ -116,15 +111,12 @@ async function performLinearComputation(
     const hammingWeight = hammingWeightCalc(pseudorandomSequence);
     const convertedPrs = convertPrs(pseudorandomSequence);
     const correlation = autocorrelation(convertedPrs);
-    const correlationObjectDots = transformArrayToObjects(correlation);
 
     return res.json({
-      experimentalPeriodLength,
       conditionMatrix,
       pseudorandomSequence,
       hammingWeight,
       correlation,
-      correlationObjectDots,
     });
   } catch (error: unknown) {
     // явно указываем тип для ошибки как unknown
@@ -142,7 +134,7 @@ async function performMatrixComputation(
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
-      lengthByFormulaS,
+      periodLengthS,
       indexI,
       indexJ,
     } = req.body;
@@ -151,7 +143,7 @@ async function performMatrixComputation(
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
-      lengthByFormulaS,
+      periodLengthS,
       indexI,
       indexJ,
     );
@@ -159,13 +151,12 @@ async function performMatrixComputation(
     const hammingWeight = hammingWeightCalc(pseudorandomSequence);
     const convertedPrs = convertPrs(pseudorandomSequence);
     const correlation = autocorrelation(convertedPrs);
-    const correlationObjectDots = transformArrayToObjects(correlation);
 
     return res.json({
       conditionMatrix,
       pseudorandomSequence,
       hammingWeight,
-      correlationObjectDots,
+      correlation,
     });
   } catch (error: unknown) {
     // явно указываем тип для ошибки как unknown

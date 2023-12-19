@@ -6,17 +6,15 @@ export const fetchPolynomials = async () => {
 };
 
 export const sendLinearGeneratorData = async (
-  degree: number,
   structureMatrix: number[][],
   userValueArr: number[],
-  lengthByFormula: number,
+  factualLength: number,
 ) => {
   try {
     const { data } = await $host.post("api/polynomials/compute-linear", {
-      degree,
       structureMatrix,
       userValueArr,
-      lengthByFormula,
+      factualLength,
     });
     return data;
   } catch (error) {
@@ -30,7 +28,7 @@ export const sendMatrixGeneratorData = async (
   structureMatrixA: number[][],
   structureMatrixB: number[][],
   basisMatrix: number[][],
-  lengthByFormulaS: number,
+  periodLengthS: number,
   indexI: number,
   indexJ: number,
 ) => {
@@ -39,7 +37,7 @@ export const sendMatrixGeneratorData = async (
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
-      lengthByFormulaS,
+      periodLengthS,
       indexI,
       indexJ,
     });
