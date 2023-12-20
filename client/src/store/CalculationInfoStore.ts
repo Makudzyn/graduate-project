@@ -11,6 +11,8 @@ export default class CalculationInfoStore {
   private _indexJ: number = 0;
   private _matrixRank: number = 0;
   private _userValue: string = "";
+  private _userValueA: string = "";
+  private _userValueB: string = "";
 
   constructor() {
     makeAutoObservable(this); // Для того чтобы Mobx следил за изменениями переменных
@@ -28,6 +30,8 @@ export default class CalculationInfoStore {
     indexJ?: number;
     matrixRank?: number;
     userValue?: string;
+    userValueA?: string;
+    userValueB?: string;
   }) {
     inputValues.degree !== undefined && (this._degree = inputValues.degree);
     inputValues.polynomial !== undefined && (this._polynomial = inputValues.polynomial);
@@ -39,6 +43,8 @@ export default class CalculationInfoStore {
     inputValues.indexJ !== undefined && (this._indexJ = inputValues.indexJ);
     inputValues.matrixRank !== undefined && (this._matrixRank = inputValues.matrixRank);
     inputValues.userValue !== undefined && (this._userValue = inputValues.userValue);
+    inputValues.userValueA !== undefined && (this._userValueA = inputValues.userValueA);
+    inputValues.userValueB !== undefined && (this._userValueB = inputValues.userValueB);
   }
 
   get allInputValues(): {
@@ -52,6 +58,8 @@ export default class CalculationInfoStore {
     indexJ: number;
     matrixRank: number;
     userValue: string;
+    userValueA: string;
+    userValueB: string;
   } {
     return {
       degree: this._degree,
@@ -64,6 +72,8 @@ export default class CalculationInfoStore {
       indexJ: this._indexJ,
       matrixRank: this._matrixRank,
       userValue: this._userValue,
+      userValueA: this._userValueA,
+      userValueB: this._userValueB,
     };
   }
 }

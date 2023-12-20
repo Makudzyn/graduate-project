@@ -20,6 +20,12 @@ import SequenceType from "../components/SequenceType.tsx";
 import HammingWeight from "../components/HammingWeight.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
+import { useSearchParams } from "react-router-dom";
+import {
+  PARAMS_DEGREE,
+  PARAMS_POLYNOMIAL,
+  PARAMS_USER_VALUE,
+} from "../utils/consts.ts";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -33,6 +39,12 @@ const LinearGeneratorPage = observer(() => {
   );
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [correlation, setCorrelation] = useState<number[]>([]);
+
+  const [searchParams, setSearchParams] = useSearchParams({
+    degree: "2",
+    polynomial: "1 7 H",
+    value: "01",
+  });
 
   usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
@@ -83,7 +95,13 @@ const LinearGeneratorPage = observer(() => {
         <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
 
         <div className="flex w-full justify-evenly pb-9 pt-2.5">
-          <LinearInputBlock />
+          <LinearInputBlock
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+            degreeConst={PARAMS_DEGREE}
+            polynomialConst={PARAMS_POLYNOMIAL}
+            userValueConst={PARAMS_USER_VALUE}
+          />
         </div>
 
         <div className={"flex justify-center items-center p-2.5 mb-5"}>
@@ -111,12 +129,13 @@ const LinearGeneratorPage = observer(() => {
               periodLengthByFormula={factualPeriodLength}
               potentialPeriodLength={potentialPeriodLength}
             />
-            <HammingWeight hammingWeight={hammingWeight} />
           </div>
         </div>
 
         <label>Згенерована послідовність</label>
         <Sequence dataArray={pseudorandomSequence} />
+        <HammingWeight hammingWeight={hammingWeight} />
+
 
         <div className="flex justify-center items-center w-full h-full">
           <PlotlyChart data={correlation} />

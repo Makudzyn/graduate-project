@@ -48,3 +48,28 @@ export const sendMatrixGeneratorData = async (
     );
   }
 };
+
+export const sendSumAndMultiplicationGeneratorData = async (
+  structureMatrixA: number[][],
+  structureMatrixB: number[][],
+  userValueArrA: number[],
+  userValueArrB: number[],
+  factualLengthA: number,
+  factualLengthB: number,
+) => {
+  try {
+    const { data } = await $host.post("api/polynomials/compute-sum-and-multiplication", {
+      structureMatrixA,
+      structureMatrixB,
+      userValueArrA,
+      userValueArrB,
+      factualLengthA,
+      factualLengthB,
+    });
+    return data;
+  } catch (error) {
+    throw new Error(
+      "Error sending sum and multiplication generator data for computation on server.",
+    );
+  }
+};

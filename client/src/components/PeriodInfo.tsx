@@ -10,7 +10,7 @@ const PeriodInfo = ({
 }: PeriodInfoProps) => {
   return (
     <div>
-      {potentialPeriodLength && (
+      {potentialPeriodLength !== undefined && (
         <h5>
           Потенційний період {identifier} = {potentialPeriodLength}
         </h5>

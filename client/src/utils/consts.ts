@@ -20,6 +20,8 @@ export const PARAMS_OUTPUT_INDEX_I = "index_i";
 export const PARAMS_OUTPUT_INDEX_J = "index_j";
 export const PARAMS_MATRIX_RANK = "matrix_rank";
 export const PARAMS_USER_VALUE = "value";
+export const PARAMS_USER_VALUE_A = "value_a";
+export const PARAMS_USER_VALUE_B = "value_b";
 
 
 export const REACT_APP_API_URL='http://localhost:5000/';
