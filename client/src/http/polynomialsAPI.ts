@@ -49,23 +49,20 @@ export const sendMatrixGeneratorData = async (
   }
 };
 
-export const sendSumAndMultiplicationGeneratorData = async (
-  structureMatrixA: number[][],
-  structureMatrixB: number[][],
-  userValueArrA: number[],
-  userValueArrB: number[],
-  factualLengthA: number,
-  factualLengthB: number,
+export const sendSumAndProductGeneratorData = async (
+  pseudorandomSequenceA: number[],
+  pseudorandomSequenceB: number[],
+  periodLengthS: number,
 ) => {
   try {
-    const { data } = await $host.post("api/polynomials/compute-sum-and-multiplication", {
-      structureMatrixA,
-      structureMatrixB,
-      userValueArrA,
-      userValueArrB,
-      factualLengthA,
-      factualLengthB,
-    });
+    const { data } = await $host.post(
+      "api/polynomials/compute-sum-and-multiplication",
+      {
+        pseudorandomSequenceA,
+        pseudorandomSequenceB,
+        periodLengthS,
+      },
+    );
     return data;
   } catch (error) {
     throw new Error(

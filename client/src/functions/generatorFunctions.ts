@@ -1,3 +1,78 @@
+import { sendLinearGeneratorData } from "../http/polynomialsAPI.ts";
+import { Dispatch, SetStateAction } from "react";
+import CalculationInfoStore from "../store/CalculationInfoStore.ts";
+import { PolynomialType } from "../utils/interfacesAndTypes.ts";
+
+export async function linearCalculations(
+  calculationInfoStore: CalculationInfoStore,
+  setStructureMatrix: Dispatch<SetStateAction<number[][]>>,
+  setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
+  setPotentialPeriodLength: Dispatch<SetStateAction<number>>,
+  setFactualPeriodLength: Dispatch<SetStateAction<number>>,
+  setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
+  setHammingWeight: Dispatch<SetStateAction<number>>,
+  setCorrelation: Dispatch<SetStateAction<number[]>>,
+  polynomialType?: PolynomialType,
+) {
+  let degree: number, polynomial: string, userValue: string;
+
+  switch (polynomialType) {
+    case "A":
+      const { degreeA, polynomialA, userValueA } =
+        calculationInfoStore.allInputValues;
+      degree = degreeA;
+      polynomial = polynomialA;
+      userValue = userValueA;
+      break;
+    case "B":
+      const { degreeB, polynomialB, userValueB } =
+        calculationInfoStore.allInputValues;
+      degree = degreeB;
+      polynomial = polynomialB;
+      userValue = userValueB;
+      break;
+    default:
+      ({ degree, polynomial, userValue } = calculationInfoStore.allInputValues);
+      break;
+  }
+
+  const { polyIndex, polyBinary } = polynomialDestructuring(polynomial);
+  const polynomialArr = polyBinary.split("").slice(1);
+
+  const userValueArr = userValue.split("").map(Number);
+
+  const potentialLength = Math.pow(2, degree) - 1;
+  setPotentialPeriodLength(potentialLength);
+
+  const factualLength = calcLengthByFormula(degree, polyIndex);
+  setFactualPeriodLength(factualLength);
+
+  const structureMatrix = generateStructureMatrixA(
+    degree,
+    createMatrixInitialArray(degree, polynomialArr),
+  );
+  setStructureMatrix(structureMatrix);
+
+  try {
+    const {
+      conditionMatrix,
+      pseudorandomSequence,
+      hammingWeight,
+      correlation,
+    } = await sendLinearGeneratorData(
+      structureMatrix,
+      userValueArr,
+      factualLength,
+    );
+    setConditionMatrix(conditionMatrix);
+    setPseudorandomSequence(pseudorandomSequence);
+    setHammingWeight(hammingWeight);
+    setCorrelation(correlation);
+  } catch (error: any) {
+    console.error("Error sending data to server:", error.message);
+  }
+}
+
 export function polynomialDestructuring(poly: string) {
   const parts = poly.split(" ");
 
@@ -53,7 +128,11 @@ export function generateStructureMatrixB(
   return structureMatrix;
 }
 
-export function generateMatrixBasis(n: number, m: number, rank: number): number[][] {
+export function generateMatrixBasis(
+  n: number,
+  m: number,
+  rank: number,
+): number[][] {
   const state: number[][] = [];
   for (let i = 0; i < n; i++) {
     state[i] = [];
@@ -64,7 +143,10 @@ export function generateMatrixBasis(n: number, m: number, rank: number): number[
   return state;
 }
 
-export function findGCD(potentialLength: number, polynomialIndex: number): number {
+export function findGCD(
+  potentialLength: number,
+  polynomialIndex: number,
+): number {
   let a = potentialLength;
   let b = polynomialIndex;
   while (b !== 0) {
@@ -103,8 +185,6 @@ export function formatHammingWeight(weightSpectre: number[]) {
   return textHammingWeight;
 }
 
-
 export function calculatePossibleValues(degree: number, start: number = 0) {
   return Array.from({ length: degree }, (_, index) => index + start);
 }
-
