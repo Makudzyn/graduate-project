@@ -1,18 +1,24 @@
 import MatrixSelect from "./MatrixSelect.tsx";
 import {
-  PARAMS_DEGREE_A, PARAMS_DEGREE_B, PARAMS_MATRIX_RANK,
+  PARAMS_DEGREE_A,
+  PARAMS_DEGREE_B,
+  PARAMS_MATRIX_RANK,
   PARAMS_OUTPUT_INDEX_I,
   PARAMS_OUTPUT_INDEX_J,
-  PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B
+  PARAMS_POLYNOMIAL_A,
+  PARAMS_POLYNOMIAL_B, POLYNOMIAL_TYPE_A, POLYNOMIAL_TYPE_B
 } from "../../utils/consts.ts";
 import MatrixOutputSelectionBlock from "./MatrixOutputSelectionBlock.tsx";
-import {useContext, useEffect, useState} from "react";
-import {Polynomial} from "../../store/PolynomialsStore.ts";
-import {generateOptions, getSelectedParam} from "../../functions/functions.ts";
-import {useLocation, useSearchParams} from "react-router-dom";
-import {calculatePossibleValues} from "../../functions/generatorFunctions.ts";
-import {Context} from "../../main.tsx";
-import {observer} from "mobx-react-lite";
+import { useContext, useEffect, useState } from "react";
+import {
+  generateOptions,
+  getSelectedParam,
+} from "../../functions/functions.ts";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { calculatePossibleValues } from "../../functions/generatorFunctions.ts";
+import { Context } from "../../main.tsx";
+import { observer } from "mobx-react-lite";
+import { Polynomial } from "../../utils/interfacesAndTypes.ts";
 
 const MatrixInputBlock = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -87,8 +93,8 @@ const MatrixInputBlock = observer(() => {
   return (
     <>
       <MatrixSelect
-        firstSelectLabel={"Оберіть ступінь поліному F(A)"}
-        secondSelectLabel={"Поліном F(A)"}
+        firstSelectLabel={`Оберіть ступінь поліному F(${POLYNOMIAL_TYPE_A})`}
+        secondSelectLabel={`Поліном F(${POLYNOMIAL_TYPE_A})`}
         degreeParamName={PARAMS_DEGREE_A}
         polynomialParamName={PARAMS_POLYNOMIAL_A}
         degreeArray={options}
@@ -112,8 +118,8 @@ const MatrixInputBlock = observer(() => {
       />
 
       <MatrixSelect
-        firstSelectLabel={"Оберіть ступінь поліному F(B)"}
-        secondSelectLabel={"Поліном F(B)"}
+        firstSelectLabel={`Оберіть ступінь поліному F(${POLYNOMIAL_TYPE_B})`}
+        secondSelectLabel={`Поліном F(${POLYNOMIAL_TYPE_B})`}
         degreeParamName={PARAMS_DEGREE_B}
         polynomialParamName={PARAMS_POLYNOMIAL_B}
         searchParams={searchParams}

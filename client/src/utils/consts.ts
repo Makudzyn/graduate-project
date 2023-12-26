@@ -24,4 +24,7 @@ export const PARAMS_USER_VALUE_A = "value_a";
 export const PARAMS_USER_VALUE_B = "value_b";
 
 
-export const REACT_APP_API_URL='http://localhost:5000/';
+//Polynomial types
+export const POLYNOMIAL_TYPE_A = "A";
+export const POLYNOMIAL_TYPE_B = "B";
+export const REACT_APP_API_URL = "http://localhost:5000/";

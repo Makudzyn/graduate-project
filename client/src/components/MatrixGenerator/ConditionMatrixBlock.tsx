@@ -12,10 +12,7 @@ const ConditionMatrixBlock = ({
   const step = Math.sqrt(periodLength + 1);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const slicedMatrix = conditionMatrix.slice(
-    currentIndex,
-    currentIndex + step,
-  );
+  const slicedMatrix = conditionMatrix.slice(currentIndex, currentIndex + step);
 
   const resetState = () => {
     setCurrentIndex(0);

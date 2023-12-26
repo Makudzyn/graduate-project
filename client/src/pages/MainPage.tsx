@@ -1,10 +1,5 @@
-
 const MainPage = () => {
-    return (
-        <div>
-            Main
-        </div>
-    );
+  return <div>Main</div>;
 };
 
 export default MainPage;

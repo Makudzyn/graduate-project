@@ -8,7 +8,6 @@ const PlotlyChart = ({ data }: PlotlyChartProps) => {
   const TOP_LIMIT_Y_AXIS = 1.1;
   const BOTTOM_LIMIT_Y_AXIS = -1.1;
 
-
   const plotData = [
     {
       y: data,
@@ -24,9 +23,9 @@ const PlotlyChart = ({ data }: PlotlyChartProps) => {
         width: 3,
       },
       opacity: 0.9,
-      hoverinfo: 'none', // Отображаем информацию из text при наведении
+      hoverinfo: "none", // Отображаем информацию из text при наведении
       hovertemplate:
-        '<b>Index:</b> %{x}<br><b>Correlation:</b> %{y}<br><extra></extra>',
+        "<b>Index:</b> %{x}<br><b>Correlation:</b> %{y}<br><extra></extra>",
     },
   ] as Data[];
 

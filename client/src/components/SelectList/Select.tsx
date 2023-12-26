@@ -2,9 +2,9 @@ import { Listbox, Transition } from "@headlessui/react";
 import ChevronUpIcon from "../../assets/chevron-up.svg?react";
 import ChevronDownIcon from "../../assets/chevron-down.svg?react";
 import OptionList from "./OptionList.tsx";
-import { Polynomial } from "../../store/PolynomialsStore.ts";
 import { SetURLSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Polynomial } from "../../utils/interfacesAndTypes.ts";
 
 interface SelectProps {
   searchParams: URLSearchParams;

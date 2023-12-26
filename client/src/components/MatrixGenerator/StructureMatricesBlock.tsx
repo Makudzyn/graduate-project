@@ -29,4 +29,3 @@ const StructureMatricesBlock = ({
 };
 
 export default StructureMatricesBlock;
-

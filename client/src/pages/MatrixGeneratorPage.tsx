@@ -26,6 +26,7 @@ import HammingWeightSpectre from "../components/HammingWeightSpectre.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import MatrixInputBlock from "../components/MatrixGenerator/MatrixInputBlock.tsx";
 import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
+import { POLYNOMIAL_TYPE_A, POLYNOMIAL_TYPE_B } from "../utils/consts.ts";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -121,7 +122,7 @@ const MatrixGeneratorPage = observer(() => {
         conditionMatrix,
         pseudorandomSequence,
         hammingWeight,
-        correlation
+        correlation,
       } = await sendMatrixGeneratorData(
         structureMatrixA,
         structureMatrixB,
@@ -145,7 +146,7 @@ const MatrixGeneratorPage = observer(() => {
         <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
 
         <div className="flex w-full justify-evenly pb-9 pt-2.5">
-          <MatrixInputBlock/>
+          <MatrixInputBlock />
         </div>
 
         <div className={"flex justify-center items-center p-2.5 mb-5"}>
@@ -162,12 +163,12 @@ const MatrixGeneratorPage = observer(() => {
           <PeriodInfo
             potentialPeriodLength={potentialPeriodLengthA}
             factualPeriodLength={factualPeriodLengthA}
-            identifier={"T(A)"}
+            identifier={`(${POLYNOMIAL_TYPE_A})`}
           />
           <PeriodInfo
             potentialPeriodLength={potentialPeriodLengthB}
             factualPeriodLength={factualPeriodLengthB}
-            identifier={"T(B)"}
+            identifier={`(${POLYNOMIAL_TYPE_B})`}
           />
         </div>
 
@@ -180,23 +181,22 @@ const MatrixGeneratorPage = observer(() => {
             />
             <PeriodInfo
               factualPeriodLength={periodLengthS}
-              identifier={"T(S)"}
+              identifier={"(S)"}
             />
-            <h5>Умова (T(A), T(B)) = {conditionS}</h5>
+            <h5>Умова (T({POLYNOMIAL_TYPE_A}), T({POLYNOMIAL_TYPE_B})) = {conditionS}</h5>
           </div>
         </div>
 
         <div className={"w-full flex flex-col"}>
           <label>Згенерована послідовність</label>
-          <Sequence dataArray={pseudorandomSequence}/>
-          <HammingWeight hammingWeight={hammingWeight}/>
-          <HammingWeightSpectre hammingWeightSpectre={hammingWeightSpectre}/>
+          <Sequence dataArray={pseudorandomSequence} />
+          <HammingWeight hammingWeight={hammingWeight} />
+          <HammingWeightSpectre hammingWeightSpectre={hammingWeightSpectre} />
         </div>
 
         <div className="flex justify-center items-center w-full h-full">
-          <PlotlyChart data={correlation}/>
+          <PlotlyChart data={correlation} />
         </div>
-
       </div>
     </section>
   );

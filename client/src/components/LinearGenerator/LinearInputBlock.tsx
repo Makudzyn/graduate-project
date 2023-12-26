@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import Select from "../SelectList/Select.tsx";
 import Input from "../Input.tsx";
 import { Context } from "../../main.tsx";
-import { Polynomial } from "../../store/PolynomialsStore.ts";
 import { observer } from "mobx-react-lite";
 import { SetURLSearchParams, useLocation } from "react-router-dom";
 import { polynomialDestructuring } from "../../functions/generatorFunctions.ts";
@@ -11,8 +10,7 @@ import {
   generateOptions,
   getSelectedParam,
 } from "../../functions/functions.ts";
-
-type PolynomialType = "A" | "B";
+import { Polynomial, PolynomialType } from "../../utils/interfacesAndTypes.ts";
 
 interface LinearInputBlockProps {
   searchParams: URLSearchParams;
@@ -50,8 +48,6 @@ const LinearInputBlock = observer(
 
       const numDegree = Number(degree);
 
-      console.log(polynomialType);
-
       switch (polynomialType) {
         case "A":
           calculationInfoStore.setManyInputValues({
@@ -75,7 +71,9 @@ const LinearInputBlock = observer(
           });
           break;
         default:
-          throw Error(`Wrong polynomial type specified in LinearInputBlock component. Possible types are \"A\", \"B\" or undefined`)
+          throw Error(
+            `Wrong polynomial type specified in LinearInputBlock component. Possible types are \"A\", \"B\" or undefined`,
+          );
       }
       setPolynomialArr(
         polynomialsStore.polynomials.filter(

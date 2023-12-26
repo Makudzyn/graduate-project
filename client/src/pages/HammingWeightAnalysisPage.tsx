@@ -1,10 +1,5 @@
-
 const HammingWeightAnalysisPage = () => {
-    return (
-        <div>
-
-        </div>
-    );
+  return <div>Hamming Weight Analysis</div>;
 };
 
 export default HammingWeightAnalysisPage;

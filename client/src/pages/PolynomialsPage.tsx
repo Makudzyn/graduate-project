@@ -1,10 +1,5 @@
-
 const PolynomialsPage = () => {
-    return (
-        <div>
-
-        </div>
-    );
+  return <div>Polynomials page list</div>;
 };
 
 export default PolynomialsPage;

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import PolynomialsStore, { Polynomial } from "../store/PolynomialsStore.ts";
+import PolynomialsStore from "../store/PolynomialsStore.ts";
+import { Polynomial } from "../utils/interfacesAndTypes.ts";
 
 const usePolynomialsFetching = (
   fetchPolynomials: () => Promise<Polynomial[]>,

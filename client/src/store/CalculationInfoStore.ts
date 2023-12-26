@@ -34,17 +34,24 @@ export default class CalculationInfoStore {
     userValueB?: string;
   }) {
     inputValues.degree !== undefined && (this._degree = inputValues.degree);
-    inputValues.polynomial !== undefined && (this._polynomial = inputValues.polynomial);
+    inputValues.polynomial !== undefined &&
+      (this._polynomial = inputValues.polynomial);
     inputValues.degreeA !== undefined && (this._degreeA = inputValues.degreeA);
-    inputValues.polynomialA !== undefined && (this._polynomialA = inputValues.polynomialA);
+    inputValues.polynomialA !== undefined &&
+      (this._polynomialA = inputValues.polynomialA);
     inputValues.degreeB !== undefined && (this._degreeB = inputValues.degreeB);
-    inputValues.polynomialB !== undefined && (this._polynomialB = inputValues.polynomialB);
+    inputValues.polynomialB !== undefined &&
+      (this._polynomialB = inputValues.polynomialB);
     inputValues.indexI !== undefined && (this._indexI = inputValues.indexI);
     inputValues.indexJ !== undefined && (this._indexJ = inputValues.indexJ);
-    inputValues.matrixRank !== undefined && (this._matrixRank = inputValues.matrixRank);
-    inputValues.userValue !== undefined && (this._userValue = inputValues.userValue);
-    inputValues.userValueA !== undefined && (this._userValueA = inputValues.userValueA);
-    inputValues.userValueB !== undefined && (this._userValueB = inputValues.userValueB);
+    inputValues.matrixRank !== undefined &&
+      (this._matrixRank = inputValues.matrixRank);
+    inputValues.userValue !== undefined &&
+      (this._userValue = inputValues.userValue);
+    inputValues.userValueA !== undefined &&
+      (this._userValueA = inputValues.userValueA);
+    inputValues.userValueB !== undefined &&
+      (this._userValueB = inputValues.userValueB);
   }
 
   get allInputValues(): {

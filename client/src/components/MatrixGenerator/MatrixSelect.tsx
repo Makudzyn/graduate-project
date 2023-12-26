@@ -1,7 +1,7 @@
 import Select from "../SelectList/Select.tsx";
 import { observer } from "mobx-react-lite";
 import { SetURLSearchParams } from "react-router-dom";
-import { Polynomial } from "../../store/PolynomialsStore.ts";
+import { Polynomial } from "../../utils/interfacesAndTypes.ts";
 
 interface MatrixSelectProps {
   firstSelectLabel: string;
