@@ -17,7 +17,6 @@ function autocorrelation(convertedPrs: (1 | -1)[]) {
   return result;
 }
 
-
 function linearFeedbackShiftRegister(
   steps: number,
   currentStates: number[],
@@ -49,8 +48,8 @@ function getPrsSequence(conditionMatrix: number[][]): number[] {
     .filter((number) => number !== undefined);
 }
 
-function hammingWeightCalc(prsSequence: number[]) {
-  return prsSequence.filter((item) => item === 1).length;
+function hammingWeightCalc(prs: number[]) {
+  return prs.filter((item) => item === 1).length;
 }
 
 function transformArrayToObjects(arr: number[]) {
@@ -138,6 +137,32 @@ function matrixShiftRegister(
   return { conditionMatrix, pseudorandomSequence };
 }
 
+function expandSequence(prs: number[], period: number) {
+  let expandedArray: number[] = [];
+  let originalSize = prs.length;
+  let repetitions = Math.ceil(period / originalSize);
+
+  for (let i = 0; i < repetitions; i++) {
+    expandedArray = expandedArray.concat(prs);
+  }
+
+  return expandedArray.slice(0, period);
+}
+
+function performAdditionAndMultiplication(
+  prsA: number[],
+  prsB: number[],
+  periodS: number,
+) {
+  let sumSequence = [];
+  let productSequence = [];
+  for (let i = 0; i < periodS; i++) {
+    sumSequence[i] = prsA[i] ^ prsB[i];
+    productSequence[i] = prsA[i] * prsB[i];
+  }
+  return { sumSequence, productSequence };
+}
+
 export {
   autocorrelation,
   convertPrs,
@@ -148,4 +173,6 @@ export {
   transformArrayToObjects,
   experimentalPeriodLengthCalc,
   findGCD,
+  expandSequence,
+  performAdditionAndMultiplication,
 };

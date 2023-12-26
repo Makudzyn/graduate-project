@@ -1,15 +1,15 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import ApiError from "../error/apiError";
 import { Polynomial } from "../models/models";
 import {
   autocorrelation,
   convertPrs,
-  experimentalPeriodLengthCalc,
+  expandSequence,
   getPrsSequence,
   hammingWeightCalc,
   linearFeedbackShiftRegister,
   matrixShiftRegister,
-  transformArrayToObjects,
+  performAdditionAndMultiplication,
 } from "../functions/computingFunctions";
 
 async function addPolynomial(
@@ -93,7 +93,7 @@ async function editPolynomial(
   // Типизированный код редактирования полинома
 }
 
-async function performLinearComputation(
+async function linearComputation(
   req: Request,
   res: Response,
   next: NextFunction,
@@ -124,7 +124,7 @@ async function performLinearComputation(
   }
 }
 
-async function performMatrixComputation(
+async function matrixComputation(
   req: Request,
   res: Response,
   next: NextFunction,
@@ -164,12 +164,60 @@ async function performMatrixComputation(
   }
 }
 
+async function additionAndMultiplicationComputation(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | void> {
+  try {
+    const { pseudorandomSequenceA, pseudorandomSequenceB, periodLengthS } =
+      req.body;
+
+    const expandedSequenceA = expandSequence(
+      pseudorandomSequenceA,
+      periodLengthS,
+    );
+    const expandedSequenceB = expandSequence(
+      pseudorandomSequenceB,
+      periodLengthS,
+    );
+
+    const { sumSequence, productSequence } = performAdditionAndMultiplication(
+      expandedSequenceA,
+      expandedSequenceB,
+      periodLengthS,
+    );
+
+    const hammingWeightSum = hammingWeightCalc(sumSequence);
+    const hammingWeightProduct = hammingWeightCalc(productSequence);
+
+    const convertedSumPrs = convertPrs(sumSequence);
+    const convertedProductPrs = convertPrs(productSequence);
+
+    const sumCorrelation = autocorrelation(convertedSumPrs);
+    const productCorrelation = autocorrelation(convertedProductPrs);
+
+    return res.json({
+      sumSequence,
+      productSequence,
+      hammingWeightSum,
+      hammingWeightProduct,
+      sumCorrelation,
+      productCorrelation
+    });
+  } catch (error: unknown) {
+    // явно указываем тип для ошибки как unknown
+    return next(ApiError.internal((error as Error).message)); // приведение типа к Error
+  }
+}
+
 export {
   addPolynomial,
   addManyPolynomials,
   getAllPolynomials,
   removePolynomial,
   editPolynomial,
-  performLinearComputation,
-  performMatrixComputation,
+  linearComputation,
+  matrixComputation,
+  additionAndMultiplicationComputation,
 };

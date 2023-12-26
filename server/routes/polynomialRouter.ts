@@ -1,11 +1,13 @@
-import { Router } from "express";
+import {Router} from "express";
 import {
-  getAllPolynomials,
-  addPolynomial,
   addManyPolynomials,
-  performLinearComputation,
+  addPolynomial,
   editPolynomial,
-  removePolynomial, performMatrixComputation,
+  getAllPolynomials,
+  linearComputation,
+  matrixComputation,
+  additionAndMultiplicationComputation,
+  removePolynomial,
 } from "../controllers/polynomialController";
 import authMiddleware from "../middleware/checkAuthAndRoleMiddleware";
 
@@ -14,8 +16,9 @@ const router = Router();
 router.get("/", getAllPolynomials);
 router.post("/add-one", authMiddleware(), addPolynomial);
 router.post("/add-many", authMiddleware(), addManyPolynomials);
-router.post("/compute-linear", performLinearComputation);
-router.post("/compute-matrix", performMatrixComputation);
+router.post("/compute-linear", linearComputation);
+router.post("/compute-matrix", matrixComputation);
+router.post("/compute-sum-and-multiplication", additionAndMultiplicationComputation);
 router.put("/", authMiddleware(), editPolynomial);
 router.delete("/", authMiddleware(), removePolynomial);
 
