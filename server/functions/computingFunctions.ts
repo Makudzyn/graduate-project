@@ -137,18 +137,6 @@ function matrixShiftRegister(
   return { conditionMatrix, pseudorandomSequence };
 }
 
-function expandSequence(prs: number[], period: number) {
-  let expandedArray: number[] = [];
-  let originalSize = prs.length;
-  let repetitions = Math.ceil(period / originalSize);
-
-  for (let i = 0; i < repetitions; i++) {
-    expandedArray = expandedArray.concat(prs);
-  }
-
-  return expandedArray.slice(0, period);
-}
-
 function performAdditionAndMultiplication(
   prsA: number[],
   prsB: number[],
@@ -162,6 +150,14 @@ function performAdditionAndMultiplication(
   }
   return { sumSequence, productSequence };
 }
+
+function expandSequence(prs: number[], periodS: number) {
+  const originalLength = prs.length;
+  const repetitions = periodS / originalLength;
+
+  return Array.from({ length: repetitions }, () => [...prs]).flat();
+}
+
 
 export {
   autocorrelation,

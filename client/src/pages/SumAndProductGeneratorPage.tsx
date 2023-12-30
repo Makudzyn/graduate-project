@@ -18,13 +18,17 @@ import {
   fetchPolynomials,
   sendSumAndProductGeneratorData,
 } from "../http/polynomialsAPI.ts";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context } from "../main.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import HammingWeight from "../components/HammingWeight.tsx";
 import Sequence from "../components/Sequence.tsx";
 import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
 import Button from "../components/Button.tsx";
+import PeriodsCondition from "../components/PeriodsCondition.tsx";
+import PeriodInfo from "../components/PeriodInfo.tsx";
+import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
+import CoprimeCondition from "../components/CoprimeCondition.tsx";
 
 const SumAndProductGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -75,19 +79,22 @@ const SumAndProductGeneratorPage = observer(() => {
     value_b: "01",
   });
 
+  useEffect(() => {
+    if (factualPeriodLengthA !== 0 && factualPeriodLengthB !== 0) {
+      const periodLengthS = factualPeriodLengthA * factualPeriodLengthB;
+      setPeriodLengthS(periodLengthS);
+      const condition = findGCD(factualPeriodLengthA, factualPeriodLengthB);
+      setConditionS(condition);
+    }
+  }, [factualPeriodLengthA, factualPeriodLengthB]);
+
   async function additionAndMultiplicationCalculations() {
-    const periodLengthS = factualPeriodLengthA * factualPeriodLengthB;
-    setPeriodLengthS(periodLengthS);
-
-    const condition = findGCD(factualPeriodLengthA, factualPeriodLengthB);
-    setConditionS(condition);
-
     try {
       const {
         sumSequence,
-        multiplicationSequence,
-        hammingWeightS,
-        hammingWeightC,
+        productSequence,
+        hammingWeightSum,
+        hammingWeightProduct,
         sumCorrelation,
         productCorrelation,
       } = await sendSumAndProductGeneratorData(
@@ -96,9 +103,9 @@ const SumAndProductGeneratorPage = observer(() => {
         periodLengthS,
       );
       setSumSequence(sumSequence);
-      setProductSequence(multiplicationSequence);
-      setHammingWeightSum(hammingWeightS);
-      setHammingWeightProduct(hammingWeightC);
+      setProductSequence(productSequence);
+      setHammingWeightSum(hammingWeightSum);
+      setHammingWeightProduct(hammingWeightProduct);
       setSumCorrelation(sumCorrelation);
       setProductCorrelation(productCorrelation);
     } catch (error: any) {
@@ -170,12 +177,26 @@ const SumAndProductGeneratorPage = observer(() => {
             }
           />
         </div>
-        <div>Умова Н.С.Д.(T(A), T(B)) = {conditionS}</div>
+        <div className="flex justify-center flex-col my-5">
+          <PeriodInfo
+            factualPeriodLength={periodLengthS}
+            identifier={"(S)"}
+          />
+          <PeriodsCondition
+            polynomialTypeFirst={POLYNOMIAL_TYPE_A}
+            polynomialTypeSecond={POLYNOMIAL_TYPE_B}
+            condition={conditionS}
+          />
+          <CoprimeCondition conditionS={conditionS}/>
+        </div>
+
         {conditionS === 1 && (
           <>
-            <Button onClick={additionAndMultiplicationCalculations}>
-              Розрахуваити суму та добуток
-            </Button>
+            <div className="flex justify-center items-center p-2.5 my-5">
+              <Button onClick={additionAndMultiplicationCalculations}>
+                Згенерувати послідовності суми та добутку
+              </Button>
+            </div>
 
             <label>Послідовність S (сум)</label>
             <Sequence dataArray={sumSequence} />
@@ -185,9 +206,9 @@ const SumAndProductGeneratorPage = observer(() => {
             <Sequence dataArray={productSequence} />
             <HammingWeight hammingWeight={hammingWeightProduct} />
 
-            {/*  <div className="flex justify-center items-center w-full h-full">*/}
-            {/*    <PlotlyChart data={correlation}/>*/}
-            {/*  </div>*/}
+              <div className="flex justify-center items-center w-full h-full">
+                <PlotlyChart data1={sumCorrelation} data2={productCorrelation}/>
+              </div>
           </>
         )}
       </div>

@@ -54,7 +54,7 @@ const LinearGenerator = ({
         />
       </div>
 
-      <div className={"flex justify-center items-center p-2.5 mb-5"}>
+      <div className="flex justify-center items-center p-2.5 mb-5">
         <Button onClick={onClick}>Розпочати генерацію</Button>
       </div>
 
@@ -84,10 +84,11 @@ const LinearGenerator = ({
           />
         </div>
       </div>
-
-      <label>Згенерована послідовність {polynomialType}</label>
-      <Sequence dataArray={pseudorandomSequence} />
-      <HammingWeight hammingWeight={hammingWeight} />
+      <div className="w-[800px]">
+        <label>Згенерована послідовність {polynomialType}</label>
+        <Sequence dataArray={pseudorandomSequence} />
+        <HammingWeight hammingWeight={hammingWeight} />
+      </div>
     </div>
   );
 };

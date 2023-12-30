@@ -66,7 +66,7 @@ const LinearGeneratorPage = observer(() => {
         />
 
         <div className="flex h-full w-full items-center justify-center">
-          <PlotlyChart data={correlation} />
+          <PlotlyChart data1={correlation} />
         </div>
       </div>
     </section>

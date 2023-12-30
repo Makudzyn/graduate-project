@@ -27,6 +27,7 @@ import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import MatrixInputBlock from "../components/MatrixGenerator/MatrixInputBlock.tsx";
 import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
 import { POLYNOMIAL_TYPE_A, POLYNOMIAL_TYPE_B } from "../utils/consts.ts";
+import PeriodsCondition from "../components/PeriodsCondition.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -159,7 +160,7 @@ const MatrixGeneratorPage = observer(() => {
           basisMatrix={basisMatrix}
         />
 
-        <div className="my-5 gap-3 flex justify-center items-center">
+        <div className="my-5 gap-3 flex justify-center items-center w-full">
           <PeriodInfo
             potentialPeriodLength={potentialPeriodLengthA}
             factualPeriodLength={factualPeriodLengthA}
@@ -183,7 +184,8 @@ const MatrixGeneratorPage = observer(() => {
               factualPeriodLength={periodLengthS}
               identifier={"(S)"}
             />
-            <h5>Умова (T({POLYNOMIAL_TYPE_A}), T({POLYNOMIAL_TYPE_B})) = {conditionS}</h5>
+            <PeriodsCondition polynomialTypeFirst={POLYNOMIAL_TYPE_A} polynomialTypeSecond={POLYNOMIAL_TYPE_B} condition={conditionS} />
+
           </div>
         </div>
 
@@ -195,7 +197,7 @@ const MatrixGeneratorPage = observer(() => {
         </div>
 
         <div className="flex justify-center items-center w-full h-full">
-          <PlotlyChart data={correlation} />
+          <PlotlyChart data1={correlation} />
         </div>
       </div>
     </section>

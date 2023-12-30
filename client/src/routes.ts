@@ -48,7 +48,7 @@ export const publicRoutes = [
     Component: MatrixGeneratorPage,
   },
   {
-    name: "Sum and multiplication register",
+    name: "Sum and product register",
     path: SUM_AND_MULTI_GEN_ROUTE,
     Component: SumAndProductGeneratorPage,
   },
