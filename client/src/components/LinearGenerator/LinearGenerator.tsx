@@ -47,9 +47,9 @@ const LinearGenerator = ({
         <LinearInputBlock
           searchParams={searchParams}
           setSearchParams={setSearchParams}
-          degreeConst={degreeParam}
-          polynomialConst={polynomialParam}
-          userValueConst={userValueParam}
+          degreeParam={degreeParam}
+          polynomialParam={polynomialParam}
+          userValueParam={userValueParam}
           polynomialType={polynomialType}
         />
       </div>

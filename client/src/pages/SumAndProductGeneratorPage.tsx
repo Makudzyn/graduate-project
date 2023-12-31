@@ -10,10 +10,8 @@ import {
   POLYNOMIAL_TYPE_B,
 } from "../utils/consts.ts";
 import { useSearchParams } from "react-router-dom";
-import {
-  findGCD,
-  linearCalculations,
-} from "../functions/generatorFunctions.ts";
+import { findGCD } from "../functions/generatorFunctions.ts";
+import { linearCalculations } from "../functions/calculationRequestFunctions.ts";
 import {
   fetchPolynomials,
   sendSumAndProductGeneratorData,
@@ -178,16 +176,13 @@ const SumAndProductGeneratorPage = observer(() => {
           />
         </div>
         <div className="flex justify-center flex-col my-5">
-          <PeriodInfo
-            factualPeriodLength={periodLengthS}
-            identifier={"(S)"}
-          />
+          <PeriodInfo factualPeriodLength={periodLengthS} identifier={"(S)"} />
           <PeriodsCondition
             polynomialTypeFirst={POLYNOMIAL_TYPE_A}
             polynomialTypeSecond={POLYNOMIAL_TYPE_B}
             condition={conditionS}
           />
-          <CoprimeCondition conditionS={conditionS}/>
+          <CoprimeCondition conditionS={conditionS} />
         </div>
 
         {conditionS === 1 && (
@@ -206,9 +201,9 @@ const SumAndProductGeneratorPage = observer(() => {
             <Sequence dataArray={productSequence} />
             <HammingWeight hammingWeight={hammingWeightProduct} />
 
-              <div className="flex justify-center items-center w-full h-full">
-                <PlotlyChart data1={sumCorrelation} data2={productCorrelation}/>
-              </div>
+            <div className="flex justify-center items-center w-full h-full">
+              <PlotlyChart data1={sumCorrelation} data2={productCorrelation} />
+            </div>
           </>
         )}
       </div>

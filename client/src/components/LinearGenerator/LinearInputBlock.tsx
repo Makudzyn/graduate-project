@@ -15,9 +15,9 @@ import { Polynomial, PolynomialType } from "../../utils/interfacesAndTypes.ts";
 interface LinearInputBlockProps {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
-  degreeConst: string;
-  polynomialConst: string;
-  userValueConst: string;
+  degreeParam: string;
+  polynomialParam: string;
+  userValueParam: string;
   polynomialType?: PolynomialType;
 }
 
@@ -25,9 +25,9 @@ const LinearInputBlock = observer(
   ({
     searchParams,
     setSearchParams,
-    degreeConst,
-    polynomialConst,
-    userValueConst,
+    degreeParam,
+    polynomialParam,
+    userValueParam,
     polynomialType,
   }: LinearInputBlockProps) => {
     const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
@@ -37,14 +37,14 @@ const LinearInputBlock = observer(
     );
 
     const [inputPlaceholder, setInputPlaceholder] = useState<string>("10");
-    const options = generateOptions();
 
+    const options = generateOptions();
     const location = useLocation();
 
     useEffect(() => {
-      const degree = getSelectedParam(degreeConst, searchParams);
-      const polynomial = getSelectedParam(polynomialConst, searchParams);
-      const userValue = getSelectedParam(userValueConst, searchParams);
+      const degree = getSelectedParam(degreeParam, searchParams);
+      const polynomial = getSelectedParam(polynomialParam, searchParams);
+      const userValue = getSelectedParam(userValueParam, searchParams);
 
       const numDegree = Number(degree);
 
@@ -89,7 +89,7 @@ const LinearInputBlock = observer(
       <div className="flex flex-col justify-center py-3 w-[500px]">
         <Select
           selectLabel={`Оберіть ступінь поліному ${polynomialType || ""}`}
-          urlParamName={degreeConst}
+          urlParamName={degreeParam}
           searchParams={searchParams}
           setSelectedOptionToParams={setSearchParams}
           optionsArray={options}
@@ -97,7 +97,7 @@ const LinearInputBlock = observer(
 
         <Select
           selectLabel={`Оберіть поліном ${polynomialType || ""}`}
-          urlParamName={polynomialConst}
+          urlParamName={polynomialParam}
           searchParams={searchParams}
           setSelectedOptionToParams={setSearchParams}
           optionsArray={polynomialArr}
@@ -105,7 +105,7 @@ const LinearInputBlock = observer(
 
         <Input
           inputLabel={`Введіть початковий стан ${polynomialType || ""}`}
-          urlParamName={userValueConst}
+          urlParamName={userValueParam}
           setValue={setSearchParams}
           inputPlaceholder={inputPlaceholder}
           disabled={false}

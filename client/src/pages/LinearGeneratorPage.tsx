@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import { Context } from "../main.tsx";
-import { linearCalculations } from "../functions/generatorFunctions.ts";
+import { linearCalculations } from "../functions/calculationRequestFunctions.ts";
 import { observer } from "mobx-react-lite";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
@@ -15,6 +15,7 @@ import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
+
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
 

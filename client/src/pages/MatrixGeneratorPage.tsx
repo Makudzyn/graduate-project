@@ -1,38 +1,26 @@
 import { useContext, useState } from "react";
-import {
-  fetchPolynomials,
-  sendMatrixGeneratorData,
-} from "../http/polynomialsAPI.ts";
+import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import { observer } from "mobx-react-lite";
 import { Context } from "../main.tsx";
-import {
-  calcLengthByFormula,
-  formatHammingWeight,
-  calcHammingWeightSpectre,
-  polynomialDestructuring,
-  findGCD,
-  generateStructureMatrixA,
-  createMatrixInitialArray,
-  generateStructureMatrixB,
-  generateMatrixBasis,
-} from "../functions/generatorFunctions.ts";
-import Button from "../components/Button.tsx";
-import Sequence from "../components/Sequence.tsx";
-import ConditionMatrixBlock from "../components/MatrixGenerator/ConditionMatrixBlock.tsx";
-import StructureMatricesBlock from "../components/MatrixGenerator/StructureMatricesBlock.tsx";
-import PeriodInfo from "../components/PeriodInfo.tsx";
-import HammingWeight from "../components/HammingWeight.tsx";
-import HammingWeightSpectre from "../components/HammingWeightSpectre.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
-import MatrixInputBlock from "../components/MatrixGenerator/MatrixInputBlock.tsx";
 import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
-import { POLYNOMIAL_TYPE_A, POLYNOMIAL_TYPE_B } from "../utils/consts.ts";
-import PeriodsCondition from "../components/PeriodsCondition.tsx";
+import {
+  PARAMS_DEGREE_A,
+  PARAMS_DEGREE_B,
+  PARAMS_MATRIX_RANK,
+  PARAMS_OUTPUT_INDEX_I,
+  PARAMS_OUTPUT_INDEX_J,
+  PARAMS_POLYNOMIAL_A,
+  PARAMS_POLYNOMIAL_B,
+  POLYNOMIAL_TYPE_A,
+  POLYNOMIAL_TYPE_B,
+} from "../utils/consts.ts";
+import { useSearchParams } from "react-router-dom";
+import MatrixGenerator from "../components/MatrixGenerator.tsx";
+import { matrixCalculations } from "../functions/calculationRequestFunctions.ts";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
-
-  usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
@@ -58,143 +46,69 @@ const MatrixGeneratorPage = observer(() => {
   ]);
   const [correlation, setCorrelation] = useState<number[]>([]);
 
-  async function matrixCalculations() {
-    const {
-      degreeA,
-      polynomialA,
-      degreeB,
-      polynomialB,
-      indexI,
-      indexJ,
-      matrixRank,
-    } = calculationInfoStore.allInputValues;
+  const [searchParams, setSearchParams] = useSearchParams({
+    degree_a: "2",
+    polynomial_a: "1 7 H",
+    degree_b: "2",
+    polynomial_b: "1 7 H",
+    index_i: "0",
+    index_j: "0",
+    matrix_rank: "1",
+  });
 
-    const { polyIndex: polyIndexA, polyBinary: polyBinaryA } =
-      polynomialDestructuring(polynomialA);
-    const { polyIndex: polyIndexB, polyBinary: polyBinaryB } =
-      polynomialDestructuring(polynomialB);
-
-    const polynomialArrA = polyBinaryA.split("").slice(1);
-    const polynomialArrB = polyBinaryB.split("").slice(1);
-
-    const potentialPeriodLengthA = Math.pow(2, degreeA) - 1;
-    const potentialPeriodLengthB = Math.pow(2, degreeB) - 1;
-
-    setPotentialPeriodLengthA(potentialPeriodLengthA);
-    setPotentialPeriodLengthB(potentialPeriodLengthB);
-
-    const periodLengthA = calcLengthByFormula(degreeA, polyIndexA);
-    const periodLengthB = calcLengthByFormula(degreeB, polyIndexB);
-    const periodLengthS = periodLengthA * periodLengthB;
-
-    setFactualPeriodLengthA(periodLengthA);
-    setFactualPeriodLengthB(periodLengthB);
-    setPeriodLengthS(periodLengthS);
-
-    const structureMatrixA = generateStructureMatrixA(
-      degreeA,
-      createMatrixInitialArray(degreeA, polynomialArrA),
-    );
-
-    const structureMatrixB = generateStructureMatrixB(
-      degreeB,
-      createMatrixInitialArray(degreeB, polynomialArrB),
-    );
-
-    const basisMatrix = generateMatrixBasis(degreeA, degreeB, matrixRank);
-
-    setStructureMatrixA(structureMatrixA);
-    setStructureMatrixB(structureMatrixB);
-    setBasisMatrix(basisMatrix);
-
-    const condition = findGCD(periodLengthA, periodLengthB);
-    setConditionS(condition);
-
-    const hammingWeightSpectre = calcHammingWeightSpectre(
-      matrixRank,
-      degreeA,
-      degreeB,
-    );
-    const formattedWeightSpectre = formatHammingWeight(hammingWeightSpectre);
-    setHammingWeightSpectre(formattedWeightSpectre);
-
-    try {
-      const {
-        conditionMatrix,
-        pseudorandomSequence,
-        hammingWeight,
-        correlation,
-      } = await sendMatrixGeneratorData(
-        structureMatrixA,
-        structureMatrixB,
-        basisMatrix,
-        periodLengthS,
-        indexI,
-        indexJ,
-      );
-      setConditionMatrix(conditionMatrix);
-      setPseudorandomSequence(pseudorandomSequence);
-      setHammingWeight(hammingWeight);
-      setCorrelation(correlation);
-    } catch (error: any) {
-      console.error("Error sending data to server:", error.message);
-    }
-  }
+  usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
   return (
     <section className="flex h-full justify-center">
       <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
         <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
 
-        <div className="flex w-full justify-evenly pb-9 pt-2.5">
-          <MatrixInputBlock />
-        </div>
-
-        <div className={"flex justify-center items-center p-2.5 mb-5"}>
-          <Button onClick={matrixCalculations}>Розпочати генерацію</Button>
-        </div>
-
-        <StructureMatricesBlock
+        <MatrixGenerator
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
           structureMatrixA={structureMatrixA}
           structureMatrixB={structureMatrixB}
           basisMatrix={basisMatrix}
+          conditionMatrix={conditionMatrix}
+          potentialPeriodLengthA={potentialPeriodLengthA}
+          potentialPeriodLengthB={potentialPeriodLengthB}
+          factualPeriodLengthA={factualPeriodLengthA}
+          factualPeriodLengthB={factualPeriodLengthB}
+          periodLengthS={periodLengthS}
+          conditionS={conditionS}
+          identifierS={"S"}
+          pseudorandomSequence={pseudorandomSequence}
+          hammingWeight={hammingWeight}
+          hammingWeightSpectre={hammingWeightSpectre}
+          degreeParamA={PARAMS_DEGREE_A}
+          degreeParamB={PARAMS_DEGREE_B}
+          polynomialParamA={PARAMS_POLYNOMIAL_A}
+          polynomialParamB={PARAMS_POLYNOMIAL_B}
+          indexParamI={PARAMS_OUTPUT_INDEX_I}
+          indexParamJ={PARAMS_OUTPUT_INDEX_J}
+          matrixRankParam={PARAMS_MATRIX_RANK}
+          polynomialTypeA={POLYNOMIAL_TYPE_A}
+          polynomialTypeB={POLYNOMIAL_TYPE_B}
+          onClick={() =>
+            matrixCalculations(
+              calculationInfoStore,
+              setStructureMatrixA,
+              setStructureMatrixB,
+              setConditionMatrix,
+              setBasisMatrix,
+              setPotentialPeriodLengthA,
+              setPotentialPeriodLengthB,
+              setFactualPeriodLengthA,
+              setFactualPeriodLengthB,
+              setPeriodLengthS,
+              setConditionS,
+              setPseudorandomSequence,
+              setHammingWeight,
+              setHammingWeightSpectre,
+              setCorrelation,
+            )
+          }
         />
-
-        <div className="my-5 gap-3 flex justify-center items-center w-full">
-          <PeriodInfo
-            potentialPeriodLength={potentialPeriodLengthA}
-            factualPeriodLength={factualPeriodLengthA}
-            identifier={`(${POLYNOMIAL_TYPE_A})`}
-          />
-          <PeriodInfo
-            potentialPeriodLength={potentialPeriodLengthB}
-            factualPeriodLength={factualPeriodLengthB}
-            identifier={`(${POLYNOMIAL_TYPE_B})`}
-          />
-        </div>
-
-        <div className="my-5 flex justify-center">
-          <div className="flex flex-col w-3/4 h-[400px] justify-evenly items-center">
-            <h3 className="text-center">Матриці S[1..N]</h3>
-            <ConditionMatrixBlock
-              conditionMatrix={conditionMatrix}
-              periodLength={potentialPeriodLengthA}
-            />
-            <PeriodInfo
-              factualPeriodLength={periodLengthS}
-              identifier={"(S)"}
-            />
-            <PeriodsCondition polynomialTypeFirst={POLYNOMIAL_TYPE_A} polynomialTypeSecond={POLYNOMIAL_TYPE_B} condition={conditionS} />
-
-          </div>
-        </div>
-
-        <div className={"w-full flex flex-col"}>
-          <label>Згенерована послідовність</label>
-          <Sequence dataArray={pseudorandomSequence} />
-          <HammingWeight hammingWeight={hammingWeight} />
-          <HammingWeightSpectre hammingWeightSpectre={hammingWeightSpectre} />
-        </div>
 
         <div className="flex justify-center items-center w-full h-full">
           <PlotlyChart data1={correlation} />

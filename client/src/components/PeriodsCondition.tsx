@@ -1,8 +1,8 @@
 import { PolynomialType } from "../utils/interfacesAndTypes.ts";
 
 interface PeriodsConditionProps {
-   polynomialTypeFirst: PolynomialType;
-   polynomialTypeSecond: PolynomialType;
+   polynomialTypeFirst?: PolynomialType;
+   polynomialTypeSecond?: PolynomialType;
    condition: number;
 }
 
