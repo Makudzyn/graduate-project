@@ -3,13 +3,13 @@ import ApiError from "../error/apiError";
 import { Polynomial } from "../models/models";
 import {
   autocorrelation,
-  convertPrs,
+  convertPrs, countWeights,
   expandSequence,
-  getPrsSequence,
+  getPrsSequence, hammingWeightBlock,
   hammingWeightCalc,
   linearFeedbackShiftRegister,
   matrixShiftRegister,
-  performAdditionAndMultiplication,
+  performAdditionAndMultiplication
 } from "../functions/computingFunctions";
 
 async function addPolynomial(
@@ -203,7 +203,43 @@ async function additionAndMultiplicationComputation(
       hammingWeightSum,
       hammingWeightProduct,
       sumCorrelation,
-      productCorrelation
+      productCorrelation,
+    });
+  } catch (error: unknown) {
+    // явно указываем тип для ошибки как unknown
+    return next(ApiError.internal((error as Error).message)); // приведение типа к Error
+  }
+}
+
+async function hammingWeightBlocksComputation(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<Response | void> {
+  try {
+    const { linearSequence, matrixSequence, hammingBlockLength } = req.body;
+    const linearWeightsArr = hammingWeightBlock(linearSequence, hammingBlockLength);
+    const matrixWeightsArr = hammingWeightBlock(matrixSequence, hammingBlockLength);
+
+    const countedLinearWeights = countWeights(linearWeightsArr);
+    const countedMatrixWeights = countWeights(matrixWeightsArr);
+
+    const linearWeights = Object.values(countedLinearWeights);
+    const matrixWeights = Object.values(countedMatrixWeights);
+
+    const linearKeys = Object.keys(countedLinearWeights);
+    const matrixKeys = Object.keys(countedMatrixWeights);
+
+    const combinedKeys = [...linearKeys, ...matrixKeys];
+    const uniqueKeysSet = new Set(combinedKeys);
+    const sharedWeights = [...uniqueKeysSet].map(Number).sort((a, b) => a - b);
+    // const combinedKeys = linearKeys.concat(matrixKeys);
+    // const sharedWeights = combinedKeys.filter((value, index, self) => self.indexOf(value) === index);
+
+    return res.json({
+      linearWeights,
+      matrixWeights,
+      sharedWeights
     });
   } catch (error: unknown) {
     // явно указываем тип для ошибки как unknown
@@ -220,4 +256,5 @@ export {
   linearComputation,
   matrixComputation,
   additionAndMultiplicationComputation,
+  hammingWeightBlocksComputation
 };

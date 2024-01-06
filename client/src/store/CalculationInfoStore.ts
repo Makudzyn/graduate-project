@@ -13,6 +13,7 @@ export default class CalculationInfoStore {
   private _userValue: string = "";
   private _userValueA: string = "";
   private _userValueB: string = "";
+  private _hammingBlockLength: number = 0;
 
   constructor() {
     makeAutoObservable(this); // Для того чтобы Mobx следил за изменениями переменных
@@ -32,6 +33,7 @@ export default class CalculationInfoStore {
     userValue?: string;
     userValueA?: string;
     userValueB?: string;
+    hammingBlockLength?: number;
   }) {
     inputValues.degree !== undefined && (this._degree = inputValues.degree);
     inputValues.polynomial !== undefined &&
@@ -52,6 +54,8 @@ export default class CalculationInfoStore {
       (this._userValueA = inputValues.userValueA);
     inputValues.userValueB !== undefined &&
       (this._userValueB = inputValues.userValueB);
+    inputValues.hammingBlockLength !== undefined &&
+      (this._hammingBlockLength = inputValues.hammingBlockLength);
   }
 
   get allInputValues(): {
@@ -67,6 +71,7 @@ export default class CalculationInfoStore {
     userValue: string;
     userValueA: string;
     userValueB: string;
+    hammingBlockLength: number;
   } {
     return {
       degree: this._degree,
@@ -81,6 +86,7 @@ export default class CalculationInfoStore {
       userValue: this._userValue,
       userValueA: this._userValueA,
       userValueB: this._userValueB,
+      hammingBlockLength: this._hammingBlockLength,
     };
   }
 }

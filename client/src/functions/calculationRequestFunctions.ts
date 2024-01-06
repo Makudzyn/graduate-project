@@ -1,4 +1,5 @@
 import {
+  sendHammingWeightAnalysisData,
   sendLinearGeneratorData,
   sendMatrixGeneratorData,
 } from "../http/polynomialsAPI.ts";
@@ -25,7 +26,7 @@ export async function linearCalculations(
   setFactualPeriodLength: Dispatch<SetStateAction<number>>,
   setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
   setHammingWeight: Dispatch<SetStateAction<number>>,
-  setCorrelation: Dispatch<SetStateAction<number[]>>,
+  setCorrelation?: Dispatch<SetStateAction<number[]>>,
   polynomialType?: PolynomialType,
 ) {
   let degree: number, polynomial: string, userValue: string;
@@ -81,7 +82,7 @@ export async function linearCalculations(
     setConditionMatrix(conditionMatrix);
     setPseudorandomSequence(pseudorandomSequence);
     setHammingWeight(hammingWeight);
-    setCorrelation(correlation);
+    setCorrelation && setCorrelation(correlation);
   } catch (error: any) {
     console.error("Error sending data to server:", error.message);
   }
@@ -102,7 +103,7 @@ export async function matrixCalculations(
   setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
   setHammingWeight: Dispatch<SetStateAction<number>>,
   setHammingWeightSpectre: Dispatch<SetStateAction<string[]>>,
-  setCorrelation: Dispatch<SetStateAction<number[]>>,
+  setCorrelation?: Dispatch<SetStateAction<number[]>>,
 ) {
   const {
     degreeA,
@@ -180,7 +181,34 @@ export async function matrixCalculations(
     setConditionMatrix(conditionMatrix);
     setPseudorandomSequence(pseudorandomSequence);
     setHammingWeight(hammingWeight);
-    setCorrelation(correlation);
+    setCorrelation && setCorrelation(correlation);
+  } catch (error: any) {
+    console.error("Error sending data to server:", error.message);
+  }
+}
+
+export async function hammingBlockCalculations(
+  calculationInfoStore: CalculationInfoStore,
+  linearSequence: number[],
+  matrixSequence: number[],
+  setLinearSeqBlockLengths: Dispatch<SetStateAction<number[]>>,
+  setMatrixSeqBlockLengths: Dispatch<SetStateAction<number[]>>,
+  setSharedWeights: Dispatch<SetStateAction<number[]>>
+) {
+  const {hammingBlockLength} = calculationInfoStore.allInputValues;
+  try {
+    const {
+      linearWeights,
+      matrixWeights,
+      sharedWeights
+    } = await sendHammingWeightAnalysisData(
+      linearSequence,
+      matrixSequence,
+      hammingBlockLength
+    );
+    setLinearSeqBlockLengths(linearWeights);
+    setMatrixSeqBlockLengths(matrixWeights);
+    setSharedWeights(sharedWeights)
   } catch (error: any) {
     console.error("Error sending data to server:", error.message);
   }

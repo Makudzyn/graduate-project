@@ -137,6 +137,23 @@ function matrixShiftRegister(
   return { conditionMatrix, pseudorandomSequence };
 }
 
+function hammingWeightBlock(prs: number[], blockLength: number) {
+  const prsLength = prs.length;
+  let weightArray = [];
+  for (let i = 0; i < prsLength - blockLength + 1; i++) {
+    const blockSlice = prs.slice(i, i+blockLength);
+    const blockWeight = hammingWeightCalc(blockSlice);
+    weightArray.push(blockWeight);
+  }
+  return weightArray;
+}
+
+function countWeights(weightArray: number[]): Record<string, number> {
+  return weightArray.reduce((count: Record<string, number>, num) => {
+    count[num] = (count[num] || 0) + 1;
+    return count;
+  }, {});
+}
 function performAdditionAndMultiplication(
   prsA: number[],
   prsB: number[],
@@ -171,4 +188,6 @@ export {
   findGCD,
   expandSequence,
   performAdditionAndMultiplication,
+  hammingWeightBlock,
+  countWeights
 };

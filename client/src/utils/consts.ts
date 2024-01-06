@@ -22,9 +22,11 @@ export const PARAMS_MATRIX_RANK = "matrix_rank";
 export const PARAMS_USER_VALUE = "value";
 export const PARAMS_USER_VALUE_A = "value_a";
 export const PARAMS_USER_VALUE_B = "value_b";
+export const PARAMS_HAMMING_BLOCK = "hamming_block";
 
 
 //Polynomial types
 export const POLYNOMIAL_TYPE_A = "A";
 export const POLYNOMIAL_TYPE_B = "B";
+
 export const REACT_APP_API_URL = "http://localhost:5000/";

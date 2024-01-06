@@ -56,7 +56,7 @@ export const sendSumAndProductGeneratorData = async (
 ) => {
   try {
     const { data } = await $host.post(
-      "api/polynomials/compute-sum-and-multiplication",
+      "api/polynomials/compute-sum-and-product",
       {
         pseudorandomSequenceA,
         pseudorandomSequenceB,
@@ -70,3 +70,27 @@ export const sendSumAndProductGeneratorData = async (
     );
   }
 };
+
+export const sendHammingWeightAnalysisData = async (
+  linearSequence: number[],
+  matrixSequence: number[],
+  hammingBlockLength: number,
+) => {
+
+  try {
+    const { data } = await $host.post(
+      "api/polynomials/compute-hamming-weight-block",
+      {
+        linearSequence,
+        matrixSequence,
+        hammingBlockLength,
+      },
+    );
+    return data;
+  } catch (error) {
+    throw new Error(
+      "Error sending Hamming weights for computation on server.",
+    );
+  }
+};
+
