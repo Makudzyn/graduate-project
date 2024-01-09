@@ -85,7 +85,7 @@ const MatrixGenerator = ({
         />
       </div>
 
-      <div className={"flex justify-center items-center p-2.5 mb-5"}>
+      <div className="mb-5 flex items-center justify-center p-2.5">
         <Button onClick={onClick}>Розпочати генерацію</Button>
       </div>
 
@@ -95,39 +95,49 @@ const MatrixGenerator = ({
         basisMatrix={basisMatrix}
       />
 
-      <div className="my-5 gap-3 flex justify-center items-center w-full">
-        <PeriodInfo
-          potentialPeriodLength={potentialPeriodLengthA}
-          factualPeriodLength={factualPeriodLengthA}
-          identifier={`(${polynomialTypeA})`}
-        />
-        <PeriodInfo
-          potentialPeriodLength={potentialPeriodLengthB}
-          factualPeriodLength={factualPeriodLengthB}
-          identifier={`(${polynomialTypeB})`}
-        />
-      </div>
-
-      <div className="my-5 flex justify-center">
-        <div className="flex flex-col w-3/4 h-[400px] justify-evenly items-center">
-          <h3 className="text-center">Матриці {identifierS}[1..N]</h3>
-          <ConditionMatrixBlock
-            conditionMatrix={conditionMatrix}
-            periodLength={potentialPeriodLengthA}
-          />
+      <div className="my-5 flex w-full justify-evenly gap-2">
+        <div className="w-[25rem]">
           <PeriodInfo
-            factualPeriodLength={periodLengthS}
-            identifier={`(${identifierS})`}
+            potentialPeriodLength={potentialPeriodLengthA}
+            factualPeriodLength={factualPeriodLengthA}
+            identifier={`(${polynomialTypeA})`}
           />
+        </div>
+        <div className="w-[25rem]">
           <PeriodsCondition
             polynomialTypeFirst={polynomialTypeA}
             polynomialTypeSecond={polynomialTypeB}
             condition={conditionS}
           />
         </div>
+        <div className="w-[25rem]">
+          <PeriodInfo
+            potentialPeriodLength={potentialPeriodLengthB}
+            factualPeriodLength={factualPeriodLengthB}
+            identifier={`(${polynomialTypeB})`}
+          />
+        </div>
       </div>
 
-      <div className="w-full flex flex-col">
+      <div className="mt-5 flex justify-center mb-2.5">
+        <div className="flex flex-col items-center w-[85.203rem] h-[400px]">
+          <h3 className="text-center">Матриці {identifierS}[1..N]</h3>
+          <ConditionMatrixBlock
+            conditionMatrix={conditionMatrix}
+            periodLength={potentialPeriodLengthA}
+          />
+          <div className="my-5 flex w-full justify-center">
+            <div className="flex w-full flex-col justify-between h-[5.625rem]">
+              <PeriodInfo
+                factualPeriodLength={periodLengthS}
+                identifier={`(${identifierS})`}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex w-full flex-col p-2">
         <label>Згенерована послідовність</label>
         <Sequence dataArray={pseudorandomSequence} />
         <HammingWeight hammingWeight={hammingWeight} />

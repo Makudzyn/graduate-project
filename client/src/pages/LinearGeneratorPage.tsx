@@ -4,7 +4,7 @@ import { Context } from "../main.tsx";
 import { linearCalculations } from "../functions/calculationRequestFunctions.ts";
 import { observer } from "mobx-react-lite";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
-import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
+import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 import { useSearchParams } from "react-router-dom";
 import {
   PARAMS_DEGREE,
@@ -66,9 +66,7 @@ const LinearGeneratorPage = observer(() => {
           }
         />
 
-        <div className="flex h-full w-full items-center justify-center">
-          <PlotlyChart data1={correlation} />
-        </div>
+        <CorrelationChart data1={correlation} />
       </div>
     </section>
   );

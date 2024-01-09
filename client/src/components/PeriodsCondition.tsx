@@ -8,7 +8,7 @@ interface PeriodsConditionProps {
 
 const PeriodsCondition = ({ polynomialTypeFirst, polynomialTypeSecond, condition }: PeriodsConditionProps) => {
  return (
-   <h5 className="w-full text-center my-1">Умова (T({polynomialTypeFirst}), T({polynomialTypeSecond})) = {condition}</h5>
+   <h5 className="my-1 w-full text-center">Умова (T({polynomialTypeFirst}), T({polynomialTypeSecond})) = {condition}</h5>
  );
 };
 

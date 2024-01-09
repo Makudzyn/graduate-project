@@ -25,7 +25,7 @@ import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
 import Button from "../components/Button.tsx";
 import PeriodsCondition from "../components/PeriodsCondition.tsx";
 import PeriodInfo from "../components/PeriodInfo.tsx";
-import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
+import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 import CoprimeCondition from "../components/CoprimeCondition.tsx";
 
 const SumAndProductGeneratorPage = observer(() => {
@@ -202,7 +202,7 @@ const SumAndProductGeneratorPage = observer(() => {
             <HammingWeight hammingWeight={hammingWeightProduct} />
 
             <div className="flex justify-center items-center w-full h-full">
-              <PlotlyChart data1={sumCorrelation} data2={productCorrelation} />
+              <CorrelationChart data1={sumCorrelation} data2={productCorrelation} />
             </div>
           </>
         )}

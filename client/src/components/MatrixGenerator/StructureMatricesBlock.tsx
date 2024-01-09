@@ -11,16 +11,16 @@ const StructureMatricesBlock = ({
   basisMatrix,
 }: StructureMatricesBlockProps) => {
   return (
-    <div className="flex items-center justify-center gap-2">
-      <div>
+    <div className="flex flex-wrap items-center justify-evenly gap-2">
+      <div className="flex flex-col flex-wrap">
         <h3 className="text-center">Структурна матриця F(A)</h3>
         <Matrix dataArray={structureMatrixA} />
       </div>
-      <div>
+      <div className="flex flex-col flex-wrap">
         <h3 className="text-center">Матриця S[0]</h3>
         <Matrix dataArray={basisMatrix} />
       </div>
-      <div>
+      <div className="flex flex-col flex-wrap">
         <h3 className="text-center">Структурна матриця F(B)</h3>
         <Matrix dataArray={structureMatrixB} />
       </div>

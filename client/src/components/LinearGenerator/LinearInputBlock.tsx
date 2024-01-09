@@ -86,7 +86,7 @@ const LinearInputBlock = observer(
     }, [location.search]);
 
     return (
-      <div className="flex flex-col justify-center py-3 w-[500px]">
+      <div className="flex flex-col justify-center w-[25rem]">
         <Select
           selectLabel={`Оберіть ступінь поліному ${polynomialType || ""}`}
           urlParamName={degreeParam}

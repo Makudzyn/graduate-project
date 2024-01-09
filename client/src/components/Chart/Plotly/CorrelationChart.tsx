@@ -1,13 +1,15 @@
 import Plot from "react-plotly.js";
-import { Data, Layout } from "plotly.js";
-interface PlotlyChartProps {
+import { Config, Data, Layout } from "plotly.js";
+import "./plotly-styles.css";
+interface CorrelationChartProps {
   data1: number[];
   data2?: number[];
 }
 
-const PlotlyChart = ({ data1, data2 }: PlotlyChartProps) => {
-  const TOP_LIMIT_Y_AXIS = 1.1;
-  const BOTTOM_LIMIT_Y_AXIS = -1.1;
+const CorrelationChart = ({ data1, data2 }: CorrelationChartProps) => {
+  let yAxisLimit = 1.1;
+  let xAxisLimit = -1.1;
+
 
   const plotData = [
     {
@@ -25,8 +27,7 @@ const PlotlyChart = ({ data1, data2 }: PlotlyChartProps) => {
       },
       opacity: 0.9,
       hoverinfo: "none", // Отображаем информацию из text при наведении
-      hovertemplate:
-        "<b>Index:</b> %{x}<br><b>Correlation:</b> %{y}<br><extra></extra>",
+      hovertemplate: "<b>Індекс:</b> %{x}<br><b>Коеф. корреляції:</b> %{y}<br><extra></extra>",
     },
     {
       y: data2,
@@ -43,33 +44,34 @@ const PlotlyChart = ({ data1, data2 }: PlotlyChartProps) => {
       },
       opacity: 0.9,
       hoverinfo: "none",
-      hovertemplate:
-        "<b>Index:</b> %{x}<br><b>Correlation:</b> %{y}<br><extra></extra>",
+      hovertemplate: "<b>Індекс:</b> %{x}<br><b>Коеф. корреляції:</b> %{y}<br><extra></extra>",
     },
   ] as Data[];
 
   const plotLayout = {
     title: "Автокореляційний графік",
     xaxis: {
-      title: "Індекс", // Название оси X
-      type: "linear", // Тип данных на оси X (linear для числовой оси)
+      title: "Індекс",
+      type: "linear",
     },
     yaxis: {
-      title: "Коєфіцієнт корреляції", // Название оси Y
-      range: [BOTTOM_LIMIT_Y_AXIS, TOP_LIMIT_Y_AXIS], // Диапазон значений на оси Y
+      title: "Коєфіцієнт корреляції",
+      range: [xAxisLimit, yAxisLimit],
     },
     showlegend: false,
   } as Partial<Layout>;
 
   const plotConfig = {
     showEditInChartStudio: true,
+    modeBarButtonsToRemove: ["lasso2d", "select2d"],
     plotlyServerURL: "https://chart-studio.plotly.com",
     locale: "ua",
-  };
+    displaylogo: false,
+  } as Partial<Config>;
 
   return (
     <Plot
-      className={"w-full h-[42rem]"}
+      className="w-full h-[50rem]"
       data={plotData}
       layout={plotLayout}
       config={plotConfig}
@@ -78,4 +80,4 @@ const PlotlyChart = ({ data1, data2 }: PlotlyChartProps) => {
   );
 };
 
-export default PlotlyChart;
+export default CorrelationChart;

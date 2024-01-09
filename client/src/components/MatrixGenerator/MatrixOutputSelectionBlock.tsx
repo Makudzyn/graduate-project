@@ -29,30 +29,32 @@ const MatrixOutputSelectionBlock = ({
   setSearchParams,
 }: MatrixOutputSelectProps) => {
   return (
-    <div>
-      <Select
-        selectLabel={firstOutputElementLabel}
-        searchParams={searchParams}
-        setSelectedOptionToParams={setSearchParams}
-        urlParamName={firstUrlParamName}
-        optionsArray={firstOptionsArray}
-      />
+    <div className="flex items-center justify-center px-3 w-[25rem]">
+      <div className="flex flex-col flex-wrap w-[15rem]">
+        <Select
+          selectLabel={firstOutputElementLabel}
+          searchParams={searchParams}
+          setSelectedOptionToParams={setSearchParams}
+          urlParamName={firstUrlParamName}
+          optionsArray={firstOptionsArray}
+        />
 
-      <Select
-        selectLabel={secondOutputElementLabel}
-        searchParams={searchParams}
-        setSelectedOptionToParams={setSearchParams}
-        urlParamName={secondUrlParamName}
-        optionsArray={secondOptionsArray}
-      />
+        <Select
+          selectLabel={secondOutputElementLabel}
+          searchParams={searchParams}
+          setSelectedOptionToParams={setSearchParams}
+          urlParamName={secondUrlParamName}
+          optionsArray={secondOptionsArray}
+        />
 
-      <Select
-        selectLabel={thirdOutputElementLabel}
-        searchParams={searchParams}
-        setSelectedOptionToParams={setSearchParams}
-        urlParamName={thirdUrlParamName}
-        optionsArray={thirdOptionsArray}
-      />
+        <Select
+          selectLabel={thirdOutputElementLabel}
+          searchParams={searchParams}
+          setSelectedOptionToParams={setSearchParams}
+          urlParamName={thirdUrlParamName}
+          optionsArray={thirdOptionsArray}
+        />
+      </div>
     </div>
   );
 };

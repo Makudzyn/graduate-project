@@ -1,12 +1,12 @@
 import { SetURLSearchParams } from "react-router-dom";
 import LinearInputBlock from "./LinearInputBlock.tsx";
 import Button from "../Button.tsx";
-import Matrix from "../Matrix.tsx";
 import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
 import PeriodInfo from "../PeriodInfo.tsx";
 import SequenceType from "../SequenceType.tsx";
 import Sequence from "../Sequence.tsx";
 import HammingWeight from "../HammingWeight.tsx";
+import LinearMatricesBlock from "./LinearMatricesBlock.tsx";
 
 interface LinearGeneratorProps {
   searchParams: URLSearchParams;
@@ -54,25 +54,18 @@ const LinearGenerator = ({
         />
       </div>
 
-      <div className="flex justify-center items-center p-2.5 mb-5">
+      <div className="mb-5 flex items-center justify-center p-2.5">
         <Button onClick={onClick}>Розпочати генерацію</Button>
       </div>
 
-      <div className="flex items-center justify-center gap-2">
-        <div>
-          <h3 className="text-center">Структурна матриця {polynomialType}</h3>
-          <Matrix dataArray={structureMatrix} />
-        </div>
-        <div>
-          <h3 className="text-center">
-            Послідовність станів регістру {polynomialType}
-          </h3>
-          <Matrix dataArray={conditionMatrix} />
-        </div>
-      </div>
+      <LinearMatricesBlock
+        polynomialType={polynomialType}
+        structureMatrix={structureMatrix}
+        conditionMatrix={conditionMatrix}
+      />
 
-      <div className="my-5 flex justify-center w-full">
-        <div className="flex flex-col w-[800px] h-25 justify-between">
+      <div className="my-5 flex w-full justify-center">
+        <div className="flex flex-col justify-between w-full h-[5.625rem]">
           <PeriodInfo
             potentialPeriodLength={potentialPeriodLength}
             factualPeriodLength={factualPeriodLength}
@@ -84,7 +77,8 @@ const LinearGenerator = ({
           />
         </div>
       </div>
-      <div className="w-[800px]">
+
+      <div className="flex w-full flex-col p-2">
         <label>Згенерована послідовність {polynomialType}</label>
         <Sequence dataArray={pseudorandomSequence} />
         <HammingWeight hammingWeight={hammingWeight} />

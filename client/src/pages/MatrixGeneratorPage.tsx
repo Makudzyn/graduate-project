@@ -3,7 +3,7 @@ import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import { observer } from "mobx-react-lite";
 import { Context } from "../main.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
-import PlotlyChart from "../components/Chart/Plotly/PlotlyChart.tsx";
+import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 import {
   PARAMS_DEGREE_A,
   PARAMS_DEGREE_B,
@@ -111,7 +111,7 @@ const MatrixGeneratorPage = observer(() => {
         />
 
         <div className="flex justify-center items-center w-full h-full">
-          <PlotlyChart data1={correlation} />
+          <CorrelationChart data1={correlation} />
         </div>
       </div>
     </section>

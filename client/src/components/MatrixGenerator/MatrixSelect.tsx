@@ -26,7 +26,7 @@ const MatrixSelect = observer(
     polynomialArray,
   }: MatrixSelectProps) => {
     return (
-      <div className="flex flex-col w-96">
+      <div className="flex flex-col w-[25rem] flex-wrap px-3">
         <Select
           selectLabel={firstSelectLabel}
           urlParamName={degreeParamName}

@@ -9,7 +9,7 @@ const PeriodInfo = ({
   identifier,
 }: PeriodInfoProps) => {
   return (
-    <div className="flex justify-evenly w-full">
+    <div className="flex justify-evenly w-full flex-wrap">
       {potentialPeriodLength !== undefined && (
         <h5 className="w-full text-center my-1">
           Потенційний період T<sub>p</sub>
