@@ -1,39 +1,46 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { SetURLSearchParams, useLocation } from "react-router-dom";
+import { classNames, getSelectedParam } from "../functions/functions.ts";
 
 interface InputProps {
   inputLabel?: string;
   inputPlaceholder?: string;
   urlParamName: string;
-  setValue: SetURLSearchParams;
+  searchParams: URLSearchParams;
+  setSearchParams: SetURLSearchParams;
   disabled: boolean;
+  lengthRestriction: number;
 }
 
 const Input = ({
   inputLabel,
   inputPlaceholder,
-  setValue,
+  searchParams,
+  setSearchParams,
   urlParamName,
   disabled,
+  lengthRestriction,
 }: InputProps) => {
   const [inputValue, setInputValue] = useState("");
+  const [charCount, setCharCount] = useState(0);
 
   const location = useLocation();
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const paramValue = params.get(urlParamName);
+    const paramValue = getSelectedParam(urlParamName, searchParams);
 
     if (paramValue !== null) {
       setInputValue(paramValue);
+      setCharCount(paramValue.length);
     }
   }, [location.search]);
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    const targetValue = e.target.value;
-    const params = new URLSearchParams(location.search);
-    params.set(urlParamName, targetValue);
 
-    setValue(
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    let targetValue = e.target.value;
+    targetValue = targetValue.replace(/[^01]/g, "");
+    searchParams.set(urlParamName, targetValue);
+
+    setSearchParams(
       (prev: any) => {
         prev.set(urlParamName, targetValue);
         return prev;
@@ -41,6 +48,7 @@ const Input = ({
       { replace: true },
     );
     setInputValue(targetValue);
+    setCharCount(targetValue.length);
   }
 
   return (
@@ -49,12 +57,20 @@ const Input = ({
         {inputLabel}
       </label>
       <input
-        className="block w-full truncate rounded-md bg-white px-3 py-1.5 mt-2 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+        className={classNames(
+          charCount < lengthRestriction
+            ? "focus:ring-red-500"
+            : "focus:ring-green-500",
+          "mt-2 block w-full truncate rounded-md bg-white px-[1.75em] text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6",
+        )}
         placeholder={inputPlaceholder}
         onChange={handleChange}
         value={inputValue}
         required
         disabled={disabled}
+        pattern="[01]*"
+        title="Please enter only 0 or 1"
+        maxLength={lengthRestriction}
       />
     </div>
   );

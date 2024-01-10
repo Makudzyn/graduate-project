@@ -37,6 +37,7 @@ const LinearInputBlock = observer(
     );
 
     const [inputPlaceholder, setInputPlaceholder] = useState<string>("10");
+    const [lengthRestriction, setLengthRestriction] = useState<number>(0);
 
     const options = generateOptions();
     const location = useLocation();
@@ -47,6 +48,7 @@ const LinearInputBlock = observer(
       const userValue = getSelectedParam(userValueParam, searchParams);
 
       const numDegree = Number(degree);
+      setLengthRestriction(numDegree);
 
       switch (polynomialType) {
         case "A":
@@ -82,6 +84,7 @@ const LinearInputBlock = observer(
       );
 
       const { polyBinary } = polynomialDestructuring(polynomial);
+
       setInputPlaceholder(createPlaceholder(polyBinary));
     }, [location.search]);
 
@@ -106,8 +109,10 @@ const LinearInputBlock = observer(
         <Input
           inputLabel={`Введіть початковий стан ${polynomialType || ""}`}
           urlParamName={userValueParam}
-          setValue={setSearchParams}
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
           inputPlaceholder={inputPlaceholder}
+          lengthRestriction={lengthRestriction}
           disabled={false}
         />
       </div>
