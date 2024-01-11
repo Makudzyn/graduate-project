@@ -9,7 +9,8 @@ interface InputProps {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
   disabled: boolean;
-  lengthRestriction: number;
+  valueRestriction?: number;
+  lengthRestriction?: number;
 }
 
 const Input = ({
@@ -19,6 +20,7 @@ const Input = ({
   setSearchParams,
   urlParamName,
   disabled,
+  valueRestriction,
   lengthRestriction,
 }: InputProps) => {
   const [inputValue, setInputValue] = useState("");
@@ -37,16 +39,26 @@ const Input = ({
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     let targetValue = e.target.value;
-    targetValue = targetValue.replace(/[^01]/g, "");
-    searchParams.set(urlParamName, targetValue);
 
-    setSearchParams(
-      (prev: any) => {
-        prev.set(urlParamName, targetValue);
-        return prev;
-      },
-      { replace: true },
-    );
+    if (lengthRestriction) {
+      targetValue = targetValue.replace(/[^01]/g, "");
+    }
+
+    if (valueRestriction && Number(targetValue) > valueRestriction) {
+      targetValue = "";
+    }
+
+    if (targetValue !== "") {
+
+      setSearchParams(
+        (prevSearchParams: URLSearchParams) => {
+          prevSearchParams.set(urlParamName, targetValue);
+          return prevSearchParams;
+        },
+        { replace: true },
+      );
+    }
+
     setInputValue(targetValue);
     setCharCount(targetValue.length);
   }
@@ -58,7 +70,7 @@ const Input = ({
       </label>
       <input
         className={classNames(
-          charCount < lengthRestriction
+          charCount < lengthRestriction!
             ? "focus:ring-red-500"
             : "focus:ring-green-500",
           "mt-2 block w-full truncate rounded-md bg-white px-[1.75em] text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6",
@@ -68,8 +80,7 @@ const Input = ({
         value={inputValue}
         required
         disabled={disabled}
-        pattern="[01]*"
-        title="Please enter only 0 or 1"
+        title={"Please enter only 0 or 1"}
         maxLength={lengthRestriction}
       />
     </div>

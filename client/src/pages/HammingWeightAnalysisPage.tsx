@@ -77,7 +77,8 @@ const HammingWeightAnalysisPage = observer(() => {
     [],
   );
   const [sharedWeights, setSharedWeights] = useState<number[]>([]);
-
+  const [valueRestriction, setValueRestriction] = useState<number>(0);
+  
   const [searchParams, setSearchParams] = useSearchParams({
     degree: "2",
     polynomial: "1 7 H",
@@ -93,8 +94,14 @@ const HammingWeightAnalysisPage = observer(() => {
   });
 
   useEffect(() => {
-    const blockLength = getSelectedParam(PARAMS_HAMMING_BLOCK, searchParams);
+    const linearLength = pseudorandomSequenceLinear.length;
+    const matrixLength = pseudorandomSequenceMatrices.length;
+    const maxAllowedBlockLength = Math.min(linearLength, matrixLength);
+    setValueRestriction(maxAllowedBlockLength);
+  }, [pseudorandomSequenceLinear, pseudorandomSequenceMatrices]);
 
+  useEffect(() => {
+    const blockLength = getSelectedParam(PARAMS_HAMMING_BLOCK, searchParams);
     calculationInfoStore.setManyInputValues({
       hammingBlockLength: Number(blockLength),
     });
@@ -187,7 +194,9 @@ const HammingWeightAnalysisPage = observer(() => {
             inputLabel="Довжина блоку"
             inputPlaceholder="2"
             urlParamName={PARAMS_HAMMING_BLOCK}
-            setValue={setSearchParams}
+            setSearchParams={setSearchParams}
+            searchParams={searchParams}
+            valueRestriction={valueRestriction}
             disabled={false}
           />
           <Button
