@@ -113,3 +113,7 @@ export function formatHammingWeight(weightSpectre: number[]) {
 export function calculatePossibleValues(degree: number, start: number = 0) {
   return Array.from({ length: degree }, (_, index) => index + start);
 }
+
+export function generateCyclicPolynomial(degree: number) {
+  return ("1" + "0".repeat(degree - 1)).split("");
+}

@@ -1,26 +1,19 @@
 import { Listbox } from "@headlessui/react";
-import { classNames } from "../../functions/functions.ts";
+import { classNames, formatOption } from "../../functions/functions.ts";
 import SelectIcon from "../../assets/select.svg?react";
-import { Polynomial } from "../../utils/interfacesAndTypes.ts";
+import { BooleanSelect, Polynomial } from "../../utils/interfacesAndTypes.ts";
 
 interface OptionListProps {
-  options: (string | number | Polynomial)[];
-}
-function getOptionKey(option: Polynomial | string | number) {
-  if (typeof option === "object" && "id" in option) {
-    return option.id;
-  } else return option;
+  options: (string | number | Polynomial | BooleanSelect)[];
 }
 
-function getOptionValue(option: Polynomial | string | number) {
-  if (typeof option === "object" && "polynomial" in option) {
-    return option.polynomial;
-  } else return option;
-}
-
-function getOptionLabel(option: Polynomial | string | number) {
-  if (typeof option === "object" && "name" in option) {
-    return option.name;
+function getOptionKey(option: Polynomial | BooleanSelect | string | number) {
+  if (typeof option === "object") {
+    if ("id" in option) {
+      return option.id;
+    } else if ("booleanLabel" in option) {
+      return option.booleanLabel
+    }
   } else return option;
 }
 
@@ -30,7 +23,7 @@ const OptionList = ({ options }: OptionListProps) => {
       {options.map((option) => (
         <Listbox.Option
           key={getOptionKey(option)}
-          value={getOptionLabel(option)}
+          value={option}
           className={({ active }) =>
             classNames(
               active ? "bg-indigo-600 text-white" : "text-gray-900",
@@ -47,7 +40,7 @@ const OptionList = ({ options }: OptionListProps) => {
                     "ml-3 block truncate",
                   )}
                 >
-                  {getOptionValue(option)}
+                  {formatOption(option)}
                 </span>
               </div>
               {selected ? (

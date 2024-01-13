@@ -4,14 +4,15 @@ import ChevronDownIcon from "../../assets/chevron-down.svg?react";
 import OptionList from "./OptionList.tsx";
 import { SetURLSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Polynomial } from "../../utils/interfacesAndTypes.ts";
+import { BooleanSelect, Polynomial } from "../../utils/interfacesAndTypes.ts";
+import { formatOption } from "../../functions/functions.ts";
 
 interface SelectProps {
   searchParams: URLSearchParams;
   setSelectedOptionToParams: SetURLSearchParams;
   urlParamName: string;
   selectLabel?: string;
-  optionsArray: (string | number | Polynomial)[];
+  optionsArray: (string | number | Polynomial | BooleanSelect)[];
 }
 
 const Select = ({
@@ -21,7 +22,7 @@ const Select = ({
   selectLabel,
   optionsArray,
 }: SelectProps) => {
-  const [optionValue, setOptionValue] = useState(selectLabel);
+  const [optionValue, setOptionValue] = useState<string | number | Polynomial | BooleanSelect>();
 
   useEffect(() => {
     const paramValue = searchParams.get(urlParamName);
@@ -29,16 +30,29 @@ const Select = ({
       setOptionValue(paramValue);
     }
   }, []);
-  function handleChange(targetValue: string) {
+  function handleChange(targetValue: string | number | Polynomial | BooleanSelect) {
+    let value = "";
+
+    if (typeof targetValue === "object") {
+      if ("name" in targetValue) {
+        value = targetValue.name
+      } else if ("booleanValue" in targetValue) {
+        value = String(targetValue.booleanValue)
+      }
+    } else value = String(targetValue);
+
     setSelectedOptionToParams(
       (prev: any) => {
-        prev.set(urlParamName, targetValue);
+        prev.set(urlParamName, value);
         return prev;
       },
       { replace: true },
     );
-    setOptionValue(targetValue);
+
+    setOptionValue(formatOption(targetValue));
   }
+
+
   return (
     <Listbox
       value={optionValue}
@@ -54,7 +68,7 @@ const Select = ({
           <div className="relative mt-2">
             <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-white pr-10 pl-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
               <span className="flex items-center">
-                <span className="ml-3 block truncate">{optionValue}</span>
+                <span className="ml-3 block truncate">{formatOption(optionValue)}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                   {open ? (
                     <ChevronUpIcon

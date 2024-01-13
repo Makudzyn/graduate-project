@@ -11,11 +11,11 @@ import {
 } from "../utils/consts.ts";
 import { useSearchParams } from "react-router-dom";
 import { findGCD } from "../functions/generatorFunctions.ts";
-import { linearCalculations } from "../functions/calculationRequestFunctions.ts";
 import {
-  fetchPolynomials,
-  sendSumAndProductGeneratorData,
-} from "../http/polynomialsAPI.ts";
+  additionAndMultiplicationCalculations,
+  linearCalculations,
+} from "../functions/calculationRequestFunctions.ts";
+import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../main.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
@@ -85,31 +85,6 @@ const SumAndProductGeneratorPage = observer(() => {
       setConditionS(condition);
     }
   }, [factualPeriodLengthA, factualPeriodLengthB]);
-
-  async function additionAndMultiplicationCalculations() {
-    try {
-      const {
-        sumSequence,
-        productSequence,
-        hammingWeightSum,
-        hammingWeightProduct,
-        sumCorrelation,
-        productCorrelation,
-      } = await sendSumAndProductGeneratorData(
-        pseudorandomSequenceA,
-        pseudorandomSequenceB,
-        periodLengthS,
-      );
-      setSumSequence(sumSequence);
-      setProductSequence(productSequence);
-      setHammingWeightSum(hammingWeightSum);
-      setHammingWeightProduct(hammingWeightProduct);
-      setSumCorrelation(sumCorrelation);
-      setProductCorrelation(productCorrelation);
-    } catch (error: any) {
-      console.error("Error sending data to server:", error.message);
-    }
-  }
 
   return (
     <section className="flex h-full justify-center">
@@ -188,7 +163,21 @@ const SumAndProductGeneratorPage = observer(() => {
         {conditionS === 1 && (
           <>
             <div className="flex justify-center items-center p-2.5 my-5">
-              <Button onClick={additionAndMultiplicationCalculations}>
+              <Button
+                onClick={() =>
+                  additionAndMultiplicationCalculations(
+                    pseudorandomSequenceA,
+                    pseudorandomSequenceB,
+                    periodLengthS,
+                    setSumSequence,
+                    setProductSequence,
+                    setHammingWeightSum,
+                    setHammingWeightProduct,
+                    setSumCorrelation,
+                    setProductCorrelation,
+                  )
+                }
+              >
                 Згенерувати послідовності суми та добутку
               </Button>
             </div>
@@ -202,7 +191,10 @@ const SumAndProductGeneratorPage = observer(() => {
             <HammingWeight hammingWeight={hammingWeightProduct} />
 
             <div className="flex justify-center items-center w-full h-full">
-              <CorrelationChart data1={sumCorrelation} data2={productCorrelation} />
+              <CorrelationChart
+                data1={sumCorrelation}
+                data2={productCorrelation}
+              />
             </div>
           </>
         )}

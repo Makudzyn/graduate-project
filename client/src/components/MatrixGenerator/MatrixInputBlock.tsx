@@ -9,7 +9,11 @@ import { SetURLSearchParams, useLocation } from "react-router-dom";
 import { calculatePossibleValues } from "../../functions/generatorFunctions.ts";
 import { Context } from "../../main.tsx";
 import { observer } from "mobx-react-lite";
-import { Polynomial, PolynomialType } from "../../utils/interfacesAndTypes.ts";
+import {
+  BooleanSelect,
+  Polynomial,
+  PolynomialType,
+} from "../../utils/interfacesAndTypes.ts";
 
 interface MatrixInputBlockProps {
   searchParams: URLSearchParams;
@@ -18,26 +22,32 @@ interface MatrixInputBlockProps {
   degreeParamB: string;
   polynomialParamA: string;
   polynomialParamB: string;
+  cyclicPolyParamA: string;
+  cyclicPolyParamB: string;
   indexParamI: string;
   indexParamJ: string;
   matrixRankParam: string;
   polynomialTypeA?: PolynomialType;
   polynomialTypeB?: PolynomialType;
+  identifierS: string;
 }
 
 const MatrixInputBlock = observer(
   ({
     searchParams,
     setSearchParams,
-    polynomialParamA,
-    polynomialParamB,
     degreeParamA,
     degreeParamB,
+    polynomialParamA,
+    polynomialParamB,
+    cyclicPolyParamA,
+    cyclicPolyParamB,
     indexParamI,
     indexParamJ,
     matrixRankParam,
     polynomialTypeA,
     polynomialTypeB,
+    identifierS,
   }: MatrixInputBlockProps) => {
     const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
 
@@ -50,31 +60,44 @@ const MatrixInputBlock = observer(
       polynomialsStore.polynomials,
     );
 
+    const cyclicSelection: BooleanSelect[] = [
+      { booleanLabel: "Так", booleanValue: true },
+      {
+        booleanLabel: "Ні",
+        booleanValue: false,
+      },
+    ];
+
     const options = generateOptions();
     const location = useLocation();
 
-    const [outputValuesI, setOutputValuesI] = useState<number[]>([0]);
-    const [outputValuesJ, setOutputValuesJ] = useState<number[]>([0]);
-    const [matrixRank, setMatrixRank] = useState<number[]>([1]);
+    const [outputValuesI, setOutputValuesI] = useState<number[]>([]);
+    const [outputValuesJ, setOutputValuesJ] = useState<number[]>([]);
+    const [matrixRank, setMatrixRank] = useState<number[]>([]);
+
 
     useEffect(() => {
       const degreeA = getSelectedParam(degreeParamA, searchParams);
-      const degreeB = getSelectedParam(degreeParamB, searchParams);
+      const numDegreeA = Number(degreeA);
       const polynomialA = getSelectedParam(polynomialParamA, searchParams);
+      const isCyclicA = getSelectedParam(cyclicPolyParamA, searchParams);
+
+      const degreeB = getSelectedParam(degreeParamB, searchParams);
+      const numDegreeB = Number(degreeB);
       const polynomialB = getSelectedParam(polynomialParamB, searchParams);
+      const isCyclicB = getSelectedParam(cyclicPolyParamB, searchParams);
 
       const indexI = getSelectedParam(indexParamI, searchParams);
       const indexJ = getSelectedParam(indexParamJ, searchParams);
       const matrixRank = getSelectedParam(matrixRankParam, searchParams);
 
-      const numDegreeA = Number(degreeA);
-      const numDegreeB = Number(degreeB);
-
       calculationInfoStore.setManyInputValues({
         degreeA: numDegreeA,
         polynomialA,
+        isCyclicA,
         degreeB: numDegreeB,
         polynomialB,
+        isCyclicB,
         indexI: Number(indexI),
         indexJ: Number(indexJ),
         matrixRank: Number(matrixRank),
@@ -107,10 +130,13 @@ const MatrixInputBlock = observer(
         <MatrixSelect
           firstSelectLabel={`Оберіть ступінь поліному F(${polynomialTypeA})`}
           secondSelectLabel={`Поліном F(${polynomialTypeA})`}
+          thirdSelectLabel={`Зробити поліном F(${polynomialTypeA}) циклічним?`}
           degreeParamName={degreeParamA}
           degreeArray={options}
           polynomialParamName={polynomialParamA}
           polynomialArray={polynomialArrA}
+          cyclicPolyParamName={cyclicPolyParamA}
+          cyclicSelect={cyclicSelection}
           searchParams={searchParams}
           setSearchParams={setSearchParams}
         />
@@ -122,7 +148,7 @@ const MatrixInputBlock = observer(
           secondOutputElementLabel={"Значення j вихідного елементу"}
           secondOptionsArray={outputValuesJ}
           secondUrlParamName={indexParamJ}
-          thirdOutputElementLabel={"Ранг матриці S"}
+          thirdOutputElementLabel={`Ранг матриці ${identifierS}`}
           thirdOptionsArray={matrixRank}
           thirdUrlParamName={matrixRankParam}
           searchParams={searchParams}
@@ -132,10 +158,13 @@ const MatrixInputBlock = observer(
         <MatrixSelect
           firstSelectLabel={`Оберіть ступінь поліному F(${polynomialTypeB})`}
           secondSelectLabel={`Поліном F(${polynomialTypeB})`}
+          thirdSelectLabel={`Зробити поліном F(${polynomialTypeB}) циклічним?`}
           degreeParamName={degreeParamB}
           degreeArray={options}
           polynomialParamName={polynomialParamB}
           polynomialArray={polynomialArrB}
+          cyclicPolyParamName={cyclicPolyParamB}
+          cyclicSelect={cyclicSelection}
           searchParams={searchParams}
           setSearchParams={setSearchParams}
         />

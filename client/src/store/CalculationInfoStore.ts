@@ -7,6 +7,8 @@ export default class CalculationInfoStore {
   private _polynomial: string = "";
   private _polynomialA: string = "";
   private _polynomialB: string = "";
+  private _isCyclicA: string = "";
+  private _isCyclicB: string = "";
   private _indexI: number = 0;
   private _indexJ: number = 0;
   private _matrixRank: number = 0;
@@ -25,8 +27,10 @@ export default class CalculationInfoStore {
     polynomial?: string;
     degreeA?: number;
     polynomialA?: string;
+    isCyclicA?: string;
     degreeB?: number;
     polynomialB?: string;
+    isCyclicB?: string;
     indexI?: number;
     indexJ?: number;
     matrixRank?: number;
@@ -41,9 +45,13 @@ export default class CalculationInfoStore {
     inputValues.degreeA !== undefined && (this._degreeA = inputValues.degreeA);
     inputValues.polynomialA !== undefined &&
       (this._polynomialA = inputValues.polynomialA);
+    inputValues.isCyclicA !== undefined &&
+      (this._isCyclicA = inputValues.isCyclicA);
     inputValues.degreeB !== undefined && (this._degreeB = inputValues.degreeB);
     inputValues.polynomialB !== undefined &&
       (this._polynomialB = inputValues.polynomialB);
+    inputValues.isCyclicB !== undefined &&
+    (this._isCyclicB = inputValues.isCyclicB);
     inputValues.indexI !== undefined && (this._indexI = inputValues.indexI);
     inputValues.indexJ !== undefined && (this._indexJ = inputValues.indexJ);
     inputValues.matrixRank !== undefined &&
@@ -63,8 +71,10 @@ export default class CalculationInfoStore {
     polynomial: string;
     degreeA: number;
     polynomialA: string;
+    isCyclicA: string;
     degreeB: number;
     polynomialB: string;
+    isCyclicB: string;
     indexI: number;
     indexJ: number;
     matrixRank: number;
@@ -78,8 +88,10 @@ export default class CalculationInfoStore {
       polynomial: this._polynomial,
       degreeA: this._degreeA,
       polynomialA: this._polynomialA,
+      isCyclicA: this._isCyclicA,
       degreeB: this._degreeB,
       polynomialB: this._polynomialB,
+      isCyclicB: this._isCyclicB,
       indexI: this._indexI,
       indexJ: this._indexJ,
       matrixRank: this._matrixRank,

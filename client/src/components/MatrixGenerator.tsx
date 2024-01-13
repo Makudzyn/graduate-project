@@ -32,6 +32,8 @@ interface MatrixGeneratorProps {
   degreeParamB: string;
   polynomialParamA: string;
   polynomialParamB: string;
+  cyclicPolyParamA: string;
+  cyclicPolyParamB: string;
   indexParamI: string;
   indexParamJ: string;
   matrixRankParam: string;
@@ -47,6 +49,8 @@ const MatrixGenerator = ({
   degreeParamB,
   polynomialParamA,
   polynomialParamB,
+  cyclicPolyParamA,
+  cyclicPolyParamB,
   polynomialTypeA,
   polynomialTypeB,
   indexParamJ,
@@ -77,11 +81,14 @@ const MatrixGenerator = ({
           degreeParamB={degreeParamB}
           polynomialParamA={polynomialParamA}
           polynomialParamB={polynomialParamB}
+          cyclicPolyParamA={cyclicPolyParamA}
+          cyclicPolyParamB={cyclicPolyParamB}
           indexParamI={indexParamI}
           indexParamJ={indexParamJ}
           matrixRankParam={matrixRankParam}
           polynomialTypeA={polynomialTypeA}
           polynomialTypeB={polynomialTypeB}
+          identifierS={identifierS}
         />
       </div>
 
@@ -93,6 +100,9 @@ const MatrixGenerator = ({
         structureMatrixA={structureMatrixA}
         structureMatrixB={structureMatrixB}
         basisMatrix={basisMatrix}
+        polynomialTypeA={polynomialTypeA}
+        polynomialTypeB={polynomialTypeB}
+        identifierS={identifierS}
       />
 
       <div className="my-5 flex w-full justify-evenly gap-2">

@@ -5,6 +5,8 @@ import { Context } from "../main.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 import {
+  PARAMS_CYCLIC_POLY_A,
+  PARAMS_CYCLIC_POLY_B,
   PARAMS_DEGREE_A,
   PARAMS_DEGREE_B,
   PARAMS_MATRIX_RANK,
@@ -49,8 +51,10 @@ const MatrixGeneratorPage = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams({
     degree_a: "2",
     polynomial_a: "1 7 H",
+    cyclic_a: "false",
     degree_b: "2",
     polynomial_b: "1 7 H",
+    cyclic_b: "false",
     index_i: "0",
     index_j: "0",
     matrix_rank: "1",
@@ -84,6 +88,8 @@ const MatrixGeneratorPage = observer(() => {
           degreeParamB={PARAMS_DEGREE_B}
           polynomialParamA={PARAMS_POLYNOMIAL_A}
           polynomialParamB={PARAMS_POLYNOMIAL_B}
+          cyclicPolyParamA={PARAMS_CYCLIC_POLY_A}
+          cyclicPolyParamB={PARAMS_CYCLIC_POLY_B}
           indexParamI={PARAMS_OUTPUT_INDEX_I}
           indexParamJ={PARAMS_OUTPUT_INDEX_J}
           matrixRankParam={PARAMS_MATRIX_RANK}
@@ -110,7 +116,7 @@ const MatrixGeneratorPage = observer(() => {
           }
         />
 
-        <div className="flex justify-center items-center w-full h-full">
+        <div className="flex h-full w-full items-center justify-center">
           <CorrelationChart data1={correlation} />
         </div>
       </div>

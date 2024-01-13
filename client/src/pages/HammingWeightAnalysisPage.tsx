@@ -9,6 +9,7 @@ import {
 import { Context } from "../main.tsx";
 import { observer } from "mobx-react-lite";
 import {
+  PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
   PARAMS_DEGREE,
   PARAMS_DEGREE_A,
   PARAMS_DEGREE_B,
@@ -21,7 +22,7 @@ import {
   PARAMS_POLYNOMIAL_B,
   PARAMS_USER_VALUE,
   POLYNOMIAL_TYPE_A,
-  POLYNOMIAL_TYPE_B,
+  POLYNOMIAL_TYPE_B
 } from "../utils/consts.ts";
 import MatrixGenerator from "../components/MatrixGenerator.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
@@ -85,8 +86,10 @@ const HammingWeightAnalysisPage = observer(() => {
     value: "01",
     degree_a: "2",
     polynomial_a: "1 7 H",
+    cyclic_a: "false",
     degree_b: "2",
     polynomial_b: "1 7 H",
+    cyclic_b: "false",
     index_i: "0",
     index_j: "0",
     matrix_rank: "1",
@@ -163,6 +166,8 @@ const HammingWeightAnalysisPage = observer(() => {
               degreeParamB={PARAMS_DEGREE_B}
               polynomialParamA={PARAMS_POLYNOMIAL_A}
               polynomialParamB={PARAMS_POLYNOMIAL_B}
+              cyclicPolyParamA={PARAMS_CYCLIC_POLY_A}
+              cyclicPolyParamB={PARAMS_CYCLIC_POLY_B}
               indexParamI={PARAMS_OUTPUT_INDEX_I}
               indexParamJ={PARAMS_OUTPUT_INDEX_J}
               matrixRankParam={PARAMS_MATRIX_RANK}

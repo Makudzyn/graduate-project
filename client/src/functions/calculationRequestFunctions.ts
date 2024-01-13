@@ -2,6 +2,7 @@ import {
   sendHammingWeightAnalysisData,
   sendLinearGeneratorData,
   sendMatrixGeneratorData,
+  sendSumAndProductGeneratorData,
 } from "../http/polynomialsAPI.ts";
 import { Dispatch, SetStateAction } from "react";
 import CalculationInfoStore from "../store/CalculationInfoStore.ts";
@@ -12,6 +13,7 @@ import {
   createMatrixInitialArray,
   findGCD,
   formatHammingWeight,
+  generateCyclicPolynomial,
   generateMatrixBasis,
   generateStructureMatrixA,
   generateStructureMatrixB,
@@ -108,8 +110,10 @@ export async function matrixCalculations(
   const {
     degreeA,
     polynomialA,
+    isCyclicA,
     degreeB,
     polynomialB,
+    isCyclicB,
     indexI,
     indexJ,
     matrixRank,
@@ -120,8 +124,16 @@ export async function matrixCalculations(
   const { polyIndex: polyIndexB, polyBinary: polyBinaryB } =
     polynomialDestructuring(polynomialB);
 
-  const polynomialArrA = polyBinaryA.split("").slice(1);
-  const polynomialArrB = polyBinaryB.split("").slice(1);
+  let polynomialArrA, polynomialArrB;
+
+  if (isCyclicA === "true") {
+    polynomialArrA = generateCyclicPolynomial(degreeA);
+  } else polynomialArrA = polyBinaryA.split("").slice(1);
+
+  if (isCyclicB === "true") {
+    polynomialArrB = generateCyclicPolynomial(degreeB);
+  } else polynomialArrB = polyBinaryB.split("").slice(1);
+
 
   const potentialPeriodLengthA = Math.pow(2, degreeA) - 1;
   const potentialPeriodLengthB = Math.pow(2, degreeB) - 1;
@@ -187,28 +199,60 @@ export async function matrixCalculations(
   }
 }
 
+export async function additionAndMultiplicationCalculations(
+  pseudorandomSequenceA: number[],
+  pseudorandomSequenceB: number[],
+  periodLengthS: number,
+  setSumSequence: Dispatch<SetStateAction<number[]>>,
+  setProductSequence: Dispatch<SetStateAction<number[]>>,
+  setHammingWeightSum: Dispatch<SetStateAction<number>>,
+  setHammingWeightProduct: Dispatch<SetStateAction<number>>,
+  setSumCorrelation: Dispatch<SetStateAction<number[]>>,
+  setProductCorrelation: Dispatch<SetStateAction<number[]>>,
+) {
+  try {
+    const {
+      sumSequence,
+      productSequence,
+      hammingWeightSum,
+      hammingWeightProduct,
+      sumCorrelation,
+      productCorrelation,
+    } = await sendSumAndProductGeneratorData(
+      pseudorandomSequenceA,
+      pseudorandomSequenceB,
+      periodLengthS,
+    );
+    setSumSequence(sumSequence);
+    setProductSequence(productSequence);
+    setHammingWeightSum(hammingWeightSum);
+    setHammingWeightProduct(hammingWeightProduct);
+    setSumCorrelation(sumCorrelation);
+    setProductCorrelation(productCorrelation);
+  } catch (error: any) {
+    console.error("Error sending data to server:", error.message);
+  }
+}
+
 export async function hammingBlockCalculations(
   calculationInfoStore: CalculationInfoStore,
   linearSequence: number[],
   matrixSequence: number[],
   setLinearSeqBlockLengths: Dispatch<SetStateAction<number[]>>,
   setMatrixSeqBlockLengths: Dispatch<SetStateAction<number[]>>,
-  setSharedWeights: Dispatch<SetStateAction<number[]>>
+  setSharedWeights: Dispatch<SetStateAction<number[]>>,
 ) {
-  const {hammingBlockLength} = calculationInfoStore.allInputValues;
+  const { hammingBlockLength } = calculationInfoStore.allInputValues;
   try {
-    const {
-      linearWeights,
-      matrixWeights,
-      sharedWeights
-    } = await sendHammingWeightAnalysisData(
-      linearSequence,
-      matrixSequence,
-      hammingBlockLength
-    );
+    const { linearWeights, matrixWeights, sharedWeights } =
+      await sendHammingWeightAnalysisData(
+        linearSequence,
+        matrixSequence,
+        hammingBlockLength,
+      );
     setLinearSeqBlockLengths(linearWeights);
     setMatrixSeqBlockLengths(matrixWeights);
-    setSharedWeights(sharedWeights)
+    setSharedWeights(sharedWeights);
   } catch (error: any) {
     console.error("Error sending data to server:", error.message);
   }
