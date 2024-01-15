@@ -13,6 +13,11 @@ import {
 import { Polynomial, PolynomialType } from "../../utils/interfacesAndTypes.ts";
 
 interface LinearInputBlockProps {
+  firstSelectLabel: string;
+  firstShownPlaceholder: string;
+  secondSelectLabel: string;
+  secondShownPlaceholder: string;
+  inputLabel: string;
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
   degreeParam: string;
@@ -23,75 +28,52 @@ interface LinearInputBlockProps {
 
 const LinearInputBlock = observer(
   ({
+    firstSelectLabel,
+    firstShownPlaceholder,
+    secondSelectLabel,
+    secondShownPlaceholder,
+    inputLabel,
     searchParams,
     setSearchParams,
     degreeParam,
     polynomialParam,
     userValueParam,
-    polynomialType,
   }: LinearInputBlockProps) => {
-    const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
+    const { polynomialsStore } = useContext(Context)!;
 
-    const [polynomialArr, setPolynomialArr] = useState<Polynomial[]>(
-      polynomialsStore.polynomials,
-    );
+    const [polynomialArr, setPolynomialArr] = useState<Polynomial[]>([]);
 
     const [inputPlaceholder, setInputPlaceholder] = useState<string>("10");
     const [lengthRestriction, setLengthRestriction] = useState<number>(0);
+
 
     const options = generateOptions();
     const location = useLocation();
 
     useEffect(() => {
-      const degree = getSelectedParam(degreeParam, searchParams);
-      const polynomial = getSelectedParam(polynomialParam, searchParams);
-      const userValue = getSelectedParam(userValueParam, searchParams);
+        const degree = Number(getSelectedParam(degreeParam, searchParams));
 
-      const numDegree = Number(degree);
-      setLengthRestriction(numDegree);
+        setLengthRestriction(degree);
 
-      switch (polynomialType) {
-        case "A":
-          calculationInfoStore.setManyInputValues({
-            degreeA: numDegree,
-            polynomialA: polynomial,
-            userValueA: userValue,
-          });
-          break;
-        case "B":
-          calculationInfoStore.setManyInputValues({
-            degreeB: numDegree,
-            polynomialB: polynomial,
-            userValueB: userValue,
-          });
-          break;
-        case undefined:
-          calculationInfoStore.setManyInputValues({
-            degree: numDegree,
-            polynomial: polynomial,
-            userValue,
-          });
-          break;
-        default:
-          throw Error(
-            `Wrong polynomial type specified in LinearInputBlock component. Possible types are \"A\", \"B\" or undefined`,
-          );
-      }
-      setPolynomialArr(
-        polynomialsStore.polynomials.filter(
-          (poly) => poly.degree === numDegree,
-        ),
-      );
+        setPolynomialArr(
+          polynomialsStore.polynomials.filter(
+            (poly) => poly.degree === degree,
+          ),
+        );
 
-      const { polyBinary } = polynomialDestructuring(polynomial);
+        const polynomial = getSelectedParam(polynomialParam, searchParams);
+        if (polynomial !== null) {
+          const { polyBinary } = polynomialDestructuring(polynomial);
+          setInputPlaceholder(createPlaceholder(polyBinary));
+        }
 
-      setInputPlaceholder(createPlaceholder(polyBinary));
     }, [location.search]);
 
     return (
       <div className="flex flex-col justify-center w-[25rem]">
         <Select
-          selectLabel={`Оберіть ступінь поліному ${polynomialType || ""}`}
+          selectLabel={firstSelectLabel}
+          shownPlaceholder={firstShownPlaceholder}
           urlParamName={degreeParam}
           searchParams={searchParams}
           setSelectedOptionToParams={setSearchParams}
@@ -99,7 +81,8 @@ const LinearInputBlock = observer(
         />
 
         <Select
-          selectLabel={`Оберіть поліном ${polynomialType || ""}`}
+          selectLabel={secondSelectLabel}
+          shownPlaceholder={secondShownPlaceholder}
           urlParamName={polynomialParam}
           searchParams={searchParams}
           setSelectedOptionToParams={setSearchParams}
@@ -107,7 +90,7 @@ const LinearInputBlock = observer(
         />
 
         <Input
-          inputLabel={`Введіть початковий стан ${polynomialType || ""}`}
+          inputLabel={inputLabel}
           urlParamName={userValueParam}
           searchParams={searchParams}
           setSearchParams={setSearchParams}

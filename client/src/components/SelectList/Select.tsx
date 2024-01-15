@@ -5,12 +5,13 @@ import OptionList from "./OptionList.tsx";
 import { SetURLSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { BooleanSelect, Polynomial } from "../../utils/interfacesAndTypes.ts";
-import { formatOption } from "../../functions/functions.ts";
+import { formatOption, getSelectedParam } from "../../functions/functions.ts";
 
 interface SelectProps {
   searchParams: URLSearchParams;
   setSelectedOptionToParams: SetURLSearchParams;
   urlParamName: string;
+  shownPlaceholder: string;
   selectLabel?: string;
   optionsArray: (string | number | Polynomial | BooleanSelect)[];
 }
@@ -20,12 +21,13 @@ const Select = ({
   setSelectedOptionToParams,
   urlParamName,
   selectLabel,
+  shownPlaceholder,
   optionsArray,
 }: SelectProps) => {
   const [optionValue, setOptionValue] = useState<string | number | Polynomial | BooleanSelect>();
 
   useEffect(() => {
-    const paramValue = searchParams.get(urlParamName);
+    const paramValue = getSelectedParam(urlParamName, searchParams);
     if (paramValue !== null) {
       setOptionValue(paramValue);
     }
@@ -52,7 +54,6 @@ const Select = ({
     setOptionValue(formatOption(targetValue));
   }
 
-
   return (
     <Listbox
       value={optionValue}
@@ -68,7 +69,7 @@ const Select = ({
           <div className="relative mt-2">
             <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-white pr-10 pl-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
               <span className="flex items-center">
-                <span className="ml-3 block truncate">{formatOption(optionValue)}</span>
+                <span className="ml-3 block truncate">{formatOption(optionValue) === "" ? shownPlaceholder : formatOption(optionValue)}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                   {open ? (
                     <ChevronUpIcon

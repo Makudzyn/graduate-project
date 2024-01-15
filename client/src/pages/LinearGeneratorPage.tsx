@@ -14,24 +14,19 @@ import {
 import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
 
 const LinearGeneratorPage = observer(() => {
-  const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
+  const { polynomialsStore } = useContext(Context)!;
 
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
 
   const [potentialPeriodLength, setPotentialPeriodLength] = useState<number>(0);
   const [factualPeriodLength, setFactualPeriodLength] = useState<number>(0);
-  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>(
-    [],
-  );
+  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
+
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [correlation, setCorrelation] = useState<number[]>([]);
 
-  const [searchParams, setSearchParams] = useSearchParams({
-    degree: "2",
-    polynomial: "1 7 H",
-    value: "01",
-  });
+  const [searchParams, setSearchParams] = useSearchParams({});
 
   usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
@@ -54,7 +49,10 @@ const LinearGeneratorPage = observer(() => {
           userValueParam={PARAMS_USER_VALUE}
           onClick={() =>
             linearCalculations(
-              calculationInfoStore,
+              PARAMS_DEGREE,
+              PARAMS_POLYNOMIAL,
+              PARAMS_USER_VALUE,
+              searchParams,
               setStructureMatrix,
               setConditionMatrix,
               setPotentialPeriodLength,

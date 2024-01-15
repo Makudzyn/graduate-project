@@ -12,8 +12,8 @@ export function generateOptions() {
 export function getSelectedParam(
   paramName: string,
   searchParams: URLSearchParams,
-): string {
-  return searchParams.get(paramName) || "0";
+) {
+  return searchParams.get(paramName);
 }
 
 export function createPlaceholder(polynomial: string): string {

@@ -6,7 +6,7 @@ import {
 } from "../http/polynomialsAPI.ts";
 import { Dispatch, SetStateAction } from "react";
 import CalculationInfoStore from "../store/CalculationInfoStore.ts";
-import { PolynomialType } from "../utils/interfacesAndTypes.ts";
+
 import {
   calcHammingWeightSpectre,
   calcLengthByFormula,
@@ -19,9 +19,13 @@ import {
   generateStructureMatrixB,
   polynomialDestructuring,
 } from "./generatorFunctions.ts";
+import { getSelectedParam } from "./functions.ts";
 
 export async function linearCalculations(
-  calculationInfoStore: CalculationInfoStore,
+  degreeParam: string,
+  polynomialParam: string,
+  userValueParam: string,
+  searchParams: URLSearchParams,
   setStructureMatrix: Dispatch<SetStateAction<number[][]>>,
   setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
   setPotentialPeriodLength: Dispatch<SetStateAction<number>>,
@@ -29,29 +33,11 @@ export async function linearCalculations(
   setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
   setHammingWeight: Dispatch<SetStateAction<number>>,
   setCorrelation?: Dispatch<SetStateAction<number[]>>,
-  polynomialType?: PolynomialType,
 ) {
-  let degree: number, polynomial: string, userValue: string;
+  const degree = Number(getSelectedParam(degreeParam, searchParams));
+  const polynomial = getSelectedParam(polynomialParam, searchParams);
+  const userValue = getSelectedParam(userValueParam, searchParams);
 
-  switch (polynomialType) {
-    case "A":
-      const { degreeA, polynomialA, userValueA } =
-        calculationInfoStore.allInputValues;
-      degree = degreeA;
-      polynomial = polynomialA;
-      userValue = userValueA;
-      break;
-    case "B":
-      const { degreeB, polynomialB, userValueB } =
-        calculationInfoStore.allInputValues;
-      degree = degreeB;
-      polynomial = polynomialB;
-      userValue = userValueB;
-      break;
-    default:
-      ({ degree, polynomial, userValue } = calculationInfoStore.allInputValues);
-      break;
-  }
 
   const { polyIndex, polyBinary } = polynomialDestructuring(polynomial);
   const polynomialArr = polyBinary.split("").slice(1);

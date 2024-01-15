@@ -73,7 +73,7 @@ const Input = ({
           charCount < lengthRestriction!
             ? "focus:ring-red-500"
             : "focus:ring-green-500",
-          "mt-2 block w-full truncate rounded-md bg-white px-[1.75em] text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6",
+          "mt-2 block w-full truncate rounded-md bg-white px-[1.75em] text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 focus:outline-none focus:ring-2 sm:text-sm sm:leading-6",
         )}
         placeholder={inputPlaceholder}
         onChange={handleChange}
