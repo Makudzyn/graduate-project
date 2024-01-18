@@ -17,6 +17,7 @@ const AppRouter = () => {
       {publicRoutes.map(({ path, Component }) => (
         <Route key={path} path={path} element={<Component />} />
       ))}
+
       {regAndLoginRoutes.map(({ path, Component }) => (
         <Route key={path} path={path} element={<Component />} />
       ))}

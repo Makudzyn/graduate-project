@@ -49,23 +49,15 @@ const MatrixInputBlock = observer(
     polynomialTypeB,
     identifierS,
   }: MatrixInputBlockProps) => {
-    const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
+    const { polynomialsStore } = useContext(Context)!;
 
-    //Fix here
-    const [polynomialArrA, setPolynomialArrA] = useState<Polynomial[]>(
-      polynomialsStore.polynomials,
-    );
+    const [polynomialArrA, setPolynomialArrA] = useState<Polynomial[]>([]);
 
-    const [polynomialArrB, setPolynomialArrB] = useState<Polynomial[]>(
-      polynomialsStore.polynomials,
-    );
+    const [polynomialArrB, setPolynomialArrB] = useState<Polynomial[]>([]);
 
     const cyclicSelection: BooleanSelect[] = [
       { booleanLabel: "Так", booleanValue: true },
-      {
-        booleanLabel: "Ні",
-        booleanValue: false,
-      },
+      { booleanLabel: "Ні", booleanValue: false },
     ];
 
     const options = generateOptions();
@@ -75,33 +67,12 @@ const MatrixInputBlock = observer(
     const [outputValuesJ, setOutputValuesJ] = useState<number[]>([]);
     const [matrixRank, setMatrixRank] = useState<number[]>([]);
 
-
     useEffect(() => {
       const degreeA = getSelectedParam(degreeParamA, searchParams);
       const numDegreeA = Number(degreeA);
-      const polynomialA = getSelectedParam(polynomialParamA, searchParams);
-      const isCyclicA = getSelectedParam(cyclicPolyParamA, searchParams);
 
       const degreeB = getSelectedParam(degreeParamB, searchParams);
       const numDegreeB = Number(degreeB);
-      const polynomialB = getSelectedParam(polynomialParamB, searchParams);
-      const isCyclicB = getSelectedParam(cyclicPolyParamB, searchParams);
-
-      const indexI = getSelectedParam(indexParamI, searchParams);
-      const indexJ = getSelectedParam(indexParamJ, searchParams);
-      const matrixRank = getSelectedParam(matrixRankParam, searchParams);
-
-      calculationInfoStore.setManyInputValues({
-        degreeA: numDegreeA,
-        polynomialA,
-        isCyclicA,
-        degreeB: numDegreeB,
-        polynomialB,
-        isCyclicB,
-        indexI: Number(indexI),
-        indexJ: Number(indexJ),
-        matrixRank: Number(matrixRank),
-      });
 
       setPolynomialArrA(
         polynomialsStore.polynomials.filter(
@@ -129,8 +100,11 @@ const MatrixInputBlock = observer(
       <>
         <MatrixSelect
           firstSelectLabel={`Оберіть ступінь поліному F(${polynomialTypeA})`}
-          secondSelectLabel={`Поліном F(${polynomialTypeA})`}
+          firstShownPlaceholder={`Ступінь поліному F(${polynomialTypeA})`}
+          secondSelectLabel={`Оберіть поліном F(${polynomialTypeA})`}
+          secondShownPlaceholder={`Поліном F(${polynomialTypeA})`}
           thirdSelectLabel={`Зробити поліном F(${polynomialTypeA}) циклічним?`}
+          thirdShownPlaceholder={`Ні`}
           degreeParamName={degreeParamA}
           degreeArray={options}
           polynomialParamName={polynomialParamA}
@@ -142,13 +116,16 @@ const MatrixInputBlock = observer(
         />
 
         <MatrixOutputSelectionBlock
-          firstOutputElementLabel={"Значення i вихідного елементу"}
+          firstOutputElementLabel={"Оберіть i вихідного елементу"}
+          firstShownPlaceholder={`Значення i вихідного елементу`}
           firstOptionsArray={outputValuesI}
           firstUrlParamName={indexParamI}
-          secondOutputElementLabel={"Значення j вихідного елементу"}
+          secondOutputElementLabel={"Оберіть j вихідного елементу"}
+          secondShownPlaceholder={`Значення j вихідного елементу`}
           secondOptionsArray={outputValuesJ}
           secondUrlParamName={indexParamJ}
-          thirdOutputElementLabel={`Ранг матриці ${identifierS}`}
+          thirdOutputElementLabel={`Оберіть ранг матриці ${identifierS}`}
+          thirdShownPlaceholder={`Ранг матриці ${identifierS}`}
           thirdOptionsArray={matrixRank}
           thirdUrlParamName={matrixRankParam}
           searchParams={searchParams}
@@ -157,8 +134,11 @@ const MatrixInputBlock = observer(
 
         <MatrixSelect
           firstSelectLabel={`Оберіть ступінь поліному F(${polynomialTypeB})`}
-          secondSelectLabel={`Поліном F(${polynomialTypeB})`}
+          firstShownPlaceholder={`Ступінь поліному F(${polynomialTypeB})`}
+          secondSelectLabel={`Оберіть поліном F(${polynomialTypeB})`}
+          secondShownPlaceholder={`Поліном F(${polynomialTypeB})`}
           thirdSelectLabel={`Зробити поліном F(${polynomialTypeB}) циклічним?`}
+          thirdShownPlaceholder={`Ні`}
           degreeParamName={degreeParamB}
           degreeArray={options}
           polynomialParamName={polynomialParamB}

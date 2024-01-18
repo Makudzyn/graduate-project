@@ -5,7 +5,6 @@ import {
   sendSumAndProductGeneratorData,
 } from "../http/polynomialsAPI.ts";
 import { Dispatch, SetStateAction } from "react";
-import CalculationInfoStore from "../store/CalculationInfoStore.ts";
 
 import {
   calcHammingWeightSpectre,
@@ -22,10 +21,10 @@ import {
 import { getSelectedParam } from "./functions.ts";
 
 export async function linearCalculations(
+  searchParams: URLSearchParams,
   degreeParam: string,
   polynomialParam: string,
   userValueParam: string,
-  searchParams: URLSearchParams,
   setStructureMatrix: Dispatch<SetStateAction<number[][]>>,
   setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
   setPotentialPeriodLength: Dispatch<SetStateAction<number>>,
@@ -34,10 +33,9 @@ export async function linearCalculations(
   setHammingWeight: Dispatch<SetStateAction<number>>,
   setCorrelation?: Dispatch<SetStateAction<number[]>>,
 ) {
-  const degree = Number(getSelectedParam(degreeParam, searchParams));
-  const polynomial = getSelectedParam(polynomialParam, searchParams);
-  const userValue = getSelectedParam(userValueParam, searchParams);
-
+  const degree = Number(getSelectedParam(degreeParam, searchParams) || "2");
+  const polynomial = getSelectedParam(polynomialParam, searchParams) || "1 7 H";
+  const userValue = getSelectedParam(userValueParam, searchParams) || "11";
 
   const { polyIndex, polyBinary } = polynomialDestructuring(polynomial);
   const polynomialArr = polyBinary.split("").slice(1);
@@ -77,7 +75,16 @@ export async function linearCalculations(
 }
 
 export async function matrixCalculations(
-  calculationInfoStore: CalculationInfoStore,
+  searchParams: URLSearchParams,
+  degreeParamA: string,
+  degreeParamB: string,
+  polynomialParamA: string,
+  polynomialParamB: string,
+  cyclicPolyParamA: string,
+  cyclicPolyParamB: string,
+  indexParamI: string,
+  indexParamJ: string,
+  matrixRankParam: string,
   setStructureMatrixA: Dispatch<SetStateAction<number[][]>>,
   setStructureMatrixB: Dispatch<SetStateAction<number[][]>>,
   setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
@@ -93,17 +100,21 @@ export async function matrixCalculations(
   setHammingWeightSpectre: Dispatch<SetStateAction<string[]>>,
   setCorrelation?: Dispatch<SetStateAction<number[]>>,
 ) {
-  const {
-    degreeA,
-    polynomialA,
-    isCyclicA,
-    degreeB,
-    polynomialB,
-    isCyclicB,
-    indexI,
-    indexJ,
-    matrixRank,
-  } = calculationInfoStore.allInputValues;
+  const degreeA = Number(getSelectedParam(degreeParamA, searchParams) || "2");
+  const polynomialA =
+    getSelectedParam(polynomialParamA, searchParams) || "1 7 H";
+  const isCyclicA = getSelectedParam(cyclicPolyParamA, searchParams) || "false";
+
+  const degreeB = Number(getSelectedParam(degreeParamB, searchParams) || "2");
+  const polynomialB =
+    getSelectedParam(polynomialParamB, searchParams) || "1 7 H";
+  const isCyclicB = getSelectedParam(cyclicPolyParamB, searchParams) || "false";
+
+  const indexI = Number(getSelectedParam(indexParamI, searchParams) || "0");
+  const indexJ = Number(getSelectedParam(indexParamJ, searchParams) || "0");
+  const matrixRank = Number(
+    getSelectedParam(matrixRankParam, searchParams) || "1",
+  );
 
   const { polyIndex: polyIndexA, polyBinary: polyBinaryA } =
     polynomialDestructuring(polynomialA);
@@ -119,7 +130,6 @@ export async function matrixCalculations(
   if (isCyclicB === "true") {
     polynomialArrB = generateCyclicPolynomial(degreeB);
   } else polynomialArrB = polyBinaryB.split("").slice(1);
-
 
   const potentialPeriodLengthA = Math.pow(2, degreeA) - 1;
   const potentialPeriodLengthB = Math.pow(2, degreeB) - 1;
@@ -221,14 +231,17 @@ export async function additionAndMultiplicationCalculations(
 }
 
 export async function hammingBlockCalculations(
-  calculationInfoStore: CalculationInfoStore,
+  searchParams: URLSearchParams,
+  hammingBlockParam: string,
   linearSequence: number[],
   matrixSequence: number[],
   setLinearSeqBlockLengths: Dispatch<SetStateAction<number[]>>,
   setMatrixSeqBlockLengths: Dispatch<SetStateAction<number[]>>,
   setSharedWeights: Dispatch<SetStateAction<number[]>>,
 ) {
-  const { hammingBlockLength } = calculationInfoStore.allInputValues;
+  const hammingBlockLength = Number(
+    getSelectedParam(hammingBlockParam, searchParams) || "2",
+  );
   try {
     const { linearWeights, matrixWeights, sharedWeights } =
       await sendHammingWeightAnalysisData(

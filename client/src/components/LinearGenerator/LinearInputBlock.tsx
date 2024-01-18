@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import Select from "../SelectList/Select.tsx";
-import Input from "../Input.tsx";
+import GenInput from "../Inputs/GenInput.tsx";
 import { Context } from "../../main.tsx";
 import { observer } from "mobx-react-lite";
 import { SetURLSearchParams, useLocation } from "react-router-dom";
@@ -43,7 +43,7 @@ const LinearInputBlock = observer(
 
     const [polynomialArr, setPolynomialArr] = useState<Polynomial[]>([]);
 
-    const [inputPlaceholder, setInputPlaceholder] = useState<string>("10");
+    const [inputPlaceholder, setInputPlaceholder] = useState<string>("01");
     const [lengthRestriction, setLengthRestriction] = useState<number>(0);
 
 
@@ -89,7 +89,7 @@ const LinearInputBlock = observer(
           optionsArray={polynomialArr}
         />
 
-        <Input
+        <GenInput
           inputLabel={inputLabel}
           urlParamName={userValueParam}
           searchParams={searchParams}

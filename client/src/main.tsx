@@ -4,12 +4,10 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import UserStore from "./store/UserStore.ts";
 import PolynomialsStore from "./store/PolynomialsStore.ts";
-import CalculationInfoStore from "./store/CalculationInfoStore.ts";
 
 type AppContextType = {
   userStore: UserStore;
   polynomialsStore: PolynomialsStore;
-  calculationInfoStore: CalculationInfoStore;
 };
 export const Context = createContext<AppContextType | null>(null);
 
@@ -20,7 +18,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         value={{
           userStore: new UserStore(),
           polynomialsStore: new PolynomialsStore(),
-          calculationInfoStore: new CalculationInfoStore(),
         }}
       >
         <App />

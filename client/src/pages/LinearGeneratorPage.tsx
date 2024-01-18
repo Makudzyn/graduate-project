@@ -49,10 +49,10 @@ const LinearGeneratorPage = observer(() => {
           userValueParam={PARAMS_USER_VALUE}
           onClick={() =>
             linearCalculations(
+              searchParams,
               PARAMS_DEGREE,
               PARAMS_POLYNOMIAL,
               PARAMS_USER_VALUE,
-              searchParams,
               setStructureMatrix,
               setConditionMatrix,
               setPotentialPeriodLength,

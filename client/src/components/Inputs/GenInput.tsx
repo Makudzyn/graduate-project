@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { SetURLSearchParams, useLocation } from "react-router-dom";
-import { classNames, getSelectedParam } from "../functions/functions.ts";
+import { classNames, getSelectedParam } from "../../functions/functions.ts";
 
 interface InputProps {
   inputLabel?: string;
@@ -13,7 +13,7 @@ interface InputProps {
   lengthRestriction?: number;
 }
 
-const Input = ({
+const GenInput = ({
   inputLabel,
   inputPlaceholder,
   searchParams,
@@ -87,4 +87,4 @@ const Input = ({
   );
 };
 
-export default Input;
+export default GenInput;

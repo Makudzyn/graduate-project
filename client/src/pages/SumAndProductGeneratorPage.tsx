@@ -29,7 +29,7 @@ import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 import CoprimeCondition from "../components/CoprimeCondition.tsx";
 
 const SumAndProductGeneratorPage = observer(() => {
-  const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
+  const { polynomialsStore } = useContext(Context)!;
 
   usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
@@ -68,14 +68,7 @@ const SumAndProductGeneratorPage = observer(() => {
   const [sumSequence, setSumSequence] = useState<number[]>([]);
   const [productSequence, setProductSequence] = useState<number[]>([]);
 
-  const [searchParams, setSearchParams] = useSearchParams({
-    degree_a: "2",
-    polynomial_a: "1 7 H",
-    value_a: "01",
-    degree_b: "2",
-    polynomial_b: "1 7 H",
-    value_b: "01",
-  });
+  const [searchParams, setSearchParams] = useSearchParams({});
 
   useEffect(() => {
     if (factualPeriodLengthA !== 0 && factualPeriodLengthB !== 0) {
@@ -109,7 +102,10 @@ const SumAndProductGeneratorPage = observer(() => {
             identifier={`(${POLYNOMIAL_TYPE_A})`}
             onClick={() =>
               linearCalculations(
-                calculationInfoStore,
+                searchParams,
+                PARAMS_DEGREE_A,
+                PARAMS_POLYNOMIAL_A,
+                PARAMS_USER_VALUE_A,
                 setStructureMatrixA,
                 setConditionMatrixA,
                 setPotentialPeriodLengthA,
@@ -117,7 +113,6 @@ const SumAndProductGeneratorPage = observer(() => {
                 setPseudorandomSequenceA,
                 setHammingWeightA,
                 setSumCorrelation,
-                POLYNOMIAL_TYPE_A,
               )
             }
           />
@@ -137,7 +132,10 @@ const SumAndProductGeneratorPage = observer(() => {
             identifier={`(${POLYNOMIAL_TYPE_B})`}
             onClick={() =>
               linearCalculations(
-                calculationInfoStore,
+                searchParams,
+                PARAMS_DEGREE_B,
+                PARAMS_POLYNOMIAL_B,
+                PARAMS_USER_VALUE_B,
                 setStructureMatrixB,
                 setConditionMatrixB,
                 setPotentialPeriodLengthB,
@@ -145,7 +143,6 @@ const SumAndProductGeneratorPage = observer(() => {
                 setPseudorandomSequenceB,
                 setHammingWeightB,
                 setProductCorrelation,
-                POLYNOMIAL_TYPE_B,
               )
             }
           />

@@ -9,7 +9,8 @@ import {
 import { Context } from "../main.tsx";
 import { observer } from "mobx-react-lite";
 import {
-  PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
+  PARAMS_CYCLIC_POLY_A,
+  PARAMS_CYCLIC_POLY_B,
   PARAMS_DEGREE,
   PARAMS_DEGREE_A,
   PARAMS_DEGREE_B,
@@ -22,18 +23,17 @@ import {
   PARAMS_POLYNOMIAL_B,
   PARAMS_USER_VALUE,
   POLYNOMIAL_TYPE_A,
-  POLYNOMIAL_TYPE_B
+  POLYNOMIAL_TYPE_B,
 } from "../utils/consts.ts";
 import MatrixGenerator from "../components/MatrixGenerator.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import { fetchPolynomials } from "../http/polynomialsAPI.ts";
-import Input from "../components/Input.tsx";
+import GenInput from "../components/Inputs/GenInput.tsx";
 import Button from "../components/Button.tsx";
-import { getSelectedParam } from "../functions/functions.ts";
 import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";
 
 const HammingWeightAnalysisPage = observer(() => {
-  const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
+  const { polynomialsStore } = useContext(Context)!;
 
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
@@ -79,22 +79,8 @@ const HammingWeightAnalysisPage = observer(() => {
   );
   const [sharedWeights, setSharedWeights] = useState<number[]>([]);
   const [valueRestriction, setValueRestriction] = useState<number>(0);
-  
-  const [searchParams, setSearchParams] = useSearchParams({
-    degree: "2",
-    polynomial: "1 7 H",
-    value: "01",
-    degree_a: "2",
-    polynomial_a: "1 7 H",
-    cyclic_a: "false",
-    degree_b: "2",
-    polynomial_b: "1 7 H",
-    cyclic_b: "false",
-    index_i: "0",
-    index_j: "0",
-    matrix_rank: "1",
-    hamming_block: "2",
-  });
+
+  const [searchParams, setSearchParams] = useSearchParams({});
 
   useEffect(() => {
     const linearLength = pseudorandomSequenceLinear.length;
@@ -102,13 +88,6 @@ const HammingWeightAnalysisPage = observer(() => {
     const maxAllowedBlockLength = Math.min(linearLength, matrixLength);
     setValueRestriction(maxAllowedBlockLength);
   }, [pseudorandomSequenceLinear, pseudorandomSequenceMatrices]);
-
-  useEffect(() => {
-    const blockLength = getSelectedParam(PARAMS_HAMMING_BLOCK, searchParams);
-    calculationInfoStore.setManyInputValues({
-      hammingBlockLength: Number(blockLength),
-    });
-  }, [location.search]);
 
   usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
@@ -133,7 +112,10 @@ const HammingWeightAnalysisPage = observer(() => {
               userValueParam={PARAMS_USER_VALUE}
               onClick={() =>
                 linearCalculations(
-                  calculationInfoStore,
+                  searchParams,
+                  PARAMS_DEGREE,
+                  PARAMS_POLYNOMIAL,
+                  PARAMS_USER_VALUE,
                   setStructureMatrix,
                   setConditionMatrixLinear,
                   setPotentialPeriodLength,
@@ -175,7 +157,16 @@ const HammingWeightAnalysisPage = observer(() => {
               polynomialTypeB={POLYNOMIAL_TYPE_B}
               onClick={() =>
                 matrixCalculations(
-                  calculationInfoStore,
+                  searchParams,
+                  PARAMS_DEGREE_A,
+                  PARAMS_DEGREE_B,
+                  PARAMS_POLYNOMIAL_A,
+                  PARAMS_POLYNOMIAL_B,
+                  PARAMS_CYCLIC_POLY_A,
+                  PARAMS_CYCLIC_POLY_B,
+                  PARAMS_OUTPUT_INDEX_I,
+                  PARAMS_OUTPUT_INDEX_J,
+                  PARAMS_MATRIX_RANK,
                   setStructureMatrixA,
                   setStructureMatrixB,
                   setConditionMatrixMatrices,
@@ -195,7 +186,7 @@ const HammingWeightAnalysisPage = observer(() => {
           </div>
         </div>
         <div className="my-5 flex flex-col items-center justify-center">
-          <Input
+          <GenInput
             inputLabel="Довжина блоку"
             inputPlaceholder="2"
             urlParamName={PARAMS_HAMMING_BLOCK}
@@ -207,7 +198,8 @@ const HammingWeightAnalysisPage = observer(() => {
           <Button
             onClick={() =>
               hammingBlockCalculations(
-                calculationInfoStore,
+                searchParams,
+                PARAMS_HAMMING_BLOCK,
                 pseudorandomSequenceLinear,
                 pseudorandomSequenceMatrices,
                 setLinearSeqBlockLengths,

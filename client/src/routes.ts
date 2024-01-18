@@ -17,6 +17,7 @@ import MatrixGeneratorPage from "./pages/MatrixGeneratorPage.tsx";
 import SumAndProductGeneratorPage from "./pages/SumAndProductGeneratorPage.tsx";
 import HammingWeightAnalysisPage from "./pages/HammingWeightAnalysisPage.tsx";
 import MainPage from "./pages/MainPage.tsx";
+import RegistrationPage from "./pages/RegistrationPage.tsx";
 
 export const authRoutes = [
   {
@@ -68,6 +69,6 @@ export const regAndLoginRoutes = [
   {
     name: "Registration",
     path: REGISTRATION_ROUTE,
-    Component: AuthorizationPage,
+    Component: RegistrationPage,
   },
 ];

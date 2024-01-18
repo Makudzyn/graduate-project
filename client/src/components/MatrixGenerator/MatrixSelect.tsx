@@ -5,8 +5,11 @@ import { BooleanSelect, Polynomial } from "../../utils/interfacesAndTypes.ts";
 
 interface MatrixSelectProps {
   firstSelectLabel: string;
+  firstShownPlaceholder: string;
   secondSelectLabel: string;
+  secondShownPlaceholder: string;
   thirdSelectLabel: string;
+  thirdShownPlaceholder: string;
   degreeParamName: string;
   polynomialParamName: string;
   cyclicPolyParamName: string;
@@ -17,13 +20,14 @@ interface MatrixSelectProps {
   cyclicSelect: BooleanSelect[];
 }
 
-
-
 const MatrixSelect = observer(
   ({
     firstSelectLabel,
+    firstShownPlaceholder,
     secondSelectLabel,
+    secondShownPlaceholder,
     thirdSelectLabel,
+    thirdShownPlaceholder,
     degreeParamName,
     polynomialParamName,
     cyclicPolyParamName,
@@ -38,6 +42,7 @@ const MatrixSelect = observer(
       <div className="flex flex-col w-[25rem] flex-wrap px-3">
         <Select
           selectLabel={firstSelectLabel}
+          shownPlaceholder={firstShownPlaceholder}
           urlParamName={degreeParamName}
           searchParams={searchParams}
           setSelectedOptionToParams={setSearchParams}
@@ -46,6 +51,7 @@ const MatrixSelect = observer(
 
         <Select
           selectLabel={secondSelectLabel}
+          shownPlaceholder={secondShownPlaceholder}
           urlParamName={polynomialParamName}
           searchParams={searchParams}
           setSelectedOptionToParams={setSearchParams}
@@ -54,6 +60,7 @@ const MatrixSelect = observer(
 
         <Select
           selectLabel={thirdSelectLabel}
+          shownPlaceholder={thirdShownPlaceholder}
           urlParamName={cyclicPolyParamName}
           searchParams={searchParams}
           setSelectedOptionToParams={setSearchParams}

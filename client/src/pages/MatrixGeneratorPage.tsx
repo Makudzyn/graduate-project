@@ -22,7 +22,7 @@ import MatrixGenerator from "../components/MatrixGenerator.tsx";
 import { matrixCalculations } from "../functions/calculationRequestFunctions.ts";
 
 const MatrixGeneratorPage = observer(() => {
-  const { polynomialsStore, calculationInfoStore } = useContext(Context)!;
+  const { polynomialsStore } = useContext(Context)!;
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
@@ -48,17 +48,7 @@ const MatrixGeneratorPage = observer(() => {
   ]);
   const [correlation, setCorrelation] = useState<number[]>([]);
 
-  const [searchParams, setSearchParams] = useSearchParams({
-    degree_a: "2",
-    polynomial_a: "1 7 H",
-    cyclic_a: "false",
-    degree_b: "2",
-    polynomial_b: "1 7 H",
-    cyclic_b: "false",
-    index_i: "0",
-    index_j: "0",
-    matrix_rank: "1",
-  });
+  const [searchParams, setSearchParams] = useSearchParams({});
 
   usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
@@ -97,7 +87,16 @@ const MatrixGeneratorPage = observer(() => {
           polynomialTypeB={POLYNOMIAL_TYPE_B}
           onClick={() =>
             matrixCalculations(
-              calculationInfoStore,
+              searchParams,
+              PARAMS_DEGREE_A,
+              PARAMS_DEGREE_B,
+              PARAMS_POLYNOMIAL_A,
+              PARAMS_POLYNOMIAL_B,
+              PARAMS_CYCLIC_POLY_A,
+              PARAMS_CYCLIC_POLY_B,
+              PARAMS_OUTPUT_INDEX_I,
+              PARAMS_OUTPUT_INDEX_J,
+              PARAMS_MATRIX_RANK,
               setStructureMatrixA,
               setStructureMatrixB,
               setConditionMatrix,
