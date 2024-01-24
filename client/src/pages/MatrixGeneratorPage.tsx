@@ -53,7 +53,7 @@ const MatrixGeneratorPage = observer(() => {
   usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
   return (
-    <section className="flex h-full justify-center">
+    <section className="flex h-full justify-center pt-16">
       <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
         <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
 

@@ -117,11 +117,11 @@ const MatrixInputBlock = observer(
 
         <MatrixOutputSelectionBlock
           firstOutputElementLabel={"Оберіть i вихідного елементу"}
-          firstShownPlaceholder={`Значення i вихідного елементу`}
+          firstShownPlaceholder={`Значення i`}
           firstOptionsArray={outputValuesI}
           firstUrlParamName={indexParamI}
           secondOutputElementLabel={"Оберіть j вихідного елементу"}
-          secondShownPlaceholder={`Значення j вихідного елементу`}
+          secondShownPlaceholder={`Значення j`}
           secondOptionsArray={outputValuesJ}
           secondUrlParamName={indexParamJ}
           thirdOutputElementLabel={`Оберіть ранг матриці ${identifierS}`}

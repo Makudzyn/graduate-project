@@ -32,10 +32,10 @@ function App() {
   }
 
   return (
-    <>
+    <div className="font-inter font-semibold">
       <NavBar />
       <AppRouter />
-    </>
+    </div>
   );
 }
 

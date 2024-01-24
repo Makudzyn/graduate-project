@@ -1,6 +1,6 @@
 import { SetURLSearchParams } from "react-router-dom";
 import LinearInputBlock from "./LinearInputBlock.tsx";
-import Button from "../Button.tsx";
+import GenButton from "../Buttons/GenButton.tsx";
 import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
 import PeriodInfo from "../PeriodInfo.tsx";
 import SequenceType from "../SequenceType.tsx";
@@ -60,7 +60,7 @@ const LinearGenerator = ({
       </div>
 
       <div className="mb-5 flex items-center justify-center p-2.5">
-        <Button onClick={onClick}>Розпочати генерацію</Button>
+        <GenButton onClick={onClick}>Розпочати генерацію</GenButton>
       </div>
 
       <LinearMatricesBlock

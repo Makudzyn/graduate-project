@@ -23,7 +23,7 @@ const FormInput = ({
     <div>
       <label
         htmlFor={id}
-        className="mb-2 block text-sm font-medium text-gray-900 font-poppins dark:text-white"
+        className="mb-2 block text-sm font-semibold text-gray-50 font-poppins"
       >
         {label}
       </label>
@@ -31,7 +31,7 @@ const FormInput = ({
         type={type}
         name={name}
         id={id}
-        className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 p-2.5 focus:ring-primary-600 focus:border-primary-600 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm dark:focus:border-blue-500 dark:focus:ring-blue-500"
+        className="block w-full rounded-lg border border-gray-600 bg-gray-700 text-white p-2.5 placeholder-gray-400 focus:border-purpleSecond focus:ring-purpleSecond sm:text-sm"
         placeholder={placeholder}
         required
         value={value}

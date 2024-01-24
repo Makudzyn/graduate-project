@@ -1,7 +1,7 @@
 import { SetURLSearchParams } from "react-router-dom";
 import { PolynomialType } from "../utils/interfacesAndTypes.ts";
 import MatrixInputBlock from "./MatrixGenerator/MatrixInputBlock.tsx";
-import Button from "./Button.tsx";
+import GenButton from "./Buttons/GenButton.tsx";
 import StructureMatricesBlock from "./MatrixGenerator/StructureMatricesBlock.tsx";
 import PeriodInfo from "./PeriodInfo.tsx";
 import ConditionMatrixBlock from "./MatrixGenerator/ConditionMatrixBlock.tsx";
@@ -93,7 +93,7 @@ const MatrixGenerator = ({
       </div>
 
       <div className="mb-5 flex items-center justify-center p-2.5">
-        <Button onClick={onClick}>Розпочати генерацію</Button>
+        <GenButton onClick={onClick}>Розпочати генерацію</GenButton>
       </div>
 
       <StructureMatricesBlock

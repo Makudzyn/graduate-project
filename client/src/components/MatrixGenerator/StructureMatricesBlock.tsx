@@ -19,16 +19,16 @@ const StructureMatricesBlock = ({
   identifierS,
 }: StructureMatricesBlockProps) => {
   return (
-    <div className="flex flex-wrap items-center justify-evenly gap-2">
-      <div className="flex flex-col flex-wrap">
+    <div className="flex flex-wrap items-center justify-evenly">
+      <div className="flex flex-col flex-wrap px-3">
         <h3 className="text-center">Структурна матриця F({polynomialTypeA})</h3>
         <Matrix dataArray={structureMatrixA} />
       </div>
-      <div className="flex flex-col flex-wrap">
+      <div className="flex flex-col flex-wrap px-3">
         <h3 className="text-center">Матриця {identifierS}[0]</h3>
         <Matrix dataArray={basisMatrix} />
       </div>
-      <div className="flex flex-col flex-wrap">
+      <div className="flex flex-col flex-wrap px-3">
         <h3 className="text-center">Структурна матриця F({polynomialTypeB})</h3>
         <Matrix dataArray={structureMatrixB} />
       </div>

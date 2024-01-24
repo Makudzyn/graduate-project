@@ -29,7 +29,7 @@ import MatrixGenerator from "../components/MatrixGenerator.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import GenInput from "../components/Inputs/GenInput.tsx";
-import Button from "../components/Button.tsx";
+import GenButton from "../components/Buttons/GenButton.tsx";
 import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";
 
 const HammingWeightAnalysisPage = observer(() => {
@@ -92,7 +92,7 @@ const HammingWeightAnalysisPage = observer(() => {
   usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
   return (
-    <section className="flex h-full justify-center">
+    <section className="flex h-full justify-center pt-16">
       <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
         <h1 className="py-5 text-center">Аналіз ваг Хеммінгу</h1>
 
@@ -195,7 +195,7 @@ const HammingWeightAnalysisPage = observer(() => {
             valueRestriction={valueRestriction}
             disabled={false}
           />
-          <Button
+          <GenButton
             onClick={() =>
               hammingBlockCalculations(
                 searchParams,
@@ -209,7 +209,7 @@ const HammingWeightAnalysisPage = observer(() => {
             }
           >
             Провести розрахунки
-          </Button>
+          </GenButton>
         </div>
 
         <div className="flex h-full w-full items-center justify-center">

@@ -1,5 +1,5 @@
-import {Request, Response, NextFunction, RequestHandler} from "express";
-import jwt, {JwtPayload} from "jsonwebtoken";
+import {Request, Response, NextFunction} from "express";
+import jwt from "jsonwebtoken";
 import ApiError from "../error/apiError";
 
 

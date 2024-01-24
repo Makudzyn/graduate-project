@@ -22,7 +22,7 @@ import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import HammingWeight from "../components/HammingWeight.tsx";
 import Sequence from "../components/Sequence.tsx";
 import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
-import Button from "../components/Button.tsx";
+import GenButton from "../components/Buttons/GenButton.tsx";
 import PeriodsCondition from "../components/PeriodsCondition.tsx";
 import PeriodInfo from "../components/PeriodInfo.tsx";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
@@ -80,7 +80,7 @@ const SumAndProductGeneratorPage = observer(() => {
   }, [factualPeriodLengthA, factualPeriodLengthB]);
 
   return (
-    <section className="flex h-full justify-center">
+    <section className="flex h-full justify-center pt-16">
       <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
         <h1 className="py-5 text-center">
           ЗРЗЗ сум та множень М-послідовностей
@@ -160,7 +160,7 @@ const SumAndProductGeneratorPage = observer(() => {
         {conditionS === 1 && (
           <>
             <div className="flex justify-center items-center p-2.5 my-5">
-              <Button
+              <GenButton
                 onClick={() =>
                   additionAndMultiplicationCalculations(
                     pseudorandomSequenceA,
@@ -176,7 +176,7 @@ const SumAndProductGeneratorPage = observer(() => {
                 }
               >
                 Згенерувати послідовності суми та добутку
-              </Button>
+              </GenButton>
             </div>
 
             <label>Послідовність S (сум)</label>
