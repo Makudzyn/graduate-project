@@ -6,9 +6,9 @@ export type BooleanSelect = {
 };
 export interface Polynomial {
   id: number;
-  name: string;
   degree: number;
-  polynomial: number;
+  name: string;
+  polynomial: string;
   createdAt: Date;
   updatedAt: Date;
 }

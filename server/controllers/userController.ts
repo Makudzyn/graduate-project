@@ -29,14 +29,13 @@ async function registration(
   res: Response,
   next: NextFunction,
 ): Promise<Response | void> {
-  debugger;
+
   const { email, password, role} = req.body;
 
   try {
     const isExists = await User.findOne({ where: { email } });
 
     if (isExists) {
-      console.log("DAMN ITS EXIST");
       return next(ApiError.badRequest("User with this email already exists!"));
     }
     const hashPassword = await bcrypt.hash(password, 3);
@@ -59,6 +58,7 @@ async function login(
   res: Response,
   next: NextFunction,
 ): Promise<Response | void> {
+  debugger;
   const { email, password } = req.body; // Получаем email и пароль из тела запроса
   const user = await User.findOne({ where: { email } }); // Проверяем есть ли зарегистрированный пользователь с таким email`ом
   if (!user) {

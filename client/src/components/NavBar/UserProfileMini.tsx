@@ -45,11 +45,11 @@ const UserProfileMini = observer(() => {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <Menu.Item as="div" className="py-3 px-4">
-            <span className="block text-sm font-semibold text-gray-900 dark:text-white">
-              Elis Lens
+            <span className="block text-sm font-semibold text-gray-900">
+              John Doe
             </span>
             <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
-              name@company.com
+              john.doe@company.com
             </span>
           </Menu.Item>
 

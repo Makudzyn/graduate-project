@@ -21,7 +21,7 @@ const usePolynomialsFetching = (
     return () => {
       isMounted = false; // Clean up to prevent state updates on unmounted components
     };
-  }, [fetchPolynomials, polynomialsStore]);
+  }, []);
 };
 
 export default usePolynomialsFetching;

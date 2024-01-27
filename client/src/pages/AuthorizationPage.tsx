@@ -29,8 +29,9 @@ const AuthorizationPage = observer(() => {
 
       userStore.setUser(data);
       userStore.setIsAuth(true);
-      navigate(MAIN_ROUTE);
-    } catch (e) {
+      navigate(MAIN_ROUTE, {replace: true});
+    } catch (error: any) {
+      console.log(error as Error);
       alert(
         "Помилка. Було введено не вірні данні або такого акаунту не існує.",
       );
@@ -52,7 +53,7 @@ const AuthorizationPage = observer(() => {
             <FormHeader text="Sign in to your account" />
             <form className="space-y-4 md:space-y-6">
               <FormInput
-                label={"Email"}
+                label="Email"
                 type="email"
                 name="email"
                 id="email"
@@ -61,7 +62,7 @@ const AuthorizationPage = observer(() => {
                 setValue={setEmail}
               />
               <FormPassword
-                label={"Password"}
+                label="Password"
                 name="password"
                 id="password"
                 value={password}
@@ -77,7 +78,7 @@ const AuthorizationPage = observer(() => {
                 </a>
               </div>
 
-              <FormButton onClick={(e) => loginAttempt(e, email, password)}>
+              <FormButton onClick={e => loginAttempt(e, email, password)}>
                 Sign in
               </FormButton>
 

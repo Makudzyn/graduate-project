@@ -37,7 +37,7 @@ const RegistrationPage = observer(() => {
 
       userStore.setUser(data);
       userStore.setIsAuth(true);
-      navigate(MAIN_ROUTE);
+      navigate(MAIN_ROUTE, {replace: true});
     } catch (error: any) {
       console.log(error as Error);
       alert("Помилка, реєстрація не була виконана.");
