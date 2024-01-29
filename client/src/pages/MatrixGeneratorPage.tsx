@@ -1,7 +1,5 @@
 import { useContext, useState } from "react";
-import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import { observer } from "mobx-react-lite";
-import { Context } from "../main.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 import {
@@ -20,9 +18,12 @@ import {
 import { useSearchParams } from "react-router-dom";
 import MatrixGenerator from "../components/MatrixGenerator.tsx";
 import { matrixCalculations } from "../functions/calculationRequestFunctions.ts";
+import { Context } from "../main.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore } = useContext(Context)!;
+
+  usePolynomialsFetching(polynomialsStore);
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
@@ -32,7 +33,6 @@ const MatrixGeneratorPage = observer(() => {
   const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>(
     [],
   );
-
   const [potentialPeriodLengthA, setPotentialPeriodLengthA] =
     useState<number>(0);
   const [potentialPeriodLengthB, setPotentialPeriodLengthB] =
@@ -50,7 +50,6 @@ const MatrixGeneratorPage = observer(() => {
 
   const [searchParams, setSearchParams] = useSearchParams({});
 
-  usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
   return (
     <section className="flex h-full justify-center pt-16">

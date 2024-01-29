@@ -1,27 +1,21 @@
 import { useEffect } from "react";
+import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import PolynomialsStore from "../store/PolynomialsStore.ts";
-import { Polynomial } from "../utils/interfacesAndTypes.ts";
 
-const usePolynomialsFetching = (
-  fetchPolynomials: () => Promise<Polynomial[]>,
-  polynomialsStore: PolynomialsStore,
-) => {
+function usePolynomialsFetching( polynomialsStore: PolynomialsStore) {
   useEffect(() => {
-    let isMounted = true;
-    fetchPolynomials()
-      .then((data: Polynomial[]) => {
-        if (isMounted) {
-          polynomialsStore.setPolynomials(data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching polynomials:", error);
-      });
-
-    return () => {
-      isMounted = false; // Clean up to prevent state updates on unmounted components
+    const fetchData = async () => {
+      try {
+        const data = await fetchPolynomials();
+        polynomialsStore.setPolynomials(data);
+      } catch (error: any) {
+        console.error("Error fetching polynomials: ", error.message);
+      }
     };
+
+    fetchData();
   }, []);
-};
+}
+
 
 export default usePolynomialsFetching;

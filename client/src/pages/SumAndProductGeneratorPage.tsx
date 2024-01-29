@@ -15,9 +15,7 @@ import {
   additionAndMultiplicationCalculations,
   linearCalculations,
 } from "../functions/calculationRequestFunctions.ts";
-import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import { useContext, useEffect, useState } from "react";
-import { Context } from "../main.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
 import HammingWeight from "../components/HammingWeight.tsx";
 import Sequence from "../components/Sequence.tsx";
@@ -27,11 +25,12 @@ import PeriodsCondition from "../components/PeriodsCondition.tsx";
 import PeriodInfo from "../components/PeriodInfo.tsx";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 import CoprimeCondition from "../components/CoprimeCondition.tsx";
+import { Context } from "../main.tsx";
 
 const SumAndProductGeneratorPage = observer(() => {
   const { polynomialsStore } = useContext(Context)!;
 
-  usePolynomialsFetching(fetchPolynomials, polynomialsStore);
+  usePolynomialsFetching(polynomialsStore);
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);

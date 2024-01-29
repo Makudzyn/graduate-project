@@ -6,7 +6,6 @@ import {
   linearCalculations,
   matrixCalculations,
 } from "../functions/calculationRequestFunctions.ts";
-import { Context } from "../main.tsx";
 import { observer } from "mobx-react-lite";
 import {
   PARAMS_CYCLIC_POLY_A,
@@ -27,13 +26,15 @@ import {
 } from "../utils/consts.ts";
 import MatrixGenerator from "../components/MatrixGenerator.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
-import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import GenInput from "../components/Inputs/GenInput.tsx";
 import GenButton from "../components/Buttons/GenButton.tsx";
 import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";
+import { Context } from "../main.tsx";
 
 const HammingWeightAnalysisPage = observer(() => {
   const { polynomialsStore } = useContext(Context)!;
+
+  usePolynomialsFetching(polynomialsStore);
 
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
@@ -88,8 +89,6 @@ const HammingWeightAnalysisPage = observer(() => {
     const maxAllowedBlockLength = Math.min(linearLength, matrixLength);
     setValueRestriction(maxAllowedBlockLength);
   }, [pseudorandomSequenceLinear, pseudorandomSequenceMatrices]);
-
-  usePolynomialsFetching(fetchPolynomials, polynomialsStore);
 
   return (
     <section className="flex h-full justify-center pt-16">
