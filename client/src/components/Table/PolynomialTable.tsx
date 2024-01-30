@@ -1,45 +1,32 @@
 import usePolynomialsFetching from "../../hooks/usePolynomialsFetching.ts";
 import { useContext, useMemo, useState } from "react";
 import { Context } from "../../main.tsx";
-import { Polynomial } from "../../utils/interfacesAndTypes.ts";
+import { PolynomialWithoutDate, SortState } from "../../utils/interfacesAndTypes.ts";
 import Search from "./Search.tsx";
+import { compareValues, filterByQuery } from "../../functions/functions.ts";
 
 interface PolynomialTableProps {}
 
-type PolynomialWithoutDate = Omit<Polynomial, keyof { createdAt: Date; updatedAt: Date }>;
-
-interface SortState {
-  column: keyof PolynomialWithoutDate;
-  order: "ascending" | "descending";
-}
 
 const PolynomialTable = ({}: PolynomialTableProps) => {
   const { polynomialsStore } = useContext(Context)!;
   usePolynomialsFetching(polynomialsStore);
-  
+
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortBy, setSortBy] = useState<SortState>({column: "id", order: "ascending"});
-  
+
   const sortedPolynomials = useMemo(() => {
-    console.log("sorted");
-    return polynomialsStore.polynomials.sort((a, b) =>
-      compareValues(a[sortBy.column], b[sortBy.column]),
+    return [...polynomialsStore.polynomials].sort((a, b) =>
+      compareValues(sortBy, a, b),
     );
   }, [sortBy]);
 
   const filteredPolynomials = useMemo(() => {
-    console.log("filtered");
-    return searchQuery === "" ? sortedPolynomials : sortedPolynomials.filter(filterValues);
+    return searchQuery === ""
+      ? sortedPolynomials
+      : sortedPolynomials.filter(poly => filterByQuery(poly, searchQuery));
   }, [sortedPolynomials, searchQuery]);
 
-  function filterValues (item: Polynomial): boolean {
-    const searchFields = ["degree", "name", "polynomial"];
-    const lowercaseQuery = searchQuery.toLowerCase();
-
-    return searchFields.some((field) =>
-      String(item[field]).toLowerCase().includes(lowercaseQuery),
-    );
-  }
 
   const handleSort = (column: keyof PolynomialWithoutDate) => {
     setSortBy((prevSortBy) => {
@@ -53,21 +40,6 @@ const PolynomialTable = ({}: PolynomialTableProps) => {
       }
     });
   };
-
-  function compareValues (a: string | number, b: string | number): number {
-    if (typeof a === "string" && sortBy.column !== "polynomial") {
-      return sortBy.order === "ascending"
-        ? a.localeCompare(b as string)
-        : (b as string).localeCompare(a);
-    } else {
-      return sortBy.order === "ascending"
-        ? (a as number) - (b as number)
-        : (b as number) - (a as number);
-    }
-  };
-
-
-
 
   return (
     <div className="container mx-auto w-full px-2">
@@ -156,7 +128,7 @@ const PolynomialTable = ({}: PolynomialTableProps) => {
             </thead>
 
             <tbody className="text-left">
-            {filteredPolynomials.map((poly, index) => (
+              {filteredPolynomials.map((poly, index) => (
                 <tr
                   className={index % 2 ? "bg-gray-50" : "bg-gray-200"}
                   key={poly.id}

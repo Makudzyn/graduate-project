@@ -1,4 +1,4 @@
-import { BooleanSelect, Polynomial } from "../utils/interfacesAndTypes.ts";
+import { BooleanSelect, Polynomial, SortState } from "../utils/interfacesAndTypes.ts";
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -34,4 +34,30 @@ export function formatOption(
     return String(optionValue);
   }
   return "";
+}
+
+
+//TABLE FUNCTIONS
+
+//Compare values of two polynomials using sortObj with column (your cols) and order (asc, desc) fields which
+export function compareValues(sortObj: SortState, polyA: Polynomial, polyB: Polynomial): number {
+  if (typeof polyA[sortObj.column] === "string" && sortObj.column !== "polynomial") {
+    return sortObj.order === "ascending"
+      ? (polyA[sortObj.column] as string).localeCompare(polyB[sortObj.column] as string)
+      : (polyB[sortObj.column] as string).localeCompare(polyA[sortObj.column] as string);
+  } else {
+    return sortObj.order === "ascending"
+      ? (polyA[sortObj.column] as number) - (polyB[sortObj.column] as number)
+      : (polyB[sortObj.column] as number) - (polyA[sortObj.column] as number);
+  }
+}
+//Looking for value of query in polynomials field: degree, name, polynomials
+export function filterByQuery(poly: Polynomial, query: string): boolean {
+  const searchFields = ["degree", "name", "polynomial"];
+  const lowercaseQuery = query.toLowerCase();
+
+  return searchFields.some((field) =>
+    // @ts-ignore
+    String(poly[field]).toLowerCase().includes(lowercaseQuery),
+  );
 }

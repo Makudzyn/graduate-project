@@ -12,3 +12,10 @@ export interface Polynomial {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type PolynomialWithoutDate = Omit<Polynomial, keyof { createdAt: Date; updatedAt: Date }>;
+
+export interface SortState {
+  column: keyof PolynomialWithoutDate;
+  order: "ascending" | "descending";
+}
