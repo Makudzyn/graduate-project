@@ -5,11 +5,11 @@ import { Context } from "../main.tsx";
 import { loginReq } from "../http/userAPI.ts";
 import { observer } from "mobx-react-lite";
 import bigDataIco from "../assets/big-data.svg";
-import FormInput from "../components/Inputs/FormInput.tsx";
+import FormInput from "../components/Form/FormInput.tsx";
 import FormHeader from "../components/Form/FormHeader.tsx";
-import Checkbox from "../components/Inputs/Checkbox.tsx";
-import FormButton from "../components/Buttons/FormButton.tsx";
-import FormPassword from "../components/Inputs/FormPassword.tsx";
+import Checkbox from "../components/Form/Checkbox.tsx";
+import FormButton from "../components/Form/FormButton.tsx";
+import FormPassword from "../components/Form/FormPassword.tsx";
 
 const AuthorizationPage = observer(() => {
   const { userStore } = useContext(Context)!; // Данные о пользователе из стора

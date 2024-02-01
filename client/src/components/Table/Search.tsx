@@ -10,8 +10,8 @@ const Search = ({
   setSearchQuery,
 }: SearchProps) => {
   return (
-    <div className="top-0 right-0 flex items-center justify-between w-[19.85rem]">
-      <label className="relative mt-1 py-2 pl-3">
+    <div className="top-0 right-0 flex items-center justify-between w-[20rem]">
+      <label className="py-2 px-3">
         Search:
       </label>
       <input

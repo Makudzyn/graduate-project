@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import Select from "../SelectList/Select.tsx";
-import GenInput from "../Inputs/GenInput.tsx";
+import GenSelect from "../CommonGenComponents/Select/GenSelect.tsx";
+import GenInput from "../CommonGenComponents/GenInput.tsx";
 import { Context } from "../../main.tsx";
 import { observer } from "mobx-react-lite";
 import { SetURLSearchParams, useLocation } from "react-router-dom";
@@ -71,7 +71,7 @@ const LinearInputBlock = observer(
 
     return (
       <div className="flex flex-col justify-center w-[25rem]">
-        <Select
+        <GenSelect
           selectLabel={firstSelectLabel}
           shownPlaceholder={firstShownPlaceholder}
           urlParamName={degreeParam}
@@ -80,7 +80,7 @@ const LinearInputBlock = observer(
           optionsArray={options}
         />
 
-        <Select
+        <GenSelect
           selectLabel={secondSelectLabel}
           shownPlaceholder={secondShownPlaceholder}
           urlParamName={polynomialParam}

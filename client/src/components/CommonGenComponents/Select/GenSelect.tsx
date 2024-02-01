@@ -1,11 +1,11 @@
 import { Listbox, Transition } from "@headlessui/react";
-import ChevronUpIcon from "../../assets/chevron-up.svg?react";
-import ChevronDownIcon from "../../assets/chevron-down.svg?react";
-import OptionList from "./OptionList.tsx";
+import ChevronUpIcon from "../../../assets/chevron-up.svg?react";
+import ChevronDownIcon from "../../../assets/chevron-down.svg?react";
+import GenOptionList from "./GenOptionList.tsx";
 import { SetURLSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { BooleanSelect, Polynomial } from "../../utils/interfacesAndTypes.ts";
-import { formatOption, getSelectedParam } from "../../functions/functions.ts";
+import { BooleanSelect, Polynomial } from "../../../utils/interfacesAndTypes.ts";
+import { formatOption, getSelectedParam } from "../../../functions/functions.ts";
 
 interface SelectProps {
   searchParams: URLSearchParams;
@@ -16,7 +16,7 @@ interface SelectProps {
   optionsArray: (string | number | Polynomial | BooleanSelect)[];
 }
 
-const Select = ({
+const GenSelect = ({
   searchParams,
   setSelectedOptionToParams,
   urlParamName,
@@ -100,7 +100,7 @@ const Select = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <OptionList options={optionsArray} />
+              <GenOptionList options={optionsArray} />
             </Transition>
           </div>
         </>
@@ -109,4 +109,4 @@ const Select = ({
   );
 };
 
-export default Select;
+export default GenSelect;

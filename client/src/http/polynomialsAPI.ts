@@ -1,7 +1,7 @@
 import { $host } from "./index.ts";
 
-export const fetchPolynomials = async () => {
-  const { data } = await $host.get("api/polynomials");
+export const fetchPolynomials = async (limit?: number, page: number = 1) => {
+  const { data } = await $host.get("api/polynomials", { params: { limit, page } });
   return data;
 };
 

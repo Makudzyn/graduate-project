@@ -1,5 +1,5 @@
 import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
-import Matrix from "../Matrix.tsx";
+import Matrix from "../CommonGenComponents/Matrix.tsx";
 import { useEffect, useRef, useState } from "react";
 
 interface LinearMatricesBlockProps {

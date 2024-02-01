@@ -24,17 +24,18 @@ import {
   POLYNOMIAL_TYPE_A,
   POLYNOMIAL_TYPE_B,
 } from "../utils/consts.ts";
-import MatrixGenerator from "../components/MatrixGenerator.tsx";
+import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
 import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
-import GenInput from "../components/Inputs/GenInput.tsx";
-import GenButton from "../components/Buttons/GenButton.tsx";
+import GenInput from "../components/CommonGenComponents/GenInput.tsx";
+import GenButton from "../components/CommonGenComponents/GenButton.tsx";
 import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";
 import { Context } from "../main.tsx";
+import Spinner from "../components/Spinner.tsx";
 
 const HammingWeightAnalysisPage = observer(() => {
   const { polynomialsStore } = useContext(Context)!;
 
-  usePolynomialsFetching(polynomialsStore);
+  const {loading, error} = usePolynomialsFetching(polynomialsStore);
 
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
@@ -91,135 +92,141 @@ const HammingWeightAnalysisPage = observer(() => {
   }, [pseudorandomSequenceLinear, pseudorandomSequenceMatrices]);
 
   return (
-    <section className="flex h-full justify-center pt-16">
-      <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-        <h1 className="py-5 text-center">Аналіз ваг Хеммінгу</h1>
+    <>
+      {loading && <Spinner />}
 
-        <div className="flex">
-          <div className="w-1/4 px-5">
-            <LinearGenerator
-              searchParams={searchParams}
-              setSearchParams={setSearchParams}
-              structureMatrix={structureMatrix}
-              conditionMatrix={conditionMatrixLinear}
-              potentialPeriodLength={potentialPeriodLength}
-              factualPeriodLength={factualPeriodLength}
-              pseudorandomSequence={pseudorandomSequenceLinear}
-              hammingWeight={hammingWeightLinear}
-              degreeParam={PARAMS_DEGREE}
-              polynomialParam={PARAMS_POLYNOMIAL}
-              userValueParam={PARAMS_USER_VALUE}
-              onClick={() =>
-                linearCalculations(
-                  searchParams,
-                  PARAMS_DEGREE,
-                  PARAMS_POLYNOMIAL,
-                  PARAMS_USER_VALUE,
-                  setStructureMatrix,
-                  setConditionMatrixLinear,
-                  setPotentialPeriodLength,
-                  setFactualPeriodLength,
-                  setPseudorandomSequenceLinear,
-                  setHammingWeightLinear,
-                )
-              }
-            />
-          </div>
-          <div className="w-3/4 px-5">
-            <MatrixGenerator
-              searchParams={searchParams}
-              setSearchParams={setSearchParams}
-              structureMatrixA={structureMatrixA}
-              structureMatrixB={structureMatrixB}
-              basisMatrix={basisMatrix}
-              conditionMatrix={conditionMatrixMatrices}
-              potentialPeriodLengthA={potentialPeriodLengthA}
-              potentialPeriodLengthB={potentialPeriodLengthB}
-              factualPeriodLengthA={factualPeriodLengthA}
-              factualPeriodLengthB={factualPeriodLengthB}
-              periodLengthS={periodLengthS}
-              conditionS={conditionS}
-              identifierS={"S"}
-              pseudorandomSequence={pseudorandomSequenceMatrices}
-              hammingWeight={hammingWeightMatrices}
-              hammingWeightSpectre={hammingWeightSpectre}
-              degreeParamA={PARAMS_DEGREE_A}
-              degreeParamB={PARAMS_DEGREE_B}
-              polynomialParamA={PARAMS_POLYNOMIAL_A}
-              polynomialParamB={PARAMS_POLYNOMIAL_B}
-              cyclicPolyParamA={PARAMS_CYCLIC_POLY_A}
-              cyclicPolyParamB={PARAMS_CYCLIC_POLY_B}
-              indexParamI={PARAMS_OUTPUT_INDEX_I}
-              indexParamJ={PARAMS_OUTPUT_INDEX_J}
-              matrixRankParam={PARAMS_MATRIX_RANK}
-              polynomialTypeA={POLYNOMIAL_TYPE_A}
-              polynomialTypeB={POLYNOMIAL_TYPE_B}
-              onClick={() =>
-                matrixCalculations(
-                  searchParams,
-                  PARAMS_DEGREE_A,
-                  PARAMS_DEGREE_B,
-                  PARAMS_POLYNOMIAL_A,
-                  PARAMS_POLYNOMIAL_B,
-                  PARAMS_CYCLIC_POLY_A,
-                  PARAMS_CYCLIC_POLY_B,
-                  PARAMS_OUTPUT_INDEX_I,
-                  PARAMS_OUTPUT_INDEX_J,
-                  PARAMS_MATRIX_RANK,
-                  setStructureMatrixA,
-                  setStructureMatrixB,
-                  setConditionMatrixMatrices,
-                  setBasisMatrix,
-                  setPotentialPeriodLengthA,
-                  setPotentialPeriodLengthB,
-                  setFactualPeriodLengthA,
-                  setFactualPeriodLengthB,
-                  setPeriodLengthS,
-                  setConditionS,
-                  setPseudorandomSequenceMatrices,
-                  setHammingWeightMatrices,
-                  setHammingWeightSpectre,
-                )
-              }
-            />
-          </div>
-        </div>
-        <div className="my-5 flex flex-col items-center justify-center">
-          <GenInput
-            inputLabel="Довжина блоку"
-            inputPlaceholder="2"
-            urlParamName={PARAMS_HAMMING_BLOCK}
-            setSearchParams={setSearchParams}
-            searchParams={searchParams}
-            valueRestriction={valueRestriction}
-            disabled={false}
-          />
-          <GenButton
-            onClick={() =>
-              hammingBlockCalculations(
-                searchParams,
-                PARAMS_HAMMING_BLOCK,
-                pseudorandomSequenceLinear,
-                pseudorandomSequenceMatrices,
-                setLinearSeqBlockLengths,
-                setMatrixSeqBlockLengths,
-                setSharedWeights,
-              )
-            }
-          >
-            Провести розрахунки
-          </GenButton>
-        </div>
+      {!error && !loading && (
+        <section className="flex h-full justify-center pt-16">
+          <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
+            <h1 className="py-5 text-center">Аналіз ваг Хеммінгу</h1>
 
-        <div className="flex h-full w-full items-center justify-center">
-          <HammingChart
-            data1={linearSeqBlockLengths}
-            data2={matrixSeqBlockLengths}
-            xAxisLabels={sharedWeights}
-          />
-        </div>
-      </div>
-    </section>
+            <div className="flex">
+              <div className="w-1/4 px-5">
+                <LinearGenerator
+                  searchParams={searchParams}
+                  setSearchParams={setSearchParams}
+                  structureMatrix={structureMatrix}
+                  conditionMatrix={conditionMatrixLinear}
+                  potentialPeriodLength={potentialPeriodLength}
+                  factualPeriodLength={factualPeriodLength}
+                  pseudorandomSequence={pseudorandomSequenceLinear}
+                  hammingWeight={hammingWeightLinear}
+                  degreeParam={PARAMS_DEGREE}
+                  polynomialParam={PARAMS_POLYNOMIAL}
+                  userValueParam={PARAMS_USER_VALUE}
+                  onClick={() =>
+                    linearCalculations(
+                      searchParams,
+                      PARAMS_DEGREE,
+                      PARAMS_POLYNOMIAL,
+                      PARAMS_USER_VALUE,
+                      setStructureMatrix,
+                      setConditionMatrixLinear,
+                      setPotentialPeriodLength,
+                      setFactualPeriodLength,
+                      setPseudorandomSequenceLinear,
+                      setHammingWeightLinear,
+                    )
+                  }
+                />
+              </div>
+              <div className="w-3/4 px-5">
+                <MatrixGenerator
+                  searchParams={searchParams}
+                  setSearchParams={setSearchParams}
+                  structureMatrixA={structureMatrixA}
+                  structureMatrixB={structureMatrixB}
+                  basisMatrix={basisMatrix}
+                  conditionMatrix={conditionMatrixMatrices}
+                  potentialPeriodLengthA={potentialPeriodLengthA}
+                  potentialPeriodLengthB={potentialPeriodLengthB}
+                  factualPeriodLengthA={factualPeriodLengthA}
+                  factualPeriodLengthB={factualPeriodLengthB}
+                  periodLengthS={periodLengthS}
+                  conditionS={conditionS}
+                  identifierS={"S"}
+                  pseudorandomSequence={pseudorandomSequenceMatrices}
+                  hammingWeight={hammingWeightMatrices}
+                  hammingWeightSpectre={hammingWeightSpectre}
+                  degreeParamA={PARAMS_DEGREE_A}
+                  degreeParamB={PARAMS_DEGREE_B}
+                  polynomialParamA={PARAMS_POLYNOMIAL_A}
+                  polynomialParamB={PARAMS_POLYNOMIAL_B}
+                  cyclicPolyParamA={PARAMS_CYCLIC_POLY_A}
+                  cyclicPolyParamB={PARAMS_CYCLIC_POLY_B}
+                  indexParamI={PARAMS_OUTPUT_INDEX_I}
+                  indexParamJ={PARAMS_OUTPUT_INDEX_J}
+                  matrixRankParam={PARAMS_MATRIX_RANK}
+                  polynomialTypeA={POLYNOMIAL_TYPE_A}
+                  polynomialTypeB={POLYNOMIAL_TYPE_B}
+                  onClick={() =>
+                    matrixCalculations(
+                      searchParams,
+                      PARAMS_DEGREE_A,
+                      PARAMS_DEGREE_B,
+                      PARAMS_POLYNOMIAL_A,
+                      PARAMS_POLYNOMIAL_B,
+                      PARAMS_CYCLIC_POLY_A,
+                      PARAMS_CYCLIC_POLY_B,
+                      PARAMS_OUTPUT_INDEX_I,
+                      PARAMS_OUTPUT_INDEX_J,
+                      PARAMS_MATRIX_RANK,
+                      setStructureMatrixA,
+                      setStructureMatrixB,
+                      setConditionMatrixMatrices,
+                      setBasisMatrix,
+                      setPotentialPeriodLengthA,
+                      setPotentialPeriodLengthB,
+                      setFactualPeriodLengthA,
+                      setFactualPeriodLengthB,
+                      setPeriodLengthS,
+                      setConditionS,
+                      setPseudorandomSequenceMatrices,
+                      setHammingWeightMatrices,
+                      setHammingWeightSpectre,
+                    )
+                  }
+                />
+              </div>
+            </div>
+            <div className="my-5 flex flex-col items-center justify-center">
+              <GenInput
+                inputLabel="Довжина блоку"
+                inputPlaceholder="2"
+                urlParamName={PARAMS_HAMMING_BLOCK}
+                setSearchParams={setSearchParams}
+                searchParams={searchParams}
+                valueRestriction={valueRestriction}
+                disabled={false}
+              />
+              <GenButton
+                onClick={() =>
+                  hammingBlockCalculations(
+                    searchParams,
+                    PARAMS_HAMMING_BLOCK,
+                    pseudorandomSequenceLinear,
+                    pseudorandomSequenceMatrices,
+                    setLinearSeqBlockLengths,
+                    setMatrixSeqBlockLengths,
+                    setSharedWeights,
+                  )
+                }
+              >
+                Провести розрахунки
+              </GenButton>
+            </div>
+
+            <div className="flex h-full w-full items-center justify-center">
+              <HammingChart
+                data1={linearSeqBlockLengths}
+                data2={matrixSeqBlockLengths}
+                xAxisLabels={sharedWeights}
+              />
+            </div>
+          </div>
+        </section>
+      )}
+    </>
   );
 });
 

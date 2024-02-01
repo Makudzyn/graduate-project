@@ -3,10 +3,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE, MAIN_ROUTE } from "../utils/consts.ts";
 import { FormEvent, useContext, useState } from "react";
 import { Context } from "../main.tsx";
-import FormInput from "../components/Inputs/FormInput.tsx";
+import FormInput from "../components/Form/FormInput.tsx";
 import FormHeader from "../components/Form/FormHeader.tsx";
-import FormButton from "../components/Buttons/FormButton.tsx";
-import FormPassword from "../components/Inputs/FormPassword.tsx";
+import FormButton from "../components/Form/FormButton.tsx";
+import FormPassword from "../components/Form/FormPassword.tsx";
 import { observer } from "mobx-react-lite";
 import { registrationReq } from "../http/userAPI.ts";
 

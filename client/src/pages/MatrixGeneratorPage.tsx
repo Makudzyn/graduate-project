@@ -16,14 +16,15 @@ import {
   POLYNOMIAL_TYPE_B,
 } from "../utils/consts.ts";
 import { useSearchParams } from "react-router-dom";
-import MatrixGenerator from "../components/MatrixGenerator.tsx";
+import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
 import { matrixCalculations } from "../functions/calculationRequestFunctions.ts";
 import { Context } from "../main.tsx";
+import Spinner from "../components/Spinner.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore } = useContext(Context)!;
 
-  usePolynomialsFetching(polynomialsStore);
+  const { loading, error } = usePolynomialsFetching(polynomialsStore);
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
@@ -50,75 +51,80 @@ const MatrixGeneratorPage = observer(() => {
 
   const [searchParams, setSearchParams] = useSearchParams({});
 
-
   return (
-    <section className="flex h-full justify-center pt-16">
-      <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-        <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
+    <>
+      {loading && <Spinner />}
 
-        <MatrixGenerator
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
-          structureMatrixA={structureMatrixA}
-          structureMatrixB={structureMatrixB}
-          basisMatrix={basisMatrix}
-          conditionMatrix={conditionMatrix}
-          potentialPeriodLengthA={potentialPeriodLengthA}
-          potentialPeriodLengthB={potentialPeriodLengthB}
-          factualPeriodLengthA={factualPeriodLengthA}
-          factualPeriodLengthB={factualPeriodLengthB}
-          periodLengthS={periodLengthS}
-          conditionS={conditionS}
-          identifierS={"S"}
-          pseudorandomSequence={pseudorandomSequence}
-          hammingWeight={hammingWeight}
-          hammingWeightSpectre={hammingWeightSpectre}
-          degreeParamA={PARAMS_DEGREE_A}
-          degreeParamB={PARAMS_DEGREE_B}
-          polynomialParamA={PARAMS_POLYNOMIAL_A}
-          polynomialParamB={PARAMS_POLYNOMIAL_B}
-          cyclicPolyParamA={PARAMS_CYCLIC_POLY_A}
-          cyclicPolyParamB={PARAMS_CYCLIC_POLY_B}
-          indexParamI={PARAMS_OUTPUT_INDEX_I}
-          indexParamJ={PARAMS_OUTPUT_INDEX_J}
-          matrixRankParam={PARAMS_MATRIX_RANK}
-          polynomialTypeA={POLYNOMIAL_TYPE_A}
-          polynomialTypeB={POLYNOMIAL_TYPE_B}
-          onClick={() =>
-            matrixCalculations(
-              searchParams,
-              PARAMS_DEGREE_A,
-              PARAMS_DEGREE_B,
-              PARAMS_POLYNOMIAL_A,
-              PARAMS_POLYNOMIAL_B,
-              PARAMS_CYCLIC_POLY_A,
-              PARAMS_CYCLIC_POLY_B,
-              PARAMS_OUTPUT_INDEX_I,
-              PARAMS_OUTPUT_INDEX_J,
-              PARAMS_MATRIX_RANK,
-              setStructureMatrixA,
-              setStructureMatrixB,
-              setConditionMatrix,
-              setBasisMatrix,
-              setPotentialPeriodLengthA,
-              setPotentialPeriodLengthB,
-              setFactualPeriodLengthA,
-              setFactualPeriodLengthB,
-              setPeriodLengthS,
-              setConditionS,
-              setPseudorandomSequence,
-              setHammingWeight,
-              setHammingWeightSpectre,
-              setCorrelation,
-            )
-          }
-        />
+      {!error && !loading && (
+        <section className="flex h-full justify-center pt-16">
+          <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
+            <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
 
-        <div className="flex h-full w-full items-center justify-center">
-          <CorrelationChart data1={correlation} />
-        </div>
-      </div>
-    </section>
+            <MatrixGenerator
+              searchParams={searchParams}
+              setSearchParams={setSearchParams}
+              structureMatrixA={structureMatrixA}
+              structureMatrixB={structureMatrixB}
+              basisMatrix={basisMatrix}
+              conditionMatrix={conditionMatrix}
+              potentialPeriodLengthA={potentialPeriodLengthA}
+              potentialPeriodLengthB={potentialPeriodLengthB}
+              factualPeriodLengthA={factualPeriodLengthA}
+              factualPeriodLengthB={factualPeriodLengthB}
+              periodLengthS={periodLengthS}
+              conditionS={conditionS}
+              identifierS={"S"}
+              pseudorandomSequence={pseudorandomSequence}
+              hammingWeight={hammingWeight}
+              hammingWeightSpectre={hammingWeightSpectre}
+              degreeParamA={PARAMS_DEGREE_A}
+              degreeParamB={PARAMS_DEGREE_B}
+              polynomialParamA={PARAMS_POLYNOMIAL_A}
+              polynomialParamB={PARAMS_POLYNOMIAL_B}
+              cyclicPolyParamA={PARAMS_CYCLIC_POLY_A}
+              cyclicPolyParamB={PARAMS_CYCLIC_POLY_B}
+              indexParamI={PARAMS_OUTPUT_INDEX_I}
+              indexParamJ={PARAMS_OUTPUT_INDEX_J}
+              matrixRankParam={PARAMS_MATRIX_RANK}
+              polynomialTypeA={POLYNOMIAL_TYPE_A}
+              polynomialTypeB={POLYNOMIAL_TYPE_B}
+              onClick={() =>
+                matrixCalculations(
+                  searchParams,
+                  PARAMS_DEGREE_A,
+                  PARAMS_DEGREE_B,
+                  PARAMS_POLYNOMIAL_A,
+                  PARAMS_POLYNOMIAL_B,
+                  PARAMS_CYCLIC_POLY_A,
+                  PARAMS_CYCLIC_POLY_B,
+                  PARAMS_OUTPUT_INDEX_I,
+                  PARAMS_OUTPUT_INDEX_J,
+                  PARAMS_MATRIX_RANK,
+                  setStructureMatrixA,
+                  setStructureMatrixB,
+                  setConditionMatrix,
+                  setBasisMatrix,
+                  setPotentialPeriodLengthA,
+                  setPotentialPeriodLengthB,
+                  setFactualPeriodLengthA,
+                  setFactualPeriodLengthB,
+                  setPeriodLengthS,
+                  setConditionS,
+                  setPseudorandomSequence,
+                  setHammingWeight,
+                  setHammingWeightSpectre,
+                  setCorrelation,
+                )
+              }
+            />
+
+            <div className="flex h-full w-full items-center justify-center">
+              <CorrelationChart data1={correlation} />
+            </div>
+          </div>
+        </section>
+      )}
+    </>
   );
 });
 

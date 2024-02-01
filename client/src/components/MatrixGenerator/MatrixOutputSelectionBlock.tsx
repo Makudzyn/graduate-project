@@ -1,4 +1,4 @@
-import Select from "../SelectList/Select.tsx";
+import GenSelect from "../CommonGenComponents/Select/GenSelect.tsx";
 import { SetURLSearchParams } from "react-router-dom";
 
 interface MatrixOutputSelectProps {
@@ -37,7 +37,7 @@ const MatrixOutputSelectionBlock = ({
   return (
     <div className="flex items-center justify-center px-3 w-[25rem]">
       <div className="flex flex-col flex-wrap w-[15rem]">
-        <Select
+        <GenSelect
           selectLabel={firstOutputElementLabel}
           shownPlaceholder={firstShownPlaceholder}
           searchParams={searchParams}
@@ -46,7 +46,7 @@ const MatrixOutputSelectionBlock = ({
           optionsArray={firstOptionsArray}
         />
 
-        <Select
+        <GenSelect
           selectLabel={secondOutputElementLabel}
           shownPlaceholder={secondShownPlaceholder}
           searchParams={searchParams}
@@ -55,7 +55,7 @@ const MatrixOutputSelectionBlock = ({
           optionsArray={secondOptionsArray}
         />
 
-        <Select
+        <GenSelect
           selectLabel={thirdOutputElementLabel}
           shownPlaceholder={thirdShownPlaceholder}
           searchParams={searchParams}

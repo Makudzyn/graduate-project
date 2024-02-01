@@ -1,46 +1,30 @@
-import usePolynomialsFetching from "../../hooks/usePolynomialsFetching.ts";
-import { useContext, useMemo, useState } from "react";
-import { Context } from "../../main.tsx";
-import { PolynomialWithoutDate, SortState } from "../../utils/interfacesAndTypes.ts";
+import { useState } from "react";
+import { Polynomial, SortState } from "../../utils/interfacesAndTypes.ts";
 import Search from "./Search.tsx";
-import { compareValues, filterByQuery } from "../../functions/functions.ts";
+import useSortPolynomials from "../../hooks/usePolynomialsSort.ts";
+import useFilterPolynomials from "../../hooks/useFilteredPolynomials.ts";
+import Th from "./Th.tsx";
+import TableSelect from "./Select/TableSelect.tsx";
 
-interface PolynomialTableProps {}
+interface PolynomialTableProps {
+  polynomials: Polynomial[];
+}
 
-
-const PolynomialTable = ({}: PolynomialTableProps) => {
-  const { polynomialsStore } = useContext(Context)!;
-  usePolynomialsFetching(polynomialsStore);
-
+const PolynomialTable = ({ polynomials }: PolynomialTableProps) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [sortBy, setSortBy] = useState<SortState>({column: "id", order: "ascending"});
+  const [sortBy, setSortBy] = useState<SortState>({
+    column: "id",
+    order: "ascending",
+  });
 
-  const sortedPolynomials = useMemo(() => {
-    return [...polynomialsStore.polynomials].sort((a, b) =>
-      compareValues(sortBy, a, b),
-    );
-  }, [sortBy]);
+  const sortedPolynomials = useSortPolynomials(polynomials, sortBy);
+  const filteredPolynomials = useFilterPolynomials(
+    sortedPolynomials,
+    searchQuery,
+  );
 
-  const filteredPolynomials = useMemo(() => {
-    return searchQuery === ""
-      ? sortedPolynomials
-      : sortedPolynomials.filter(poly => filterByQuery(poly, searchQuery));
-  }, [sortedPolynomials, searchQuery]);
-
-
-  const handleSort = (column: keyof PolynomialWithoutDate) => {
-    setSortBy((prevSortBy) => {
-      if (prevSortBy.column === column) {
-        return {
-          column,
-          order: prevSortBy.order === "ascending" ? "descending" : "ascending",
-        };
-      } else {
-        return { column, order: "ascending" };
-      }
-    });
-  };
-
+  const OPTIONS_ARRAY = [10, 25, 50, 100];
+  const [entriesCount, setEntriesCount] = useState<number>(10);
   return (
     <div className="container mx-auto w-full px-2">
       <h1 className="flex items-center break-normal px-2 py-8 font-sans text-xl font-bold text-indigo-500">
@@ -50,23 +34,7 @@ const PolynomialTable = ({}: PolynomialTableProps) => {
       <div className="mt-6 rounded bg-white p-8 shadow">
         <div className="">
           <div className="flex justify-between items-center mb-7">
-            <div className="">
-              <label>
-                Show
-                <select
-                  name="length"
-                  aria-controls="polynomials"
-                  className="mx-2 py-1 px-2 appearance-none bg-transparent text-indigo-500 border border-[#aaa] rounded"
-                >
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
-                </select>
-                entries
-              </label>
-            </div>
-
+            <TableSelect value={entriesCount} setValue={setEntriesCount} labelStart={"Show"} labelEnd={"entries"} optionsArray={OPTIONS_ARRAY}/>
             <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
           </div>
 
@@ -78,52 +46,46 @@ const PolynomialTable = ({}: PolynomialTableProps) => {
           >
             <thead>
               <tr role="row">
-                <th
-                  data-priority="1"
-                  className="cursor-pointer border-b-2 border-indigo-500 w-[10%] px-2.5 py-4"
-                  tabIndex={0}
-                  aria-controls="polynomials"
-                  aria-sort={sortBy.column === "id" ? sortBy.order : "none"}
-                  aria-label="Id: activate to sort column"
-                  onClick={() => handleSort("id")}
+                <Th
+                  columnName={"id"}
+                  classNames="w-[10%]"
+                  sortObj={sortBy}
+                  setSortObj={setSortBy}
+                  dataPriority={"1"}
+                  ariaControls={"polynomials"}
                 >
                   Id
-                </th>
-                <th
-                  data-priority="2"
-                  className="relative cursor-pointer border-b-2 border-indigo-500 w-[10%] px-2.5 py-4"
-                  tabIndex={0}
-                  aria-controls="polynomials"
-                  aria-sort={sortBy.column === "degree" ? sortBy.order : "none"}
-                  aria-label="Degree: activate to sort column"
-                  onClick={() => handleSort("degree")}
+                </Th>
+                <Th
+                  columnName={"degree"}
+                  classNames="w-[10%]"
+                  sortObj={sortBy}
+                  setSortObj={setSortBy}
+                  dataPriority={"2"}
+                  ariaControls={"polynomials"}
                 >
                   Degree
-                </th>
-                <th
-                  data-priority="3"
-                  className="relative cursor-pointer border-b-2 border-indigo-500 w-[30%] px-2.5 py-4"
-                  tabIndex={0}
-                  aria-controls="polynomials"
-                  aria-sort={sortBy.column === "name" ? sortBy.order : "none"}
-                  aria-label="Name: activate to sort column"
-                  onClick={() => handleSort("name")}
+                </Th>
+                <Th
+                  columnName={"name"}
+                  classNames="w-[30%]"
+                  sortObj={sortBy}
+                  setSortObj={setSortBy}
+                  dataPriority={"3"}
+                  ariaControls={"polynomials"}
                 >
                   Name
-                </th>
-                <th
-                  data-priority="4"
-                  className="relative cursor-pointer border-b-2 border-indigo-500 w-[50%] px-2.5 py-4"
-                  tabIndex={0}
-                  aria-controls="polynomials"
-                  aria-sort={
-                    sortBy.column === "polynomial" ? sortBy.order : "none"
-                  }
-                  aria-label="Polynomial: activate to sort column"
-                  onClick={() => handleSort("polynomial")}
+                </Th>
+                <Th
+                  columnName={"polynomial"}
+                  classNames="w-[50%]"
+                  sortObj={sortBy}
+                  setSortObj={setSortBy}
+                  dataPriority={"4"}
+                  ariaControls={"polynomials"}
                 >
                   Polynomial
-                </th>
+                </Th>
               </tr>
             </thead>
 
@@ -151,7 +113,7 @@ const PolynomialTable = ({}: PolynomialTableProps) => {
               role="status"
               aria-live="polite"
             >
-              Showing 1 to 10 of {polynomialsStore.polynomials.length} entries
+              Showing 1 to 10 of {polynomials.length} entries
             </div>
 
             <div className="text-right pt-[0.25em]" id="paginate">

@@ -1,4 +1,4 @@
-import Matrix from "../Matrix.tsx";
+import Matrix from "../CommonGenComponents/Matrix.tsx";
 import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
 
 interface StructureMatricesBlockProps {

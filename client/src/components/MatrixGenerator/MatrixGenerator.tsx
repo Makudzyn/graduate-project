@@ -1,14 +1,14 @@
 import { SetURLSearchParams } from "react-router-dom";
-import { PolynomialType } from "../utils/interfacesAndTypes.ts";
-import MatrixInputBlock from "./MatrixGenerator/MatrixInputBlock.tsx";
-import GenButton from "./Buttons/GenButton.tsx";
-import StructureMatricesBlock from "./MatrixGenerator/StructureMatricesBlock.tsx";
-import PeriodInfo from "./PeriodInfo.tsx";
-import ConditionMatrixBlock from "./MatrixGenerator/ConditionMatrixBlock.tsx";
-import PeriodsCondition from "./PeriodsCondition.tsx";
-import Sequence from "./Sequence.tsx";
-import HammingWeight from "./HammingWeight.tsx";
-import HammingWeightSpectre from "./HammingWeightSpectre.tsx";
+import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
+import MatrixInputBlock from "./MatrixInputBlock.tsx";
+import GenButton from "../CommonGenComponents/GenButton.tsx";
+import StructureMatricesBlock from "./StructureMatricesBlock.tsx";
+import PeriodInfo from "../CommonGenComponents/PeriodInfo.tsx";
+import ConditionMatrixBlock from "./ConditionMatrixBlock.tsx";
+import PeriodsCondition from "../CommonGenComponents/PeriodsCondition.tsx";
+import Sequence from "../CommonGenComponents/Sequence.tsx";
+import HammingWeight from "../CommonGenComponents/HammingWeight.tsx";
+import HammingWeightSpectre from "../CommonGenComponents/HammingWeightSpectre.tsx";
 
 interface MatrixGeneratorProps {
   searchParams: URLSearchParams;

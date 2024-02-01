@@ -1,4 +1,4 @@
-import Select from "../SelectList/Select.tsx";
+import GenSelect from "../CommonGenComponents/Select/GenSelect.tsx";
 import { observer } from "mobx-react-lite";
 import { SetURLSearchParams } from "react-router-dom";
 import { BooleanSelect, Polynomial } from "../../utils/interfacesAndTypes.ts";
@@ -40,7 +40,7 @@ const MatrixSelect = observer(
 
     return (
       <div className="flex flex-col w-[25rem] flex-wrap px-3">
-        <Select
+        <GenSelect
           selectLabel={firstSelectLabel}
           shownPlaceholder={firstShownPlaceholder}
           urlParamName={degreeParamName}
@@ -49,7 +49,7 @@ const MatrixSelect = observer(
           optionsArray={degreeArray}
         />
 
-        <Select
+        <GenSelect
           selectLabel={secondSelectLabel}
           shownPlaceholder={secondShownPlaceholder}
           urlParamName={polynomialParamName}
@@ -58,7 +58,7 @@ const MatrixSelect = observer(
           optionsArray={polynomialArray}
         />
 
-        <Select
+        <GenSelect
           selectLabel={thirdSelectLabel}
           shownPlaceholder={thirdShownPlaceholder}
           urlParamName={cyclicPolyParamName}

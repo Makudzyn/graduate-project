@@ -1,4 +1,4 @@
-import { PolynomialType } from "../utils/interfacesAndTypes.ts";
+import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
 
 interface PeriodsConditionProps {
    polynomialTypeFirst?: PolynomialType;
