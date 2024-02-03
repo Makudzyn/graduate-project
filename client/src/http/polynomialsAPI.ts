@@ -1,8 +1,13 @@
 import { $host } from "./index.ts";
 
-export const fetchPolynomials = async (limit?: number, page: number = 1) => {
-  const { data } = await $host.get("api/polynomials", { params: { limit, page } });
-  return data;
+export const fetchPolynomials = async () => {
+  try {
+    const { data } = await $host.get("api/polynomials/get-polynomials");
+    const { polynomials, count } = data;
+    return { polynomials, count };
+  } catch (error) {
+    throw new Error("Error fetching polynomials data from server.");
+  }
 };
 
 export const sendLinearGeneratorData = async (
@@ -76,7 +81,6 @@ export const sendHammingWeightAnalysisData = async (
   matrixSequence: number[],
   hammingBlockLength: number,
 ) => {
-
   try {
     const { data } = await $host.post(
       "api/polynomials/compute-hamming-weight-block",
@@ -88,9 +92,6 @@ export const sendHammingWeightAnalysisData = async (
     );
     return data;
   } catch (error) {
-    throw new Error(
-      "Error sending Hamming weights for computation on server.",
-    );
+    throw new Error("Error sending Hamming weights for computation on server.");
   }
 };
-

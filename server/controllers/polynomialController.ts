@@ -56,18 +56,14 @@ async function getAllPolynomials(
   next: NextFunction,
 ): Promise<Response | void> {
   try {
-    const { limit, page } = req.query;
-
-    const NumLimit = Number(limit);
-    const offset = (Number(page) - 1) * NumLimit;
-
-    const {rows: polynomials, count } = await Polynomial.findAndCountAll({limit: NumLimit, offset});
-    return res.json({polynomials, totalCount: count });
+    const {rows: polynomials, count } = await Polynomial.findAndCountAll();
+    debugger;
+    return res.json({polynomials, count });
   } catch (error: unknown) {
-    // явно указываем тип для ошибки как unknown
-    return next(ApiError.internal((error as Error).message)); // приведение типа к Error
+    return next(ApiError.internal((error as Error).message));
   }
 }
+
 
 async function removePolynomial(
   req: Request,

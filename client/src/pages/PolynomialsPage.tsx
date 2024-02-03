@@ -9,13 +9,15 @@ const PolynomialsPage = observer(() => {
   const { polynomialsStore } = useContext(Context)!;
 
   const { loading, error } = usePolynomialsFetching(polynomialsStore);
-
   return (
     <>
       {loading && <Spinner />}
       {!error && !loading && (
         <div className="flex min-h-screen items-center justify-center bg-gray-100 pt-16 leading-normal tracking-wider">
-          <PolynomialTable polynomials={polynomialsStore.polynomials} />
+          <PolynomialTable
+            polynomials={polynomialsStore.polynomials}
+            totalCount={polynomialsStore.totalCount}
+          />
         </div>
       )}
     </>

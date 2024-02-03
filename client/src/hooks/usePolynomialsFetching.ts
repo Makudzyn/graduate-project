@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchPolynomials } from "../http/polynomialsAPI.ts";
 import PolynomialsStore from "../store/PolynomialsStore.ts";
 
-function usePolynomialsFetching(
-  polynomialsStore: PolynomialsStore,
-  limit?: number,
-  page: number = 1,
-) {
+function usePolynomialsFetching(polynomialsStore: PolynomialsStore) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,8 +10,9 @@ function usePolynomialsFetching(
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await fetchPolynomials(limit, page);
-        polynomialsStore.setPolynomials(data);
+        const { polynomials, count } = await fetchPolynomials();
+        polynomialsStore.setPolynomials(polynomials);
+        polynomialsStore.setTotalCount(count);
       } catch (error: any) {
         console.error("Error fetching polynomials: ", error.message);
         setError("Error fetching polynomials");

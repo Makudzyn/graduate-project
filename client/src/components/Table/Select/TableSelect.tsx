@@ -12,14 +12,25 @@ interface TableSelectProps {
   optionsArray: number[];
 }
 
-const TableSelect = ({ value, setValue, labelStart, labelEnd, optionsArray }: TableSelectProps) => {
+const TableSelect = ({
+  value,
+  setValue,
+  labelStart,
+  labelEnd,
+  optionsArray,
+}: TableSelectProps) => {
   return (
-    <Listbox value={value} onChange={setValue} as={"div"} className="top-0 left-0 flex items-center justify-between w-52" aria-controls={"polynomials"}>
+    <Listbox
+      value={value}
+      onChange={setValue}
+      as={"div"}
+      className="top-0 left-0 flex items-center justify-between w-52"
+      aria-controls={"polynomials"}
+    >
       {({ open }) => (
-        <>
-          <Listbox.Label className="flex flex-row justify-between items-center w-full text-sm leading-6 text-gray-900">
-            <span>{labelStart}</span>
-            <div className="relative">
+        <Listbox.Label className="flex flex-row justify-between items-center w-full text-sm leading-6 text-gray-900">
+          <span>{labelStart}</span>
+          <div className="relative">
             <Listbox.Button className="relative w-24 cursor-pointer rounded-md bg-white pr-10 pl-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
               <span className="flex items-center">
                 <span className="mx-1 block truncate">{value}</span>
@@ -44,12 +55,11 @@ const TableSelect = ({ value, setValue, labelStart, labelEnd, optionsArray }: Ta
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <TableOptionList options={optionsArray}/>
+              <TableOptionList options={optionsArray} />
             </Transition>
           </div>
-            <span>{labelEnd}</span>
-          </Listbox.Label>
-        </>
+          <span>{labelEnd}</span>
+        </Listbox.Label>
       )}
     </Listbox>
   );

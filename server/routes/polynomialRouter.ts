@@ -14,7 +14,7 @@ import authMiddleware from "../middleware/checkAuthAndRoleMiddleware";
 
 const router = Router();
 
-router.get("/", getAllPolynomials);
+router.get("/get-polynomials", getAllPolynomials);
 router.post("/add-one", authMiddleware(), addPolynomial);
 router.post("/add-many", authMiddleware(), addManyPolynomials);
 router.post("/compute-linear", linearComputation);
