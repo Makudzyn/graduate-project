@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-
+import ChevronIcon from "../../assets/chevron.svg?react";
 interface PaginationButtonsProps {
   totalCount: number;
   limit: number;
@@ -17,7 +17,7 @@ const PaginationButtons = ({
 
   const generateButtons = () => {
     const buttons = [];
-    const maxButtonsToShow = 5; // Максимальное количество кнопок, отображаемых одновременно
+    const maxButtonsToShow = 3; // Максимальное количество кнопок, отображаемых одновременно
 
     for (let i = 1; i <= totalPages; i++) {
       if (
@@ -33,16 +33,16 @@ const PaginationButtons = ({
             aria-controls="polynomials"
             className={`${
               i === page
-                ? "border-[#0000004C] bg-gradient-to-b"
-                : "border-transparent bg-indigo-500 text-white"
-            } box-border inline-block rounded border bg-indigo-500 px-4 py-2 text-center no-underline min-w-[1.5em] ml-0.5`}
+                ? "bg-purpleFirst text-white bg-gradient-to-b"
+                : "bg-transparent hover:bg-purpleSecond hover:text-white"
+            } box-border inline-block border border-transparent px-4 py-2 text-center ml-0.5 w-12 rounded transition`}
             onClick={() => setPage(i)}
           >
             {i}
-          </button>,
+          </button>
         );
-      } else if (buttons[buttons.length - 1] !== "...") {
-        buttons.push("...");
+      } else if (buttons[buttons.length - 1] !== " ... ") {
+        buttons.push(" ... ");
       }
     }
 
@@ -50,27 +50,27 @@ const PaginationButtons = ({
   };
 
   return (
-    <div className="text-right pt-[0.25em]" id="paginate">
+    <div className="flex justify-between items-center text-right pt-[0.25em] max-w-[28rem]" id="paginate">
       <button
         onClick={() => setPage(Math.max(page - 1, 1))}
         disabled={page === 1}
         tabIndex={0}
         id="previous"
         aria-controls="polynomials"
-        className="box-border inline-block cursor-pointer rounded border border-transparent bg-gray-300 px-4 py-2 text-center no-underline min-w-[1.5em] ml-0.5"
+        className="box-border inline-block cursor-pointer w-[3.625rem] h-10 px-4 py-2 rounded-md border border-gray-150 shadow-lg mr-2.5 disabled:bg-gray-300 disabled:cursor-auto enabled:hover:border-purpleSecond enabled:hover:ring-1 enabled:hover:text-white transition"
       >
-        Previous
+        <ChevronIcon className={"h-6 w-6 -rotate-90 stroke-purpleFirst"} />
       </button>
-      {generateButtons()}
+      <div>{generateButtons()}</div>
       <button
         onClick={() => setPage(Math.min(page + 1, totalPages))}
         disabled={page === totalPages}
-        className="box-border inline-block cursor-pointer rounded border border-transparent bg-indigo-500 px-4 py-2 text-center text-white no-underline min-w-[1.5em] ml-0.5"
+        className="box-border inline-block cursor-pointer w-[3.625rem] h-10 px-4 py-2 rounded-md border border-gray-150 shadow-lg ml-2.5 disabled:bg-gray-300 disabled:cursor-auto enabled:hover:border-purpleSecond enabled:hover:ring-1 enabled:hover:text-white transition"
         tabIndex={0}
         aria-controls="polynomials"
         id="next"
       >
-        Next
+          <ChevronIcon className={"h-6 w-6 rotate-90 stroke-purpleFirst"} />
       </button>
     </div>
   );

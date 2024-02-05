@@ -7,7 +7,7 @@ interface TableOptionListProps {
 
 const TableOptionList = ({ options }: TableOptionListProps) => {
   return (
-    <Listbox.Options className="absolute z-10 py-1 px-2 appearance-none bg-transparent text-indigo-500 border border-[#aaa] rounded w-24 overflow-auto bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+    <Listbox.Options className="absolute z-10 py-1 px-2 appearance-none bg-transparent text-indigo-500 border border-[#aaa] rounded w-[4.75rem] overflow-auto bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
       {options.map((option) => (
         <Listbox.Option
           key={option}
@@ -15,7 +15,7 @@ const TableOptionList = ({ options }: TableOptionListProps) => {
           className={({ active }) =>
             classNames(
               active ? "bg-indigo-600 text-white" : "text-gray-900",
-              "relative cursor-default select-none py-2 px-3",
+              "relative cursor-default select-none py-2 px-3 rounded",
             )
           }
         >
@@ -31,7 +31,7 @@ const TableOptionList = ({ options }: TableOptionListProps) => {
                   {option}
                 </span>
               </div>
-              {selected ? (
+              {selected &&
                 <span
                   className={classNames(
                     active ? "text-white" : "text-indigo-600",
@@ -39,7 +39,7 @@ const TableOptionList = ({ options }: TableOptionListProps) => {
                   )}
                 >
                 </span>
-              ) : null}
+              }
             </>
           )}
         </Listbox.Option>

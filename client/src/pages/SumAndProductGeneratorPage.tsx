@@ -104,6 +104,7 @@ const SumAndProductGeneratorPage = observer(() => {
                 userValueParam={PARAMS_USER_VALUE_A}
                 polynomialType={POLYNOMIAL_TYPE_A}
                 identifier={`(${POLYNOMIAL_TYPE_A})`}
+                className={"w-[50rem]"}
                 onClick={() =>
                   linearCalculations(
                     searchParams,
@@ -134,6 +135,7 @@ const SumAndProductGeneratorPage = observer(() => {
                 userValueParam={PARAMS_USER_VALUE_B}
                 polynomialType={POLYNOMIAL_TYPE_B}
                 identifier={`(${POLYNOMIAL_TYPE_B})`}
+                className={"w-[50rem]"}
                 onClick={() =>
                   linearCalculations(
                     searchParams,

@@ -22,6 +22,7 @@ interface LinearGeneratorProps {
   polynomialParam: string;
   userValueParam: string;
   polynomialType?: PolynomialType;
+  className?: string;
   identifier?: string;
 }
 
@@ -39,10 +40,11 @@ const LinearGenerator = ({
   userValueParam,
   polynomialType,
   identifier,
+  className,
   onClick,
 }: LinearGeneratorProps) => {
   return (
-    <div>
+    <div className={className}>
       <div className="flex w-full justify-evenly pb-9 pt-2.5">
         <LinearInputBlock
           firstSelectLabel={`Оберіть ступінь поліному ${polynomialType || ""}`}

@@ -1,6 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
-import ChevronUpIcon from "../../../assets/chevron-up.svg?react";
-import ChevronDownIcon from "../../../assets/chevron-down.svg?react";
+import ChevronIcon from "../../../assets/chevron.svg?react";
 import GenOptionList from "./GenOptionList.tsx";
 import { SetURLSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -80,17 +79,10 @@ const GenSelect = ({
                     : formatOption(optionValue)}
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                  {open ? (
-                    <ChevronUpIcon
-                      className="h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  ) : (
-                    <ChevronDownIcon
-                      className="h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  )}
+                  <ChevronIcon
+                    className={`h-5 w-5 stroke-gray-400 transition ${open && "rotate-180"}`}
+                    aria-hidden="true"
+                  />
                 </span>
               </span>
             </Listbox.Button>
