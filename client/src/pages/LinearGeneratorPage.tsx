@@ -12,9 +12,10 @@ import {
 import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
+import SideBar from "../components/Drawer/SideBar.tsx";
 
 const LinearGeneratorPage = observer(() => {
-  const { polynomialsStore } = useContext(Context)!;
+  const { polynomialsStore, userStore } = useContext(Context)!;
 
   const { loading, error } = usePolynomialsFetching(polynomialsStore);
 
@@ -34,6 +35,7 @@ const LinearGeneratorPage = observer(() => {
 
   return (
     <>
+      {userStore.isAuth && <SideBar />}
       {loading && <Spinner />}
 
       {!error && !loading && (

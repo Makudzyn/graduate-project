@@ -31,9 +31,10 @@ import GenButton from "../components/CommonGenComponents/GenButton.tsx";
 import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
+import SideBar from "../components/Drawer/SideBar.tsx";
 
 const HammingWeightAnalysisPage = observer(() => {
-  const { polynomialsStore } = useContext(Context)!;
+  const { polynomialsStore, userStore } = useContext(Context)!;
 
   const {loading, error} = usePolynomialsFetching(polynomialsStore);
 
@@ -93,6 +94,7 @@ const HammingWeightAnalysisPage = observer(() => {
 
   return (
     <>
+      {userStore.isAuth && <SideBar />}
       {loading && <Spinner />}
 
       {!error && !loading && (
