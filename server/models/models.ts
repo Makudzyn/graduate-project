@@ -25,16 +25,16 @@ User.init(
       primaryKey: true,
     },
     role: {
-      type: new DataTypes.STRING(45),
+      type: new DataTypes.STRING(25),
       allowNull: false,
     },
     email: {
-      type: new DataTypes.STRING(80),
+      type: new DataTypes.STRING(40),
       allowNull: false,
       unique: true,
     },
     password: {
-      type: new DataTypes.STRING(240),
+      type: new DataTypes.STRING(70),
       allowNull: false,
     },
     createdAt: DataTypes.DATE,
@@ -47,37 +47,14 @@ User.init(
   },
 );
 
-class History extends Model<
-  InferAttributes<History>,
-  InferCreationAttributes<History>
-> {
-  declare id: CreationOptional<number>;
-  declare userId: ForeignKey<User['id']>;
-  declare createdAt: CreationOptional<Date>;
-  declare updatedAt: CreationOptional<Date>;
-}
-
-History.init(
-  {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
-  },
-  {
-    tableName: "histories",
-    modelName: "history",
-    sequelize,
-  },
-);
-
 class HistoryRecord extends Model<
   InferAttributes<HistoryRecord>,
   InferCreationAttributes<HistoryRecord>
 > {
   declare id: CreationOptional<number>;
-  declare formNumber: number;
-  declare userValues: number[];
-  declare historyId: ForeignKey<History['id']>;
+  declare userId: ForeignKey<User['id']>;
+  declare pageName: string;
+  declare parameters: string;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -85,14 +62,20 @@ class HistoryRecord extends Model<
 HistoryRecord.init(
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    formNumber: { type: DataTypes.SMALLINT, allowNull: false },
-    userValues: { type: DataTypes.ARRAY(DataTypes.INTEGER) },
+    pageName: {
+      type: new DataTypes.STRING(45),
+      allowNull: false,
+    },
+    parameters: {
+      type: new DataTypes.STRING(200),
+      allowNull: false,
+    },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
   {
-    tableName: "history_records",
-    modelName: "history_record",
+    tableName: "histories",
+    modelName: "history",
     sequelize,
   },
 );
@@ -129,36 +112,12 @@ Polynomial.init(
   },
 );
 
-class HistoryPolynomial extends Model<
-  InferAttributes<HistoryPolynomial>,
-  InferCreationAttributes<HistoryPolynomial>
-> {
-  declare id: CreationOptional<number>;
-  declare createdAt: CreationOptional<Date>;
-  declare updatedAt: CreationOptional<Date>;
-}
 
-HistoryPolynomial.init(
-  {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
-  },
-  {
-    tableName: "history_polynomials",
-    modelName: "history_polynomial",
-    sequelize,
-  },
-);
 
 // Устанавливаем связи между таблицами
-User.hasOne(History);
-History.belongsTo(User);
+User.hasMany(HistoryRecord);
+HistoryRecord.belongsTo(User);
 
-History.hasMany(HistoryRecord);
-HistoryRecord.belongsTo(History);
 
-Polynomial.belongsToMany(HistoryRecord, { through: HistoryPolynomial });
-HistoryRecord.belongsToMany(Polynomial, { through: HistoryPolynomial });
 
-export { User, History, HistoryRecord, HistoryPolynomial, Polynomial };
+export { User, HistoryRecord, Polynomial };

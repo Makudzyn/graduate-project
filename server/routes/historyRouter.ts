@@ -4,8 +4,8 @@ import authMiddleware from '../middleware/checkAuthAndRoleMiddleware';
 
 const router = Router();
 
-router.get('/', authMiddleware(), getHistoryList);
-router.post('/', authMiddleware(), saveInHistory);
+router.get('/get-history-list', authMiddleware(), getHistoryList);
+router.post('/save-in-history', authMiddleware(), saveInHistory);
 // router.put('/',);
 router.delete('/', authMiddleware(), removeHistoryRecord);
 

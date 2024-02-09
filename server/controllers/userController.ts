@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import ApiError from "../error/apiError";
-import { History, User } from "../models/models";
+import { HistoryRecord, User } from "../models/models";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -41,8 +41,6 @@ async function registration(
     const hashPassword = await bcrypt.hash(password, 3);
 
     const user = await User.create({ email, role, password: hashPassword });
-
-    await History.create({ userId: user.id });
 
     const token = generateJWT(user.id, user.email, user.role);
 
@@ -89,18 +87,18 @@ async function deleteOne(
   res: Response,
   next: NextFunction,
 ): Promise<Response | void> {
-  const { id } = req.params; // Получаем ID из параметров
+  const { id } = req.body; // Получаем ID из тела
   try {
     const user = await User.findOne({ where: { id } }); // Находим пользователя
-    const history = await History.findOne({ where: { id } }); // Находим корзину пользователя
+    const records = await HistoryRecord.findAll({ where: { id } }); // Находим корзину пользователя
     if (!user) {
       return next(ApiError.notFound("User is not found")); // Если пользователь не был найден возвращаем ошибку
     }
-    if (!history) {
+    if (!records) {
       return next(ApiError.notFound("User`s history not found")); // Если пользователь не был найден возвращаем ошибку
     }
     await user.destroy(); // Удаляем пользователя
-    await history.destroy(); // Удаляем карзину привязанную к пользователю
+    records.map(async function (record) { await record.destroy()}); // Удаляем корзину, привязанную к пользователю
     return res.status(204).end(); // Возвращаем ответ с кодом 204 No Content
   } catch (error: unknown) {
     return next(ApiError.internal((error as Error).message)); // Если не удалось удалить пользователя

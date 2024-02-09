@@ -8,11 +8,11 @@ async function saveInHistory(
   next: NextFunction,
 ): Promise<Response | void> {
   try {
-    const { historyId, userValues, formNumber } = req.body;
+    const { userId, pageName, parameters } = req.body;
     const historyRecord = await HistoryRecord.create({
-      historyId,
-      userValues,
-      formNumber,
+      userId,
+      pageName,
+      parameters,
     });
     return res.json(historyRecord);
   } catch (error: unknown) {
