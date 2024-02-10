@@ -12,6 +12,13 @@ export interface Polynomial {
   createdAt: Date;
   updatedAt: Date;
 }
+export interface User {
+  id: number;
+  email: string;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export type PolynomialWithoutDate = Omit<Polynomial, keyof { createdAt: Date; updatedAt: Date }>;
 

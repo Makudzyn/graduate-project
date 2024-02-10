@@ -90,15 +90,15 @@ async function deleteOne(
   const { id } = req.body; // Получаем ID из тела
   try {
     const user = await User.findOne({ where: { id } }); // Находим пользователя
-    const records = await HistoryRecord.findAll({ where: { id } }); // Находим корзину пользователя
+    // const records = await HistoryRecord.findAll({ where: { id } }); // Находим корзину пользователя
     if (!user) {
       return next(ApiError.notFound("User is not found")); // Если пользователь не был найден возвращаем ошибку
     }
-    if (!records) {
-      return next(ApiError.notFound("User`s history not found")); // Если пользователь не был найден возвращаем ошибку
-    }
+    // if (!records) {
+    //   return next(ApiError.notFound("User`s history not found")); // Если пользователь не был найден возвращаем ошибку
+    // }
     await user.destroy(); // Удаляем пользователя
-    records.map(async function (record) { await record.destroy()}); // Удаляем корзину, привязанную к пользователю
+    // records.map(async function (record) { await record.destroy()}); // Удаляем корзину, привязанную к пользователю
     return res.status(204).end(); // Возвращаем ответ с кодом 204 No Content
   } catch (error: unknown) {
     return next(ApiError.internal((error as Error).message)); // Если не удалось удалить пользователя

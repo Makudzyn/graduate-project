@@ -27,7 +27,7 @@ import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 import CoprimeCondition from "../components/CommonGenComponents/CoprimeCondition.tsx";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
-import SideBar from "../components/Drawer/SideBar.tsx";
+import SideBar from "../components/SideBar/SideBar.tsx";
 
 const SumAndProductGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;

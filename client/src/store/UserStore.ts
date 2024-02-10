@@ -1,7 +1,14 @@
 import { makeAutoObservable } from "mobx";
+import { User } from "../utils/interfacesAndTypes.ts";
 export default class UserStore {
   private _isAuth = false;
-  private _user: Object = {};
+  private _user: User = {
+    id: 0,
+    email: "",
+    password: "",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
   constructor() {
     makeAutoObservable(this); // Для того чтобы Mobx следил за изменениями переменных
     // и при их изменении компоненты будут перерендериться
@@ -11,7 +18,7 @@ export default class UserStore {
     this._isAuth = bool;
   }
 
-  setUser(user: object) {
+  setUser(user: User) {
     this._user = user;
   }
 

@@ -57,7 +57,6 @@ async function getAllPolynomials(
 ): Promise<Response | void> {
   try {
     const {rows: polynomials, count } = await Polynomial.findAndCountAll();
-    debugger;
     return res.json({polynomials, count });
   } catch (error: unknown) {
     return next(ApiError.internal((error as Error).message));

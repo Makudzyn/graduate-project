@@ -47,10 +47,7 @@ User.init(
   },
 );
 
-class HistoryRecord extends Model<
-  InferAttributes<HistoryRecord>,
-  InferCreationAttributes<HistoryRecord>
-> {
+class HistoryRecord extends Model<InferAttributes<HistoryRecord>, InferCreationAttributes<HistoryRecord>> {
   declare id: CreationOptional<number>;
   declare userId: ForeignKey<User['id']>;
   declare pageName: string;
@@ -59,31 +56,24 @@ class HistoryRecord extends Model<
   declare updatedAt: CreationOptional<Date>;
 }
 
+
 HistoryRecord.init(
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    pageName: {
-      type: new DataTypes.STRING(45),
-      allowNull: false,
-    },
-    parameters: {
-      type: new DataTypes.STRING(200),
-      allowNull: false,
-    },
+    pageName: { type: new DataTypes.STRING(45), allowNull: false },
+    parameters: { type: new DataTypes.STRING(220), allowNull: false },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
   {
-    tableName: "histories",
-    modelName: "history",
+    tableName: "history_records",
+    modelName: "history_record",
     sequelize,
   },
 );
 
-class Polynomial extends Model<
-  InferAttributes<Polynomial>,
-  InferCreationAttributes<Polynomial>
-> {
+
+class Polynomial extends Model<InferAttributes<Polynomial>, InferCreationAttributes<Polynomial>> {
   declare id: CreationOptional<number>;
   declare name: string;
   declare degree: number;
@@ -97,11 +87,7 @@ Polynomial.init(
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: new DataTypes.STRING(25), unique: true, allowNull: false },
     degree: { type: DataTypes.SMALLINT, allowNull: false },
-    polynomial: {
-      type: new DataTypes.STRING(40),
-      allowNull: false,
-      unique: true,
-    },
+    polynomial: { type: new DataTypes.STRING(40), allowNull: false, unique: true },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
@@ -112,12 +98,7 @@ Polynomial.init(
   },
 );
 
-
-
-// Устанавливаем связи между таблицами
 User.hasMany(HistoryRecord);
 HistoryRecord.belongsTo(User);
-
-
 
 export { User, HistoryRecord, Polynomial };

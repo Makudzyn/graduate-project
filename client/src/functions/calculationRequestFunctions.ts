@@ -54,6 +54,7 @@ export async function linearCalculations(
   );
   setStructureMatrix(structureMatrix);
 
+
   try {
     const {
       conditionMatrix,

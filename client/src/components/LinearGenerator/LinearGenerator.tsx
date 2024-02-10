@@ -17,7 +17,7 @@ interface LinearGeneratorProps {
   factualPeriodLength: number;
   pseudorandomSequence: number[];
   hammingWeight: number;
-  onClick: () => Promise<void>;
+  onClick: () => void;
   degreeParam: string;
   polynomialParam: string;
   userValueParam: string;

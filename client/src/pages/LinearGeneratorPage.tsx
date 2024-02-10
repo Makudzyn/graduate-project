@@ -12,7 +12,8 @@ import {
 import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
-import SideBar from "../components/Drawer/SideBar.tsx";
+import SideBar from "../components/SideBar/SideBar.tsx";
+import { sendHistoryRecord } from "../http/historyRecords.ts";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -24,14 +25,39 @@ const LinearGeneratorPage = observer(() => {
 
   const [potentialPeriodLength, setPotentialPeriodLength] = useState<number>(0);
   const [factualPeriodLength, setFactualPeriodLength] = useState<number>(0);
-  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>(
-    [],
-  );
+  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
 
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [correlation, setCorrelation] = useState<number[]>([]);
 
   const [searchParams, setSearchParams] = useSearchParams({});
+
+  async function createHistoryRecord() {
+    const userId = userStore.user.id;
+    const pageName = location.pathname.slice(1);
+    const parameters = location.search;
+    try {
+      await sendHistoryRecord(userId, pageName, parameters);
+    } catch (error: any) {
+      console.error("Error creating history record in DB: ", error.message);
+    }
+  }
+  const handleClick = () => {
+    linearCalculations(
+      searchParams,
+      PARAMS_DEGREE,
+      PARAMS_POLYNOMIAL,
+      PARAMS_USER_VALUE,
+      setStructureMatrix,
+      setConditionMatrix,
+      setPotentialPeriodLength,
+      setFactualPeriodLength,
+      setPseudorandomSequence,
+      setHammingWeight,
+      setCorrelation,
+    ).then(r => console.log(r));
+    createHistoryRecord().then(r => console.log(r));
+  };
 
   return (
     <>
@@ -54,21 +80,7 @@ const LinearGeneratorPage = observer(() => {
               degreeParam={PARAMS_DEGREE}
               polynomialParam={PARAMS_POLYNOMIAL}
               userValueParam={PARAMS_USER_VALUE}
-              onClick={() =>
-                linearCalculations(
-                  searchParams,
-                  PARAMS_DEGREE,
-                  PARAMS_POLYNOMIAL,
-                  PARAMS_USER_VALUE,
-                  setStructureMatrix,
-                  setConditionMatrix,
-                  setPotentialPeriodLength,
-                  setFactualPeriodLength,
-                  setPseudorandomSequence,
-                  setHammingWeight,
-                  setCorrelation,
-                )
-              }
+              onClick={handleClick}
             />
 
             <CorrelationChart data1={correlation} />

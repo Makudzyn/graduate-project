@@ -2,18 +2,14 @@ import { Request, Response, NextFunction } from "express";
 import ApiError from "../error/apiError";
 import {HistoryRecord} from "../models/models";
 
-async function saveInHistory(
+async function saveNewHistoryRecord(
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<Response | void> {
   try {
     const { userId, pageName, parameters } = req.body;
-    const historyRecord = await HistoryRecord.create({
-      userId,
-      pageName,
-      parameters,
-    });
+    const historyRecord = await HistoryRecord.create({userId, pageName, parameters, });
     return res.json(historyRecord);
   } catch (error: unknown) {
     // явно указываем тип для ошибки как unknown
@@ -40,18 +36,18 @@ async function removeHistoryRecord(
   res: Response,
   next: NextFunction,
 ): Promise<Response | void> {
-  try {
-    const { id } = req.body;
-    const historyRecord = await HistoryRecord.findOne({ where: { id } });
-    if (!historyRecord) {
-      return next(ApiError.notFound("History record not found"));
-    }
-    await historyRecord.destroy();
-    return res.status(204).end();
-  } catch (error: unknown) {
-    // явно указываем тип для ошибки как unknown
-    return next(ApiError.internal((error as Error).message)); // приведение типа к Error
-  }
+  // try {
+  //   const { id } = req.body;
+  //   const historyRecord = await HistoryRecord.findOne({ where: { id } });
+  //   if (!historyRecord) {
+  //     return next(ApiError.notFound("History record not found"));
+  //   }
+  //   await historyRecord.destroy();
+  //   return res.status(204).end();
+  // } catch (error: unknown) {
+  //   // явно указываем тип для ошибки как unknown
+  //   return next(ApiError.internal((error as Error).message)); // приведение типа к Error
+  // }
 }
 
-export { getHistoryList, saveInHistory, removeHistoryRecord };
+export { getHistoryList, saveNewHistoryRecord, removeHistoryRecord };

@@ -20,7 +20,7 @@ import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
 import { matrixCalculations } from "../functions/calculationRequestFunctions.ts";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
-import SideBar from "../components/Drawer/SideBar.tsx";
+import SideBar from "../components/SideBar/SideBar.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
