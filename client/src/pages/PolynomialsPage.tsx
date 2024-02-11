@@ -2,7 +2,7 @@ import PolynomialTable from "../components/Table/PolynomialTable.tsx";
 import Spinner from "../components/Spinner.tsx";
 import { useContext } from "react";
 import { Context } from "../main.tsx";
-import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
+import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import { observer } from "mobx-react-lite";
 
 const PolynomialsPage = observer(() => {

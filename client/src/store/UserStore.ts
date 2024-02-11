@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { User } from "../utils/interfacesAndTypes.ts";
+import { HistoryRecord, User } from "../utils/interfacesAndTypes.ts";
 export default class UserStore {
   private _isAuth = false;
   private _user: User = {
@@ -9,6 +9,7 @@ export default class UserStore {
     createdAt: new Date(),
     updatedAt: new Date(),
   };
+  private _historyRecords: HistoryRecord[] = [];
   constructor() {
     makeAutoObservable(this); // Для того чтобы Mobx следил за изменениями переменных
     // и при их изменении компоненты будут перерендериться
@@ -22,11 +23,19 @@ export default class UserStore {
     this._user = user;
   }
 
+  setHistoryRecords(historyRecords: HistoryRecord[]) {
+    this._historyRecords = historyRecords;
+  }
+
   get isAuth() {
     return this._isAuth;
   }
 
   get user() {
     return this._user;
+  }
+
+  get historyRecords() {
+    return this._historyRecords;
   }
 }

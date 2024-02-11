@@ -20,6 +20,15 @@ export interface User {
   updatedAt: Date;
 }
 
+export interface HistoryRecord {
+  id: number;
+  userId: number;
+  pageName: string;
+  parameters: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export type PolynomialWithoutDate = Omit<Polynomial, keyof { createdAt: Date; updatedAt: Date }>;
 
 export interface SortState {

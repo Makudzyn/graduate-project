@@ -16,7 +16,7 @@ import {
   linearCalculations,
 } from "../functions/calculationRequestFunctions.ts";
 import { useContext, useEffect, useState } from "react";
-import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
+import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import HammingWeight from "../components/CommonGenComponents/HammingWeight.tsx";
 import Sequence from "../components/CommonGenComponents/Sequence.tsx";
 import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";

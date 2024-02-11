@@ -25,7 +25,7 @@ import {
   POLYNOMIAL_TYPE_B,
 } from "../utils/consts.ts";
 import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
-import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
+import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import GenInput from "../components/CommonGenComponents/GenInput.tsx";
 import GenButton from "../components/CommonGenComponents/GenButton.tsx";
 import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";

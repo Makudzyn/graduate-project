@@ -9,7 +9,7 @@ async function saveNewHistoryRecord(
 ): Promise<Response | void> {
   try {
     const { userId, pageName, parameters } = req.body;
-    const historyRecord = await HistoryRecord.create({userId, pageName, parameters, });
+    const historyRecord = await HistoryRecord.create({userId, pageName, parameters });
     return res.json(historyRecord);
   } catch (error: unknown) {
     // явно указываем тип для ошибки как unknown

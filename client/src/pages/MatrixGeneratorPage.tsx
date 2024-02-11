@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { observer } from "mobx-react-lite";
-import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
+import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 import {
   PARAMS_CYCLIC_POLY_A,

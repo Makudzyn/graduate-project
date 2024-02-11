@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { linearCalculations } from "../functions/calculationRequestFunctions.ts";
 import { observer } from "mobx-react-lite";
-import usePolynomialsFetching from "../hooks/usePolynomialsFetching.ts";
+import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 import { useSearchParams } from "react-router-dom";
 import {
@@ -13,12 +13,17 @@ import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
-import { sendHistoryRecord } from "../http/historyRecords.ts";
+import { sendHistoryRecord } from "../http/historyRecordsAPI.ts";
+import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
 
   const { loading, error } = usePolynomialsFetching(polynomialsStore);
+  
+  if (userStore.isAuth) {
+    useHistoryFetching(userStore);
+  }
 
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
@@ -56,12 +61,12 @@ const LinearGeneratorPage = observer(() => {
       setHammingWeight,
       setCorrelation,
     ).then(r => console.log(r));
-    createHistoryRecord().then(r => console.log(r));
+    userStore.isAuth && createHistoryRecord().then(r => console.log(r));
   };
 
   return (
     <>
-      {userStore.isAuth && <SideBar />}
+      {userStore.isAuth && <SideBar dataArray={userStore.historyRecords} />}
       {loading && <Spinner />}
 
       {!error && !loading && (
