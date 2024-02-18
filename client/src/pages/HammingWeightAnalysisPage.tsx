@@ -4,8 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import {
   hammingBlockCalculations,
   linearCalculations,
-  matrixCalculations,
-} from "../functions/calculationRequestFunctions.ts";
+  matrixCalculations
+} from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { observer } from "mobx-react-lite";
 import {
   PARAMS_CYCLIC_POLY_A,
@@ -32,11 +32,17 @@ import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
+import { createHistoryRecord } from "../functions/requestFunctions/requestFunctions.ts";
+import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 
 const HammingWeightAnalysisPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
 
-  const {loading, error} = usePolynomialsFetching(polynomialsStore);
+  const { loading, error } = usePolynomialsFetching(polynomialsStore);
+
+  if (userStore.isAuth) {
+    useHistoryFetching(userStore);
+  }
 
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
@@ -92,9 +98,22 @@ const HammingWeightAnalysisPage = observer(() => {
     setValueRestriction(maxAllowedBlockLength);
   }, [pseudorandomSequenceLinear, pseudorandomSequenceMatrices]);
 
+  const handleClick = () => {
+    hammingBlockCalculations(
+      searchParams,
+      PARAMS_HAMMING_BLOCK,
+      pseudorandomSequenceLinear,
+      pseudorandomSequenceMatrices,
+      setLinearSeqBlockLengths,
+      setMatrixSeqBlockLengths,
+      setSharedWeights,
+    )
+    userStore.isAuth && createHistoryRecord(userStore.user.id);
+  };
+
   return (
     <>
-      {userStore.isAuth && <SideBar />}
+      {userStore.isAuth && <SideBar dataArray={userStore.historyRecords} />}
       {loading && <Spinner />}
 
       {!error && !loading && (
@@ -201,21 +220,7 @@ const HammingWeightAnalysisPage = observer(() => {
                 valueRestriction={valueRestriction}
                 disabled={false}
               />
-              <GenButton
-                onClick={() =>
-                  hammingBlockCalculations(
-                    searchParams,
-                    PARAMS_HAMMING_BLOCK,
-                    pseudorandomSequenceLinear,
-                    pseudorandomSequenceMatrices,
-                    setLinearSeqBlockLengths,
-                    setMatrixSeqBlockLengths,
-                    setSharedWeights,
-                  )
-                }
-              >
-                Провести розрахунки
-              </GenButton>
+              <GenButton onClick={handleClick}>Провести розрахунки</GenButton>
             </div>
 
             <div className="flex h-full w-full items-center justify-center">

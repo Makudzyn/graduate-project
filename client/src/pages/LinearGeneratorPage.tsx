@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { linearCalculations } from "../functions/calculationRequestFunctions.ts";
+import { linearCalculations } from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { observer } from "mobx-react-lite";
 import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
@@ -13,8 +13,8 @@ import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
-import { sendHistoryRecord } from "../http/historyRecordsAPI.ts";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
+import { createHistoryRecord } from "../functions/requestFunctions/requestFunctions.ts";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -37,16 +37,7 @@ const LinearGeneratorPage = observer(() => {
 
   const [searchParams, setSearchParams] = useSearchParams({});
 
-  async function createHistoryRecord() {
-    const userId = userStore.user.id;
-    const pageName = location.pathname.slice(1);
-    const parameters = location.search;
-    try {
-      await sendHistoryRecord(userId, pageName, parameters);
-    } catch (error: any) {
-      console.error("Error creating history record in DB: ", error.message);
-    }
-  }
+
   const handleClick = () => {
     linearCalculations(
       searchParams,
@@ -60,8 +51,8 @@ const LinearGeneratorPage = observer(() => {
       setPseudorandomSequence,
       setHammingWeight,
       setCorrelation,
-    ).then(r => console.log(r));
-    userStore.isAuth && createHistoryRecord().then(r => console.log(r));
+    );
+    userStore.isAuth && createHistoryRecord(userStore.user.id);
   };
 
   return (
@@ -70,9 +61,10 @@ const LinearGeneratorPage = observer(() => {
       {loading && <Spinner />}
 
       {!error && !loading && (
-        <section className="flex h-full justify-center pt-16">
+        <section className="flex h-full justify-center pt-16 px-5">
           <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
             <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
+
             <LinearGenerator
               searchParams={searchParams}
               setSearchParams={setSearchParams}

@@ -3,7 +3,7 @@ import {
   sendLinearGeneratorData,
   sendMatrixGeneratorData,
   sendSumAndProductGeneratorData,
-} from "../http/polynomialsAPI.ts";
+} from "../../http/polynomialsAPI.ts";
 import { Dispatch, SetStateAction } from "react";
 
 import {
@@ -17,8 +17,8 @@ import {
   generateStructureMatrixA,
   generateStructureMatrixB,
   polynomialDestructuring,
-} from "./generatorFunctions.ts";
-import { getSelectedParam } from "./functions.ts";
+} from "../generatorFunctions.ts";
+import { getSelectedParam } from "../functions.ts";
 
 export async function linearCalculations(
   searchParams: URLSearchParams,

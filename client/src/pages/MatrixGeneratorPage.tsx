@@ -13,19 +13,25 @@ import {
   PARAMS_POLYNOMIAL_A,
   PARAMS_POLYNOMIAL_B,
   POLYNOMIAL_TYPE_A,
-  POLYNOMIAL_TYPE_B,
+  POLYNOMIAL_TYPE_B
 } from "../utils/consts.ts";
 import { useSearchParams } from "react-router-dom";
 import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
-import { matrixCalculations } from "../functions/calculationRequestFunctions.ts";
+import { matrixCalculations } from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
+import { createHistoryRecord } from "../functions/requestFunctions/requestFunctions.ts";
+import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
 
   const { loading, error } = usePolynomialsFetching(polynomialsStore);
+
+  if (userStore.isAuth) {
+    useHistoryFetching(userStore);
+  }
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
@@ -52,13 +58,43 @@ const MatrixGeneratorPage = observer(() => {
 
   const [searchParams, setSearchParams] = useSearchParams({});
 
+  const handleClick = () => {
+    matrixCalculations(
+      searchParams,
+      PARAMS_DEGREE_A,
+      PARAMS_DEGREE_B,
+      PARAMS_POLYNOMIAL_A,
+      PARAMS_POLYNOMIAL_B,
+      PARAMS_CYCLIC_POLY_A,
+      PARAMS_CYCLIC_POLY_B,
+      PARAMS_OUTPUT_INDEX_I,
+      PARAMS_OUTPUT_INDEX_J,
+      PARAMS_MATRIX_RANK,
+      setStructureMatrixA,
+      setStructureMatrixB,
+      setConditionMatrix,
+      setBasisMatrix,
+      setPotentialPeriodLengthA,
+      setPotentialPeriodLengthB,
+      setFactualPeriodLengthA,
+      setFactualPeriodLengthB,
+      setPeriodLengthS,
+      setConditionS,
+      setPseudorandomSequence,
+      setHammingWeight,
+      setHammingWeightSpectre,
+      setCorrelation,
+    )
+    userStore.isAuth && createHistoryRecord(userStore.user.id);
+  };
+
   return (
     <>
-      {userStore.isAuth && <SideBar />}
+      {userStore.isAuth && <SideBar dataArray={userStore.historyRecords} />}
       {loading && <Spinner />}
 
       {!error && !loading && (
-        <section className="flex h-full justify-center pt-16">
+        <section className="flex h-full justify-center pt-16 px-5">
           <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
             <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
 
@@ -90,34 +126,7 @@ const MatrixGeneratorPage = observer(() => {
               matrixRankParam={PARAMS_MATRIX_RANK}
               polynomialTypeA={POLYNOMIAL_TYPE_A}
               polynomialTypeB={POLYNOMIAL_TYPE_B}
-              onClick={() =>
-                matrixCalculations(
-                  searchParams,
-                  PARAMS_DEGREE_A,
-                  PARAMS_DEGREE_B,
-                  PARAMS_POLYNOMIAL_A,
-                  PARAMS_POLYNOMIAL_B,
-                  PARAMS_CYCLIC_POLY_A,
-                  PARAMS_CYCLIC_POLY_B,
-                  PARAMS_OUTPUT_INDEX_I,
-                  PARAMS_OUTPUT_INDEX_J,
-                  PARAMS_MATRIX_RANK,
-                  setStructureMatrixA,
-                  setStructureMatrixB,
-                  setConditionMatrix,
-                  setBasisMatrix,
-                  setPotentialPeriodLengthA,
-                  setPotentialPeriodLengthB,
-                  setFactualPeriodLengthA,
-                  setFactualPeriodLengthB,
-                  setPeriodLengthS,
-                  setConditionS,
-                  setPseudorandomSequence,
-                  setHammingWeight,
-                  setHammingWeightSpectre,
-                  setCorrelation,
-                )
-              }
+              onClick={handleClick}
             />
 
             <div className="flex h-full w-full items-center justify-center">

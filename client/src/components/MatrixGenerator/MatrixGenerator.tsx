@@ -27,7 +27,7 @@ interface MatrixGeneratorProps {
   pseudorandomSequence: number[];
   hammingWeight: number;
   hammingWeightSpectre: string[];
-  onClick: () => Promise<void>;
+  onClick: () => void;
   degreeParamA: string;
   degreeParamB: string;
   polynomialParamA: string;
@@ -147,7 +147,7 @@ const MatrixGenerator = ({
         </div>
       </div>
 
-      <div className="flex w-full flex-col p-2">
+      <div className="flex w-full flex-col py-2 px-3">
         <label>Згенерована послідовність</label>
         <Sequence dataArray={pseudorandomSequence} />
         <HammingWeight hammingWeight={hammingWeight} />

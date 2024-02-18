@@ -14,7 +14,7 @@ import { findGCD } from "../functions/generatorFunctions.ts";
 import {
   additionAndMultiplicationCalculations,
   linearCalculations,
-} from "../functions/calculationRequestFunctions.ts";
+} from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { useContext, useEffect, useState } from "react";
 import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import HammingWeight from "../components/CommonGenComponents/HammingWeight.tsx";
@@ -28,11 +28,17 @@ import CoprimeCondition from "../components/CommonGenComponents/CoprimeCondition
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
+import { createHistoryRecord } from "../functions/requestFunctions/requestFunctions.ts";
+import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 
 const SumAndProductGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
 
   const { loading, error } = usePolynomialsFetching(polynomialsStore);
+
+  if (userStore.isAuth) {
+    useHistoryFetching(userStore);
+  }
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
@@ -79,10 +85,24 @@ const SumAndProductGeneratorPage = observer(() => {
       setConditionS(condition);
     }
   }, [factualPeriodLengthA, factualPeriodLengthB]);
+  const handleClick = () => {
+    additionAndMultiplicationCalculations(
+      pseudorandomSequenceA,
+      pseudorandomSequenceB,
+      periodLengthS,
+      setSumSequence,
+      setProductSequence,
+      setHammingWeightSum,
+      setHammingWeightProduct,
+      setSumCorrelation,
+      setProductCorrelation,
+    );
+    userStore.isAuth && createHistoryRecord(userStore.user.id);
+  };
 
   return (
     <>
-      {userStore.isAuth && <SideBar />}
+      {userStore.isAuth && <SideBar dataArray={userStore.historyRecords} />}
       {loading && <Spinner />}
 
       {!error && !loading && (
@@ -171,21 +191,7 @@ const SumAndProductGeneratorPage = observer(() => {
             {conditionS === 1 && (
               <>
                 <div className="flex justify-center items-center p-2.5 my-5">
-                  <GenButton
-                    onClick={() =>
-                      additionAndMultiplicationCalculations(
-                        pseudorandomSequenceA,
-                        pseudorandomSequenceB,
-                        periodLengthS,
-                        setSumSequence,
-                        setProductSequence,
-                        setHammingWeightSum,
-                        setHammingWeightProduct,
-                        setSumCorrelation,
-                        setProductCorrelation,
-                      )
-                    }
-                  >
+                  <GenButton onClick={handleClick}>
                     Згенерувати послідовності суми та добутку
                   </GenButton>
                 </div>

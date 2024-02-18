@@ -32,7 +32,7 @@ const GenSelect = ({
     if (paramValue !== null) {
       setOptionValue(paramValue);
     }
-  }, []);
+  }, [location.search]);
 
   function handleChange(
     targetValue: string | number | Polynomial | BooleanSelect,
