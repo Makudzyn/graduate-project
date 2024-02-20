@@ -32,7 +32,7 @@ import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
-import { createHistoryRecord } from "../functions/requestFunctions/requestFunctions.ts";
+import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 
 const HammingWeightAnalysisPage = observer(() => {
@@ -108,12 +108,12 @@ const HammingWeightAnalysisPage = observer(() => {
       setMatrixSeqBlockLengths,
       setSharedWeights,
     )
-    userStore.isAuth && createHistoryRecord(userStore.user.id);
+    userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
   };
 
   return (
     <>
-      {userStore.isAuth && <SideBar dataArray={userStore.historyRecords} />}
+      {userStore.isAuth && <SideBar dataArray={userStore.historyRecords} userId={userStore.user.id}/>}
       {loading && <Spinner />}
 
       {!error && !loading && (

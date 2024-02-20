@@ -61,3 +61,22 @@ export function filterByQuery(poly: Polynomial, query: string): boolean {
     String(poly[field]).toLowerCase().includes(lowercaseQuery),
   );
 }
+
+//SIDEBAR FUNCTIONS
+export function formatParameter(parameter: string) {
+  return parameter
+    .slice(1)
+    .replace(/\+/g, " ")
+    .replace(/&/g, "; ")
+    .replace(/=/g, ": ");
+}
+
+export function formatDateTime(dateTimeString: Date) {
+  const date = new Date(dateTimeString);
+  const formattedTime = date.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const formattedDate = date.toLocaleDateString("en-GB").replace(/\//g, ".");
+  return `${formattedTime} ${formattedDate}`;
+}

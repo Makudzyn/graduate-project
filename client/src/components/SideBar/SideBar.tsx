@@ -4,45 +4,33 @@ import DeleteRecord from "../../assets/delete-clipboard.svg?react";
 import { observer } from "mobx-react-lite";
 import { HistoryRecord } from "../../utils/interfacesAndTypes.ts";
 import { useSearchParams } from "react-router-dom";
+import { formatDateTime, formatParameter } from "../../functions/functions.ts";
+import {
+  handleHistoryRecordDeletion,
+  handleHistoryRecordsListDeletion,
+} from "../../functions/requestFunctions/requestFunctions.ts";
+import { Transition } from "@headlessui/react";
 
 interface SideBarProps {
+  userId: number;
   dataArray: HistoryRecord[];
 }
 
-const SideBar = observer(({ dataArray }: SideBarProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [hoveredButtonId, setHoveredButtonId] = useState(-1);
+const SideBar = observer(({ dataArray, userId }: SideBarProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [hoveredButtonId, setHoveredButtonId] = useState<number>(-1);
   const [, setSearchParams] = useSearchParams("");
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
 
   const currentPage = location.pathname;
-  const filteredData = dataArray
-    .slice()
-    .reverse()
-    .filter((data) => data.pageName === currentPage);
-
-  function formatParameter(parameter: string) {
-    return parameter
-      .slice(1)
-      .replace(/\+/g, " ")
-      .replace(/&/g, "; ")
-      .replace(/=/g, ": ");
-  }
-
-  function formatDateTime(dateTimeString: Date) {
-    const date = new Date(dateTimeString);
-    const formattedTime = date.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    const formattedDate = date.toLocaleDateString("en-GB").replace(/\//g, ".");
-    return `${formattedTime} ${formattedDate}`;
-  }
+  const [filteredData, setFilteredData] = useState<HistoryRecord[]>(
+    dataArray
+      .slice()
+      .reverse()
+      .filter((data) => data.pageName === currentPage),
+  );
 
   return (
-    <aside className="h-screen fixed pt-16 z-50 transition">
+    <aside className="h-screen fixed pt-16 z-40 transition">
       <div
         className={`h-full flex flex-col shadow-sm transition-all duration-1000 ${
           isOpen ? "bg-gray-800" : "bg-transparent"
@@ -61,7 +49,7 @@ const SideBar = observer(({ dataArray }: SideBarProps) => {
             Polynomial history
           </h2>
           <button
-            onClick={toggleDrawer}
+            onClick={() => setIsOpen(!isOpen)}
             className={`p-1.5 bg-gray-50 hover:bg-gray-100 transition duration-1000 ${
               isOpen
                 ? "rounded-lg"
@@ -87,12 +75,20 @@ const SideBar = observer(({ dataArray }: SideBarProps) => {
           >
             <div className="flex flex-col w-full">
               {filteredData.map((data) => (
-                <button
-                  key={data.id}
+                <Transition
+                  as="button"
+                  show={true}
                   className="relative flex px-3 items-center leading-4 border border-gray-50 w-full min-h-[2.5rem] max-h-28 mb-3 rounded-md transition hover:border-purpleFirst"
                   onClick={() =>
                     setSearchParams(data.parameters, { replace: true })
                   }
+                  key={data.id}
+                  enter="transition-opacity duration-500"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-1000"
+                  leaveFrom="opacity-100 translate-x-0"
+                  leaveTo="opacity-0 translate-x-2.5"
                 >
                   <div className="text-sm text-gray-50">
                     <h5 className="text-start w-[26rem] leading-7 py-2.5">
@@ -107,13 +103,20 @@ const SideBar = observer(({ dataArray }: SideBarProps) => {
                       }`}
                       onMouseEnter={() => setHoveredButtonId(data.id)}
                       onMouseLeave={() => setHoveredButtonId(-1)}
+                      onClick={() =>
+                        handleHistoryRecordDeletion(
+                          data.id,
+                          filteredData,
+                          setFilteredData,
+                        )
+                      }
                     >
                       {hoveredButtonId === data.id && (
                         <DeleteRecord className="stroke-gray-50 w-6 h-6" />
                       )}
                     </div>
                   </div>
-                </button>
+                </Transition>
               ))}
             </div>
           </div>
@@ -122,6 +125,7 @@ const SideBar = observer(({ dataArray }: SideBarProps) => {
           className={`bg-purpleFirst px-2 py-3 rounded-t-md text-gray-50 transition hover:bg-rose-700 ${
             isOpen ? "w-full" : "hidden"
           }`}
+          onClick={() => handleHistoryRecordsListDeletion(userId, currentPage, setFilteredData)}
         >
           Delete all records
         </button>

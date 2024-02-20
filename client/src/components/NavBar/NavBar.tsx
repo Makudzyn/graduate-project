@@ -16,7 +16,7 @@ const NavBar = observer(() => {
   const [currentPage, setCurrentPage] = useState(location.pathname);
 
   return (
-    <Disclosure as="nav" className="fixed bg-gray-900 w-full z-20 shadow-md shadow-purpleFirst">
+    <Disclosure as="nav" className="fixed bg-gray-900 w-full z-50 shadow-md shadow-purpleFirst">
       {({ open }) => (
         <>
           <div className="relative mx-auto max-w-screen-2xl px-2 sm:px-6 lg:px-8">

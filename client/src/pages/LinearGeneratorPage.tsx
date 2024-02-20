@@ -14,13 +14,13 @@ import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
-import { createHistoryRecord } from "../functions/requestFunctions/requestFunctions.ts";
+import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
 
   const { loading, error } = usePolynomialsFetching(polynomialsStore);
-  
+
   if (userStore.isAuth) {
     useHistoryFetching(userStore);
   }
@@ -30,13 +30,14 @@ const LinearGeneratorPage = observer(() => {
 
   const [potentialPeriodLength, setPotentialPeriodLength] = useState<number>(0);
   const [factualPeriodLength, setFactualPeriodLength] = useState<number>(0);
-  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
+  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>(
+    [],
+  );
 
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [correlation, setCorrelation] = useState<number[]>([]);
 
-  const [searchParams, setSearchParams] = useSearchParams({});
-
+  const [searchParams, setSearchParams] = useSearchParams("");
 
   const handleClick = () => {
     linearCalculations(
@@ -52,12 +53,17 @@ const LinearGeneratorPage = observer(() => {
       setHammingWeight,
       setCorrelation,
     );
-    userStore.isAuth && createHistoryRecord(userStore.user.id);
+    userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
   };
 
   return (
     <>
-      {userStore.isAuth && <SideBar dataArray={userStore.historyRecords} />}
+      {userStore.isAuth && (
+        <SideBar
+          dataArray={userStore.historyRecords}
+          userId={userStore.user.id}
+        />
+      )}
       {loading && <Spinner />}
 
       {!error && !loading && (
