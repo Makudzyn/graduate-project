@@ -42,7 +42,7 @@ function linearFeedbackShiftRegister(
   return matrix;
 }
 
-function getPrsSequence(conditionMatrix: number[][]): number[] {
+function getPseudorandomSequence(conditionMatrix: number[][]): number[] {
   return conditionMatrix
     .map((subArray) => subArray[subArray.length - 1])
     .filter((number) => number !== undefined);
@@ -50,51 +50,6 @@ function getPrsSequence(conditionMatrix: number[][]): number[] {
 
 function hammingWeightCalc(prs: number[]) {
   return prs.filter((item) => item === 1).length;
-}
-
-function transformArrayToObjects(arr: number[]) {
-  return arr.map((number, index) => {
-    return { index, correlationFirst: number };
-  });
-}
-
-function experimentalPeriodLengthCalc(
-  structureMatrix: number[][],
-  degreeA: number,
-): number {
-  let periodExp = 0;
-  const startState = Array(degreeA).fill(1); // Используем Array.fill() для инициализации массива startState
-
-  let currentState = [...startState]; // Копируем startState с помощью spread оператора
-
-  const startStateString = startState.join(""); // Предварительно объединяем startState в строку для удобства сравнения
-
-  while (periodExp === 0 || currentState.join("") !== startStateString) {
-    const nextState = Array(degreeA).fill(0); // Используем Array.fill() для инициализации массива nextState
-
-    for (let i = 0; i < degreeA; i++) {
-      for (let j = 0; j < degreeA; j++) {
-        nextState[i] ^= currentState[j] * structureMatrix[i][j]; // Используем оператор ^= для XOR
-      }
-    }
-
-    currentState = [...nextState]; // Обновляем currentState с помощью копирования nextState
-
-    periodExp++;
-  }
-
-  return periodExp;
-}
-
-function findGCD(potentialLength: number, polynomialIndex: number) {
-  let a = potentialLength;
-  let b = polynomialIndex;
-  while (b !== 0) {
-    let remainder = a % b;
-    a = b;
-    b = remainder;
-  }
-  return a;
 }
 
 function matrixMultiply(matrixA: number[][], matrixB: number[][]) {
@@ -141,7 +96,7 @@ function hammingWeightBlock(prs: number[], blockLength: number) {
   const prsLength = prs.length;
   let weightArray = [];
   for (let i = 0; i < prsLength - blockLength + 1; i++) {
-    const blockSlice = prs.slice(i, i+blockLength);
+    const blockSlice = prs.slice(i, i + blockLength);
     const blockWeight = hammingWeightCalc(blockSlice);
     weightArray.push(blockWeight);
   }
@@ -154,6 +109,7 @@ function countWeights(weightArray: number[]): Record<string, number> {
     return count;
   }, {});
 }
+
 function performAdditionAndMultiplication(
   prsA: number[],
   prsB: number[],
@@ -175,19 +131,15 @@ function expandSequence(prs: number[], periodS: number) {
   return Array.from({ length: repetitions }, () => [...prs]).flat();
 }
 
-
 export {
   autocorrelation,
   convertPrs,
   linearFeedbackShiftRegister,
   matrixShiftRegister,
-  getPrsSequence,
+  getPseudorandomSequence,
   hammingWeightCalc,
-  transformArrayToObjects,
-  experimentalPeriodLengthCalc,
-  findGCD,
   expandSequence,
   performAdditionAndMultiplication,
   hammingWeightBlock,
-  countWeights
+  countWeights,
 };

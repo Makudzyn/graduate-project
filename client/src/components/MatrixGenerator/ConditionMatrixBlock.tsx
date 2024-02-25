@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
+import { VariableSizeList } from "react-window";
 
 interface ConditionMatrixBlockProps {
   conditionMatrix: number[][];
@@ -35,6 +36,18 @@ const ConditionMatrixBlock = ({
     setCurrentIndex(lastIndex);
   };
 
+  const itemSize = () => 28; // Вы можете изменить эту высоту по своему усмотрению
+
+  const Row = ({ index, style }: { index: number; style: CSSProperties }) => (
+    <div style={style}>
+      {slicedMatrix[index]?.map((cell, cellIndex) => (
+        <span className="pr-1 last:pr-0" key={cellIndex}>
+          {cell}
+        </span>
+      ))}
+    </div>
+  );
+
   return (
     <div className="flex items-center justify-evenly w-3/4">
       <button
@@ -50,17 +63,15 @@ const ConditionMatrixBlock = ({
         Prev
       </button>
 
-      <div className="p-1.5 text-xl h-64 w-[400px] overflow-y-auto overflow-x-hidden text-center rounded-sm border border-gray-900 focus:border-t-gray-900">
-        {slicedMatrix.map((row, rowIndex) => (
-          <div key={rowIndex}>
-            {row.map((cell, cellIndex) => (
-              <span className="pr-1 last:pr-0" key={cellIndex}>
-                {cell}
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
+      <VariableSizeList
+        className="text-xl р-64 overflow-y-auto overflow-x-hidden text-center rounded-md border border-gray-900 scroll-smooth"
+        height={260} // Высота списка
+        itemCount={slicedMatrix.length} // Общее количество строк
+        itemSize={itemSize} // Функция, возвращающая высоту каждой строки
+        width={400} // Ширина списка
+      >
+        {Row}
+      </VariableSizeList>
 
       <button
         className="px-3 py-2.5 border border-black w-24 h-12 rounded-md"

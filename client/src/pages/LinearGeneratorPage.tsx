@@ -18,11 +18,13 @@ import { handleHistoryRecordCreation } from "../functions/requestFunctions/reque
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const { loading, error } = usePolynomialsFetching(polynomialsStore);
+  usePolynomialsFetching(polynomialsStore, setLoading, setError);
 
   if (userStore.isAuth) {
-    useHistoryFetching(userStore);
+    useHistoryFetching(userStore, setLoading, setError);
   }
 
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
@@ -40,6 +42,7 @@ const LinearGeneratorPage = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams("");
 
   const handleClick = () => {
+    userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
     linearCalculations(
       searchParams,
       PARAMS_DEGREE,
@@ -51,9 +54,10 @@ const LinearGeneratorPage = observer(() => {
       setFactualPeriodLength,
       setPseudorandomSequence,
       setHammingWeight,
+      setLoading,
+      setError,
       setCorrelation,
     );
-    userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
   };
 
   return (
@@ -66,30 +70,28 @@ const LinearGeneratorPage = observer(() => {
       )}
       {loading && <Spinner />}
 
-      {!error && !loading && (
-        <section className="flex h-full justify-center pt-16 px-5">
-          <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-            <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
+      <section className="flex h-full justify-center pt-16 px-5">
+        <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
+          <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
 
-            <LinearGenerator
-              searchParams={searchParams}
-              setSearchParams={setSearchParams}
-              structureMatrix={structureMatrix}
-              conditionMatrix={conditionMatrix}
-              potentialPeriodLength={potentialPeriodLength}
-              factualPeriodLength={factualPeriodLength}
-              pseudorandomSequence={pseudorandomSequence}
-              hammingWeight={hammingWeight}
-              degreeParam={PARAMS_DEGREE}
-              polynomialParam={PARAMS_POLYNOMIAL}
-              userValueParam={PARAMS_USER_VALUE}
-              onClick={handleClick}
-            />
+          <LinearGenerator
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+            structureMatrix={structureMatrix}
+            conditionMatrix={conditionMatrix}
+            potentialPeriodLength={potentialPeriodLength}
+            factualPeriodLength={factualPeriodLength}
+            pseudorandomSequence={pseudorandomSequence}
+            hammingWeight={hammingWeight}
+            degreeParam={PARAMS_DEGREE}
+            polynomialParam={PARAMS_POLYNOMIAL}
+            userValueParam={PARAMS_USER_VALUE}
+            onClick={handleClick}
+          />
 
-            <CorrelationChart data1={correlation} />
-          </div>
-        </section>
-      )}
+          <CorrelationChart data1={correlation} />
+        </div>
+      </section>
     </>
   );
 });

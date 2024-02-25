@@ -59,7 +59,7 @@ const PaginationButtons = ({
         aria-controls="polynomials"
         className="box-border inline-block cursor-pointer w-[3.625rem] h-10 px-4 py-2 rounded-md border border-gray-150 shadow-lg mr-2.5 disabled:bg-gray-300 disabled:cursor-auto enabled:hover:border-purpleSecond enabled:hover:ring-1 enabled:hover:text-white transition"
       >
-        <ChevronIcon className={"h-6 w-6 -rotate-90 stroke-purpleFirst"} />
+        <ChevronIcon className={"h-6 w-6 rotate-90 stroke-purpleFirst"} />
       </button>
       <div>{generateButtons()}</div>
       <button
@@ -70,7 +70,7 @@ const PaginationButtons = ({
         aria-controls="polynomials"
         id="next"
       >
-          <ChevronIcon className={"h-6 w-6 rotate-90 stroke-purpleFirst"} />
+          <ChevronIcon className={"h-6 w-6 -rotate-90 stroke-purpleFirst"} />
       </button>
     </div>
   );

@@ -3,13 +3,15 @@ import ApiError from "../error/apiError";
 import { Polynomial } from "../models/models";
 import {
   autocorrelation,
-  convertPrs, countWeights,
+  convertPrs,
+  countWeights,
   expandSequence,
-  getPrsSequence, hammingWeightBlock,
+  getPseudorandomSequence,
+  hammingWeightBlock,
   hammingWeightCalc,
   linearFeedbackShiftRegister,
   matrixShiftRegister,
-  performAdditionAndMultiplication
+  performAdditionAndMultiplication,
 } from "../functions/computingFunctions";
 
 async function addPolynomial(
@@ -56,13 +58,12 @@ async function getAllPolynomials(
   next: NextFunction,
 ): Promise<Response | void> {
   try {
-    const {rows: polynomials, count } = await Polynomial.findAndCountAll();
-    return res.json({polynomials, count });
+    const { rows: polynomials, count } = await Polynomial.findAndCountAll();
+    return res.json({ polynomials, count });
   } catch (error: unknown) {
     return next(ApiError.internal((error as Error).message));
   }
 }
-
 
 async function removePolynomial(
   req: Request,
@@ -100,6 +101,8 @@ async function linearComputation(
 ): Promise<Response | void> {
   try {
     const { structureMatrix, userValueArr, factualLength } = req.body;
+    // console.time("linearComputation");
+
 
     const conditionMatrix = linearFeedbackShiftRegister(
       factualLength,
@@ -107,10 +110,11 @@ async function linearComputation(
       structureMatrix,
     );
 
-    const pseudorandomSequence = getPrsSequence(conditionMatrix);
+    const pseudorandomSequence = getPseudorandomSequence(conditionMatrix);
     const hammingWeight = hammingWeightCalc(pseudorandomSequence);
     const convertedPrs = convertPrs(pseudorandomSequence);
     const correlation = autocorrelation(convertedPrs);
+    // console.timeEnd("linearComputation");
 
     return res.json({
       conditionMatrix,
@@ -218,8 +222,14 @@ async function hammingWeightBlocksComputation(
 ): Promise<Response | void> {
   try {
     const { linearSequence, matrixSequence, hammingBlockLength } = req.body;
-    const linearWeightsArr = hammingWeightBlock(linearSequence, hammingBlockLength);
-    const matrixWeightsArr = hammingWeightBlock(matrixSequence, hammingBlockLength);
+    const linearWeightsArr = hammingWeightBlock(
+      linearSequence,
+      hammingBlockLength,
+    );
+    const matrixWeightsArr = hammingWeightBlock(
+      matrixSequence,
+      hammingBlockLength,
+    );
 
     const countedLinearWeights = countWeights(linearWeightsArr);
     const countedMatrixWeights = countWeights(matrixWeightsArr);
@@ -239,7 +249,7 @@ async function hammingWeightBlocksComputation(
     return res.json({
       linearWeights,
       matrixWeights,
-      sharedWeights
+      sharedWeights,
     });
   } catch (error: unknown) {
     // явно указываем тип для ошибки как unknown
@@ -256,5 +266,5 @@ export {
   linearComputation,
   matrixComputation,
   additionAndMultiplicationComputation,
-  hammingWeightBlocksComputation
+  hammingWeightBlocksComputation,
 };

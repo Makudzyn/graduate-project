@@ -31,8 +31,11 @@ export async function linearCalculations(
   setFactualPeriodLength: Dispatch<SetStateAction<number>>,
   setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
   setHammingWeight: Dispatch<SetStateAction<number>>,
-  setCorrelation?: Dispatch<SetStateAction<number[]>>,
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  setError: Dispatch<SetStateAction<string | null>>,
+  setCorrelation?: Dispatch<SetStateAction<number[]>>
 ) {
+
   const degree = Number(getSelectedParam(degreeParam, searchParams) || "2");
   const polynomial = getSelectedParam(polynomialParam, searchParams) || "1 7 H";
   const userValue = getSelectedParam(userValueParam, searchParams) || "11";
@@ -56,6 +59,7 @@ export async function linearCalculations(
 
 
   try {
+    setLoading(true);
     const {
       conditionMatrix,
       pseudorandomSequence,
@@ -71,7 +75,9 @@ export async function linearCalculations(
     setHammingWeight(hammingWeight);
     setCorrelation && setCorrelation(correlation);
   } catch (error: any) {
-    console.error("Error sending data to server:", error.message);
+    setError(`Error sending data to server: ${error.message}`);
+  } finally {
+    setLoading(false);
   }
 }
 
@@ -99,6 +105,8 @@ export async function matrixCalculations(
   setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
   setHammingWeight: Dispatch<SetStateAction<number>>,
   setHammingWeightSpectre: Dispatch<SetStateAction<string[]>>,
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  setError: Dispatch<SetStateAction<string | null>>,
   setCorrelation?: Dispatch<SetStateAction<number[]>>,
 ) {
   const degreeA = Number(getSelectedParam(degreeParamA, searchParams) || "2");
@@ -174,6 +182,7 @@ export async function matrixCalculations(
   setHammingWeightSpectre(formattedWeightSpectre);
 
   try {
+    setLoading(true);
     const {
       conditionMatrix,
       pseudorandomSequence,
@@ -192,7 +201,9 @@ export async function matrixCalculations(
     setHammingWeight(hammingWeight);
     setCorrelation && setCorrelation(correlation);
   } catch (error: any) {
-    console.error("Error sending data to server:", error.message);
+    setError(`Error sending data to server: ${error.message}`);
+  } finally {
+    setLoading(false);
   }
 }
 
@@ -206,8 +217,11 @@ export async function additionAndMultiplicationCalculations(
   setHammingWeightProduct: Dispatch<SetStateAction<number>>,
   setSumCorrelation: Dispatch<SetStateAction<number[]>>,
   setProductCorrelation: Dispatch<SetStateAction<number[]>>,
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  setError: Dispatch<SetStateAction<string | null>>,
 ) {
   try {
+    setLoading(true);
     const {
       sumSequence,
       productSequence,
@@ -227,7 +241,9 @@ export async function additionAndMultiplicationCalculations(
     setSumCorrelation(sumCorrelation);
     setProductCorrelation(productCorrelation);
   } catch (error: any) {
-    console.error("Error sending data to server:", error.message);
+    setError(`Error sending data to server: ${error.message}`);
+  } finally {
+    setLoading(false);
   }
 }
 
@@ -239,11 +255,14 @@ export async function hammingBlockCalculations(
   setLinearSeqBlockLengths: Dispatch<SetStateAction<number[]>>,
   setMatrixSeqBlockLengths: Dispatch<SetStateAction<number[]>>,
   setSharedWeights: Dispatch<SetStateAction<number[]>>,
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  setError: Dispatch<SetStateAction<string | null>>,
 ) {
   const hammingBlockLength = Number(
     getSelectedParam(hammingBlockParam, searchParams) || "2",
   );
   try {
+    setLoading(true);
     const { linearWeights, matrixWeights, sharedWeights } =
       await sendHammingWeightAnalysisData(
         linearSequence,
@@ -254,6 +273,8 @@ export async function hammingBlockCalculations(
     setMatrixSeqBlockLengths(matrixWeights);
     setSharedWeights(sharedWeights);
   } catch (error: any) {
-    console.error("Error sending data to server:", error.message);
+    setError(`Error sending data to server: ${error.message}`);
+  } finally {
+    setLoading(false);
   }
 }

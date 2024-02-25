@@ -33,11 +33,13 @@ import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 
 const SumAndProductGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const { loading, error } = usePolynomialsFetching(polynomialsStore);
+  usePolynomialsFetching(polynomialsStore, setLoading, setError);
 
   if (userStore.isAuth) {
-    useHistoryFetching(userStore);
+    useHistoryFetching(userStore, setLoading, setError);
   }
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
@@ -96,125 +98,134 @@ const SumAndProductGeneratorPage = observer(() => {
       setHammingWeightProduct,
       setSumCorrelation,
       setProductCorrelation,
+      setLoading,
+      setError,
     );
     userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
   };
 
   return (
     <>
-      {userStore.isAuth && <SideBar dataArray={userStore.historyRecords} userId={userStore.user.id}/>}
+      {userStore.isAuth && (
+        <SideBar
+          dataArray={userStore.historyRecords}
+          userId={userStore.user.id}
+        />
+      )}
       {loading && <Spinner />}
 
-      {!error && !loading && (
-        <section className="flex h-full justify-center pt-16">
-          <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-            <h1 className="py-5 text-center">
-              ЗРЗЗ сум та множень М-послідовностей
-            </h1>
-            <div className="flex justify-evenly flex-row">
-              <LinearGenerator
-                searchParams={searchParams}
-                setSearchParams={setSearchParams}
-                structureMatrix={structureMatrixA}
-                conditionMatrix={conditionMatrixA}
-                potentialPeriodLength={potentialPeriodLengthA}
-                factualPeriodLength={factualPeriodLengthA}
-                pseudorandomSequence={pseudorandomSequenceA}
-                hammingWeight={hammingWeightA}
-                degreeParam={PARAMS_DEGREE_A}
-                polynomialParam={PARAMS_POLYNOMIAL_A}
-                userValueParam={PARAMS_USER_VALUE_A}
-                polynomialType={POLYNOMIAL_TYPE_A}
-                identifier={`(${POLYNOMIAL_TYPE_A})`}
-                className={"w-[50rem]"}
-                onClick={() =>
-                  linearCalculations(
-                    searchParams,
-                    PARAMS_DEGREE_A,
-                    PARAMS_POLYNOMIAL_A,
-                    PARAMS_USER_VALUE_A,
-                    setStructureMatrixA,
-                    setConditionMatrixA,
-                    setPotentialPeriodLengthA,
-                    setFactualPeriodLengthA,
-                    setPseudorandomSequenceA,
-                    setHammingWeightA,
-                    setSumCorrelation,
-                  )
-                }
-              />
-              <LinearGenerator
-                searchParams={searchParams}
-                setSearchParams={setSearchParams}
-                structureMatrix={structureMatrixB}
-                conditionMatrix={conditionMatrixB}
-                potentialPeriodLength={potentialPeriodLengthB}
-                factualPeriodLength={factualPeriodLengthB}
-                pseudorandomSequence={pseudorandomSequenceB}
-                hammingWeight={hammingWeightB}
-                degreeParam={PARAMS_DEGREE_B}
-                polynomialParam={PARAMS_POLYNOMIAL_B}
-                userValueParam={PARAMS_USER_VALUE_B}
-                polynomialType={POLYNOMIAL_TYPE_B}
-                identifier={`(${POLYNOMIAL_TYPE_B})`}
-                className={"w-[50rem]"}
-                onClick={() =>
-                  linearCalculations(
-                    searchParams,
-                    PARAMS_DEGREE_B,
-                    PARAMS_POLYNOMIAL_B,
-                    PARAMS_USER_VALUE_B,
-                    setStructureMatrixB,
-                    setConditionMatrixB,
-                    setPotentialPeriodLengthB,
-                    setFactualPeriodLengthB,
-                    setPseudorandomSequenceB,
-                    setHammingWeightB,
-                    setProductCorrelation,
-                  )
-                }
-              />
-            </div>
-            <div className="flex justify-center flex-col my-5">
-              <PeriodInfo
-                factualPeriodLength={periodLengthS}
-                identifier={"(S)"}
-              />
-              <PeriodsCondition
-                polynomialTypeFirst={POLYNOMIAL_TYPE_A}
-                polynomialTypeSecond={POLYNOMIAL_TYPE_B}
-                condition={conditionS}
-              />
-              <CoprimeCondition conditionS={conditionS} />
-            </div>
-
-            {conditionS === 1 && (
-              <>
-                <div className="flex justify-center items-center p-2.5 my-5">
-                  <GenButton onClick={handleClick}>
-                    Згенерувати послідовності суми та добутку
-                  </GenButton>
-                </div>
-
-                <label>Послідовність S (сум)</label>
-                <Sequence dataArray={sumSequence} />
-                <HammingWeight hammingWeight={hammingWeightSum} />
-
-                <label>Послідовність P (добуток)</label>
-                <Sequence dataArray={productSequence} />
-                <HammingWeight hammingWeight={hammingWeightProduct} />
-
-                <div className="flex justify-center items-center w-full h-full">
-                  <CorrelationChart
-                    data1={sumCorrelation}
-                    data2={productCorrelation}
-                  />
-                </div>
-              </>
-            )}
+      <section className="flex h-full justify-center pt-16">
+        <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
+          <h1 className="py-5 text-center">
+            ЗРЗЗ сум та множень М-послідовностей
+          </h1>
+          <div className="flex justify-evenly flex-row">
+            <LinearGenerator
+              searchParams={searchParams}
+              setSearchParams={setSearchParams}
+              structureMatrix={structureMatrixA}
+              conditionMatrix={conditionMatrixA}
+              potentialPeriodLength={potentialPeriodLengthA}
+              factualPeriodLength={factualPeriodLengthA}
+              pseudorandomSequence={pseudorandomSequenceA}
+              hammingWeight={hammingWeightA}
+              degreeParam={PARAMS_DEGREE_A}
+              polynomialParam={PARAMS_POLYNOMIAL_A}
+              userValueParam={PARAMS_USER_VALUE_A}
+              polynomialType={POLYNOMIAL_TYPE_A}
+              identifier={`(${POLYNOMIAL_TYPE_A})`}
+              className={"w-[50rem]"}
+              onClick={() =>
+                linearCalculations(
+                  searchParams,
+                  PARAMS_DEGREE_A,
+                  PARAMS_POLYNOMIAL_A,
+                  PARAMS_USER_VALUE_A,
+                  setStructureMatrixA,
+                  setConditionMatrixA,
+                  setPotentialPeriodLengthA,
+                  setFactualPeriodLengthA,
+                  setPseudorandomSequenceA,
+                  setHammingWeightA,
+                  setLoading,
+                  setError,
+                  setSumCorrelation,
+                )
+              }
+            />
+            <LinearGenerator
+              searchParams={searchParams}
+              setSearchParams={setSearchParams}
+              structureMatrix={structureMatrixB}
+              conditionMatrix={conditionMatrixB}
+              potentialPeriodLength={potentialPeriodLengthB}
+              factualPeriodLength={factualPeriodLengthB}
+              pseudorandomSequence={pseudorandomSequenceB}
+              hammingWeight={hammingWeightB}
+              degreeParam={PARAMS_DEGREE_B}
+              polynomialParam={PARAMS_POLYNOMIAL_B}
+              userValueParam={PARAMS_USER_VALUE_B}
+              polynomialType={POLYNOMIAL_TYPE_B}
+              identifier={`(${POLYNOMIAL_TYPE_B})`}
+              className={"w-[50rem]"}
+              onClick={() =>
+                linearCalculations(
+                  searchParams,
+                  PARAMS_DEGREE_B,
+                  PARAMS_POLYNOMIAL_B,
+                  PARAMS_USER_VALUE_B,
+                  setStructureMatrixB,
+                  setConditionMatrixB,
+                  setPotentialPeriodLengthB,
+                  setFactualPeriodLengthB,
+                  setPseudorandomSequenceB,
+                  setHammingWeightB,
+                  setLoading,
+                  setError,
+                  setProductCorrelation,
+                )
+              }
+            />
           </div>
-        </section>
-      )}
+          <div className="flex justify-center flex-col my-5">
+            <PeriodInfo
+              factualPeriodLength={periodLengthS}
+              identifier={"(S)"}
+            />
+            <PeriodsCondition
+              polynomialTypeFirst={POLYNOMIAL_TYPE_A}
+              polynomialTypeSecond={POLYNOMIAL_TYPE_B}
+              condition={conditionS}
+            />
+            <CoprimeCondition conditionS={conditionS} />
+          </div>
+
+          {conditionS === 1 && (
+            <>
+              <div className="flex justify-center items-center p-2.5 my-5">
+                <GenButton onClick={handleClick}>
+                  Згенерувати послідовності суми та добутку
+                </GenButton>
+              </div>
+
+              <label>Послідовність S (сум)</label>
+              <Sequence dataArray={sumSequence} />
+              <HammingWeight hammingWeight={hammingWeightSum} />
+
+              <label>Послідовність P (добуток)</label>
+              <Sequence dataArray={productSequence} />
+              <HammingWeight hammingWeight={hammingWeightProduct} />
+
+              <div className="flex justify-center items-center w-full h-full">
+                <CorrelationChart
+                  data1={sumCorrelation}
+                  data2={productCorrelation}
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </section>
     </>
   );
 });

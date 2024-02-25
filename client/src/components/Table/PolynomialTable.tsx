@@ -67,7 +67,7 @@ const PolynomialTable = ({ polynomials, totalCount }: PolynomialTableProps) => {
           <Tbody polynomialsArray={paginatedPolynomials}/>
         </table>
 
-        <div className="w-full my-2 h-12 flex justify-between items-center">
+        <div className="my-2 flex h-12 w-full items-center justify-between">
           <EntriesInfo offset={offset} limit={limit} totalCount={totalCount}/>
 
           <PaginationButtons

@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 function useDataFetching(
   fetchFunction: () => Promise<any>,
   dataSetter: (data: any) => void,
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  setError: Dispatch<SetStateAction<string | null>>,
 ) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     setLoading(true);
     fetchFunction()
@@ -14,8 +13,6 @@ function useDataFetching(
       .catch(() => setError("Error fetching data"))
       .finally(() => setLoading(false));
   }, []);
-
-  return { loading, error };
 }
 
 export default useDataFetching;
