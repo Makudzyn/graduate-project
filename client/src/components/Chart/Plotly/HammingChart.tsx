@@ -1,17 +1,18 @@
 import Plot from "react-plotly.js";
 import { Config, Data, Layout } from "plotly.js";
 import "./plotly-styles.css";
+import { memo } from "react";
 interface HammingChartProps {
   data1: number[];
   data2?: number[];
   xAxisLabels?: number[];
 }
 
-const HammingChart = ({ data1, data2, xAxisLabels }: HammingChartProps) => {
+const HammingChart = memo(({ data1, data2, xAxisLabels }: HammingChartProps) => {
   const plotData = [
     {
       y: data1,
-      type: "scatter",
+      type: "scattergl",
       mode: "lines+markers",
       marker: {
         color: "#8884d8",
@@ -31,7 +32,7 @@ const HammingChart = ({ data1, data2, xAxisLabels }: HammingChartProps) => {
     },
     {
       y: data2,
-      type: "scatter",
+      type: "scattergl",
       mode: "lines+markers",
       marker: {
         color: "#82ca9d",
@@ -82,6 +83,6 @@ const HammingChart = ({ data1, data2, xAxisLabels }: HammingChartProps) => {
       useResizeHandler
     />
   );
-};
+});
 
 export default HammingChart;
