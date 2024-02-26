@@ -1,12 +1,13 @@
 import Plot from "react-plotly.js";
 import { Config, Data, Layout } from "plotly.js";
 import "./plotly-styles.css";
+import { memo } from "react";
 interface CorrelationChartProps {
   data1: number[];
   data2?: number[];
 }
 
-const CorrelationChart = ({ data1, data2 }: CorrelationChartProps) => {
+const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
   let yAxisLimit = 1.1;
   let xAxisLimit = -1.1;
 
@@ -14,7 +15,7 @@ const CorrelationChart = ({ data1, data2 }: CorrelationChartProps) => {
   const plotData = [
     {
       y: data1,
-      type: "scatter",
+      type: "scattergl",
       mode: "lines+markers",
       marker: {
         color: "#8884d8",
@@ -31,7 +32,7 @@ const CorrelationChart = ({ data1, data2 }: CorrelationChartProps) => {
     },
     {
       y: data2,
-      type: "scatter",
+      type: "scattergl",
       mode: "lines+markers",
       marker: {
         color: "#82ca9d",
@@ -78,6 +79,6 @@ const CorrelationChart = ({ data1, data2 }: CorrelationChartProps) => {
       useResizeHandler
     />
   );
-};
+});
 
 export default CorrelationChart;
