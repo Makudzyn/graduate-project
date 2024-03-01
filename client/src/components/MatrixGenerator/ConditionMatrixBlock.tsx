@@ -3,14 +3,14 @@ import { VariableSizeList } from "react-window";
 
 interface ConditionMatrixBlockProps {
   conditionMatrix: number[][];
-  periodLength: number;
+  basisMatrix: number[][];
 }
 
 const ConditionMatrixBlock = ({
   conditionMatrix,
-  periodLength,
+  basisMatrix,
 }: ConditionMatrixBlockProps) => {
-  const step = Math.sqrt(periodLength + 1);
+  const step = basisMatrix.length;
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const slicedMatrix = conditionMatrix.slice(currentIndex, currentIndex + step);
@@ -36,7 +36,7 @@ const ConditionMatrixBlock = ({
     setCurrentIndex(lastIndex);
   };
 
-  const itemSize = () => 28; // Вы можете изменить эту высоту по своему усмотрению
+  const itemSize = () => 28;
 
   const Row = ({ index, style }: { index: number; style: CSSProperties }) => (
     <div style={style}>
@@ -65,10 +65,10 @@ const ConditionMatrixBlock = ({
 
       <VariableSizeList
         className="text-xl р-64 overflow-y-auto overflow-x-hidden text-center rounded-md border border-gray-900 scroll-smooth"
-        height={260} // Высота списка
-        itemCount={slicedMatrix.length} // Общее количество строк
-        itemSize={itemSize} // Функция, возвращающая высоту каждой строки
-        width={400} // Ширина списка
+        height={260}
+        itemCount={slicedMatrix.length}
+        itemSize={itemSize}
+        width={400}
       >
         {Row}
       </VariableSizeList>

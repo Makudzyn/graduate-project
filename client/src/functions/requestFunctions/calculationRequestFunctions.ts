@@ -8,15 +8,14 @@ import { Dispatch, SetStateAction } from "react";
 
 import {
   calcHammingWeightSpectre,
-  calcLengthByFormula,
+  calcLengthByFormula, calculateFactualPeriodS,
   createMatrixInitialArray,
-  findGCD,
+  findGCD, formatArrayIfCyclic,
   formatHammingWeight,
-  generateCyclicPolynomial,
   generateMatrixBasis,
   generateStructureMatrixA,
   generateStructureMatrixB,
-  polynomialDestructuring,
+  polynomialDestructuring
 } from "../generatorFunctions.ts";
 import { getSelectedParam } from "../functions.ts";
 
@@ -98,9 +97,10 @@ export async function matrixCalculations(
   setBasisMatrix: Dispatch<SetStateAction<number[][]>>,
   setPotentialPeriodLengthA: Dispatch<SetStateAction<number>>,
   setPotentialPeriodLengthB: Dispatch<SetStateAction<number>>,
+  setPotentialPeriodLengthS: Dispatch<SetStateAction<number>>,
   setFactualPeriodLengthA: Dispatch<SetStateAction<number>>,
   setFactualPeriodLengthB: Dispatch<SetStateAction<number>>,
-  setPeriodLengthS: Dispatch<SetStateAction<number>>,
+  setFactualPeriodLengthS: Dispatch<SetStateAction<number>>,
   setConditionS: Dispatch<SetStateAction<number>>,
   setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
   setHammingWeight: Dispatch<SetStateAction<number>>,
@@ -110,49 +110,50 @@ export async function matrixCalculations(
   setCorrelation?: Dispatch<SetStateAction<number[]>>,
 ) {
   const degreeA = Number(getSelectedParam(degreeParamA, searchParams) || "2");
-  const polynomialA =
-    getSelectedParam(polynomialParamA, searchParams) || "1 7 H";
+  const polynomialA = getSelectedParam(polynomialParamA, searchParams) || "1 7 H";
   const isCyclicA = getSelectedParam(cyclicPolyParamA, searchParams) || "false";
 
   const degreeB = Number(getSelectedParam(degreeParamB, searchParams) || "2");
-  const polynomialB =
-    getSelectedParam(polynomialParamB, searchParams) || "1 7 H";
+  const polynomialB = getSelectedParam(polynomialParamB, searchParams) || "1 7 H";
   const isCyclicB = getSelectedParam(cyclicPolyParamB, searchParams) || "false";
 
   const indexI = Number(getSelectedParam(indexParamI, searchParams) || "0");
   const indexJ = Number(getSelectedParam(indexParamJ, searchParams) || "0");
-  const matrixRank = Number(
-    getSelectedParam(matrixRankParam, searchParams) || "1",
-  );
+  const matrixRank = Number(getSelectedParam(matrixRankParam, searchParams) || "1");
 
   const { polyIndex: polyIndexA, polyBinary: polyBinaryA } =
     polynomialDestructuring(polynomialA);
   const { polyIndex: polyIndexB, polyBinary: polyBinaryB } =
     polynomialDestructuring(polynomialB);
 
-  let polynomialArrA, polynomialArrB;
-
-  if (isCyclicA === "true") {
-    polynomialArrA = generateCyclicPolynomial(degreeA);
-  } else polynomialArrA = polyBinaryA.split("").slice(1);
-
-  if (isCyclicB === "true") {
-    polynomialArrB = generateCyclicPolynomial(degreeB);
-  } else polynomialArrB = polyBinaryB.split("").slice(1);
+  const polynomialArrA = formatArrayIfCyclic(isCyclicA, degreeA, polyBinaryA);
+  const polynomialArrB = formatArrayIfCyclic(isCyclicB, degreeB, polyBinaryB);
 
   const potentialPeriodLengthA = Math.pow(2, degreeA) - 1;
   const potentialPeriodLengthB = Math.pow(2, degreeB) - 1;
+  const potentialPeriodLengthS = potentialPeriodLengthA * potentialPeriodLengthB;
 
   setPotentialPeriodLengthA(potentialPeriodLengthA);
   setPotentialPeriodLengthB(potentialPeriodLengthB);
+  setPotentialPeriodLengthS(potentialPeriodLengthS);
 
-  const periodLengthA = calcLengthByFormula(degreeA, polyIndexA);
-  const periodLengthB = calcLengthByFormula(degreeB, polyIndexB);
-  const periodLengthS = periodLengthA * periodLengthB;
+  const factualPeriodLengthA = calcLengthByFormula(degreeA, polyIndexA);
+  const factualPeriodLengthB = calcLengthByFormula(degreeB, polyIndexB);
 
-  setFactualPeriodLengthA(periodLengthA);
-  setFactualPeriodLengthB(periodLengthB);
-  setPeriodLengthS(periodLengthS);
+  setFactualPeriodLengthA(factualPeriodLengthA);
+  setFactualPeriodLengthB(factualPeriodLengthB);
+
+  const condition = findGCD(factualPeriodLengthA, factualPeriodLengthB);
+  setConditionS(condition);
+
+  const factualPeriodLengthS = calculateFactualPeriodS(
+    isCyclicA,
+    isCyclicB,
+    factualPeriodLengthA,
+    factualPeriodLengthB,
+    condition,
+  );
+  setFactualPeriodLengthS(factualPeriodLengthS);
 
   const structureMatrixA = generateStructureMatrixA(
     degreeA,
@@ -169,9 +170,6 @@ export async function matrixCalculations(
   setStructureMatrixA(structureMatrixA);
   setStructureMatrixB(structureMatrixB);
   setBasisMatrix(basisMatrix);
-
-  const condition = findGCD(periodLengthA, periodLengthB);
-  setConditionS(condition);
 
   const hammingWeightSpectre = calcHammingWeightSpectre(
     matrixRank,
@@ -192,7 +190,7 @@ export async function matrixCalculations(
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
-      periodLengthS,
+      factualPeriodLengthS,
       indexI,
       indexJ,
     );

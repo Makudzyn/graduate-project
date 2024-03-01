@@ -101,8 +101,6 @@ async function linearComputation(
 ): Promise<Response | void> {
   try {
     const { structureMatrix, userValueArr, factualLength } = req.body;
-    // console.time("linearComputation");
-
 
     const conditionMatrix = linearFeedbackShiftRegister(
       factualLength,
@@ -114,7 +112,6 @@ async function linearComputation(
     const hammingWeight = hammingWeightCalc(pseudorandomSequence);
     const convertedPrs = convertPrs(pseudorandomSequence);
     const correlation = autocorrelation(convertedPrs);
-    // console.timeEnd("linearComputation");
 
     return res.json({
       conditionMatrix,
@@ -123,8 +120,7 @@ async function linearComputation(
       correlation,
     });
   } catch (error: unknown) {
-    // явно указываем тип для ошибки как unknown
-    return next(ApiError.internal((error as Error).message)); // приведение типа к Error
+    return next(ApiError.internal((error as Error).message));
   }
 }
 
@@ -155,6 +151,8 @@ async function matrixComputation(
     const hammingWeight = hammingWeightCalc(pseudorandomSequence);
     const convertedPrs = convertPrs(pseudorandomSequence);
     const correlation = autocorrelation(convertedPrs);
+    // const convertedPrs = [-1, 1, 1];
+    // const correlation = [1, 0, 1, 1, 0, 0, 0, 1];
 
     return res.json({
       conditionMatrix,

@@ -19,9 +19,10 @@ interface MatrixGeneratorProps {
   conditionMatrix: number[][];
   potentialPeriodLengthA: number;
   potentialPeriodLengthB: number;
+  potentialPeriodLengthS: number;
   factualPeriodLengthA: number;
   factualPeriodLengthB: number;
-  periodLengthS: number;
+  factualPeriodLengthS: number;
   conditionS: number;
   identifierS: string;
   pseudorandomSequence: number[];
@@ -66,10 +67,11 @@ const MatrixGenerator = ({
   hammingWeight,
   hammingWeightSpectre,
   factualPeriodLengthA,
+  factualPeriodLengthB,
+  factualPeriodLengthS,
   potentialPeriodLengthA,
   potentialPeriodLengthB,
-  periodLengthS,
-  factualPeriodLengthB,
+  potentialPeriodLengthS,
 }: MatrixGeneratorProps) => {
   return (
     <div>
@@ -134,12 +136,13 @@ const MatrixGenerator = ({
           <h3 className="text-center">Матриці {identifierS}[1..N]</h3>
           <ConditionMatrixBlock
             conditionMatrix={conditionMatrix}
-            periodLength={potentialPeriodLengthA}
+            basisMatrix={basisMatrix}
           />
           <div className="my-5 flex w-full justify-center">
             <div className="flex w-full flex-col justify-between h-[5.625rem]">
               <PeriodInfo
-                factualPeriodLength={periodLengthS}
+                potentialPeriodLength={factualPeriodLengthS}
+                factualPeriodLength={potentialPeriodLengthS}
                 identifier={`(${identifierS})`}
               />
             </div>

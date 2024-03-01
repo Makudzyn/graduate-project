@@ -50,24 +50,20 @@ const HammingWeightAnalysisPage = observer(() => {
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
 
-  const [conditionMatrixLinear, setConditionMatrixLinear] = useState<
-    number[][]
-  >([]);
-  const [conditionMatrixMatrices, setConditionMatrixMatrices] = useState<
-    number[][]
-  >([]);
+  const [conditionMatrixLinear, setConditionMatrixLinear] = useState<number[][]>([]);
+  const [conditionMatrixMatrices, setConditionMatrixMatrices] = useState<number[][]>([]);
   const [basisMatrix, setBasisMatrix] = useState<number[][]>([]);
 
   const [potentialPeriodLength, setPotentialPeriodLength] = useState<number>(0);
   const [factualPeriodLength, setFactualPeriodLength] = useState<number>(0);
 
-  const [potentialPeriodLengthA, setPotentialPeriodLengthA] =
-    useState<number>(0);
-  const [potentialPeriodLengthB, setPotentialPeriodLengthB] =
-    useState<number>(0);
+  const [potentialPeriodLengthA, setPotentialPeriodLengthA] = useState<number>(0);
+  const [potentialPeriodLengthB, setPotentialPeriodLengthB] = useState<number>(0);
+  const [potentialPeriodLengthS, setPotentialPeriodLengthS] = useState<number>(0);
+
   const [factualPeriodLengthA, setFactualPeriodLengthA] = useState<number>(0);
   const [factualPeriodLengthB, setFactualPeriodLengthB] = useState<number>(0);
-  const [periodLengthS, setPeriodLengthS] = useState<number>(0);
+  const [factualPeriodLengthS, setFactualPeriodLengthS] = useState<number>(0);
   const [conditionS, setConditionS] = useState<number>(0);
 
   const [pseudorandomSequenceLinear, setPseudorandomSequenceLinear] = useState<
@@ -171,9 +167,10 @@ const HammingWeightAnalysisPage = observer(() => {
                 conditionMatrix={conditionMatrixMatrices}
                 potentialPeriodLengthA={potentialPeriodLengthA}
                 potentialPeriodLengthB={potentialPeriodLengthB}
+                potentialPeriodLengthS={potentialPeriodLengthS}
                 factualPeriodLengthA={factualPeriodLengthA}
                 factualPeriodLengthB={factualPeriodLengthB}
-                periodLengthS={periodLengthS}
+                factualPeriodLengthS={factualPeriodLengthS}
                 conditionS={conditionS}
                 identifierS={"S"}
                 pseudorandomSequence={pseudorandomSequenceMatrices}
@@ -208,9 +205,10 @@ const HammingWeightAnalysisPage = observer(() => {
                     setBasisMatrix,
                     setPotentialPeriodLengthA,
                     setPotentialPeriodLengthB,
+                    setFactualPeriodLengthS,
                     setFactualPeriodLengthA,
                     setFactualPeriodLengthB,
-                    setPeriodLengthS,
+                    setPotentialPeriodLengthS,
                     setConditionS,
                     setPseudorandomSequenceMatrices,
                     setHammingWeightMatrices,

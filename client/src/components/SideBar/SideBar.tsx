@@ -29,6 +29,8 @@ const SideBar = observer(({ dataArray, userId }: SideBarProps) => {
       .filter((data) => data.pageName === currentPage),
   );
 
+
+
   return (
     <aside className="h-screen fixed pt-16 z-40 transition">
       <div

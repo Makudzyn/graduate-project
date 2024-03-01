@@ -1,5 +1,5 @@
 import { VariableSizeList } from "react-window";
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, useRef } from "react";
 
 interface SequenceProps {
   dataArray: number[];
@@ -7,18 +7,7 @@ interface SequenceProps {
 
 const Sequence = ({ dataArray }: SequenceProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const width = containerRef.current?.offsetWidth || 0;
-      setContainerWidth(width);
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const containerWidth =  containerRef.current?.offsetWidth;
 
   const chunkArray = (arr: number[], size: number) => {
     const result: number[][] = [];
@@ -28,12 +17,11 @@ const Sequence = ({ dataArray }: SequenceProps) => {
     return result;
   };
 
-
   const itemSize = () => 28;
 
   const twoDimensionalArray = chunkArray(
     dataArray,
-    containerWidth === 0 ? 1 : Math.floor(containerWidth / 17.35),
+    containerWidth === undefined ? 1 : Math.floor(containerWidth / 17.35),
   );
 
   const Row = ({ index, style }: { index: number; style: CSSProperties }) => (
@@ -46,18 +34,16 @@ const Sequence = ({ dataArray }: SequenceProps) => {
     </div>
   );
 
-
-
   return (
     <div ref={containerRef}>
       <VariableSizeList
         className={
-          "mb-5 overflow-y-auto overflow-x-hidden rounded-sm border border-gray-900 text-xl scroll-smooth"
+          "mb-5 rounded-md border border-gray-900 text-xl scroll-smooth"
         }
-        height={130} // Высота списка
-        itemCount={dataArray.length} // Общее количество элементов
-        itemSize={itemSize} // Функция, возвращающая высоту каждого элемента
-        width={"100%"} // Ширина списка
+        height={130}
+        itemCount={twoDimensionalArray.length}
+        itemSize={itemSize}
+        width={"100%"}
       >
         {Row}
       </VariableSizeList>

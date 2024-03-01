@@ -7,6 +7,7 @@ export function polynomialDestructuring(poly: string) {
 
   return { polyIndex, polyBinary, polyLetter };
 }
+
 export function createMatrixInitialArray(
   degree: number,
   polynomial: string[],
@@ -81,6 +82,7 @@ export function findGCD(
   }
   return a;
 }
+
 export function calcLengthByFormula(
   degree: number,
   polynomialIndex: number,
@@ -116,4 +118,36 @@ export function calculatePossibleValues(degree: number, start: number = 0) {
 
 export function generateCyclicPolynomial(degree: number) {
   return ("1" + "0".repeat(degree - 1)).split("");
+}
+
+export function formatArrayIfCyclic(
+  isCyclic: string,
+  degree: number,
+  polyBinary: string,
+) {
+  let polynomialArr;
+  if (isCyclic === "true") {
+    polynomialArr = generateCyclicPolynomial(degree);
+  } else {
+    polynomialArr = polyBinary.split("").slice(1);
+  }
+  return polynomialArr;
+}
+
+export function calculateFactualPeriodS(
+  isCyclicA: string,
+  isCyclicB: string,
+  factualPeriodLengthA: number,
+  factualPeriodLengthB: number,
+  condition: number,
+) {
+  let factualPeriodLengthS;
+  if (isCyclicA === "true") {
+    factualPeriodLengthS = factualPeriodLengthB;
+  } else if (isCyclicB === "true") {
+    factualPeriodLengthS = factualPeriodLengthA;
+  } else if (condition !== 1) {
+    factualPeriodLengthS = condition;
+  } else factualPeriodLengthS = factualPeriodLengthA * factualPeriodLengthB;
+  return factualPeriodLengthS;
 }

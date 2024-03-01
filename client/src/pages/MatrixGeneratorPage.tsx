@@ -40,22 +40,19 @@ const MatrixGeneratorPage = observer(() => {
   const [basisMatrix, setBasisMatrix] = useState<number[][]>([]);
 
   const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
-  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>(
-    [],
-  );
-  const [potentialPeriodLengthA, setPotentialPeriodLengthA] =
-    useState<number>(0);
-  const [potentialPeriodLengthB, setPotentialPeriodLengthB] =
-    useState<number>(0);
+  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
+  const [potentialPeriodLengthA, setPotentialPeriodLengthA] = useState<number>(0);
+  const [potentialPeriodLengthB, setPotentialPeriodLengthB] = useState<number>(0);
+
   const [factualPeriodLengthA, setFactualPeriodLengthA] = useState<number>(0);
   const [factualPeriodLengthB, setFactualPeriodLengthB] = useState<number>(0);
-  const [periodLengthS, setPeriodLengthS] = useState<number>(0);
+
+  const [potentialPeriodLengthS, setPotentialPeriodLengthS] = useState<number>(0);
+  const [factualPeriodLengthS, setFactualPeriodLengthS] = useState<number>(0);
   const [conditionS, setConditionS] = useState<number>(0);
 
   const [hammingWeight, setHammingWeight] = useState<number>(0);
-  const [hammingWeightSpectre, setHammingWeightSpectre] = useState<string[]>([
-    "0",
-  ]);
+  const [hammingWeightSpectre, setHammingWeightSpectre] = useState<string[]>(["0"]);
   const [correlation, setCorrelation] = useState<number[]>([]);
 
   const [searchParams, setSearchParams] = useSearchParams({});
@@ -78,9 +75,10 @@ const MatrixGeneratorPage = observer(() => {
       setBasisMatrix,
       setPotentialPeriodLengthA,
       setPotentialPeriodLengthB,
+      setFactualPeriodLengthS,
       setFactualPeriodLengthA,
       setFactualPeriodLengthB,
-      setPeriodLengthS,
+      setPotentialPeriodLengthS,
       setConditionS,
       setPseudorandomSequence,
       setHammingWeight,
@@ -115,9 +113,10 @@ const MatrixGeneratorPage = observer(() => {
             conditionMatrix={conditionMatrix}
             potentialPeriodLengthA={potentialPeriodLengthA}
             potentialPeriodLengthB={potentialPeriodLengthB}
+            potentialPeriodLengthS={potentialPeriodLengthS}
             factualPeriodLengthA={factualPeriodLengthA}
             factualPeriodLengthB={factualPeriodLengthB}
-            periodLengthS={periodLengthS}
+            factualPeriodLengthS={factualPeriodLengthS}
             conditionS={conditionS}
             identifierS={"S"}
             pseudorandomSequence={pseudorandomSequence}
