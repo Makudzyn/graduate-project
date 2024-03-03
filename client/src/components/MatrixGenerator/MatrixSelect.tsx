@@ -1,7 +1,10 @@
-import GenSelect from "../CommonGenComponents/Select/GenSelect.tsx";
 import { observer } from "mobx-react-lite";
 import { SetURLSearchParams } from "react-router-dom";
-import { BooleanSelect, Polynomial } from "../../utils/interfacesAndTypes.ts";
+import SelectCyclic from "../CommonGenComponents/Select/SelectCyclic.tsx";
+import { useEffect, useState } from "react";
+import { generateOptions, getSelectedParam } from "../../functions/functions.ts";
+import SelectValue from "../CommonGenComponents/Select/SelectValue.tsx";
+import SelectPolynomial from "../CommonGenComponents/Select/SelectPolynomial.tsx";
 
 interface MatrixSelectProps {
   firstSelectLabel: string;
@@ -15,9 +18,6 @@ interface MatrixSelectProps {
   cyclicPolyParamName: string;
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
-  degreeArray: number[];
-  polynomialArray: Polynomial[];
-  cyclicSelect: BooleanSelect[];
 }
 
 const MatrixSelect = observer(
@@ -33,38 +33,42 @@ const MatrixSelect = observer(
     cyclicPolyParamName,
     searchParams,
     setSearchParams,
-    degreeArray,
-    polynomialArray,
-    cyclicSelect,
   }: MatrixSelectProps) => {
+    const [polyDegree, setPolyDegree] = useState<number>(0);
+    const degreesArray = generateOptions();
+
+    useEffect(() => {
+      const degree = Number(getSelectedParam(degreeParamName, searchParams));
+      setPolyDegree(degree);
+    }, [location.search]);
 
     return (
       <div className="flex flex-col w-[25rem] flex-wrap px-3">
-        <GenSelect
-          selectLabel={firstSelectLabel}
-          shownPlaceholder={firstShownPlaceholder}
+        <SelectValue
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
           urlParamName={degreeParamName}
-          searchParams={searchParams}
-          setSelectedOptionToParams={setSearchParams}
-          optionsArray={degreeArray}
+          optionsArray={degreesArray}
+          shownPlaceholder={firstShownPlaceholder}
+          selectLabel={firstSelectLabel}
         />
 
-        <GenSelect
-          selectLabel={secondSelectLabel}
-          shownPlaceholder={secondShownPlaceholder}
+        <SelectPolynomial
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
           urlParamName={polynomialParamName}
-          searchParams={searchParams}
-          setSelectedOptionToParams={setSearchParams}
-          optionsArray={polynomialArray}
+          polyDegree={polyDegree}
+          shownPlaceholder={secondShownPlaceholder}
+          selectLabel={secondSelectLabel}
         />
 
-        <GenSelect
+        <SelectCyclic
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+          urlParamName={cyclicPolyParamName}
+          polyDegree={polyDegree}
           selectLabel={thirdSelectLabel}
           shownPlaceholder={thirdShownPlaceholder}
-          urlParamName={cyclicPolyParamName}
-          searchParams={searchParams}
-          setSelectedOptionToParams={setSearchParams}
-          optionsArray={cyclicSelect}
         />
       </div>
     );
