@@ -26,7 +26,6 @@ import {
 } from "../utils/consts.ts";
 import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
 import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
-import GenInput from "../components/CommonGenComponents/GenInput.tsx";
 import GenButton from "../components/CommonGenComponents/GenButton.tsx";
 import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";
 import { Context } from "../main.tsx";
@@ -34,6 +33,7 @@ import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
+import InputBlockLength from "../components/HammingAnalysis/InputBlockLength.tsx";
 
 const HammingWeightAnalysisPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -221,14 +221,13 @@ const HammingWeightAnalysisPage = observer(() => {
             </div>
           </div>
           <div className="my-5 flex flex-col items-center justify-center">
-            <GenInput
+            <InputBlockLength
               inputLabel="Довжина блоку"
               inputPlaceholder="2"
               urlParamName={PARAMS_HAMMING_BLOCK}
               setSearchParams={setSearchParams}
               searchParams={searchParams}
               valueRestriction={valueRestriction}
-              disabled={false}
             />
             <GenButton onClick={handleClick}>Провести розрахунки</GenButton>
           </div>

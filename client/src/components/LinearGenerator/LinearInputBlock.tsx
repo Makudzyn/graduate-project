@@ -1,5 +1,5 @@
 import {useEffect, useState } from "react";
-import GenInput from "../CommonGenComponents/GenInput.tsx";
+import InputBinary from "./InputBinary.tsx";
 import { observer } from "mobx-react-lite";
 import { SetURLSearchParams } from "react-router-dom";
 import { polynomialDestructuring } from "../../functions/generatorFunctions.ts";
@@ -12,11 +12,6 @@ import SelectValue from "../CommonGenComponents/Select/SelectValue.tsx";
 import SelectPolynomial from "../CommonGenComponents/Select/SelectPolynomial.tsx";
 
 interface LinearInputBlockProps {
-  firstSelectLabel: string;
-  firstShownPlaceholder: string;
-  secondSelectLabel: string;
-  secondShownPlaceholder: string;
-  inputLabel: string;
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
   degreeParam: string;
@@ -27,18 +22,13 @@ interface LinearInputBlockProps {
 
 const LinearInputBlock = observer(
   ({
-    firstSelectLabel,
-    firstShownPlaceholder,
-    secondSelectLabel,
-    secondShownPlaceholder,
-    inputLabel,
     searchParams,
     setSearchParams,
     degreeParam,
     polynomialParam,
+    polynomialType,
     userValueParam,
   }: LinearInputBlockProps) => {
-
     const [inputPlaceholder, setInputPlaceholder] = useState<string>("01");
     const [polyDegree, setPolyDegree] = useState<number>(0);
     const degreesArray = generateOptions();
@@ -53,6 +43,12 @@ const LinearInputBlock = observer(
       }
     }, [location.search]);
 
+    const DEGREE_LABEL = `Оберіть ступінь поліному ${polynomialType || ""}`;
+    const DEGREE_PLACEHOLDER = `Ступінь поліному ${polynomialType || ""}`;
+    const POLYNOMIAL_LABEL = `Оберіть поліном ${polynomialType || ""}`;
+    const POLYNOMIAL_PLACEHOLDER = `Поліном ${polynomialType || ""}`;
+    const INPUT_LABEL = `Введіть початковий стан ${polynomialType || ""}`;
+
     return (
       <div className="flex flex-col justify-center w-[25rem]">
         <SelectValue
@@ -60,8 +56,8 @@ const LinearInputBlock = observer(
           setSearchParams={setSearchParams}
           urlParamName={degreeParam}
           optionsArray={degreesArray}
-          shownPlaceholder={firstShownPlaceholder}
-          selectLabel={firstSelectLabel}
+          selectLabel={DEGREE_LABEL}
+          shownPlaceholder={DEGREE_PLACEHOLDER}
         />
 
         <SelectPolynomial
@@ -69,18 +65,17 @@ const LinearInputBlock = observer(
           setSearchParams={setSearchParams}
           urlParamName={polynomialParam}
           polyDegree={polyDegree}
-          shownPlaceholder={secondShownPlaceholder}
-          selectLabel={secondSelectLabel}
+          selectLabel={POLYNOMIAL_LABEL}
+          shownPlaceholder={POLYNOMIAL_PLACEHOLDER}
         />
 
-        <GenInput
-          inputLabel={inputLabel}
-          urlParamName={userValueParam}
+        <InputBinary
           searchParams={searchParams}
           setSearchParams={setSearchParams}
+          urlParamName={userValueParam}
+          inputLabel={INPUT_LABEL}
           inputPlaceholder={inputPlaceholder}
           lengthRestriction={polyDegree}
-          disabled={false}
         />
       </div>
     );

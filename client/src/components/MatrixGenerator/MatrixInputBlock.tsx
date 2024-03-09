@@ -16,8 +16,8 @@ interface MatrixInputBlockProps {
   indexParamI: string;
   indexParamJ: string;
   matrixRankParam: string;
-  polynomialTypeA?: PolynomialType;
-  polynomialTypeB?: PolynomialType;
+  polynomialTypeA: PolynomialType;
+  polynomialTypeB: PolynomialType;
   identifierS: string;
 }
 
@@ -38,52 +38,35 @@ const MatrixInputBlock = observer(
     polynomialTypeB,
     identifierS,
   }: MatrixInputBlockProps) => {
-
-
     return (
       <>
         <MatrixSelect
-          firstSelectLabel={`Оберіть ступінь поліному F(${polynomialTypeA})`}
-          firstShownPlaceholder={`Ступінь поліному F(${polynomialTypeA})`}
-          secondSelectLabel={`Оберіть поліном F(${polynomialTypeA})`}
-          secondShownPlaceholder={`Поліном F(${polynomialTypeA})`}
-          thirdSelectLabel={`Зробити поліном F(${polynomialTypeA}) циклічним?`}
-          thirdShownPlaceholder={`Ні`}
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
           degreeParamName={degreeParamA}
           polynomialParamName={polynomialParamA}
           cyclicPolyParamName={cyclicPolyParamA}
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
+          polynomialType={polynomialTypeA}
         />
 
         <MatrixOutputSelectionBlock
-          firstOutputElementLabel={"Оберіть i вихідного елементу"}
-          firstShownPlaceholder={`Значення i`}
-          firstUrlParamName={indexParamI}
-          degreeParamA={degreeParamA}
-          secondOutputElementLabel={"Оберіть j вихідного елементу"}
-          secondShownPlaceholder={`Значення j`}
-          secondUrlParamName={indexParamJ}
-          degreeParamB={degreeParamB}
-          thirdOutputElementLabel={`Оберіть ранг матриці ${identifierS}`}
-          thirdShownPlaceholder={`Ранг матриці ${identifierS}`}
-          thirdUrlParamName={matrixRankParam}
           searchParams={searchParams}
           setSearchParams={setSearchParams}
+          degreeParamA={degreeParamA}
+          degreeParamB={degreeParamB}
+          indexParamI={indexParamI}
+          indexParamJ={indexParamJ}
+          matrixRankParam={matrixRankParam}
+          identifierS={identifierS}
         />
 
         <MatrixSelect
-          firstSelectLabel={`Оберіть ступінь поліному F(${polynomialTypeB})`}
-          firstShownPlaceholder={`Ступінь поліному F(${polynomialTypeB})`}
-          secondSelectLabel={`Оберіть поліном F(${polynomialTypeB})`}
-          secondShownPlaceholder={`Поліном F(${polynomialTypeB})`}
-          thirdSelectLabel={`Зробити поліном F(${polynomialTypeB}) циклічним?`}
-          thirdShownPlaceholder={`Ні`}
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
           degreeParamName={degreeParamB}
           polynomialParamName={polynomialParamB}
           cyclicPolyParamName={cyclicPolyParamB}
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
+          polynomialType={polynomialTypeB}
         />
       </>
     );

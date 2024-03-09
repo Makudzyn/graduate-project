@@ -5,34 +5,25 @@ import { useEffect, useState } from "react";
 import { generateOptions, getSelectedParam } from "../../functions/functions.ts";
 import SelectValue from "../CommonGenComponents/Select/SelectValue.tsx";
 import SelectPolynomial from "../CommonGenComponents/Select/SelectPolynomial.tsx";
+import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
 
 interface MatrixSelectProps {
-  firstSelectLabel: string;
-  firstShownPlaceholder: string;
-  secondSelectLabel: string;
-  secondShownPlaceholder: string;
-  thirdSelectLabel: string;
-  thirdShownPlaceholder: string;
+  searchParams: URLSearchParams;
+  setSearchParams: SetURLSearchParams;
   degreeParamName: string;
   polynomialParamName: string;
   cyclicPolyParamName: string;
-  searchParams: URLSearchParams;
-  setSearchParams: SetURLSearchParams;
+  polynomialType: PolynomialType;
 }
 
 const MatrixSelect = observer(
   ({
-    firstSelectLabel,
-    firstShownPlaceholder,
-    secondSelectLabel,
-    secondShownPlaceholder,
-    thirdSelectLabel,
-    thirdShownPlaceholder,
+    searchParams,
+    setSearchParams,
     degreeParamName,
     polynomialParamName,
     cyclicPolyParamName,
-    searchParams,
-    setSearchParams,
+    polynomialType,
   }: MatrixSelectProps) => {
     const [polyDegree, setPolyDegree] = useState<number>(0);
     const degreesArray = generateOptions();
@@ -42,6 +33,13 @@ const MatrixSelect = observer(
       setPolyDegree(degree);
     }, [location.search]);
 
+    const DEGREE_LABEL = `Оберіть ступінь поліному F(${polynomialType})`
+    const DEGREE_PLACEHOLDER = `Ступінь поліному F(${polynomialType})`;
+    const POLYNOMIAL_LABEL = `Оберіть поліном F(${polynomialType})`;
+    const POLYNOMIAL_PLACEHOLDER = `Поліном F(${polynomialType})`;
+    const CYCLIC_LABEL = `Зробити поліном F(${polynomialType}) циклічним?`;
+    const CYCLIC_PLACEHOLDER = `Ні`;
+
     return (
       <div className="flex flex-col w-[25rem] flex-wrap px-3">
         <SelectValue
@@ -49,8 +47,8 @@ const MatrixSelect = observer(
           setSearchParams={setSearchParams}
           urlParamName={degreeParamName}
           optionsArray={degreesArray}
-          shownPlaceholder={firstShownPlaceholder}
-          selectLabel={firstSelectLabel}
+          shownPlaceholder={DEGREE_LABEL}
+          selectLabel={DEGREE_PLACEHOLDER}
         />
 
         <SelectPolynomial
@@ -58,8 +56,8 @@ const MatrixSelect = observer(
           setSearchParams={setSearchParams}
           urlParamName={polynomialParamName}
           polyDegree={polyDegree}
-          shownPlaceholder={secondShownPlaceholder}
-          selectLabel={secondSelectLabel}
+          shownPlaceholder={POLYNOMIAL_LABEL}
+          selectLabel={POLYNOMIAL_PLACEHOLDER}
         />
 
         <SelectCyclic
@@ -67,8 +65,8 @@ const MatrixSelect = observer(
           setSearchParams={setSearchParams}
           urlParamName={cyclicPolyParamName}
           polyDegree={polyDegree}
-          selectLabel={thirdSelectLabel}
-          shownPlaceholder={thirdShownPlaceholder}
+          selectLabel={CYCLIC_LABEL}
+          shownPlaceholder={CYCLIC_PLACEHOLDER}
         />
       </div>
     );

@@ -5,35 +5,25 @@ import { calculatePossibleValues } from "../../functions/generatorFunctions.ts";
 import SelectValue from "../CommonGenComponents/Select/SelectValue.tsx";
 
 interface MatrixOutputSelectProps {
-  firstOutputElementLabel: string;
-  firstShownPlaceholder: string;
-  firstUrlParamName: string;
-  degreeParamA: string;
-  secondOutputElementLabel: string;
-  secondShownPlaceholder: string;
-  secondUrlParamName: string;
-  degreeParamB: string;
-  thirdOutputElementLabel: string;
-  thirdShownPlaceholder: string;
-  thirdUrlParamName: string;
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
+  degreeParamA: string;
+  degreeParamB: string;
+  indexParamI: string;
+  indexParamJ: string;
+  matrixRankParam: string;
+  identifierS: string;
 }
 
 const MatrixOutputSelectionBlock = ({
-  firstOutputElementLabel,
-  firstShownPlaceholder,
-  firstUrlParamName,
-  degreeParamA,
-  secondOutputElementLabel,
-  secondShownPlaceholder,
-  secondUrlParamName,
-  degreeParamB,
-  thirdOutputElementLabel,
-  thirdShownPlaceholder,
-  thirdUrlParamName,
   searchParams,
   setSearchParams,
+  degreeParamA,
+  degreeParamB,
+  indexParamI,
+  indexParamJ,
+  matrixRankParam,
+  identifierS,
 }: MatrixOutputSelectProps) => {
   const [indexesArrayI, setIndexesArrayI] = useState<number[]>([]);
   const [indexesArrayJ, setIndexesArrayJ] = useState<number[]>([]);
@@ -53,34 +43,41 @@ const MatrixOutputSelectionBlock = ({
     setMatrixRanks(rankValues);
   }, [location.search]);
 
+  const INDEX_I_LABEL = "Оберіть i вихідного елементу";
+  const INDEX_I_PLACEHOLDER = `Значення i`;
+  const INDEX_J_LABEL = "Оберіть j вихідного елементу";
+  const INDEX_J_PLACEHOLDER = `Значення j`;
+  const MATRIX_RANK_LABEL = `Оберіть ранг матриці ${identifierS}`;
+  const MATRIX_RANK_PLACEHOLDER = `Ранг матриці ${identifierS}`;
+
   return (
     <div className="flex items-center justify-center px-3 w-[25rem]">
       <div className="flex flex-col flex-wrap w-[15rem]">
         <SelectValue
           searchParams={searchParams}
           setSearchParams={setSearchParams}
-          urlParamName={firstUrlParamName}
+          urlParamName={indexParamI}
           optionsArray={indexesArrayI}
-          shownPlaceholder={firstShownPlaceholder}
-          selectLabel={firstOutputElementLabel}
+          selectLabel={INDEX_I_LABEL}
+          shownPlaceholder={INDEX_I_PLACEHOLDER}
         />
 
         <SelectValue
           searchParams={searchParams}
           setSearchParams={setSearchParams}
-          urlParamName={secondUrlParamName}
+          urlParamName={indexParamJ}
           optionsArray={indexesArrayJ}
-          shownPlaceholder={secondShownPlaceholder}
-          selectLabel={secondOutputElementLabel}
+          selectLabel={INDEX_J_LABEL}
+          shownPlaceholder={INDEX_J_PLACEHOLDER}
         />
 
         <SelectValue
           searchParams={searchParams}
           setSearchParams={setSearchParams}
-          urlParamName={thirdUrlParamName}
+          urlParamName={matrixRankParam}
           optionsArray={matrixRanks}
-          shownPlaceholder={thirdShownPlaceholder}
-          selectLabel={thirdOutputElementLabel}
+          selectLabel={MATRIX_RANK_LABEL}
+          shownPlaceholder={MATRIX_RANK_PLACEHOLDER}
         />
       </div>
     </div>

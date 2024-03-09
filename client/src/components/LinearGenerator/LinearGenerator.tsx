@@ -47,11 +47,6 @@ const LinearGenerator = ({
     <div className={className}>
       <div className="flex w-full justify-evenly pb-9 pt-2.5">
         <LinearInputBlock
-          firstSelectLabel={`Оберіть ступінь поліному ${polynomialType || ""}`}
-          firstShownPlaceholder={`Ступінь поліному ${polynomialType || ""}`}
-          secondSelectLabel={`Оберіть поліном ${polynomialType || ""}`}
-          secondShownPlaceholder={`Поліном ${polynomialType || ""}`}
-          inputLabel={`Введіть початковий стан ${polynomialType || ""}`}
           searchParams={searchParams}
           setSearchParams={setSearchParams}
           degreeParam={degreeParam}
@@ -86,7 +81,7 @@ const LinearGenerator = ({
       </div>
 
       <div className="flex w-full flex-col py-2 px-3">
-        <label>Згенерована послідовність {polynomialType}</label>
+        <h3>Згенерована послідовність {polynomialType}</h3>
         <Sequence dataArray={pseudorandomSequence} />
         <HammingWeight hammingWeight={hammingWeight} />
       </div>

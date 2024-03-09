@@ -38,8 +38,8 @@ interface MatrixGeneratorProps {
   indexParamI: string;
   indexParamJ: string;
   matrixRankParam: string;
-  polynomialTypeA?: PolynomialType;
-  polynomialTypeB?: PolynomialType;
+  polynomialTypeA: PolynomialType;
+  polynomialTypeB: PolynomialType;
 }
 
 const MatrixGenerator = ({
