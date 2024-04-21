@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Для остальных браузеров */
+/* Цвет полосы прокрутки */
+::-webkit-scrollbar {
+    width: 9px;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #6161ff; /* Цвет полосы прокрутки */
+    border-radius: 5px;
+}
+
+/* Цвет фона */
+::-webkit-scrollbar-track {
+    background-color: rgba(240, 245, 250, 0.01);
+    border-radius: 5px;
+}
