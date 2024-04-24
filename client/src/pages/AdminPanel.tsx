@@ -1,5 +1,5 @@
 const AdminPanel = () => {
-  return <div className="pt-16">AdminPanel</div>;
+  return <div className="pt-20">AdminPanel</div>;
 };
 
 export default AdminPanel;

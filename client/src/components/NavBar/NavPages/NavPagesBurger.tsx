@@ -5,7 +5,7 @@ import { classNames } from "../../../functions/functions.ts";
 
 const NavPagesBurger = ({ currentPage }: { currentPage: string }) => {
   return (
-    <Disclosure.Panel className="sm:hidden">
+    <Disclosure.Panel className="md:hidden">
       <div className="px-2 pt-2 pb-3 space-y-1">
         {publicRoutes.map((item) => (
           <Disclosure.Button

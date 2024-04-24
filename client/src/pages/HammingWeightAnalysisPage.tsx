@@ -121,7 +121,7 @@ const HammingWeightAnalysisPage = observer(() => {
       )}
       {loading && <Spinner />}
 
-      <section className="flex h-full justify-center pt-16">
+      <section className="flex h-full justify-center pt-20">
         <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
           <h1 className="py-5 text-center">Аналіз ваг Хеммінгу</h1>
 

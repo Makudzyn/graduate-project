@@ -70,7 +70,7 @@ const LinearGeneratorPage = observer(() => {
       )}
       {loading && <Spinner />}
 
-      <section className="flex h-full justify-center pt-16 px-5">
+      <section className="flex h-full justify-center pt-20 px-5">
         <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
           <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
 

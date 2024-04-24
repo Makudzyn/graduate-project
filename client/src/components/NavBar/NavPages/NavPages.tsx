@@ -5,10 +5,10 @@ import { classNames } from "../../../functions/functions.ts";
 
 const NavPages = observer(({ currentPage }: { currentPage: string }) => {
   return (
-    <div className="hidden sm:ml-5 sm:flex sm:items-center">
-      <ul className="flex space-x-4">
+    <div className="hidden md:ml-5 md:flex md:items-center">
+      <ul className="flex space-x-3.5">
         {publicRoutes.map((item) => (
-          <li key={item.name}>
+          <li key={item.name} className={"flex justify-center items-center"}>
             <NavLink
               to={item.path}
               aria-current={currentPage === item.path ? "page" : undefined}
@@ -16,7 +16,7 @@ const NavPages = observer(({ currentPage }: { currentPage: string }) => {
                 currentPage === item.path
                   ? "bg-gray-900 text-white"
                   : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                "rounded-md px-3 py-2 text-md font-medium",
+                "rounded-md sm:px-1.5 sm:py-1 px-3 py-2 text-md font-medium text-center",
               )}
             >
               {item.name}
