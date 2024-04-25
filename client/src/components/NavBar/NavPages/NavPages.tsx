@@ -3,7 +3,11 @@ import { publicRoutes } from "../../../routes.ts";
 import { observer } from "mobx-react-lite";
 import { classNames } from "../../../functions/functions.ts";
 
-const NavPages = observer(({ currentPage }: { currentPage: string }) => {
+interface NavPageProps {
+  currentPage: string
+}
+
+const NavPages = observer(({ currentPage }: NavPageProps) => {
   return (
     <div className="hidden md:ml-5 md:flex md:items-center">
       <ul className="flex space-x-3.5">
