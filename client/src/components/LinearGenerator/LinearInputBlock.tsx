@@ -1,4 +1,4 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import InputBinary from "./InputBinary.tsx";
 import { observer } from "mobx-react-lite";
 import { SetURLSearchParams } from "react-router-dom";

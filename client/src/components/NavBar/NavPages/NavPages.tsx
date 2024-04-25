@@ -18,9 +18,9 @@ const NavPages = observer(({ currentPage }: NavPageProps) => {
               aria-current={currentPage === item.path ? "page" : undefined}
               className={classNames(
                 currentPage === item.path
-                  ? "bg-gray-900 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                "rounded-md sm:px-1.5 sm:py-1 px-3 py-2 text-md font-medium text-center",
+                  ? "bg-gray-900 text-white border-b-purpleFirst"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white border-b-transparent",
+                "border-b-2 sm:px-1.5 sm:py-1 md:px-3 md:py-2 lg:px-3.5 lg:py-2.5 md:text-md lg:text-lg font-medium text-center",
               )}
             >
               {item.name}

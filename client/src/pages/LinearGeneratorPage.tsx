@@ -15,6 +15,9 @@ import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
+import { getSelectedParam } from "../functions/functions.ts";
+import { polynomialDestructuring } from "../functions/generatorFunctions.ts";
+import Modal from "../components/Modal/Modal.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -41,23 +44,57 @@ const LinearGeneratorPage = observer(() => {
 
   const [searchParams, setSearchParams] = useSearchParams("");
 
+  const validityCheck = () => {
+    const degree = parseInt(getSelectedParam(PARAMS_DEGREE, searchParams));
+    if (degree === undefined || degree === null || isNaN(degree)) {
+      setError("Invalid degree number.");
+      return false;
+    }
+
+    const polynomial = getSelectedParam(PARAMS_POLYNOMIAL, searchParams);
+    if (polynomial === null) {
+      setError("Invalid polynomial.");
+      return false;
+    }
+    const { polyBinary } = polynomialDestructuring(polynomial);
+
+    if (polyBinary.length - 1 !== degree) {
+      setError("The selected polynomial does not correspond to the selected degree.");
+      return false;
+    }
+    const paramValue = getSelectedParam(PARAMS_USER_VALUE, searchParams);
+    if (paramValue === null) {
+      setError("Invalid user value (initial state).");
+      return false;
+    }
+    console.log(polyBinary.length, paramValue.length);
+    if (polyBinary.length !== paramValue.length + 1) {
+      setError("Length of user value (initial state) does not equal to polynomial length.");
+      return false;
+    }
+    return true;
+  }
+
   const handleClick = () => {
-    userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
-    linearCalculations(
-      searchParams,
-      PARAMS_DEGREE,
-      PARAMS_POLYNOMIAL,
-      PARAMS_USER_VALUE,
-      setStructureMatrix,
-      setConditionMatrix,
-      setPotentialPeriodLength,
-      setFactualPeriodLength,
-      setPseudorandomSequence,
-      setHammingWeight,
-      setLoading,
-      setError,
-      setCorrelation,
-    );
+    const isValid = validityCheck();
+    if (isValid) {
+      userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
+      linearCalculations(
+        searchParams,
+        PARAMS_DEGREE,
+        PARAMS_POLYNOMIAL,
+        PARAMS_USER_VALUE,
+        setStructureMatrix,
+        setConditionMatrix,
+        setPotentialPeriodLength,
+        setFactualPeriodLength,
+        setPseudorandomSequence,
+        setHammingWeight,
+        setLoading,
+        setError,
+        setCorrelation,
+      );
+    }
   };
 
   return (
@@ -69,6 +106,7 @@ const LinearGeneratorPage = observer(() => {
         />
       )}
       {loading && <Spinner />}
+      {error && <Modal message={error} setError={setError} />}
 
       <section className="flex h-full justify-center pt-20 px-5">
         <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
