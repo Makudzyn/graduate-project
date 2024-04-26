@@ -5,7 +5,6 @@ import {
   sendSumAndProductGeneratorData,
 } from "../../http/polynomialsAPI.ts";
 import { Dispatch, SetStateAction } from "react";
-
 import {
   calcHammingWeightSpectre,
   calcLengthByFormula, calculateFactualPeriodS,

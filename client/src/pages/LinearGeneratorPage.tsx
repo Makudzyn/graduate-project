@@ -15,7 +15,7 @@ import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
-import { validityCheck } from "../functions/functions.ts";
+import { inputsValidityCheckLinear } from "../functions/validationFunctions.ts";
 import Modal from "../components/Modal/Modal.tsx";
 
 const LinearGeneratorPage = observer(() => {
@@ -44,9 +44,8 @@ const LinearGeneratorPage = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams("");
 
   const handleClick = () => {
-    const isValid = validityCheck(searchParams, PARAMS_DEGREE, PARAMS_POLYNOMIAL, PARAMS_USER_VALUE, setError);
+    const isValid = inputsValidityCheckLinear(searchParams, PARAMS_DEGREE, PARAMS_POLYNOMIAL, PARAMS_USER_VALUE, setError);
     if (isValid) {
-      userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
       linearCalculations(
         searchParams,
         PARAMS_DEGREE,
@@ -62,6 +61,7 @@ const LinearGeneratorPage = observer(() => {
         setError,
         setCorrelation,
       );
+      userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
     }
   };
 

@@ -23,6 +23,8 @@ import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
+import { inputsValidityCheckMatrix } from "../functions/validationFunctions.ts";
+import Modal from "../components/Modal/Modal.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -58,36 +60,34 @@ const MatrixGeneratorPage = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams({});
 
   const handleClick = () => {
-    matrixCalculations(
+    const isValid =
+      inputsValidityCheckMatrix(
+        searchParams,
+        PARAMS_DEGREE_A, PARAMS_DEGREE_B,
+        PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B,
+        PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
+        PARAMS_OUTPUT_INDEX_I, PARAMS_OUTPUT_INDEX_J, PARAMS_MATRIX_RANK,
+        setError
+      );
+    if (isValid) {
+      matrixCalculations(
       searchParams,
-      PARAMS_DEGREE_A,
-      PARAMS_DEGREE_B,
-      PARAMS_POLYNOMIAL_A,
-      PARAMS_POLYNOMIAL_B,
-      PARAMS_CYCLIC_POLY_A,
-      PARAMS_CYCLIC_POLY_B,
-      PARAMS_OUTPUT_INDEX_I,
-      PARAMS_OUTPUT_INDEX_J,
-      PARAMS_MATRIX_RANK,
-      setStructureMatrixA,
-      setStructureMatrixB,
-      setConditionMatrix,
-      setBasisMatrix,
-      setPotentialPeriodLengthA,
-      setPotentialPeriodLengthB,
-      setFactualPeriodLengthS,
-      setFactualPeriodLengthA,
-      setFactualPeriodLengthB,
-      setPotentialPeriodLengthS,
+      PARAMS_DEGREE_A, PARAMS_DEGREE_B,
+      PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B,
+      PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
+      PARAMS_OUTPUT_INDEX_I, PARAMS_OUTPUT_INDEX_J, PARAMS_MATRIX_RANK,
+      setStructureMatrixA, setStructureMatrixB,
+      setConditionMatrix, setBasisMatrix,
+      setPotentialPeriodLengthA, setPotentialPeriodLengthB, setFactualPeriodLengthS,
+      setFactualPeriodLengthA, setFactualPeriodLengthB, setPotentialPeriodLengthS,
       setConditionS,
       setPseudorandomSequence,
-      setHammingWeight,
-      setHammingWeightSpectre,
-      setLoading,
-      setError,
+      setHammingWeight, setHammingWeightSpectre,
+      setLoading, setError,
       setCorrelation,
     );
     userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
+    }
   };
 
   return (
@@ -99,7 +99,7 @@ const MatrixGeneratorPage = observer(() => {
         />
       )}
       {loading && <Spinner />}
-
+      {error && <Modal message={error} setError={setError} />}
       <section className="flex h-full justify-center pt-20 px-5">
         <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
           <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
