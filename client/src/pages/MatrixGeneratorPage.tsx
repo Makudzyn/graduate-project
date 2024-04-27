@@ -17,14 +17,13 @@ import {
 } from "../utils/consts.ts";
 import { useSearchParams } from "react-router-dom";
 import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
-import { matrixCalculations } from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
-import { inputsValidityCheckMatrix } from "../functions/validationFunctions.ts";
 import Modal from "../components/Modal/Modal.tsx";
+import { matrixValidationBeforeCalculations } from "../functions/functions.ts";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -60,17 +59,7 @@ const MatrixGeneratorPage = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams({});
 
   const handleClick = () => {
-    const isValid =
-      inputsValidityCheckMatrix(
-        searchParams,
-        PARAMS_DEGREE_A, PARAMS_DEGREE_B,
-        PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B,
-        PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
-        PARAMS_OUTPUT_INDEX_I, PARAMS_OUTPUT_INDEX_J, PARAMS_MATRIX_RANK,
-        setError
-      );
-    if (isValid) {
-      matrixCalculations(
+    const fulfilled = matrixValidationBeforeCalculations(
       searchParams,
       PARAMS_DEGREE_A, PARAMS_DEGREE_B,
       PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B,
@@ -85,8 +74,9 @@ const MatrixGeneratorPage = observer(() => {
       setHammingWeight, setHammingWeightSpectre,
       setLoading, setError,
       setCorrelation,
-    );
-    userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
+    )
+    if (fulfilled && userStore.isAuth) {
+      handleHistoryRecordCreation(userStore.user.id);
     }
   };
 

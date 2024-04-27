@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { linearCalculations } from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { observer } from "mobx-react-lite";
 import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
@@ -15,8 +14,8 @@ import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
-import { inputsValidityCheckLinear } from "../functions/validationFunctions.ts";
 import Modal from "../components/Modal/Modal.tsx";
+import { linearValidationBeforeCalculations } from "../functions/functions.ts";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -43,25 +42,24 @@ const LinearGeneratorPage = observer(() => {
 
   const [searchParams, setSearchParams] = useSearchParams("");
 
-  const handleClick = () => {
-    const isValid = inputsValidityCheckLinear(searchParams, PARAMS_DEGREE, PARAMS_POLYNOMIAL, PARAMS_USER_VALUE, setError);
-    if (isValid) {
-      linearCalculations(
-        searchParams,
-        PARAMS_DEGREE,
-        PARAMS_POLYNOMIAL,
-        PARAMS_USER_VALUE,
-        setStructureMatrix,
-        setConditionMatrix,
-        setPotentialPeriodLength,
-        setFactualPeriodLength,
-        setPseudorandomSequence,
-        setHammingWeight,
-        setLoading,
-        setError,
-        setCorrelation,
-      );
-      userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
+  const handleGenerateButtonClick = () => {
+    const fulfilled = linearValidationBeforeCalculations(
+      searchParams,
+      PARAMS_DEGREE,
+      PARAMS_POLYNOMIAL,
+      PARAMS_USER_VALUE,
+      setStructureMatrix,
+      setConditionMatrix,
+      setPotentialPeriodLength,
+      setFactualPeriodLength,
+      setPseudorandomSequence,
+      setHammingWeight,
+      setLoading,
+      setError,
+      setCorrelation,
+    );
+    if (fulfilled && userStore.isAuth) {
+      handleHistoryRecordCreation(userStore.user.id);
     }
   };
 
@@ -92,7 +90,7 @@ const LinearGeneratorPage = observer(() => {
             degreeParam={PARAMS_DEGREE}
             polynomialParam={PARAMS_POLYNOMIAL}
             userValueParam={PARAMS_USER_VALUE}
-            onClick={handleClick}
+            onClick={handleGenerateButtonClick}
           />
 
           <CorrelationChart data1={correlation} />

@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { polynomialDestructuring } from "./generatorFunctions.ts";
 import { getSelectedParam } from "./functions.ts";
+import { PolynomialType } from "../utils/interfacesAndTypes.ts";
 
 function degreeValidity(degree: number): boolean {
   return degree === undefined || degree === null || isNaN(degree);
@@ -15,41 +16,41 @@ function polynomialAccordanceValidity(degree: number, polyBinary: string): boole
 }
 
 
-
 export function inputsValidityCheckLinear(
   searchParams: URLSearchParams,
   degreeParam: string,
   polynomialParam: string,
   userValueParam: string,
   setError: Dispatch<SetStateAction<string | null>>,
+  polynomialType?: PolynomialType,
 ) {
   const degree = parseInt(getSelectedParam(degreeParam, searchParams) || "");
   if (degreeValidity(degree)) {
-    setError("Ступінь поліному не обрано або в його значенні є помилка.");
+    setError(`Ступінь поліному ${polynomialType || ""} не обрано або в його значенні є помилка.`);
     return false;
   }
 
   const polynomial = getSelectedParam(polynomialParam, searchParams);
   if (polynomialValidity(polynomial)) {
-    setError("Поліном не обрано або в його написанні є помилка.");
+    setError(`Поліном ${polynomialType || ""} не обрано або в його написанні є помилка.`);
     return false;
   }
 
   // @ts-ignore
   const { polyBinary } = polynomialDestructuring(polynomial); //We're checking if it`s null in previous function but TS don`t see it
   if (polynomialAccordanceValidity(degree, polyBinary)) {
-    setError("Поліном не відповідає обраному ступеню.");
+    setError(`Поліном ${polynomialType || ""} не відповідає обраному ступеню.`);
     return false;
   }
 
   const userValue = getSelectedParam(userValueParam, searchParams);
   if (userValue === null) {
-    setError("Початкового стану не надано або не було введено.");
+    setError(`Початкового стану ${polynomialType || ""} не надано або не було введено.`);
     return false;
   }
 
   if (polyBinary.length !== userValue.length + 1) {
-    setError("Довжина початкового стану не відповідає довжині для бінарного значення цього поліному.");
+    setError(`Довжина початкового ${polynomialType || ""} стану не відповідає довжині для бінарного значення цього поліному.`);
     return false;
   }
   return true;

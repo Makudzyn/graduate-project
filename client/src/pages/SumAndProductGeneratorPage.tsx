@@ -11,10 +11,7 @@ import {
 } from "../utils/consts.ts";
 import { useSearchParams } from "react-router-dom";
 import { findGCD } from "../functions/generatorFunctions.ts";
-import {
-  additionAndMultiplicationCalculations,
-  linearCalculations,
-} from "../functions/requestFunctions/calculationRequestFunctions.ts";
+import { additionAndMultiplicationCalculations } from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { useContext, useEffect, useState } from "react";
 import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import HammingWeight from "../components/CommonGenComponents/HammingWeight.tsx";
@@ -30,6 +27,8 @@ import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
+import Modal from "../components/Modal/Modal.tsx";
+import { linearValidationBeforeCalculations } from "../functions/functions.ts";
 
 const SumAndProductGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -87,6 +86,45 @@ const SumAndProductGeneratorPage = observer(() => {
       setConditionS(condition);
     }
   }, [factualPeriodLengthA, factualPeriodLengthB]);
+
+  const handleFirstGenClick = () => {
+    linearValidationBeforeCalculations(
+      searchParams,
+      PARAMS_DEGREE_A,
+      PARAMS_POLYNOMIAL_A,
+      PARAMS_USER_VALUE_A,
+      setStructureMatrixA,
+      setConditionMatrixA,
+      setPotentialPeriodLengthA,
+      setFactualPeriodLengthA,
+      setPseudorandomSequenceA,
+      setHammingWeightA,
+      setLoading,
+      setError,
+      undefined,
+      POLYNOMIAL_TYPE_A,
+    );
+  };
+
+  const handleSecondGenClick = () => {
+    linearValidationBeforeCalculations(
+      searchParams,
+      PARAMS_DEGREE_B,
+      PARAMS_POLYNOMIAL_B,
+      PARAMS_USER_VALUE_B,
+      setStructureMatrixB,
+      setConditionMatrixB,
+      setPotentialPeriodLengthB,
+      setFactualPeriodLengthB,
+      setPseudorandomSequenceB,
+      setHammingWeightB,
+      setLoading,
+      setError,
+      undefined,
+      POLYNOMIAL_TYPE_B,
+    );
+  };
+
   const handleClick = () => {
     additionAndMultiplicationCalculations(
       pseudorandomSequenceA,
@@ -113,7 +151,7 @@ const SumAndProductGeneratorPage = observer(() => {
         />
       )}
       {loading && <Spinner />}
-
+      {error && <Modal message={error} setError={setError} />}
       <section className="flex h-full justify-center pt-20">
         <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
           <h1 className="py-5 text-center">
@@ -135,23 +173,7 @@ const SumAndProductGeneratorPage = observer(() => {
               polynomialType={POLYNOMIAL_TYPE_A}
               identifier={`(${POLYNOMIAL_TYPE_A})`}
               className={"w-[50rem]"}
-              onClick={() =>
-                linearCalculations(
-                  searchParams,
-                  PARAMS_DEGREE_A,
-                  PARAMS_POLYNOMIAL_A,
-                  PARAMS_USER_VALUE_A,
-                  setStructureMatrixA,
-                  setConditionMatrixA,
-                  setPotentialPeriodLengthA,
-                  setFactualPeriodLengthA,
-                  setPseudorandomSequenceA,
-                  setHammingWeightA,
-                  setLoading,
-                  setError,
-                  setSumCorrelation,
-                )
-              }
+              onClick={handleFirstGenClick}
             />
             <LinearGenerator
               searchParams={searchParams}
@@ -168,23 +190,7 @@ const SumAndProductGeneratorPage = observer(() => {
               polynomialType={POLYNOMIAL_TYPE_B}
               identifier={`(${POLYNOMIAL_TYPE_B})`}
               className={"w-[50rem]"}
-              onClick={() =>
-                linearCalculations(
-                  searchParams,
-                  PARAMS_DEGREE_B,
-                  PARAMS_POLYNOMIAL_B,
-                  PARAMS_USER_VALUE_B,
-                  setStructureMatrixB,
-                  setConditionMatrixB,
-                  setPotentialPeriodLengthB,
-                  setFactualPeriodLengthB,
-                  setPseudorandomSequenceB,
-                  setHammingWeightB,
-                  setLoading,
-                  setError,
-                  setProductCorrelation,
-                )
-              }
+              onClick={handleSecondGenClick}
             />
           </div>
           <div className="flex justify-center flex-col my-5">
