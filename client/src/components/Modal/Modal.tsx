@@ -1,14 +1,35 @@
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import WarningIcon from "../../assets/error-warning.svg?react";
+import WarningIcon from "../../assets/warning.svg?react";
+import CheckIcon from "../../assets/success.svg?react";
+import CloseIcon from "../../assets/error.svg?react";
+
+type ModalType = "warning" | "success" | "error";
 
 interface ModalProps {
   message: string;
   setError: Dispatch<SetStateAction<string | null>>;
+  type: ModalType;
 }
 
-const Modal = ({ message, setError }: ModalProps) => {
+const Modal = ({ message, setError, type }: ModalProps) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [modalFields, setModalFields] = useState({title: "", iconComponent: <Fragment/>});
+
+  useEffect(() => {
+    switch (type) {
+      case "warning":
+        setModalFields({title:"Увага!", iconComponent: <WarningIcon className={"stroke-gray-50 fill-yellow-500"}/>})
+        break;
+      case "success":
+        setModalFields({title:"Успішно виконано.", iconComponent: <CheckIcon className={"stroke-gray-50 fill-green-600"}/>})
+        break;
+      case "error":
+        setModalFields({title:"Ой... щось пішло не так!", iconComponent: <CloseIcon className={"stroke-gray-50 fill-red-600"}/>})
+        break;
+    }
+  }, []);
+
 
   const handleClose = () => {
     setIsOpen(false);
@@ -48,11 +69,11 @@ const Modal = ({ message, setError }: ModalProps) => {
               <div className="bg-gray-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                   <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-purpleFirst sm:mx-0 sm:h-10 sm:w-10">
-                    <WarningIcon className={"fill-gray-50"}/>
+                    {modalFields.iconComponent}
                   </div>
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-100">
-                      Ой... щось пішло не так!
+                      {modalFields.title}
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-400">{message}</p>

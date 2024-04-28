@@ -3,8 +3,6 @@ import { useSearchParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import {
   hammingBlockCalculations,
-  linearCalculations,
-  matrixCalculations,
 } from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { observer } from "mobx-react-lite";
 import {
@@ -20,7 +18,7 @@ import {
   PARAMS_POLYNOMIAL,
   PARAMS_POLYNOMIAL_A,
   PARAMS_POLYNOMIAL_B,
-  PARAMS_USER_VALUE, PARAMS_USER_VALUE_A,
+  PARAMS_USER_VALUE,
   POLYNOMIAL_TYPE_A,
   POLYNOMIAL_TYPE_B
 } from "../utils/consts.ts";
@@ -132,7 +130,7 @@ const HammingWeightAnalysisPage = observer(() => {
       setLoading, setError
     )
   };
-  
+
 
   const handleClick = () => {
     hammingBlockCalculations(
@@ -159,7 +157,7 @@ const HammingWeightAnalysisPage = observer(() => {
         />
       )}
       {loading && <Spinner />}
-      {error && <Modal message={error} setError={setError} />}
+      {error && <Modal message={error} setError={setError} type={"error"}/>}
 
       <section className="flex h-full justify-center pt-20">
         <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">

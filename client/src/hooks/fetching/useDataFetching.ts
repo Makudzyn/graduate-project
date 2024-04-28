@@ -10,7 +10,7 @@ function useDataFetching(
     setLoading(true);
     fetchFunction()
       .then((data) => dataSetter(data))
-      .catch(() => setError("Error fetching data"))
+      .catch(() => setError("Помилка отримання данних з сервера."))
       .finally(() => setLoading(false));
   }, []);
 }

@@ -73,7 +73,7 @@ export async function linearCalculations(
     setHammingWeight(hammingWeight);
     setCorrelation && setCorrelation(correlation);
   } catch (error: any) {
-    setError(`Error sending data to server: ${error.message}`);
+    setError(`Помилка відправки даних на сервер: ${error.message}`);
   } finally {
     setLoading(false);
   }
@@ -198,7 +198,7 @@ export async function matrixCalculations(
     setHammingWeight(hammingWeight);
     setCorrelation && setCorrelation(correlation);
   } catch (error: any) {
-    setError(`Error sending data to server: ${error.message}`);
+    setError(`Помилка відправки данних на сервер: ${error.message}`);
   } finally {
     setLoading(false);
   }
@@ -238,7 +238,7 @@ export async function additionAndMultiplicationCalculations(
     setSumCorrelation(sumCorrelation);
     setProductCorrelation(productCorrelation);
   } catch (error: any) {
-    setError(`Error sending data to server: ${error.message}`);
+    setError(`Помилка відправки данних на сервер: ${error.message}`);
   } finally {
     setLoading(false);
   }
@@ -270,7 +270,7 @@ export async function hammingBlockCalculations(
     setMatrixSeqBlockLengths(matrixWeights);
     setSharedWeights(sharedWeights);
   } catch (error: any) {
-    setError(`Error sending data to server: ${error.message}`);
+    setError(`Помилка відправки данних на сервер: ${error.message}`);
   } finally {
     setLoading(false);
   }

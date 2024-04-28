@@ -89,7 +89,7 @@ const MatrixGeneratorPage = observer(() => {
         />
       )}
       {loading && <Spinner />}
-      {error && <Modal message={error} setError={setError} />}
+      {error && <Modal message={error} setError={setError} type={"error"}/>}
       <section className="flex h-full justify-center pt-20 px-5">
         <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
           <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
