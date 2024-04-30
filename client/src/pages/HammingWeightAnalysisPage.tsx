@@ -34,6 +34,9 @@ import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import InputBlockLength from "../components/HammingAnalysis/InputBlockLength.tsx";
 import Modal from "../components/Modal/Modal.tsx";
 import { linearValidationBeforeCalculations, matrixValidationBeforeCalculations } from "../functions/functions.ts";
+import Section from "../components/CommonGenComponents/Section.tsx";
+import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
+import MainHeader from "../components/CommonGenComponents/MainHeader.tsx";
 
 const HammingWeightAnalysisPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -159,9 +162,9 @@ const HammingWeightAnalysisPage = observer(() => {
       {loading && <Spinner />}
       {error && <Modal message={error} setError={setError} type={"error"}/>}
 
-      <section className="flex h-full justify-center pt-20">
-        <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-          <h1 className="py-5 text-center">Аналіз ваг Хеммінгу</h1>
+      <Section>
+        <PageWrapper>
+          <MainHeader>Аналіз ваг Хеммінгу</MainHeader>
 
           <div className="flex">
             <div className="w-1/4 px-5">
@@ -233,8 +236,8 @@ const HammingWeightAnalysisPage = observer(() => {
               xAxisLabels={sharedWeights}
             />
           </div>
-        </div>
-      </section>
+        </PageWrapper>
+      </Section>
     </>
   );
 });

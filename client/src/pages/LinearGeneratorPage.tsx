@@ -16,6 +16,9 @@ import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 import Modal from "../components/Modal/Modal.tsx";
 import { linearValidationBeforeCalculations } from "../functions/functions.ts";
+import Section from "../components/CommonGenComponents/Section.tsx";
+import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
+import MainHeader from "../components/CommonGenComponents/MainHeader.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -74,9 +77,9 @@ const LinearGeneratorPage = observer(() => {
       {loading && <Spinner />}
       {error && <Modal message={error} setError={setError} type={"error"}/>}
 
-      <section className="flex h-full justify-center pt-20 px-5">
-        <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-          <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
+      <Section>
+        <PageWrapper>
+          <MainHeader>Лінійний ЗРЗЗ</MainHeader>
 
           <LinearGenerator
             searchParams={searchParams}
@@ -94,8 +97,8 @@ const LinearGeneratorPage = observer(() => {
           />
 
           <CorrelationChart data1={correlation} />
-        </div>
-      </section>
+        </PageWrapper>
+      </Section>
     </>
   );
 });

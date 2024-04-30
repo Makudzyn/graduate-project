@@ -24,6 +24,9 @@ import { handleHistoryRecordCreation } from "../functions/requestFunctions/reque
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import Modal from "../components/Modal/Modal.tsx";
 import { matrixValidationBeforeCalculations } from "../functions/functions.ts";
+import Section from "../components/CommonGenComponents/Section.tsx";
+import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
+import MainHeader from "../components/CommonGenComponents/MainHeader.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -90,9 +93,10 @@ const MatrixGeneratorPage = observer(() => {
       )}
       {loading && <Spinner />}
       {error && <Modal message={error} setError={setError} type={"error"}/>}
-      <section className="flex h-full justify-center pt-20 px-5">
-        <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-          <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
+
+      <Section>
+        <PageWrapper>
+          <MainHeader>Матрічний ЗРЗЗ (МРЗ)</MainHeader>
 
           <MatrixGenerator
             searchParams={searchParams}
@@ -129,8 +133,8 @@ const MatrixGeneratorPage = observer(() => {
           <div className="flex h-full w-full items-center justify-center">
             <CorrelationChart data1={correlation} />
           </div>
-        </div>
-      </section>
+        </PageWrapper>
+      </Section>
     </>
   );
 });
