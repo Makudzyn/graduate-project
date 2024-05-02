@@ -6,7 +6,7 @@ export const fetchPolynomials = async () => {
     const { polynomials, count } = data;
     return { polynomials, count };
   } catch (error) {
-    throw new Error("Error fetching polynomials data from server.");
+    throw new Error("Помилка отримання данних про поліноми з сервера.");
   }
 };
 
@@ -24,7 +24,7 @@ export const sendLinearGeneratorData = async (
     return data;
   } catch (error) {
     throw new Error(
-      "Error sending linear generator data for computation on server.",
+      "Помилка відправки данних лінійного генератора для обчислень на сервер.",
     );
   }
 };
@@ -49,7 +49,7 @@ export const sendMatrixGeneratorData = async (
     return data;
   } catch (error) {
     throw new Error(
-      "Error sending matrix generator data for computation on server.",
+      "Помилка відправки данних матричного генератора для обчислень на сервер.",
     );
   }
 };
@@ -71,7 +71,7 @@ export const sendSumAndProductGeneratorData = async (
     return data;
   } catch (error) {
     throw new Error(
-      "Error sending sum and multiplication generator data for computation on server.",
+      "Помилка відправки данних генератора сум та добутків для обчислень на сервер.",
     );
   }
 };
@@ -92,6 +92,6 @@ export const sendHammingWeightAnalysisData = async (
     );
     return data;
   } catch (error) {
-    throw new Error("Error sending Hamming weights for computation on server.");
+    throw new Error("Помилка відправки данних ваг Хеммінгу для обчислень на сервер.");
   }
 };

@@ -5,7 +5,7 @@ export const fetchHistoryList = async () => {
     const { data } = await $authHost.get("api/history/get-history-list");
     return data;
   } catch (error) {
-    throw new Error("Error fetching history records from server.");
+    throw new Error("Помилка отримання даних історії з сервера.");
   }
 };
 export const createHistoryRecordRequest = async (
@@ -21,7 +21,7 @@ export const createHistoryRecordRequest = async (
     });
     return data;
   } catch (error) {
-    throw new Error("Error sending history record on server.");
+    throw new Error("Помилка відправки даних на сервер для створення запису історії.");
   }
 };
 
@@ -34,7 +34,7 @@ export const deleteHistoryRecordRequest = async (recordId: number) => {
     });
     return data;
   } catch (error) {
-    throw new Error("Error sending history record on server.");
+    throw new Error("Помилка видалення запису історії з серверу.");
   }
 };
 
@@ -53,6 +53,6 @@ export const deleteAllHistoryRecordsRequest = async (
     );
     return data;
   } catch (error) {
-    throw new Error("Error sending history record on server.");
+    throw new Error("Помилка видалення усіх записів історії з серверу.");
   }
 };

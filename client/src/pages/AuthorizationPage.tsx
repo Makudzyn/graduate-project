@@ -39,7 +39,7 @@ const AuthorizationPage = observer(() => {
   }
 
   return (
-    <div className="bg-lightBg flex items-center justify-center min-h-screen pt-16 shadow-md shadow-purpleFirst font-poppins">
+    <div className="bg-lightBg flex items-center justify-center min-h-screen pt-20 shadow-md shadow-purpleFirst font-poppins">
       <div className="w-full max-w-md p-6 rounded-lg">
         <a
           href="#"

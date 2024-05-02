@@ -3,8 +3,6 @@ import { useSearchParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import {
   hammingBlockCalculations,
-  linearCalculations,
-  matrixCalculations,
 } from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { observer } from "mobx-react-lite";
 import {
@@ -22,11 +20,10 @@ import {
   PARAMS_POLYNOMIAL_B,
   PARAMS_USER_VALUE,
   POLYNOMIAL_TYPE_A,
-  POLYNOMIAL_TYPE_B,
+  POLYNOMIAL_TYPE_B
 } from "../utils/consts.ts";
 import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
 import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
-import GenInput from "../components/CommonGenComponents/GenInput.tsx";
 import GenButton from "../components/CommonGenComponents/GenButton.tsx";
 import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";
 import { Context } from "../main.tsx";
@@ -34,6 +31,12 @@ import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
+import InputBlockLength from "../components/HammingAnalysis/InputBlockLength.tsx";
+import Modal from "../components/Modal/Modal.tsx";
+import { linearValidationBeforeCalculations, matrixValidationBeforeCalculations } from "../functions/functions.ts";
+import Section from "../components/CommonGenComponents/Section.tsx";
+import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
+import MainHeader from "../components/CommonGenComponents/MainHeader.tsx";
 
 const HammingWeightAnalysisPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -96,6 +99,42 @@ const HammingWeightAnalysisPage = observer(() => {
     setValueRestriction(maxAllowedBlockLength);
   }, [pseudorandomSequenceLinear, pseudorandomSequenceMatrices]);
 
+  const handleFirstGenClick = () => {
+    linearValidationBeforeCalculations(
+      searchParams,
+      PARAMS_DEGREE,
+      PARAMS_POLYNOMIAL,
+      PARAMS_USER_VALUE,
+      setStructureMatrix,
+      setConditionMatrixLinear,
+      setPotentialPeriodLength,
+      setFactualPeriodLength,
+      setPseudorandomSequenceLinear,
+      setHammingWeightLinear,
+      setLoading,
+      setError,
+    );
+  };
+
+  const handleSecondGenClick = () => {
+    matrixValidationBeforeCalculations(
+      searchParams,
+      PARAMS_DEGREE_A, PARAMS_DEGREE_B,
+      PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B,
+      PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
+      PARAMS_OUTPUT_INDEX_I, PARAMS_OUTPUT_INDEX_J, PARAMS_MATRIX_RANK,
+      setStructureMatrixA, setStructureMatrixB,
+      setConditionMatrixMatrices, setBasisMatrix,
+      setPotentialPeriodLengthA, setPotentialPeriodLengthB, setFactualPeriodLengthS,
+      setFactualPeriodLengthA, setFactualPeriodLengthB, setPotentialPeriodLengthS,
+      setConditionS,
+      setPseudorandomSequenceMatrices,
+      setHammingWeightMatrices, setHammingWeightSpectre,
+      setLoading, setError
+    )
+  };
+
+
   const handleClick = () => {
     hammingBlockCalculations(
       searchParams,
@@ -111,6 +150,7 @@ const HammingWeightAnalysisPage = observer(() => {
     userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
   };
 
+
   return (
     <>
       {userStore.isAuth && (
@@ -120,10 +160,11 @@ const HammingWeightAnalysisPage = observer(() => {
         />
       )}
       {loading && <Spinner />}
+      {error && <Modal message={error} setError={setError} type={"error"}/>}
 
-      <section className="flex h-full justify-center pt-16">
-        <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-          <h1 className="py-5 text-center">Аналіз ваг Хеммінгу</h1>
+      <Section>
+        <PageWrapper>
+          <MainHeader>Аналіз ваг Хеммінгу</MainHeader>
 
           <div className="flex">
             <div className="w-1/4 px-5">
@@ -139,22 +180,7 @@ const HammingWeightAnalysisPage = observer(() => {
                 degreeParam={PARAMS_DEGREE}
                 polynomialParam={PARAMS_POLYNOMIAL}
                 userValueParam={PARAMS_USER_VALUE}
-                onClick={() =>
-                  linearCalculations(
-                    searchParams,
-                    PARAMS_DEGREE,
-                    PARAMS_POLYNOMIAL,
-                    PARAMS_USER_VALUE,
-                    setStructureMatrix,
-                    setConditionMatrixLinear,
-                    setPotentialPeriodLength,
-                    setFactualPeriodLength,
-                    setPseudorandomSequenceLinear,
-                    setHammingWeightLinear,
-                    setLoading,
-                    setError,
-                  )
-                }
+                onClick={handleFirstGenClick}
               />
             </div>
             <div className="w-3/4 px-5">
@@ -187,48 +213,18 @@ const HammingWeightAnalysisPage = observer(() => {
                 matrixRankParam={PARAMS_MATRIX_RANK}
                 polynomialTypeA={POLYNOMIAL_TYPE_A}
                 polynomialTypeB={POLYNOMIAL_TYPE_B}
-                onClick={() =>
-                  matrixCalculations(
-                    searchParams,
-                    PARAMS_DEGREE_A,
-                    PARAMS_DEGREE_B,
-                    PARAMS_POLYNOMIAL_A,
-                    PARAMS_POLYNOMIAL_B,
-                    PARAMS_CYCLIC_POLY_A,
-                    PARAMS_CYCLIC_POLY_B,
-                    PARAMS_OUTPUT_INDEX_I,
-                    PARAMS_OUTPUT_INDEX_J,
-                    PARAMS_MATRIX_RANK,
-                    setStructureMatrixA,
-                    setStructureMatrixB,
-                    setConditionMatrixMatrices,
-                    setBasisMatrix,
-                    setPotentialPeriodLengthA,
-                    setPotentialPeriodLengthB,
-                    setFactualPeriodLengthS,
-                    setFactualPeriodLengthA,
-                    setFactualPeriodLengthB,
-                    setPotentialPeriodLengthS,
-                    setConditionS,
-                    setPseudorandomSequenceMatrices,
-                    setHammingWeightMatrices,
-                    setHammingWeightSpectre,
-                    setLoading,
-                    setError,
-                  )
-                }
+                onClick={handleSecondGenClick}
               />
             </div>
           </div>
           <div className="my-5 flex flex-col items-center justify-center">
-            <GenInput
+            <InputBlockLength
               inputLabel="Довжина блоку"
               inputPlaceholder="2"
               urlParamName={PARAMS_HAMMING_BLOCK}
               setSearchParams={setSearchParams}
               searchParams={searchParams}
               valueRestriction={valueRestriction}
-              disabled={false}
             />
             <GenButton onClick={handleClick}>Провести розрахунки</GenButton>
           </div>
@@ -240,8 +236,8 @@ const HammingWeightAnalysisPage = observer(() => {
               xAxisLabels={sharedWeights}
             />
           </div>
-        </div>
-      </section>
+        </PageWrapper>
+      </Section>
     </>
   );
 });

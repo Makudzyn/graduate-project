@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { linearCalculations } from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { observer } from "mobx-react-lite";
 import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
@@ -15,6 +14,11 @@ import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
+import Modal from "../components/Modal/Modal.tsx";
+import { linearValidationBeforeCalculations } from "../functions/functions.ts";
+import Section from "../components/CommonGenComponents/Section.tsx";
+import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
+import MainHeader from "../components/CommonGenComponents/MainHeader.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -41,9 +45,8 @@ const LinearGeneratorPage = observer(() => {
 
   const [searchParams, setSearchParams] = useSearchParams("");
 
-  const handleClick = () => {
-    userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
-    linearCalculations(
+  const handleGenerateButtonClick = () => {
+    const fulfilled = linearValidationBeforeCalculations(
       searchParams,
       PARAMS_DEGREE,
       PARAMS_POLYNOMIAL,
@@ -58,6 +61,9 @@ const LinearGeneratorPage = observer(() => {
       setError,
       setCorrelation,
     );
+    if (fulfilled && userStore.isAuth) {
+      handleHistoryRecordCreation(userStore.user.id);
+    }
   };
 
   return (
@@ -69,10 +75,11 @@ const LinearGeneratorPage = observer(() => {
         />
       )}
       {loading && <Spinner />}
+      {error && <Modal message={error} setError={setError} type={"error"}/>}
 
-      <section className="flex h-full justify-center pt-16 px-5">
-        <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-          <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
+      <Section>
+        <PageWrapper>
+          <MainHeader>Лінійний ЗРЗЗ</MainHeader>
 
           <LinearGenerator
             searchParams={searchParams}
@@ -86,12 +93,12 @@ const LinearGeneratorPage = observer(() => {
             degreeParam={PARAMS_DEGREE}
             polynomialParam={PARAMS_POLYNOMIAL}
             userValueParam={PARAMS_USER_VALUE}
-            onClick={handleClick}
+            onClick={handleGenerateButtonClick}
           />
 
           <CorrelationChart data1={correlation} />
-        </div>
-      </section>
+        </PageWrapper>
+      </Section>
     </>
   );
 });

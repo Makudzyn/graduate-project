@@ -17,12 +17,16 @@ import {
 } from "../utils/consts.ts";
 import { useSearchParams } from "react-router-dom";
 import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
-import { matrixCalculations } from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { Context } from "../main.tsx";
 import Spinner from "../components/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
+import Modal from "../components/Modal/Modal.tsx";
+import { matrixValidationBeforeCalculations } from "../functions/functions.ts";
+import Section from "../components/CommonGenComponents/Section.tsx";
+import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
+import MainHeader from "../components/CommonGenComponents/MainHeader.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -58,36 +62,25 @@ const MatrixGeneratorPage = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams({});
 
   const handleClick = () => {
-    matrixCalculations(
+    const fulfilled = matrixValidationBeforeCalculations(
       searchParams,
-      PARAMS_DEGREE_A,
-      PARAMS_DEGREE_B,
-      PARAMS_POLYNOMIAL_A,
-      PARAMS_POLYNOMIAL_B,
-      PARAMS_CYCLIC_POLY_A,
-      PARAMS_CYCLIC_POLY_B,
-      PARAMS_OUTPUT_INDEX_I,
-      PARAMS_OUTPUT_INDEX_J,
-      PARAMS_MATRIX_RANK,
-      setStructureMatrixA,
-      setStructureMatrixB,
-      setConditionMatrix,
-      setBasisMatrix,
-      setPotentialPeriodLengthA,
-      setPotentialPeriodLengthB,
-      setFactualPeriodLengthS,
-      setFactualPeriodLengthA,
-      setFactualPeriodLengthB,
-      setPotentialPeriodLengthS,
+      PARAMS_DEGREE_A, PARAMS_DEGREE_B,
+      PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B,
+      PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
+      PARAMS_OUTPUT_INDEX_I, PARAMS_OUTPUT_INDEX_J, PARAMS_MATRIX_RANK,
+      setStructureMatrixA, setStructureMatrixB,
+      setConditionMatrix, setBasisMatrix,
+      setPotentialPeriodLengthA, setPotentialPeriodLengthB, setFactualPeriodLengthS,
+      setFactualPeriodLengthA, setFactualPeriodLengthB, setPotentialPeriodLengthS,
       setConditionS,
       setPseudorandomSequence,
-      setHammingWeight,
-      setHammingWeightSpectre,
-      setLoading,
-      setError,
+      setHammingWeight, setHammingWeightSpectre,
+      setLoading, setError,
       setCorrelation,
-    );
-    userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
+    )
+    if (fulfilled && userStore.isAuth) {
+      handleHistoryRecordCreation(userStore.user.id);
+    }
   };
 
   return (
@@ -99,10 +92,11 @@ const MatrixGeneratorPage = observer(() => {
         />
       )}
       {loading && <Spinner />}
+      {error && <Modal message={error} setError={setError} type={"error"}/>}
 
-      <section className="flex h-full justify-center pt-16 px-5">
-        <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-          <h1 className="py-5 text-center">Матрічний ЗРЗЗ (МРЗ)</h1>
+      <Section>
+        <PageWrapper>
+          <MainHeader>Матрічний ЗРЗЗ (МРЗ)</MainHeader>
 
           <MatrixGenerator
             searchParams={searchParams}
@@ -139,8 +133,8 @@ const MatrixGeneratorPage = observer(() => {
           <div className="flex h-full w-full items-center justify-center">
             <CorrelationChart data1={correlation} />
           </div>
-        </div>
-      </section>
+        </PageWrapper>
+      </Section>
     </>
   );
 });

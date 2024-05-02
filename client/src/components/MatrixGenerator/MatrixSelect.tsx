@@ -1,70 +1,72 @@
-import GenSelect from "../CommonGenComponents/Select/GenSelect.tsx";
 import { observer } from "mobx-react-lite";
 import { SetURLSearchParams } from "react-router-dom";
-import { BooleanSelect, Polynomial } from "../../utils/interfacesAndTypes.ts";
+import SelectCyclic from "../CommonGenComponents/Select/SelectCyclic.tsx";
+import { useEffect, useState } from "react";
+import { generateOptions, getSelectedParam } from "../../functions/functions.ts";
+import SelectValue from "../CommonGenComponents/Select/SelectValue.tsx";
+import SelectPolynomial from "../CommonGenComponents/Select/SelectPolynomial.tsx";
+import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
 
 interface MatrixSelectProps {
-  firstSelectLabel: string;
-  firstShownPlaceholder: string;
-  secondSelectLabel: string;
-  secondShownPlaceholder: string;
-  thirdSelectLabel: string;
-  thirdShownPlaceholder: string;
+  searchParams: URLSearchParams;
+  setSearchParams: SetURLSearchParams;
   degreeParamName: string;
   polynomialParamName: string;
   cyclicPolyParamName: string;
-  searchParams: URLSearchParams;
-  setSearchParams: SetURLSearchParams;
-  degreeArray: number[];
-  polynomialArray: Polynomial[];
-  cyclicSelect: BooleanSelect[];
+  polynomialType: PolynomialType;
 }
 
 const MatrixSelect = observer(
   ({
-    firstSelectLabel,
-    firstShownPlaceholder,
-    secondSelectLabel,
-    secondShownPlaceholder,
-    thirdSelectLabel,
-    thirdShownPlaceholder,
+    searchParams,
+    setSearchParams,
     degreeParamName,
     polynomialParamName,
     cyclicPolyParamName,
-    searchParams,
-    setSearchParams,
-    degreeArray,
-    polynomialArray,
-    cyclicSelect,
+    polynomialType,
   }: MatrixSelectProps) => {
+    const [polyDegree, setPolyDegree] = useState<number>(0);
+    const degreesArray = generateOptions();
+
+    useEffect(() => {
+      const degree = Number(getSelectedParam(degreeParamName, searchParams));
+      setPolyDegree(degree);
+    }, [location.search]);
+
+    const DEGREE_LABEL = `Оберіть ступінь поліному F(${polynomialType})`
+    const DEGREE_PLACEHOLDER = `Ступінь поліному F(${polynomialType})`;
+    const POLYNOMIAL_LABEL = `Оберіть поліном F(${polynomialType})`;
+    const POLYNOMIAL_PLACEHOLDER = `Поліном F(${polynomialType})`;
+    const CYCLIC_LABEL = `Зробити поліном F(${polynomialType}) циклічним?`;
+    const CYCLIC_PLACEHOLDER = `Ні`;
 
     return (
       <div className="flex flex-col w-[25rem] flex-wrap px-3">
-        <GenSelect
-          selectLabel={firstSelectLabel}
-          shownPlaceholder={firstShownPlaceholder}
+        <SelectValue
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
           urlParamName={degreeParamName}
-          searchParams={searchParams}
-          setSelectedOptionToParams={setSearchParams}
-          optionsArray={degreeArray}
+          optionsArray={degreesArray}
+          shownPlaceholder={DEGREE_LABEL}
+          selectLabel={DEGREE_PLACEHOLDER}
         />
 
-        <GenSelect
-          selectLabel={secondSelectLabel}
-          shownPlaceholder={secondShownPlaceholder}
+        <SelectPolynomial
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
           urlParamName={polynomialParamName}
-          searchParams={searchParams}
-          setSelectedOptionToParams={setSearchParams}
-          optionsArray={polynomialArray}
+          polyDegree={polyDegree}
+          shownPlaceholder={POLYNOMIAL_LABEL}
+          selectLabel={POLYNOMIAL_PLACEHOLDER}
         />
 
-        <GenSelect
-          selectLabel={thirdSelectLabel}
-          shownPlaceholder={thirdShownPlaceholder}
-          urlParamName={cyclicPolyParamName}
+        <SelectCyclic
           searchParams={searchParams}
-          setSelectedOptionToParams={setSearchParams}
-          optionsArray={cyclicSelect}
+          setSearchParams={setSearchParams}
+          urlParamName={cyclicPolyParamName}
+          polyDegree={polyDegree}
+          selectLabel={CYCLIC_LABEL}
+          shownPlaceholder={CYCLIC_PLACEHOLDER}
         />
       </div>
     );
