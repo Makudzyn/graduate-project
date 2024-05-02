@@ -21,7 +21,7 @@ function App() {
   if (loading) return <Spinner/>
 
   return (
-    <div className="font-inter">
+    <div>
       <NavBar />
       <AppRouter />
     </div>
