@@ -25,7 +25,7 @@ import { handleHistoryRecordCreation } from "../functions/requestFunctions/reque
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import Modal from "../components/Modal/Modal.tsx";
 import { linearValidationBeforeCalculations } from "../functions/functions.ts";
-import MainHeader from "../components/CommonGenComponents/MainHeader.tsx";
+import PageHeader from "../components/CommonGenComponents/PageHeader.tsx";
 import Section from "../components/CommonGenComponents/Section.tsx";
 import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
 import SumAndProductBlock from "../components/SumAndProduct/SumAndProductBlock.tsx";
@@ -157,7 +157,7 @@ const SumAndProductGeneratorPage = observer(() => {
 
       <Section>
         <PageWrapper>
-          <MainHeader>ЗРЗЗ сум та множень М-послідовностей</MainHeader>
+          <PageHeader>ЗРЗЗ сум та множень М-послідовностей</PageHeader>
           <div className="flex justify-evenly flex-row">
             <LinearGenerator
               searchParams={searchParams}

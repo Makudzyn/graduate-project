@@ -18,7 +18,7 @@ import Modal from "../components/Modal/Modal.tsx";
 import { linearValidationBeforeCalculations } from "../functions/functions.ts";
 import Section from "../components/CommonGenComponents/Section.tsx";
 import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
-import MainHeader from "../components/CommonGenComponents/MainHeader.tsx";
+import PageHeader from "../components/CommonGenComponents/PageHeader.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -79,7 +79,7 @@ const LinearGeneratorPage = observer(() => {
 
       <Section>
         <PageWrapper>
-          <MainHeader>Лінійний ЗРЗЗ</MainHeader>
+          <PageHeader>Лінійний ЗРЗЗ</PageHeader>
 
           <LinearGenerator
             searchParams={searchParams}
