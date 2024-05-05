@@ -4,6 +4,7 @@ import ChartIcon from "../assets/chart-line.svg?react";
 import DataIcon from "../assets/data.svg?react";
 import StatsIcon from "../assets/stats.svg?react";
 import FastIcon from "../assets/speed-alt.svg?react";
+import SmileIcon from "../assets/slightly-smiling-face.svg?react";
 import BlockWrapper from "../components/MainPage/BlockWrapper.tsx";
 import Step from "../components/MainPage/Step.tsx";
 import AccordionItem from "../components/MainPage/AccordionItem.tsx";
@@ -17,17 +18,23 @@ const MainPage = () => {
     <Section>
       <SectionBlock>
         <BlockWrapper>
-          <PageHeader children={"Unleash the Power of Binary"}/>
+          <PageHeader
+            title="Дослідження та генерація матричних кодів та послідовностей"
+            paragraph="
+              Вивчення та створення матричних кодів та послідовностей:
+              різноманітні генератори та порівняння їх характеристик на одній платформі.
+             "
+          />
         </BlockWrapper>
       </SectionBlock>
       <SectionBlock>
         <BlockWrapper>
           <SectionTitle
-            headerTitle="Tailored Solutions"
+            headerTitle="Особливості та переваги"
             paragraphText="
-              BitSequencePro is the ultimate tool for generating pseudorandom
-              binary sequences tailored for research and cryptographic
-              applications. Dive into the future of data simulation.
+              Дослідіть безліч функцій та переваг,
+              які роблять цей сайт ідеальним вибором для вивчення
+              та генерації матричних кодів та послідовностей.
             "
             alignCenter
           />
@@ -38,21 +45,24 @@ const MainPage = () => {
               }
               title="Таблиця поліномів"
               description="
-            Praesent tempus mollis velit vel tristique.
-            Quisque tincidunt hendrerit accumsan.
-            Fusce mattis porttitor mi, eget pulvinar metus ullamcorper vel.
-          "
+                Дослідіть світ можливостей з великою таблицею,
+                що надає повний список поліномів для створення послідовностей.
+                Таблиця містить найбільший набір поліномів, доступний в інтернеті, і пропонує зручні функції пошуку,
+                сортування та інші засоби взаємодії, забезпечуючи легкий доступ до необхідної інформації.
+              "
             />
             <Card
               iconComponent={
                 <ChartIcon className="mb-4 h-6 w-6 fill-transparent stroke-secondary" />
               }
-              title="Графіки корреляції"
+              title="Графіки кореляції"
               description="
-            Aliquam ex augue, cursus fermentum imperdiet id, elementum vel enim.
-            Sed orci elit, imperdiet et est nec, facilisis aliquet nulla.
-            Vestibulum varius augue lorem, non ultrices mi dignissim quis.
-          "
+                Досліджуйте кореляцію згенерованих послідовностей за допомогою графіків кореляції.
+                Інтуїтивно зрозумілі графіки дозволяють оцінити ступінь кореляції та вивчити властивості послідовності.
+                Додаткові графічні інтрументи для взаємодії з графіком
+                забезпечують більш точне та глибоке розуміння даних,
+                допомагаючи краще аналізувати створені послідовності.
+              "
             />
             <Card
               iconComponent={
@@ -60,10 +70,11 @@ const MainPage = () => {
               }
               title="Збереження даних"
               description="
-            Nam auctor quam in purus posuere, at venenatis eros egestas.
-            Etiam sit amet libero erat.
-            Cras sit amet condimentum orci, at ornare odio.
-          "
+                Зареєстровані користувачі можуть легко зберігати
+                та керувати історією своїх запитів та даних для генерації послідовностей.
+                Це забезпечує зручність повторного використання раніше введених даних та запитів,
+                дозволяючи економити час та зосереджуватися на дослідженні та аналізі результатів.
+              "
             />
           </div>
           <div className="flex flex-wrap justify-between">
@@ -71,33 +82,37 @@ const MainPage = () => {
               iconComponent={
                 <StatsIcon className="mb-4 h-6 w-6 fill-transparent stroke-secondary" />
               }
-              title="Таблиця поліномів"
+              title="Порівняння характеристик"
               description="
-            Maecenas vulputate sagittis est non ultricies.
-            Quisque placerat lorem et eleifend fringilla.
-            Interdum et malesuada fames ac ante ipsum primis in faucibus.
-          "
+                На сайті надається унікальна можливість порівняти характеристики та властивості
+                матричного та лінійного генераторів безпосередньо поруч один з одним.
+                За допомогою спеціальної сторінки можна провести детальний аналіз ваги Хеммінгу для різних блоків згенерованих послідовностей,
+                що допоможе вибрати найбільш підходящий генератор для конкретних потреб та задач.
+              "
             />
             <Card
               iconComponent={
                 <FastIcon className="mb-4 h-6 w-6 fill-transparent stroke-secondary" />
               }
-              title="Швидкість генерації"
+              title="Швидкість"
               description="
-            Sed volutpat ullamcorper ipsum ac molestie.
-            Vestibulum at sem sed tellus tristique eleifend venenatis eget magna.
-            Praesent iaculis iaculis iaculis.
-          "
+                Завдяки виконанню обчислень на сервері користувачі миттєво отримують результати,
+                забезпечуючи швидкий та плавний досвід користування.
+                Навіть під час роботи з потенційно великими обсягами даних на сайті немає затримок завдяки
+                використанню технології windowing для ефективного відображення результатів.
+              "
             />
             <Card
               iconComponent={
-                <TableIcon className="mb-4 h-6 w-6 fill-transparent stroke-secondary" />
+                <SmileIcon className="mb-4 h-6 w-6 fill-transparent stroke-secondary" />
               }
               title="Зручний дизайн"
               description="
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Curabitur porttitor pulvinar metus, at sodales velit aliquam et.
-            Maecenas suscipit maximus elementum.
+                Сайт пропонує зручний та привабливий інтерфейс,
+                який навіть новачки можуть легко освоїти.
+                Використовуючи різноманітні повідомлення, плейсхолдери та тултипи,
+                забезпечується проста та інтуїтивно зрозуміла взаємодію з сайтом,
+                що робить процес дослідження та генерації послідовностей максимально зручним для всіх користувачів.
           "
             />
           </div>
@@ -184,17 +199,6 @@ const MainPage = () => {
           </div>
         </BlockWrapper>
       </SectionBlock>
-      {/*<PageWrapper>*/}
-      {/*<h1>Потрібно згенерувати або дослідити бінарні псевдовипадкові послідовності?</h1>*/}
-      {/*<hr/>*/}
-      {/*<p>*/}
-      {/*  У цьому застосунку ви зможете це зробити!*/}
-      {/*  На сайті розміщені лінійний генератор зі зворотним зв'язком (LSFR),*/}
-      {/*  матричний генератор та генератор послідовностей сум та добутків.*/}
-      {/*  Також є сторінка де ви зможете дослідити та порівняти side-by-side властивості,*/}
-      {/*  значення та особливості лінійного та матричного генераторів псевдовипадкових послідовностей!*/}
-      {/*</p>*/}
-      {/*</PageWrapper>*/}
     </Section>
   );
 };
