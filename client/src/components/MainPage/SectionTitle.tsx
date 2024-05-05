@@ -12,7 +12,7 @@ const SectionTitle = ({ headerTitle, paragraphText, alignCenter }: SectionTitleP
         <span
           className={`
             ${alignCenter ? "left-1/2 transform -translate-x-1/2 w-4/5" : "left-0 w-1/3"}
-            absolute -bottom-1 h-0.5 rounded-lg bg-purpleFirst
+            absolute -bottom-1.5 h-0.5 rounded-lg bg-purpleFirst
             `}
         />
       </h2>
