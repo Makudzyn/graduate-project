@@ -1,13 +1,13 @@
 import Card from "./Card.tsx";
-import TableIcon from "../../assets/table-tree.svg?react";
-import ChartIcon from "../../assets/chart-line.svg?react";
-import DataIcon from "../../assets/data.svg?react";
-import StatsIcon from "../../assets/stats.svg?react";
-import FastIcon from "../../assets/speed-alt.svg?react";
-import SmileIcon from "../../assets/slightly-smiling-face.svg?react";
-import AllInIcon from "../../assets/all-in.svg?react";
-import ManyIcon from "../../assets/list.svg?react";
-import ShareIcon from "../../assets/share.svg?react";
+import TableIcon from "../../assets/svg/table-tree.svg?react";
+import ChartIcon from "../../assets/svg/chart-line.svg?react";
+import DataIcon from "../../assets/svg/data.svg?react";
+import StatsIcon from "../../assets/svg/stats.svg?react";
+import FastIcon from "../../assets/svg/speed-alt.svg?react";
+import SmileIcon from "../../assets/svg/slightly-smiling-face.svg?react";
+import AllInIcon from "../../assets/svg/all-in.svg?react";
+import ManyIcon from "../../assets/svg/list.svg?react";
+import ShareIcon from "../../assets/svg/share.svg?react";
 
 const FeaturesBlock = () => {
   return (

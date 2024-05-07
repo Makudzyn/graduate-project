@@ -1,6 +1,6 @@
 import { Listbox } from "@headlessui/react";
 import { classNames } from "../../../functions/functions.ts";
-import SelectIcon from "../../../assets/select.svg?react";
+import SelectIcon from "../../../assets/svg/select.svg?react";
 import { BooleanSelect, Polynomial } from "../../../utils/interfacesAndTypes.ts";
 
 interface OptionListProps<T> {

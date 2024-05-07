@@ -4,7 +4,7 @@ import { Context } from "../../main.tsx";
 import { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import UserProfileMini from "./UserProfileMini.tsx";
-import GuestIcon from "../../assets/guest.svg?react";
+import GuestIcon from "../../assets/svg/guest.svg?react";
 
 const NavIcons = observer(() => {
   const { userStore } = useContext(Context)!;
