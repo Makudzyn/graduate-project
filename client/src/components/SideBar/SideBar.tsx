@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Chevron from "../../assets/chevron.svg?react";
-import DeleteRecord from "../../assets/delete-clipboard.svg?react";
+import Chevron from "../../assets/svg/chevron.svg?react";
+import DeleteRecord from "../../assets/svg/delete-clipboard.svg?react";
 import { observer } from "mobx-react-lite";
 import { HistoryRecord } from "../../utils/interfacesAndTypes.ts";
 import { useSearchParams } from "react-router-dom";

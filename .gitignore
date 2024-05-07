@@ -10,7 +10,3 @@ client/*.config.*
 client/.eslintrc.cjs
 client/src/vite-env.d.ts
 
-#Currently using Plotly.js
-client/src/components/Chart/ReCharts
-
-client/src/assets/*.svg
