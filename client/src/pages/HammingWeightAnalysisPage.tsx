@@ -164,7 +164,7 @@ const HammingWeightAnalysisPage = observer(() => {
 
       <Section>
         <PageWrapper>
-          <PageHeader>Аналіз ваг Хеммінгу</PageHeader>
+          <PageHeader title="Аналіз ваг Хеммінгу"/>
 
           <div className="flex">
             <div className="w-1/4 px-5">

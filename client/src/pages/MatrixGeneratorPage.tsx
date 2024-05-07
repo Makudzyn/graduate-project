@@ -96,7 +96,7 @@ const MatrixGeneratorPage = observer(() => {
 
       <Section>
         <PageWrapper>
-          <PageHeader>Матрічний ЗРЗЗ (МРЗ)</PageHeader>
+          <PageHeader title="Матрічний ЗРЗЗ (МРЗ)"/>
 
           <MatrixGenerator
             searchParams={searchParams}

@@ -157,7 +157,7 @@ const SumAndProductGeneratorPage = observer(() => {
 
       <Section>
         <PageWrapper>
-          <PageHeader>ЗРЗЗ сум та множень М-послідовностей</PageHeader>
+          <PageHeader title="ЗРЗЗ сум та множень М-послідовностей"/>
           <div className="flex justify-evenly flex-row">
             <LinearGenerator
               searchParams={searchParams}

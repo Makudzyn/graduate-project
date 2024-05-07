@@ -79,7 +79,7 @@ const LinearGeneratorPage = observer(() => {
 
       <Section>
         <PageWrapper>
-          <PageHeader>Лінійний ЗРЗЗ</PageHeader>
+          <PageHeader title="Лінійний ЗРЗЗ"/>
 
           <LinearGenerator
             searchParams={searchParams}

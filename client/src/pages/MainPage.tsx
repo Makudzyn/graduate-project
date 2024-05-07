@@ -17,7 +17,7 @@ const MainPage = () => {
             paragraph="
               Вивчення та створення матричних кодів та послідовностей:
               різноманітні генератори та порівняння їх характеристик на одній платформі.
-             "
+            "
           />
         </BlockWrapper>
       </SectionBlock>
@@ -38,30 +38,50 @@ const MainPage = () => {
       <SectionBlock>
         <BlockWrapper>
           <SectionTitle
-            headerTitle="Як це працює"
-            paragraphText="Show step by step how to get started"
+            headerTitle="Крок за кроком до результату"
+            paragraphText="Вивчіть функціонал з докладними інструкціями та ілюстраціями"
             alignCenter
           />
           <div className="flex items-center flex-col gap-12">
             <Step
-              title={"First Step"}
+              title="Лінійний генератор"
               description="
-                Etiam bibendum, lorem in hendrerit commodo, orci leo luctus massa, vitae semper eros lacus eu massa.
-                Donec et eros ac nulla condimentum ultrices ac vitae orci.
-                Nunc massa leo, auctor finibus feugiat at, pellentesque ac metus.
-                Suspendisse non ultrices augue, id congue nisi.
-                In hac habitasse platea dictumst.
-                "
+                Для початку роботи з лінійним генератором перейдіть на відповідну сторінку.
+                Виберіть бажаний ступінь полінома зі списку.
+                Потім, у наступному списку, виберіть конкретний поліном,
+                який відповідає вибраному ступеню.
+                Після вибору полінома буде встановлено обмеження на довжину початкового стану.
+                Зверніть увагу, що у полі початкового стану допускаються лише двійкові числа (0 або 1).
+                Поточна та потрібна довжина початкового стану будуть відображені у правій частині поля.
+                Коли поточна довжина буде збігатися з необхідною,
+                поле підсвітиться зеленим, інакше - червоним.
+                Після виконання цих дій ви можете створити послідовність, натиснувши відповідну кнопку.
+                Якщо всі параметри введені правильно,
+                ви отримаєте результати генерації,
+                інакше - повідомлення про помилку.
+              "
               picture={"https://via.placeholder.com/800x800"}
             />
             <Step
-              title={"Second Step"}
+              title="Матричний генератор"
               description="
-                Suspendisse molestie sem at velit volutpat dapibus.
-                Phasellus ullamcorper consectetur justo, quis pellentesque ex gravida eget.
-                Nulla felis augue, elementum vitae massa eu, placerat imperdiet ipsum.
-                Aliquam elementum placerat sem, nec efficitur tortor vestibulum et.
-                "
+                Щоб використати матричний генератор, перейдіть на відповідну сторінку.
+                Виберіть бажаний ступінь полінома для матриці A зі списку,
+                а потім виберіть відповідний поліном.
+                У третьому списку визначте, чи поліном буде циклічним.
+                Якщо циклічність не потрібна, залиште значення поля без змін.
+                Повторіть подібні дії для матриці B.
+                Перейдіть до центрального стовпця,
+                де можна вибрати індекси вихідних елементів та ранг матриці.
+                Зверніть увагу,
+                що вибір I-го елемента можливий тільки після вибору ступеня для матриці A,
+                і аналогічно для J-го елемента та матриці B.
+                Також для вибору рангу матриці потрібно визначити ступені для обох матриць.
+                Після завершення всіх налаштувань створіть послідовність, натиснувши відповідну кнопку.
+                Якщо всі параметри вказані коректно,
+                ви отримаєте результати генерації;
+                в іншому випадку, буде виведено повідомлення про помилку.
+              "
               picture={"https://via.placeholder.com/800x800"}
               reverse
             />
