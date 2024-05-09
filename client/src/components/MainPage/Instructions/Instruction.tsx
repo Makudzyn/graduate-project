@@ -1,11 +1,11 @@
-interface StepProps {
+interface InstructionProps {
   title: string;
   description: string;
   picture: string;
   reverse?: boolean;
 }
 
-const Step = ({ title, description, picture, reverse }: StepProps) => {
+const Instruction = ({ title, description, picture, reverse }: InstructionProps) => {
   return (
     <div
       className={`flex items-center gap-20 ${reverse && "flex-row-reverse"}`}
@@ -24,4 +24,4 @@ const Step = ({ title, description, picture, reverse }: StepProps) => {
   );
 };
 
-export default Step;
+export default Instruction;

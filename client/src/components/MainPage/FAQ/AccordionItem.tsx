@@ -1,5 +1,5 @@
 import { Disclosure, Transition } from "@headlessui/react";
-import ChevronIcon from "../../assets/svg/chevron.svg?react";
+import ChevronIcon from "../../../assets/svg/chevron.svg?react";
 
 interface AccordionItemProps {
   title: string;
@@ -33,7 +33,7 @@ const AccordionItem = ({ title, description }: AccordionItemProps) => {
             leaveTo="transform opacity-0 scale-95"
           >
             <Disclosure.Panel
-              className="px-6 pb-5 pt-4 text-sm+ text-secondary max-w-screen-lg"
+              className="px-6 pb-5 pt-4 text-sm+ text-secondary w-full"
               static
             >
               {description}
