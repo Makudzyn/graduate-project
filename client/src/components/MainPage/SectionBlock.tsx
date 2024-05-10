@@ -6,7 +6,7 @@ interface SectionBlockProps {
 
 const SectionBlock = ({ children }: SectionBlockProps) => {
  return (
-   <section className="pt-[50px] pb-[50px]">
+   <section className="relative pt-[50px] pb-[50px]">
      {children}
    </section>
  );

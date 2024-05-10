@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { check } from "./http/userAPI.ts";
 import { Context } from "./main.tsx";
 import Spinner from "./components/Spinner.tsx";
+import Footer from "./components/Footer/Footer.tsx";
 function App() {
   const { userStore } = useContext(Context)!;
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,7 @@ function App() {
     <div>
       <NavBar />
       <AppRouter />
+      <Footer />
     </div>
   );
 }

@@ -6,7 +6,7 @@ interface BlockWrapperProps {
 
 const BlockWrapper = ({ children }: BlockWrapperProps) => {
  return (
-  <div className="mx-0 my-auto box-border w-full py-0 px-[1.875rem] max-w-screen-xl">
+  <div className="mx-0 my-auto box-border w-full py-0 px-4 sm:px-7 max-w-screen-xl">
     {children}
   </div>
  );

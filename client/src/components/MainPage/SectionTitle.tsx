@@ -7,7 +7,7 @@ interface SectionTitleProps {
 const SectionTitle = ({ headerTitle, paragraphText, alignCenter }: SectionTitleProps) => {
   return (
     <div className={`flex flex-col ${alignCenter ? "items-center text-center" : ""}`}>
-      <h2 className="relative m-0 font-extrabold font-libreFranklin text-5xl">
+      <h2 className="relative m-0 font-extrabold font-libreFranklin text-3xl sm:text-5xl">
         {headerTitle}
         <span
           className={`
@@ -16,7 +16,7 @@ const SectionTitle = ({ headerTitle, paragraphText, alignCenter }: SectionTitleP
             `}
         />
       </h2>
-      <p className="font-normal text-paragraph text-xl mt-2.5 mb-[1.875rem]">
+      <p className="font-normal text-paragraph text-base sm:text-xl mt-2.5 mb-[1.875rem]">
         {paragraphText}
       </p>
     </div>
