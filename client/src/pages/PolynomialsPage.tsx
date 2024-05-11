@@ -1,5 +1,5 @@
 import PolynomialTable from "../components/Table/PolynomialTable.tsx";
-import Spinner from "../components/Spinner.tsx";
+import Spinner from "../components/PageComponents/Spinner.tsx";
 import { useContext, useState } from "react";
 import { Context } from "../main.tsx";
 import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";

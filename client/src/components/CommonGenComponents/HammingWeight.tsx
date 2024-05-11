@@ -3,7 +3,7 @@ interface HammingWeightProps {
 }
 
 const HammingWeight = ({ hammingWeight }: HammingWeightProps) => {
-  return <h5>Вага Хеммінгу = {hammingWeight}</h5>;
+  return <h5 className="text-lg font-medium">Вага Хеммінгу = {hammingWeight}</h5>;
 };
 
 export default HammingWeight;

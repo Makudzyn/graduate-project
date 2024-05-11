@@ -18,15 +18,15 @@ import {
 import { useSearchParams } from "react-router-dom";
 import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
 import { Context } from "../main.tsx";
-import Spinner from "../components/Spinner.tsx";
+import Spinner from "../components/PageComponents/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import Modal from "../components/Modal/Modal.tsx";
 import { matrixValidationBeforeCalculations } from "../functions/functions.ts";
-import Section from "../components/CommonGenComponents/Section.tsx";
-import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
-import PageHeader from "../components/CommonGenComponents/PageHeader.tsx";
+import Section from "../components/PageComponents/Section.tsx";
+import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
+import PageHeader from "../components/PageComponents/PageHeader.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;

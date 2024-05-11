@@ -4,7 +4,7 @@ import NavBar from "./components/NavBar/NavBar.tsx";
 import { useContext, useEffect, useState } from "react";
 import { check } from "./http/userAPI.ts";
 import { Context } from "./main.tsx";
-import Spinner from "./components/Spinner.tsx";
+import Spinner from "./components/PageComponents/Spinner.tsx";
 import Footer from "./components/Footer/Footer.tsx";
 function App() {
   const { userStore } = useContext(Context)!;

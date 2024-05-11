@@ -19,15 +19,15 @@ import PeriodsCondition from "../components/CommonGenComponents/PeriodsCondition
 import PeriodInfo from "../components/CommonGenComponents/PeriodInfo.tsx";
 import CoprimeCondition from "../components/CommonGenComponents/CoprimeCondition.tsx";
 import { Context } from "../main.tsx";
-import Spinner from "../components/Spinner.tsx";
+import Spinner from "../components/PageComponents/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import Modal from "../components/Modal/Modal.tsx";
 import { linearValidationBeforeCalculations } from "../functions/functions.ts";
-import PageHeader from "../components/CommonGenComponents/PageHeader.tsx";
-import Section from "../components/CommonGenComponents/Section.tsx";
-import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
+import PageHeader from "../components/PageComponents/PageHeader.tsx";
+import Section from "../components/PageComponents/Section.tsx";
+import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
 import SumAndProductBlock from "../components/SumAndProduct/SumAndProductBlock.tsx";
 
 

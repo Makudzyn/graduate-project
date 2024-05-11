@@ -13,7 +13,7 @@
 /* Для остальных браузеров */
 /* Цвет полосы прокрутки */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 12.5px;
     border-radius: 5px;
 }
 
@@ -25,4 +25,5 @@
 /* Цвет фона */
 ::-webkit-scrollbar-track {
     background-color: rgb(17 24 39);
+    border-radius: 0;
 }

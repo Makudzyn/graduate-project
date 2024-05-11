@@ -1,8 +1,8 @@
 import BlockWrapper from "../components/MainPage/BlockWrapper.tsx";
 import SectionTitle from "../components/MainPage/SectionTitle.tsx";
-import SectionBlock from "../components/MainPage/SectionBlock.tsx";
-import Section from "../components/CommonGenComponents/Section.tsx";
-import PageHeader from "../components/CommonGenComponents/PageHeader.tsx";
+import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
+import Section from "../components/PageComponents/Section.tsx";
+import PageHeader from "../components/PageComponents/PageHeader.tsx";
 import FeaturesBlock from "../components/MainPage/Features/FeaturesBlock.tsx";
 import InstructionsBlock from "../components/MainPage/Instructions/InstructionsBlock.tsx";
 import BlockFAQ from "../components/MainPage/FAQ/BlockFAQ.tsx";
@@ -18,6 +18,7 @@ const MainPage = () => {
               Вивчення та створення матричних кодів та послідовностей:
               різноманітні генератори та порівняння їх характеристик на одній платформі.
             "
+            paragraphWidth={"md"}
           />
         </BlockWrapper>
       </SectionBlock>

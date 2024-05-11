@@ -40,13 +40,13 @@ function LinearMatricesBlock({
   }
 
   return (
-    <div ref={containerRef} className={`flex items-center ${dynamicClass}`}>
+    <div ref={containerRef} className={`flex items-center text-lg font-medium ${dynamicClass}`}>
       <div className="flex flex-col">
-        <h3 className="text-center">Структурна матриця {polynomialType}</h3>
+        <h3 className="text-center mb-1.5">Структурна матриця {polynomialType}</h3>
         <Matrix dataArray={structureMatrix} />
       </div>
       <div className="flex flex-col">
-        <h3 className="text-center">
+        <h3 className="text-center mb-1.5">
           Послідовність станів регістру {polynomialType}
         </h3>
         <Matrix dataArray={conditionMatrix} />

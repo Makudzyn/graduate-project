@@ -48,7 +48,7 @@ const Footer = () => {
           <div
             className={
               `bg-purpleFirst cursor-pointer rounded-full w-10 h-10 flex items-center justify-center 
-               fixed right-5 bottom-12 transition-all duration-300 ease-in
+               fixed right-5 bottom-10 transition-all duration-200 ease-in
                hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-500 focus:bg-indigo-700
               ${toTopButtonVisibility ? "visible opacity-100" : "invisible opacity-0"}`
             }
