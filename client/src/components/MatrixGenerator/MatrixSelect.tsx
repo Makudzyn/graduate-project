@@ -47,8 +47,8 @@ const MatrixSelect = observer(
           setSearchParams={setSearchParams}
           urlParamName={degreeParamName}
           optionsArray={degreesArray}
-          shownPlaceholder={DEGREE_LABEL}
-          selectLabel={DEGREE_PLACEHOLDER}
+          selectLabel={DEGREE_LABEL}
+          shownPlaceholder={DEGREE_PLACEHOLDER}
         />
 
         <SelectPolynomial
@@ -56,8 +56,8 @@ const MatrixSelect = observer(
           setSearchParams={setSearchParams}
           urlParamName={polynomialParamName}
           polyDegree={polyDegree}
-          shownPlaceholder={POLYNOMIAL_LABEL}
-          selectLabel={POLYNOMIAL_PLACEHOLDER}
+          selectLabel={POLYNOMIAL_LABEL}
+          shownPlaceholder={POLYNOMIAL_PLACEHOLDER}
         />
 
         <SelectCyclic

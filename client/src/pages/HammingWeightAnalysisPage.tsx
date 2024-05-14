@@ -36,7 +36,7 @@ import Modal from "../components/Modal/Modal.tsx";
 import { linearValidationBeforeCalculations, matrixValidationBeforeCalculations } from "../functions/functions.ts";
 import Section from "../components/PageComponents/Section.tsx";
 import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
-import PageHeader from "../components/PageComponents/PageHeader.tsx";
+import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
 
 const HammingWeightAnalysisPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;

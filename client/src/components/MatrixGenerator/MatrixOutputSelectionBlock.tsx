@@ -52,7 +52,7 @@ const MatrixOutputSelectionBlock = ({
 
   return (
     <div className="flex items-center justify-center px-3 w-[25rem]">
-      <div className="flex flex-col flex-wrap w-[15rem]">
+      <div className="flex flex-col flex-wrap w-[18rem]">
         <SelectValue
           searchParams={searchParams}
           setSearchParams={setSearchParams}

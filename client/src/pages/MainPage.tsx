@@ -2,7 +2,7 @@ import BlockWrapper from "../components/MainPage/BlockWrapper.tsx";
 import SectionTitle from "../components/MainPage/SectionTitle.tsx";
 import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
 import Section from "../components/PageComponents/Section.tsx";
-import PageHeader from "../components/PageComponents/PageHeader.tsx";
+import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
 import FeaturesBlock from "../components/MainPage/Features/FeaturesBlock.tsx";
 import InstructionsBlock from "../components/MainPage/Instructions/InstructionsBlock.tsx";
 import BlockFAQ from "../components/MainPage/FAQ/BlockFAQ.tsx";

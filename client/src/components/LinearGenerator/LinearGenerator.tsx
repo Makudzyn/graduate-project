@@ -7,6 +7,7 @@ import SequenceType from "../CommonGenComponents/SequenceType.tsx";
 import Sequence from "../CommonGenComponents/Sequence.tsx";
 import HammingWeight from "../CommonGenComponents/HammingWeight.tsx";
 import LinearMatricesBlock from "./LinearMatricesBlock.tsx";
+import Header3 from "../PageComponents/Headers/Header3.tsx";
 
 interface LinearGeneratorProps {
   searchParams: URLSearchParams;
@@ -80,10 +81,10 @@ const LinearGenerator = ({
         </div>
       </div>
 
-      <div className="flex w-full flex-col py-2 px-3 text-lg font-medium">
-        <h3 className="my-1.5">
+      <div className="flex w-full flex-col py-2 px-3">
+        <Header3 align="left">
           Згенерована послідовність {polynomialType}
-        </h3>
+        </Header3>
         <Sequence dataArray={pseudorandomSequence} />
         <HammingWeight hammingWeight={hammingWeight} />
       </div>

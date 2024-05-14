@@ -1,5 +1,7 @@
 import { CSSProperties, useState } from "react";
 import { VariableSizeList } from "react-window";
+import ChevronIcon from "../../assets/svg/chevron.svg?react";
+import ChevronDoubleIcon from "../../assets/svg/chevron-double.svg?react";
 
 interface ConditionMatrixBlockProps {
   conditionMatrix: number[][];
@@ -39,9 +41,9 @@ const ConditionMatrixBlock = ({
   const itemSize = () => 28;
 
   const Row = ({ index, style }: { index: number; style: CSSProperties }) => (
-    <div style={style}>
+    <div style={style} className="flex items-center justify-center my-2">
       {slicedMatrix[index]?.map((cell, cellIndex) => (
-        <span className="pr-1 last:pr-0" key={cellIndex}>
+        <span className="text-center px-0.5 w-5" key={cellIndex}>
           {cell}
         </span>
       ))}
@@ -50,21 +52,18 @@ const ConditionMatrixBlock = ({
 
   return (
     <div className="flex items-center justify-evenly w-3/4">
-      <button
-        className="px-3 py-2.5 border border-black w-24 h-12 rounded-md"
+      <ChevronDoubleIcon
+        className="h-10 w-10 stroke-paragraph transition-all duration-300 rotate-90 cursor-pointer bg-transparent rounded-full shadow-md hover:shadow-purpleFirst hover:shadow-lg hover:stroke-purpleFirst"
         onClick={resetState}
-      >
-        First
-      </button>
-      <button
-        className="px-3 py-2.5 border border-black w-24 h-12 rounded-md"
+      />
+
+      <ChevronIcon
+        className="h-10 w-10 stroke-paragraph transition-all duration-300 rotate-90 cursor-pointer bg-transparent rounded-full shadow-md hover:shadow-purpleFirst hover:shadow-lg hover:stroke-purpleFirst"
         onClick={goToPreviousState}
-      >
-        Prev
-      </button>
+      />
 
       <VariableSizeList
-        className="text-xl р-64 overflow-y-auto overflow-x-hidden text-center rounded-md border border-gray-900 scroll-smooth"
+        className="scrollbar text-xl font-medium h-64 overflow-y-auto overflow-x-hidden text-center rounded-md ring-1 ring-inset ring-gray-300 scroll-smooth shadow-lg"
         height={260}
         itemCount={slicedMatrix.length}
         itemSize={itemSize}
@@ -73,18 +72,15 @@ const ConditionMatrixBlock = ({
         {Row}
       </VariableSizeList>
 
-      <button
-        className="px-3 py-2.5 border border-black w-24 h-12 rounded-md"
+      <ChevronIcon
+        className="h-10 w-10 stroke-paragraph transition-all duration-300 -rotate-90 cursor-pointer bg-transparent rounded-full shadow-md hover:shadow-purpleFirst hover:shadow-lg hover:stroke-purpleFirst"
         onClick={goToNextState}
-      >
-        Next
-      </button>
-      <button
-        className="px-3 py-2.5 border border-black w-24 h-12 rounded-md"
+      />
+
+      <ChevronDoubleIcon
+        className="h-10 w-10 stroke-paragraph transition-all duration-300 -rotate-90 cursor-pointer bg-transparent rounded-full shadow-md hover:shadow-purpleFirst hover:shadow-lg hover:stroke-purpleFirst"
         onClick={goToLastState}
-      >
-        Last
-      </button>
+      />
     </div>
   );
 };

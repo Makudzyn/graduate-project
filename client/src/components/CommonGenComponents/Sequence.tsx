@@ -25,7 +25,7 @@ const Sequence = ({ dataArray }: SequenceProps) => {
   return (
     <div ref={containerRef}>
       <VariableSizeGrid
-        className="scrollbar mb-5 rounded-md ring-1 ring-inset ring-gray-300 shadow-lg text-xl scroll-smooth"
+        className="scrollbar font-medium mb-5 rounded-md ring-1 ring-inset ring-gray-300 shadow-lg text-xl scroll-smooth"
         columnCount={columnCount}
         rowCount={rowCount}
         columnWidth={() => 18.75} // Ширина столбца (в пикселях)

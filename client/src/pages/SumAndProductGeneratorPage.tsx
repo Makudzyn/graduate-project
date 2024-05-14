@@ -25,7 +25,7 @@ import { handleHistoryRecordCreation } from "../functions/requestFunctions/reque
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import Modal from "../components/Modal/Modal.tsx";
 import { linearValidationBeforeCalculations } from "../functions/functions.ts";
-import PageHeader from "../components/PageComponents/PageHeader.tsx";
+import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
 import Section from "../components/PageComponents/Section.tsx";
 import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
 import SumAndProductBlock from "../components/SumAndProduct/SumAndProductBlock.tsx";

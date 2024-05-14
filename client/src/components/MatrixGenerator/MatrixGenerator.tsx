@@ -9,6 +9,7 @@ import PeriodsCondition from "../CommonGenComponents/PeriodsCondition.tsx";
 import Sequence from "../CommonGenComponents/Sequence.tsx";
 import HammingWeight from "../CommonGenComponents/HammingWeight.tsx";
 import HammingWeightSpectre from "../CommonGenComponents/HammingWeightSpectre.tsx";
+import Header3 from "../PageComponents/Headers/Header3.tsx";
 
 interface MatrixGeneratorProps {
   searchParams: URLSearchParams;
@@ -94,7 +95,7 @@ const MatrixGenerator = ({
         />
       </div>
 
-      <div className="mb-5 flex items-center justify-center p-2.5">
+      <div className="mb-8 flex items-center justify-center p-2.5">
         <GenButton onClick={onClick}>Розпочати генерацію</GenButton>
       </div>
 
@@ -133,7 +134,7 @@ const MatrixGenerator = ({
 
       <div className="mt-5 flex justify-center mb-2.5">
         <div className="flex flex-col items-center w-[85.203rem] h-[400px]">
-          <h3 className="text-center">Матриці {identifierS}[1..N]</h3>
+          <Header3>Матриці {identifierS}[1..N]</Header3>
           <ConditionMatrixBlock
             conditionMatrix={conditionMatrix}
             basisMatrix={basisMatrix}
@@ -151,7 +152,7 @@ const MatrixGenerator = ({
       </div>
 
       <div className="flex w-full flex-col py-2 px-3">
-        <label>Згенерована послідовність</label>
+        <Header3 align="left">Згенерована послідовність</Header3>
         <Sequence dataArray={pseudorandomSequence} />
         <HammingWeight hammingWeight={hammingWeight} />
         <HammingWeightSpectre hammingWeightSpectre={hammingWeightSpectre} />

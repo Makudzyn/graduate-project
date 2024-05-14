@@ -20,7 +20,7 @@ const Matrix = ({ dataArray }: MatrixProps) => {
 
   return (
     <VariableSizeList
-      className={"scrollbar text-xl h-64 overflow-y-auto overflow-x-hidden text-center rounded-md ring-1 ring-inset ring-gray-300 scroll-smooth shadow-lg"}
+      className={"scrollbar text-xl font-medium h-64 overflow-y-auto overflow-x-hidden text-center rounded-md ring-1 ring-inset ring-gray-300 scroll-smooth shadow-lg"}
       height={260} // Высота списка
       itemCount={dataArray.length} // Общее количество элементов
       itemSize={itemSize} // Функция, возвращающая высоту каждого элемента

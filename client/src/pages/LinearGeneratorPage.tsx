@@ -18,7 +18,7 @@ import Modal from "../components/Modal/Modal.tsx";
 import { linearValidationBeforeCalculations } from "../functions/functions.ts";
 import Section from "../components/PageComponents/Section.tsx";
 import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
-import PageHeader from "../components/PageComponents/PageHeader.tsx";
+import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
 import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
 
 const LinearGeneratorPage = observer(() => {
