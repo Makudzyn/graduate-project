@@ -50,14 +50,60 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
   ] as Data[];
 
   const plotLayout = {
-    title: "Автокореляційний графік",
+
+    title: {
+      text: "Автокореляційний графік",
+      font: {
+        size: 24,
+        color: "#18181b",
+        family: "Arial",
+        weight: "bold"
+      },
+    },
     xaxis: {
-      title: "Індекс",
+      title: {
+        text: "Індекс",
+        font: {
+          size: 18,
+          color: "#18181b",
+          family: "Arial",
+          weight: "bold"
+        },
+      },
       type: "linear",
+      tickfont: {
+        size: 16, // изменение размера шрифта для подписей оси X
+        color: "#18181b",
+        family: "Inter"
+      },
     },
     yaxis: {
-      title: "Коєфіцієнт корреляції",
+      title: {
+        text:"Коєфіцієнт корреляції",
+        font: {
+          size: 18,
+          color: "#18181b",
+          family: "Arial",
+          weight: "bold"
+        },
+      },
+      tickfont: {
+        size: 16, // изменение размера шрифта для подписей оси X
+        color: "#18181b",
+        family: "Inter"
+      },
       range: [xAxisLimit, yAxisLimit],
+    },
+    hoverlabel: {
+      font: {
+        size: 16,
+        color: "#18181b",
+        family: "Arial",
+      },
+      align: "left",
+      bgcolor: "#fff",
+      bordercolor: "#d1d5db",
+      borderwidth: 2,
     },
     showlegend: false,
   } as Partial<Layout>;
