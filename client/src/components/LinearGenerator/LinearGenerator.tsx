@@ -67,7 +67,7 @@ const LinearGenerator = ({
         conditionMatrix={conditionMatrix}
       />
 
-      <div className="my-5 flex w-full justify-center">
+      <div className="mt-3 mb-6 flex w-full justify-center">
         <div className="flex flex-col justify-between w-full h-[5.625rem]">
           <PeriodInfo
             potentialPeriodLength={potentialPeriodLength}

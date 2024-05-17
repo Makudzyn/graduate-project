@@ -1,5 +1,5 @@
 import { VariableSizeGrid } from "react-window";
-import { CSSProperties, useRef } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import "./scrollbar.css";
 
 interface SequenceProps {
@@ -8,7 +8,22 @@ interface SequenceProps {
 
 const Sequence = ({ dataArray }: SequenceProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const containerWidth =  containerRef.current?.offsetWidth;
+  const [containerWidth, setContainerWidth] = useState<number>(0);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+
+    updateWidth(); // Initial width calculation
+
+    window.addEventListener("resize", updateWidth);
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
   const itemSize = () => 26;
   const columnCount = containerWidth
@@ -25,7 +40,7 @@ const Sequence = ({ dataArray }: SequenceProps) => {
   return (
     <div ref={containerRef}>
       <VariableSizeGrid
-        className="scrollbar font-medium mb-5 rounded-md ring-1 ring-inset ring-gray-300 shadow-lg text-xl scroll-smooth"
+        className="scrollbar font-medium mt-1.5 mb-3 rounded-md ring-1 ring-inset ring-gray-300 shadow-lg text-xl scroll-smooth"
         columnCount={columnCount}
         rowCount={rowCount}
         columnWidth={() => 18.75} // Ширина столбца (в пикселях)

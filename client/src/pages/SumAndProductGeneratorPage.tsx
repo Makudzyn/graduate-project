@@ -29,8 +29,7 @@ import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
 import Section from "../components/PageComponents/Section.tsx";
 import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
 import SumAndProductBlock from "../components/SumAndProduct/SumAndProductBlock.tsx";
-
-
+import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
 
 const SumAndProductGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -82,10 +81,13 @@ const SumAndProductGeneratorPage = observer(() => {
 
   useEffect(() => {
     if (factualPeriodLengthA !== 0 && factualPeriodLengthB !== 0) {
-      const periodLengthS = factualPeriodLengthA * factualPeriodLengthB;
-      setPeriodLengthS(periodLengthS);
       const condition = findGCD(factualPeriodLengthA, factualPeriodLengthB);
       setConditionS(condition);
+      if (condition !== 1) {
+        setError("Періоди не взаємно прості. Обчислення сум та множень не виконано.");
+      }
+      const periodLengthS = factualPeriodLengthA * factualPeriodLengthB;
+      setPeriodLengthS(periodLengthS);
     }
   }, [factualPeriodLengthA, factualPeriodLengthB]);
 
@@ -157,66 +159,85 @@ const SumAndProductGeneratorPage = observer(() => {
 
       <Section>
         <PageWrapper>
-          <PageHeader title="ЗРЗЗ сум та множень М-послідовностей"/>
-          <div className="flex justify-evenly flex-row">
-            <LinearGenerator
-              searchParams={searchParams}
-              setSearchParams={setSearchParams}
-              structureMatrix={structureMatrixA}
-              conditionMatrix={conditionMatrixA}
-              potentialPeriodLength={potentialPeriodLengthA}
-              factualPeriodLength={factualPeriodLengthA}
-              pseudorandomSequence={pseudorandomSequenceA}
-              hammingWeight={hammingWeightA}
-              degreeParam={PARAMS_DEGREE_A}
-              polynomialParam={PARAMS_POLYNOMIAL_A}
-              userValueParam={PARAMS_USER_VALUE_A}
-              polynomialType={POLYNOMIAL_TYPE_A}
-              identifier={`(${POLYNOMIAL_TYPE_A})`}
-              className={"w-[50rem]"}
-              onClick={handleFirstGenClick}
+          <SectionBlock>
+            <PageHeader
+              title="ЗРЗЗ сум та множень М-послідовностей"
+              paragraph="
+                Генератор призначений для створення псевдовипадкових бінарних
+                послідовностей на основі додавання та множення вихідних M-послідовностей.
+                Ці операції дозволяють отримати нові послідовності,
+                що володіють покращеними характеристиками випадковості та довшими періодами.
+                M-послідовності, або послідовності максимальної довжини,
+                є циклічними послідовностями, що генеруються лінійними регістрами
+                зсуву зі зворотним зв'язком (LFSR) і які мають максимальну довжину періоду
+                та хороші статистичні властивості.
+                Цей генератор є потужним інструментом для створення псевдовипадкових послідовностей,
+                які застосовуються в криптографії, моделюванні та інших областях,
+                що вимагають високого рівня випадковості та безпеки.
+              "
             />
-            <LinearGenerator
-              searchParams={searchParams}
-              setSearchParams={setSearchParams}
-              structureMatrix={structureMatrixB}
-              conditionMatrix={conditionMatrixB}
-              potentialPeriodLength={potentialPeriodLengthB}
-              factualPeriodLength={factualPeriodLengthB}
-              pseudorandomSequence={pseudorandomSequenceB}
-              hammingWeight={hammingWeightB}
-              degreeParam={PARAMS_DEGREE_B}
-              polynomialParam={PARAMS_POLYNOMIAL_B}
-              userValueParam={PARAMS_USER_VALUE_B}
-              polynomialType={POLYNOMIAL_TYPE_B}
-              identifier={`(${POLYNOMIAL_TYPE_B})`}
-              className={"w-[50rem]"}
-              onClick={handleSecondGenClick}
-            />
-          </div>
-          <div className="flex justify-center flex-col my-5">
-            <PeriodInfo
-              factualPeriodLength={periodLengthS}
-              identifier={"(S)"}
-            />
-            <PeriodsCondition
-              polynomialTypeFirst={POLYNOMIAL_TYPE_A}
-              polynomialTypeSecond={POLYNOMIAL_TYPE_B}
-              condition={conditionS}
-            />
-            <CoprimeCondition conditionS={conditionS} />
-          </div>
+            <hr className="border-purpleFirst opacity-30 mb-10" />
 
-          <SumAndProductBlock
-            conditionS={conditionS}
-            onClick={handleClick}
-            dataArray={sumSequence}
-            hammingWeight={hammingWeightSum}
-            dataArray1={productSequence}
-            hammingWeight1={hammingWeightProduct}
-            data1={sumCorrelation}
-            data2={productCorrelation}
-          />
+            <div className="flex justify-evenly flex-row">
+              <LinearGenerator
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
+                structureMatrix={structureMatrixA}
+                conditionMatrix={conditionMatrixA}
+                potentialPeriodLength={potentialPeriodLengthA}
+                factualPeriodLength={factualPeriodLengthA}
+                pseudorandomSequence={pseudorandomSequenceA}
+                hammingWeight={hammingWeightA}
+                degreeParam={PARAMS_DEGREE_A}
+                polynomialParam={PARAMS_POLYNOMIAL_A}
+                userValueParam={PARAMS_USER_VALUE_A}
+                polynomialType={POLYNOMIAL_TYPE_A}
+                identifier={`(${POLYNOMIAL_TYPE_A})`}
+                className={"w-[50rem]"}
+                onClick={handleFirstGenClick}
+              />
+              <LinearGenerator
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
+                structureMatrix={structureMatrixB}
+                conditionMatrix={conditionMatrixB}
+                potentialPeriodLength={potentialPeriodLengthB}
+                factualPeriodLength={factualPeriodLengthB}
+                pseudorandomSequence={pseudorandomSequenceB}
+                hammingWeight={hammingWeightB}
+                degreeParam={PARAMS_DEGREE_B}
+                polynomialParam={PARAMS_POLYNOMIAL_B}
+                userValueParam={PARAMS_USER_VALUE_B}
+                polynomialType={POLYNOMIAL_TYPE_B}
+                identifier={`(${POLYNOMIAL_TYPE_B})`}
+                className={"w-[50rem]"}
+                onClick={handleSecondGenClick}
+              />
+            </div>
+            <div className="flex justify-center flex-col my-5">
+              <PeriodInfo
+                factualPeriodLength={periodLengthS}
+                identifier={"(S)"}
+              />
+              <PeriodsCondition
+                polynomialTypeFirst={POLYNOMIAL_TYPE_A}
+                polynomialTypeSecond={POLYNOMIAL_TYPE_B}
+                condition={conditionS}
+              />
+              <CoprimeCondition conditionS={conditionS} />
+            </div>
+
+            <SumAndProductBlock
+              conditionS={conditionS}
+              onClick={handleClick}
+              dataArray={sumSequence}
+              hammingWeight={hammingWeightSum}
+              dataArray1={productSequence}
+              hammingWeight1={hammingWeightProduct}
+              data1={sumCorrelation}
+              data2={productCorrelation}
+            />
+          </SectionBlock>
         </PageWrapper>
       </Section>
     </>
