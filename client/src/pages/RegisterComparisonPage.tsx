@@ -39,6 +39,7 @@ import Section from "../components/PageComponents/Section.tsx";
 import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
 import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
 import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
+import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
 
 const RegisterComparisonPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -96,9 +97,13 @@ const RegisterComparisonPage = observer(() => {
   const [matrixSeqBlockLengths, setMatrixSeqBlockLengths] = useState<number[]>(
     [],
   );
+
+  const [linearCorrelation, setLinearCorrelation] = useState<number[]>([]);
+  const [matrixCorrelation, setMatrixCorrelation] = useState<number[]>([]);
+
   const [sharedWeights, setSharedWeights] = useState<number[]>([]);
   const [valueRestriction, setValueRestriction] = useState<number>(0);
-
+  const [selectedChart, setSelectedChart] = useState<boolean>(true);
   const [searchParams, setSearchParams] = useSearchParams({});
 
   useEffect(() => {
@@ -122,6 +127,7 @@ const RegisterComparisonPage = observer(() => {
       setHammingWeightLinear,
       setLoading,
       setError,
+      setLinearCorrelation,
     );
   };
 
@@ -153,6 +159,7 @@ const RegisterComparisonPage = observer(() => {
       setHammingWeightSpectre,
       setLoading,
       setError,
+      setMatrixCorrelation,
     );
   };
 
@@ -171,6 +178,10 @@ const RegisterComparisonPage = observer(() => {
     userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
   };
 
+  const handleSwitch = () => {
+    setSelectedChart((prev) => !prev);
+  };
+
   return (
     <>
       {userStore.isAuth && (
@@ -187,7 +198,22 @@ const RegisterComparisonPage = observer(() => {
           <SectionBlock>
             <PageHeader
               title="Порівняння лінійного та матричного регістрів"
-              paragraph=""
+              paragraph="
+                Сторінка надає можливість порівняти
+                та проаналізувати властивості псевдовипадкових послідовностей,
+                які згенеровані лінійним та матричним генераторами.
+                Вона має ті ж функції що й індивідуальні сторінки генераторів,
+                включаючи налаштування параметрів генерації та запуск процесу генерації.
+                Додатково на сторінці представлений графік автокореляції,
+                що візуалізує значення автокореляції для послідовностей,
+                згенерованих цими генераторами а також графік ваг Хеммінгу,
+                який допомагає аналізувати стійкість та розподіл ваг послідовностей
+                у блоках певної довжини,
+                створюваних різними методами.
+                Загалом, сторінка є потужним інструментом для дослідників та розробників,
+                дозволяючи глибше зрозуміти різницю між лінійним та матричним генераторами
+                та їх вплив зміни значень на властивості псевдовипадкових послідовностей.
+              "
             />
 
             <hr className="border-purpleFirst opacity-30 mb-10" />
@@ -242,24 +268,41 @@ const RegisterComparisonPage = observer(() => {
                 />
               </div>
             </div>
-            <div className="my-5 flex flex-col items-center justify-center">
-              <InputBlockLength
-                inputLabel="Довжина блоку"
-                inputPlaceholder="2"
-                urlParamName={PARAMS_HAMMING_BLOCK}
-                setSearchParams={setSearchParams}
-                searchParams={searchParams}
-                valueRestriction={valueRestriction}
-              />
-              <GenButton onClick={handleClick}>Провести розрахунки</GenButton>
+
+            <div className="my-5 flex items-center justify-center">
+              <GenButton onClick={handleSwitch}>
+                Переключитись на інший графік
+              </GenButton>
             </div>
 
-            <div className="flex h-full w-full items-center justify-center">
-              <HammingChart
-                data1={linearSeqBlockLengths}
-                data2={matrixSeqBlockLengths}
-                xAxisLabels={sharedWeights}
-              />
+            <div className="flex flex-col h-full w-full items-center justify-center">
+              {selectedChart ? (
+                <CorrelationChart
+                  data1={linearCorrelation}
+                  data2={matrixCorrelation}
+                />
+              ) : (
+                <>
+                  <div className="my-8 flex flex-col items-center justify-center">
+                    <InputBlockLength
+                      inputLabel="Довжина блоку"
+                      inputPlaceholder="2"
+                      urlParamName={PARAMS_HAMMING_BLOCK}
+                      setSearchParams={setSearchParams}
+                      searchParams={searchParams}
+                      valueRestriction={valueRestriction}
+                    />
+                    <GenButton onClick={handleClick}>
+                      Провести розрахунки
+                    </GenButton>
+                  </div>
+                  <HammingChart
+                    data1={linearSeqBlockLengths}
+                    data2={matrixSeqBlockLengths}
+                    xAxisLabels={sharedWeights}
+                  />
+                </>
+              )}
             </div>
           </SectionBlock>
         </PageWrapper>

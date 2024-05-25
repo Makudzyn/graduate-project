@@ -35,7 +35,7 @@ function LinearMatricesBlock({
 
   let dynamicClass;
   if (containerWidth < 500) {
-    dynamicClass = "flex-col justify-between h-[41.5rem]";
+    dynamicClass = "flex-col justify-between h-[44.5rem]";
   } else {
     dynamicClass = "flex-wrap justify-center gap-5";
   }

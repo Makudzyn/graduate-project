@@ -132,22 +132,23 @@ const MatrixGenerator = ({
         </div>
       </div>
 
-      <div className="mt-5 flex justify-center mb-2.5">
-        <div className="flex flex-col items-center w-[85.203rem] h-[400px]">
+      <div className="mt-5 flex flex-col justify-center mb-2.5">
+        <div className="flex flex-col items-center w-[85.203rem]">
           <Header3>Матриці {identifierS}[1..N]</Header3>
           <ConditionMatrixBlock
             conditionMatrix={conditionMatrix}
             basisMatrix={basisMatrix}
           />
-          <div className="my-5 flex w-full justify-center">
-            <div className="flex w-full flex-col justify-between h-[5.625rem]">
-              <PeriodInfo
-                potentialPeriodLength={factualPeriodLengthS}
-                factualPeriodLength={potentialPeriodLengthS}
-                identifier={`(${identifierS})`}
-              />
-            </div>
-          </div>
+        </div>
+      </div>
+
+      <div className="mt-3 mb-6 flex w-full justify-center h-[6.875rem]">
+        <div className="flex w-full flex-col justify-between">
+          <PeriodInfo
+            potentialPeriodLength={potentialPeriodLengthS}
+            factualPeriodLength={factualPeriodLengthS}
+            identifier={`(${identifierS})`}
+          />
         </div>
       </div>
 

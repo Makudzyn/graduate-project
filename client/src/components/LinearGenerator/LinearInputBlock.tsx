@@ -50,7 +50,7 @@ const LinearInputBlock = observer(
     const INPUT_LABEL = `Введіть початковий стан ${polynomialType || ""}`;
 
     return (
-      <div className="flex flex-col justify-center w-[25rem]">
+      <div className="flex flex-col justify-center w-[25rem] px-3">
         <SelectValue
           searchParams={searchParams}
           setSearchParams={setSearchParams}

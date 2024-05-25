@@ -130,7 +130,7 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
       x: 0.5,
       y: 1,
     },
-    margin: { // Добавляем отступы, чтобы легенда не перекрывала заголовок графика
+    margin: {
       t: 60,
     },
     showlegend: !!(data1 && data2),

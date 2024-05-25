@@ -54,7 +54,7 @@ const InputBinary = ({
     <div className="pt-2 pb-5 font-medium text-gray-900 leading-6">
       <label
         htmlFor="binary-input"
-        className="block text-lg"
+        className="block h-6 text-lg"
       >
         {inputLabel}
       </label>
