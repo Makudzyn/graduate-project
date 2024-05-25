@@ -134,20 +134,16 @@ export function formatArrayIfCyclic(
   return polynomialArr;
 }
 
-export function calculateFactualPeriodS(
+export function defineCyclicLimitation(
   isCyclicA: string,
   isCyclicB: string,
   factualPeriodLengthA: number,
   factualPeriodLengthB: number,
-  condition: number,
 ) {
-  let factualPeriodLengthS;
   if (isCyclicA === "true") {
-    factualPeriodLengthS = factualPeriodLengthB;
+    return factualPeriodLengthB;
   } else if (isCyclicB === "true") {
-    factualPeriodLengthS = factualPeriodLengthA;
-  } else if (condition !== 1) {
-    factualPeriodLengthS = condition;
-  } else factualPeriodLengthS = factualPeriodLengthA * factualPeriodLengthB;
-  return factualPeriodLengthS;
+    return factualPeriodLengthA;
+  }
+  return undefined;
 }

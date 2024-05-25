@@ -7,8 +7,8 @@ import {
 import { Dispatch, SetStateAction } from "react";
 import {
   calcHammingWeightSpectre,
-  calcLengthByFormula, calculateFactualPeriodS,
-  createMatrixInitialArray,
+  calcLengthByFormula,
+  createMatrixInitialArray, defineCyclicLimitation,
   findGCD, formatArrayIfCyclic,
   formatHammingWeight,
   generateMatrixBasis,
@@ -142,17 +142,10 @@ export async function matrixCalculations(
   setFactualPeriodLengthA(factualPeriodLengthA);
   setFactualPeriodLengthB(factualPeriodLengthB);
 
+  const cyclicPeriodLimitation = defineCyclicLimitation(isCyclicA, isCyclicB, factualPeriodLengthA, factualPeriodLengthB);
+
   const condition = findGCD(factualPeriodLengthA, factualPeriodLengthB);
   setConditionS(condition);
-
-  const factualPeriodLengthS = calculateFactualPeriodS(
-    isCyclicA,
-    isCyclicB,
-    factualPeriodLengthA,
-    factualPeriodLengthB,
-    condition,
-  );
-  setFactualPeriodLengthS(factualPeriodLengthS);
 
   const structureMatrixA = generateStructureMatrixA(
     degreeA,
@@ -163,6 +156,7 @@ export async function matrixCalculations(
     degreeB,
     createMatrixInitialArray(degreeB, polynomialArrB),
   );
+
 
   const basisMatrix = generateMatrixBasis(degreeA, degreeB, matrixRank);
 
@@ -189,10 +183,12 @@ export async function matrixCalculations(
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
-      factualPeriodLengthS,
       indexI,
       indexJ,
+      cyclicPeriodLimitation,
     );
+    const factualPeriodLengthS = pseudorandomSequence.length - 1;
+    setFactualPeriodLengthS(factualPeriodLengthS);
     setConditionMatrix(conditionMatrix);
     setPseudorandomSequence(pseudorandomSequence);
     setHammingWeight(hammingWeight);

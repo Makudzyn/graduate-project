@@ -33,18 +33,18 @@ export const sendMatrixGeneratorData = async (
   structureMatrixA: number[][],
   structureMatrixB: number[][],
   basisMatrix: number[][],
-  periodLengthS: number,
   indexI: number,
   indexJ: number,
+  cyclicPeriodLimitation: number | undefined,
 ) => {
   try {
     const { data } = await $host.post("api/polynomials/compute-matrix", {
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
-      periodLengthS,
       indexI,
       indexJ,
+      cyclicPeriodLimitation
     });
     return data;
   } catch (error) {
