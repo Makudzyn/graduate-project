@@ -31,7 +31,7 @@ const SumAndProductBlock = ({
         <>
           <div className="mb-8 flex items-center justify-center p-2.5">
             <GenButton onClick={onClick}>
-              Згенерувати послідовності суми та добутку
+              Згенерувати послідовності сум та добутків
             </GenButton>
           </div>
           <div className="flex w-full flex-col my-4 mx-3">

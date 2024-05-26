@@ -1,6 +1,14 @@
 import { Polynomial, PolynomialType, SortState } from "../utils/interfacesAndTypes.ts";
-import { inputsValidityCheckLinear, inputsValidityCheckMatrix } from "./validationFunctions.ts";
-import { linearCalculations, matrixCalculations } from "./requestFunctions/calculationRequestFunctions.ts";
+import {
+  inputsValidityCheckFrobenius,
+  inputsValidityCheckLinear,
+  inputsValidityCheckMatrix
+} from "./validationFunctions.ts";
+import {
+  frobeniusCalculations,
+  linearCalculations,
+  matrixCalculations
+} from "./requestFunctions/calculationRequestFunctions.ts";
 import { Dispatch, SetStateAction } from "react";;
 
 export function classNames(...classes: string[]) {
@@ -25,7 +33,7 @@ export function createPlaceholder(polynomial: string): string {
 //Handling generation click
 export const linearValidationBeforeCalculations = (
   searchParams: URLSearchParams,
-  PARAMS_DEGREE: string, PARAMS_POLYNOMIAL: string, PARAMS_USER_VALUE: string,
+  degreeParam: string, polynomialParam: string, userValueParam: string,
   setStructureMatrix: Dispatch<SetStateAction<number[][]>>,
   setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
   setPotentialPeriodLength: Dispatch<SetStateAction<number>>,
@@ -38,11 +46,11 @@ export const linearValidationBeforeCalculations = (
   polynomialType?: PolynomialType,
 ) => {
   let calculated = false;
-  const isValid = inputsValidityCheckLinear(searchParams, PARAMS_DEGREE, PARAMS_POLYNOMIAL, PARAMS_USER_VALUE, setError, polynomialType);
+  const isValid = inputsValidityCheckLinear(searchParams, degreeParam, polynomialParam, userValueParam, setError, polynomialType);
   if (isValid) {
     linearCalculations(
       searchParams,
-      PARAMS_DEGREE, PARAMS_POLYNOMIAL, PARAMS_USER_VALUE,
+      degreeParam, polynomialParam, userValueParam,
       setStructureMatrix, setConditionMatrix,
       setPotentialPeriodLength, setFactualPeriodLength,
       setPseudorandomSequence,
@@ -57,10 +65,10 @@ export const linearValidationBeforeCalculations = (
 
 export const matrixValidationBeforeCalculations = (
   searchParams: URLSearchParams,
-  PARAMS_DEGREE_A: string, PARAMS_DEGREE_B: string,
-  PARAMS_POLYNOMIAL_A: string, PARAMS_POLYNOMIAL_B: string,
-  PARAMS_CYCLIC_POLY_A: string, PARAMS_CYCLIC_POLY_B: string,
-  PARAMS_OUTPUT_INDEX_I: string, PARAMS_OUTPUT_INDEX_J: string, PARAMS_MATRIX_RANK: string,
+  degreeParamA: string, degreeParamB: string,
+  polynomialParamA: string, polynomialParamB: string,
+  cyclicParamA: string, cyclicParamB: string,
+  outputIndexParamI: string, outputIndexParamJ: string, matrixRankParam: string,
   setStructureMatrixA: Dispatch<SetStateAction<number[][]>>,
   setStructureMatrixB: Dispatch<SetStateAction<number[][]>>,
   setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
@@ -83,19 +91,19 @@ export const matrixValidationBeforeCalculations = (
   const isValid =
     inputsValidityCheckMatrix(
       searchParams,
-      PARAMS_DEGREE_A, PARAMS_DEGREE_B,
-      PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B,
-      PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
-      PARAMS_OUTPUT_INDEX_I, PARAMS_OUTPUT_INDEX_J, PARAMS_MATRIX_RANK,
+      degreeParamA, degreeParamB,
+      polynomialParamA, polynomialParamB,
+      cyclicParamA, cyclicParamB,
+      outputIndexParamI, outputIndexParamJ, matrixRankParam,
       setError
     );
   if (isValid) {
     matrixCalculations(
       searchParams,
-      PARAMS_DEGREE_A, PARAMS_DEGREE_B,
-      PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B,
-      PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
-      PARAMS_OUTPUT_INDEX_I, PARAMS_OUTPUT_INDEX_J, PARAMS_MATRIX_RANK,
+      degreeParamA, degreeParamB,
+      polynomialParamA, polynomialParamB,
+      cyclicParamA, cyclicParamB,
+      outputIndexParamI, outputIndexParamJ, matrixRankParam,
       setStructureMatrixA, setStructureMatrixB,
       setConditionMatrix, setBasisMatrix,
       setPotentialPeriodLengthA, setPotentialPeriodLengthB, setFactualPeriodLengthS,
@@ -110,6 +118,65 @@ export const matrixValidationBeforeCalculations = (
   return calculated;
 }
 
+export const frobeniusValidationBeforeCalculations = (
+  searchParams: URLSearchParams,
+  degreeParam: string,
+  polynomialParam: string,
+  userValueParam: string,
+  decomposedPolyParam: string,
+  outputIndexParamI: string,
+  outputIndexParamJ: string,
+  setStructureMatrixA: Dispatch<SetStateAction<number[][]>>,
+  setStructureMatrixB: Dispatch<SetStateAction<number[][]>>,
+  setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
+  setBasisMatrix: Dispatch<SetStateAction<number[][]>>,
+  setPotentialPeriodLength: Dispatch<SetStateAction<number>>,
+  setPotentialPeriodLengthS: Dispatch<SetStateAction<number>>,
+  setFactualPeriodLength: Dispatch<SetStateAction<number>>,
+  setFactualPeriodLengthS: Dispatch<SetStateAction<number>>,
+  setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
+  setHammingWeight: Dispatch<SetStateAction<number>>,
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  setError: Dispatch<SetStateAction<string | null>>,
+  setCorrelation: Dispatch<SetStateAction<number[]>>,
+) => {
+  let calculated = false;
+  const isValid =
+    inputsValidityCheckFrobenius(
+      searchParams,
+      degreeParam,
+      polynomialParam,
+      userValueParam,
+      decomposedPolyParam,
+      outputIndexParamI,
+      outputIndexParamJ,
+      setError
+    );
+  if (isValid) {
+    frobeniusCalculations(
+      searchParams,
+      degreeParam,
+      polynomialParam,
+      userValueParam,
+      decomposedPolyParam,
+      // outputIndexParamI, outputIndexParamJ,
+      setStructureMatrixA,
+      setStructureMatrixB,
+      // setConditionMatrix,
+      setBasisMatrix,
+      setPotentialPeriodLength,
+      setPotentialPeriodLengthS,
+      setFactualPeriodLength,
+      // setFactualPeriodLengthS,
+      // setPseudorandomSequence,
+      // setHammingWeight,
+      // setLoading,
+      // setError,
+      // setCorrelation,
+    ).then(() => calculated = true);
+  }
+  return calculated;
+}
 
 
 //TABLE FUNCTIONS

@@ -139,3 +139,59 @@ export function inputsValidityCheckMatrix(
 
   return true;
 }
+
+export function inputsValidityCheckFrobenius(
+  searchParams: URLSearchParams,
+  degreeParam: string,
+  polynomialParam: string,
+  userValueParam: string,
+  decomposedPolyParam: string,
+  indexParamI: string,
+  indexParamJ: string,
+  setError: Dispatch<SetStateAction<string | null>>,
+) {
+  const degree = parseInt(getSelectedParam(degreeParam, searchParams) || "");
+  if (degreeValidity(degree)) {
+    setError("Ступінь поліному для матриці не обрано або в його значенні є помилка.");
+    return false;
+  }
+
+  const polynomial = getSelectedParam(polynomialParam, searchParams);
+  if (polynomialValidity(polynomial)) {
+    setError("Поліном матриці не обрано або в його написанні є помилка.");
+    return false;
+  }
+
+  // @ts-ignore
+  const { polyBinary } = polynomialDestructuring(polynomial); //We're checking if it`s null in previous function but TS don`t see it
+  if (polynomialAccordanceValidity(degree, polyBinary)) {
+    setError("Поліном матриці A не відповідає обраному ступеню.");
+    return false;
+  }
+
+  const decompositionRule = getSelectedParam(userValueParam, searchParams);
+  if (decompositionRule === null) {
+    setError(`Правила розбиття на допоміжні поліноми не надано або не було введено.`);
+    return false;
+  }
+
+  const decomposedPoly = getSelectedParam(decomposedPolyParam+0, searchParams);
+  if (decomposedPoly === null) {
+    setError(`Не обрано допоміжні поліноми.`);
+    return false;
+  }
+
+  const indexI = parseInt(getSelectedParam(indexParamI, searchParams) || "");
+  if (indexI !== null && (indexI >= degree || indexI < 0)) {
+    setError("Некоректне значення індексу вихідного елемента I.")
+    return false;
+  }
+
+  const indexJ = parseInt(getSelectedParam(indexParamJ, searchParams) || "");
+  if (indexJ !== null && (indexJ >= degree || indexJ < 0)) {
+    setError("Некоректне значення індексу вихідного елемента J.")
+    return false;
+  }
+
+  return true;
+}

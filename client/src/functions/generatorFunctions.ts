@@ -34,6 +34,7 @@ export function generateStructureMatrixA(
   return structureMatrix;
 }
 
+
 export function generateStructureMatrixB(
   degree: number,
   structureColumn: number[],
@@ -52,6 +53,83 @@ export function generateStructureMatrixB(
     }
   }
   return structureMatrix;
+}
+
+export function inverseMatrix(matrix: number[][]): number[][] {
+  const n = matrix.length;
+  const m = matrix[0].length;
+
+  const augmentedMatrix = Array.from({ length: n }, () => Array(m * 2).fill(0));
+
+  for (let j = 0; j < m; j++) {
+    for (let i = 1; i < n; i++) {
+      augmentedMatrix[i - 1][j] = matrix[i][j];
+    }
+    augmentedMatrix[n - 1][j] = matrix[0][j];
+  }
+
+  for (let j = m; j < m * 2; j++) {
+    for (let i = 0; i < n - 1; i++) {
+      augmentedMatrix[i][j] = i === j - m - 1 ? 1 : 0;
+    }
+    augmentedMatrix[n - 1][j] = j - m === 0 ? 1 : 0;
+  }
+
+  for (let i = 0; i < m - 1; i++) {
+    if (augmentedMatrix[n - 1][i] === 1) {
+      for (let j = 0; j < m * 2; j++) {
+        augmentedMatrix[n - 1][j] = convertBinary(augmentedMatrix[n - 1][j] - augmentedMatrix[i][j]);
+      }
+    }
+  }
+
+  const inverse = Array.from({ length: n }, () => Array(m).fill(0));
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      inverse[i][j] = augmentedMatrix[i][j + m];
+    }
+  }
+
+  return inverse;
+}
+
+
+function convertBinary(value: number): number {
+  return (value % 2 + 2) % 2;
+}
+
+export function createEmptyMatrix(rows: number, cols: number): number[][] {
+  return Array.from({ length: rows }, () => Array(cols).fill(0));
+}
+
+export function createFrobeniusMatrix(n: number, polynomials: string[]): number[][] {
+  const frobeniusMatrix = createEmptyMatrix(n, n);
+  let i = 0;
+
+  for (const polynomial of polynomials) {
+    const degree = polynomial.length - 1;
+
+    if (degree === 0) {
+      frobeniusMatrix[i][i] = 1;
+      i += 1;
+
+    } else {
+      const polynomialArr = polynomial.split("").slice(1);
+      const structureMatrix = generateStructureMatrixA(
+        degree,
+        createMatrixInitialArray(degree, polynomialArr),
+      );
+      for (let j = 0; j < degree; j++) {
+        for (let k = 0; k < degree; k++) {
+          frobeniusMatrix[i + j][i + k] = structureMatrix[j][k];
+        }
+      }
+      i += degree;
+    }
+  }
+
+  return frobeniusMatrix;
 }
 
 export function generateMatrixBasis(
