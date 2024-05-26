@@ -133,6 +133,7 @@ const MatrixGeneratorPage = observer(() => {
                 коефіцієнтів та рангу матриці,
                 а також його застосування в різних областях.
               "
+              paragraphWidth="2xl"
             />
             <hr className="border-purpleFirst opacity-30 mb-10" />
 

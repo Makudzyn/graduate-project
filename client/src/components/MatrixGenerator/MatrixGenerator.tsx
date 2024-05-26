@@ -132,8 +132,8 @@ const MatrixGenerator = ({
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col justify-center mb-2.5">
-        <div className="flex flex-col items-center w-[85.203rem]">
+      <div className="mt-5 flex flex-col items-center justify-center mb-2.5">
+        <div className="flex flex-col items-center ju w-[85.203rem]">
           <Header3>Матриці {identifierS}[1..N]</Header3>
           <ConditionMatrixBlock
             conditionMatrix={conditionMatrix}

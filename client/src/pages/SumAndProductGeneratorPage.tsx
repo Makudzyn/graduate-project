@@ -84,7 +84,7 @@ const SumAndProductGeneratorPage = observer(() => {
       const condition = findGCD(factualPeriodLengthA, factualPeriodLengthB);
       setConditionS(condition);
       if (condition !== 1) {
-        setError("Періоди не взаємно прості. Обчислення сум та множень не виконано.");
+        setError("Періоди не взаємно прості. Обчислення сум та добутків не виконано.");
       }
       const periodLengthS = factualPeriodLengthA * factualPeriodLengthB;
       setPeriodLengthS(periodLengthS);
@@ -161,7 +161,7 @@ const SumAndProductGeneratorPage = observer(() => {
         <PageWrapper>
           <SectionBlock>
             <PageHeader
-              title="ЗРЗЗ сум та множень М-послідовностей"
+              title="ЗРЗЗ сум та добутків М-послідовностей"
               paragraph="
                 Генератор призначений для створення псевдовипадкових бінарних
                 послідовностей на основі додавання та множення вихідних M-послідовностей.
@@ -169,12 +169,13 @@ const SumAndProductGeneratorPage = observer(() => {
                 що володіють покращеними характеристиками випадковості та довшими періодами.
                 M-послідовності, або послідовності максимальної довжини,
                 є циклічними послідовностями, що генеруються лінійними регістрами
-                зсуву зі зворотним зв'язком (LFSR) і які мають максимальну довжину періоду
+                зсуву зі зворотним зв'язком і які мають максимальну довжину періоду
                 та хороші статистичні властивості.
                 Цей генератор є потужним інструментом для створення псевдовипадкових послідовностей,
                 які застосовуються в криптографії, моделюванні та інших областях,
                 що вимагають високого рівня випадковості та безпеки.
               "
+              paragraphWidth="2xl"
             />
             <hr className="border-purpleFirst opacity-30 mb-10" />
 

@@ -214,6 +214,7 @@ const RegisterComparisonPage = observer(() => {
                 дозволяючи глибше зрозуміти різницю між лінійним та матричним генераторами
                 та їх вплив зміни значень на властивості псевдовипадкових послідовностей.
               "
+              paragraphWidth="2xl"
             />
 
             <hr className="border-purpleFirst opacity-30 mb-10" />

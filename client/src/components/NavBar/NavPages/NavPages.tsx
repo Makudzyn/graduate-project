@@ -9,8 +9,8 @@ interface NavPageProps {
 
 const NavPages = observer(({ currentPage }: NavPageProps) => {
   return (
-    <div className="hidden md:ml-5 md:flex md:items-center">
-      <ul className="flex space-x-3.5">
+    <div className="hidden md:ml-5 md:flex md:items-center md:justify-center md:w-full">
+      <ul className="flex justify-evenly space-x-3.5 md:w-full">
         {publicRoutes.map((item) => (
           <li key={item.name} className={"flex justify-center items-center"}>
             <NavLink
