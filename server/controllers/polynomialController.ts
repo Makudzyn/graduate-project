@@ -134,25 +134,23 @@ async function matrixComputation(
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
-      periodLengthS,
       indexI,
       indexJ,
+      cyclicPeriodLimitation
     } = req.body;
 
     const { conditionMatrix, pseudorandomSequence } = matrixShiftRegister(
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
-      periodLengthS,
       indexI,
       indexJ,
+      cyclicPeriodLimitation
     );
 
     const hammingWeight = hammingWeightCalc(pseudorandomSequence);
     const convertedPrs = convertPrs(pseudorandomSequence);
     const correlation = autocorrelation(convertedPrs);
-    // const convertedPrs = [-1, 1, 1];
-    // const correlation = [1, 0, 1, 1, 0, 0, 0, 1];
 
     return res.json({
       conditionMatrix,

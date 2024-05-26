@@ -2,6 +2,7 @@ import GenButton from "../CommonGenComponents/GenButton.tsx";
 import Sequence from "../CommonGenComponents/Sequence.tsx";
 import HammingWeight from "../CommonGenComponents/HammingWeight.tsx";
 import CorrelationChart from "../Chart/Plotly/CorrelationChart.tsx";
+import Header3 from "../PageComponents/Headers/Header3.tsx";
 
 interface SumAndProductBlockProps {
   conditionS: number;
@@ -28,20 +29,21 @@ const SumAndProductBlock = ({
     <>
       {conditionS === 1 && (
         <>
-          <div className="flex justify-center items-center p-2.5 my-5">
+          <div className="mb-8 flex items-center justify-center p-2.5">
             <GenButton onClick={onClick}>
               Згенерувати послідовності суми та добутку
             </GenButton>
           </div>
-
-          <label>Послідовність S (сум)</label>
-          <Sequence dataArray={dataArray} />
-          <HammingWeight hammingWeight={hammingWeight} />
-
-          <label>Послідовність P (добуток)</label>
-          <Sequence dataArray={dataArray1} />
-          <HammingWeight hammingWeight={hammingWeight1} />
-
+          <div className="flex w-full flex-col my-4 mx-3">
+            <Header3 align="left">Послідовність S (сум)</Header3>
+            <Sequence dataArray={dataArray} />
+            <HammingWeight hammingWeight={hammingWeight} />
+          </div>
+          <div className="flex w-full flex-col my-4 mx-3">
+            <Header3 align="left">Послідовність P (добутків)</Header3>
+            <Sequence dataArray={dataArray1} />
+            <HammingWeight hammingWeight={hammingWeight1} />
+          </div>
           <div className="flex justify-center items-center w-full h-full">
             <CorrelationChart data1={data1} data2={data2} />
           </div>

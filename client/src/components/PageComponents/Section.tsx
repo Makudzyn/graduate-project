@@ -6,7 +6,7 @@ interface SectionProps {
 
 const Section = ({ children }: SectionProps) => {
  return (
-   <section className="flex h-full justify-center pt-24 px-5">
+   <section className="flex h-full justify-center flex-col items-center pt-24 px-5">
      {children}
    </section>
  );

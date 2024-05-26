@@ -21,7 +21,7 @@ const InputBinary = ({
 }: InputBinaryProps) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [charCount, setCharCount] = useState<number>(0);
-  const [color, setColor] = useState<string>("red-500");
+  const [color, setColor] = useState<string>("");
 
   useEffect(() => {
     const paramValue = getSelectedParam(urlParamName, searchParams);
@@ -47,30 +47,30 @@ const InputBinary = ({
 
     setCharCount(charsCount);
     setInputValue(targetValue);
-    setColor(charsCount === lengthRestriction ? `green-500` : `red-500`);
+    setColor(charsCount === lengthRestriction ? `green` : `red`);
   }
 
   return (
-    <div className="pt-2 pb-5">
+    <div className="pt-2 pb-5 font-medium text-gray-900 leading-6">
       <label
         htmlFor="binary-input"
-        className="block text-sm leading-6 text-gray-900"
+        className="block h-6 text-lg"
       >
         {inputLabel}
       </label>
       <div className="relative">
         <input
           id="binary-input"
-          className={`focus:ring-${color}
-          mt-2 block w-full truncate rounded-md bg-white px-[1.75em] text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 focus:outline-none focus:ring-2 text-sm leading-6`}
+          className={`${color === "red" ? "focus:ring-red-500" : "focus:ring-green-500"}
+          mt-2 block w-full truncate rounded-md bg-white text-sm+ px-[1.75em] text-left shadow-lg ring-1 ring-inset ring-gray-300 py-2 focus:outline-none focus:ring-2 `}
           placeholder={inputPlaceholder}
           onChange={handleChange}
           value={inputValue}
           required
-          title={"Please enter only 0 or 1"}
+          title={"Інпут приймає тільки бінарні значення (0 та 1)"}
           maxLength={lengthRestriction}
         />
-        <span className={`text-${color} absolute select-none flex justify-center items-center right-0 top-0 bottom-0 px-[1.75em] text-xs font-semibold opacity-50`}>
+        <span className={`${color === "red" ? "text-red-500" : "text-green-500"} absolute select-none flex justify-center items-center right-0 top-0 bottom-0 px-[1.75em] text-xs font-semibold opacity-50`}>
           {charCount}/{lengthRestriction}
         </span>
       </div>

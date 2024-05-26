@@ -1,6 +1,6 @@
 import { Disclosure } from "@headlessui/react";
-import BurgerMenuIcon from "../../assets/burger-menu.svg?react";
-import CloseMenuIcon from "../../assets/close.svg?react";
+import BurgerMenuIcon from "../../assets/svg/burger-menu.svg?react";
+import CloseMenuIcon from "../../assets/svg/close.svg?react";
 
 interface MobileMenuProps {
    open: boolean;

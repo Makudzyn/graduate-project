@@ -7,6 +7,7 @@ import SequenceType from "../CommonGenComponents/SequenceType.tsx";
 import Sequence from "../CommonGenComponents/Sequence.tsx";
 import HammingWeight from "../CommonGenComponents/HammingWeight.tsx";
 import LinearMatricesBlock from "./LinearMatricesBlock.tsx";
+import Header3 from "../PageComponents/Headers/Header3.tsx";
 
 interface LinearGeneratorProps {
   searchParams: URLSearchParams;
@@ -56,7 +57,7 @@ const LinearGenerator = ({
         />
       </div>
 
-      <div className="mb-5 flex items-center justify-center p-2.5">
+      <div className="mb-8 flex items-center justify-center p-2.5">
         <GenButton onClick={onClick}>Розпочати генерацію</GenButton>
       </div>
 
@@ -66,8 +67,8 @@ const LinearGenerator = ({
         conditionMatrix={conditionMatrix}
       />
 
-      <div className="my-5 flex w-full justify-center">
-        <div className="flex flex-col justify-between w-full h-[5.625rem]">
+      <div className="mt-3 mb-6 flex w-full justify-center h-[6.875rem]">
+        <div className="flex flex-col justify-between w-full">
           <PeriodInfo
             potentialPeriodLength={potentialPeriodLength}
             factualPeriodLength={factualPeriodLength}
@@ -81,7 +82,9 @@ const LinearGenerator = ({
       </div>
 
       <div className="flex w-full flex-col py-2 px-3">
-        <h3>Згенерована послідовність {polynomialType}</h3>
+        <Header3 align="left">
+          Згенерована послідовність {polynomialType}
+        </Header3>
         <Sequence dataArray={pseudorandomSequence} />
         <HammingWeight hammingWeight={hammingWeight} />
       </div>

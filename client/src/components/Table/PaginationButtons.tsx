@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import ChevronIcon from "../../assets/chevron.svg?react";
+import ChevronIcon from "../../assets/svg/chevron.svg?react";
 interface PaginationButtonsProps {
   totalCount: number;
   limit: number;

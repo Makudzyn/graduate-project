@@ -2,6 +2,7 @@ import Plot from "react-plotly.js";
 import { Config, Data, Layout } from "plotly.js";
 import "./plotly-styles.css";
 import { memo } from "react";
+import { useLocation } from "react-router-dom";
 interface CorrelationChartProps {
   data1: number[];
   data2?: number[];
@@ -11,10 +12,22 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
   let yAxisLimit = 1.1;
   let xAxisLimit = -1.1;
 
+  const legendNames = () => {
+    const location = useLocation();
+    if (data1 && data2) {
+      if (location.pathname === "/sum-and-product-generator") {
+        return {"name1": "Послідовність S (сум)", "name2": "Послідовність P (добутків)"}
+      } else if (location.pathname === "/register-comparison") {
+        return {"name1": "Лінійна послідовність", "name2": "Матрична послідовність"}
+      }
+    }
+    return {};
+  }
 
   const plotData = [
     {
       y: data1,
+      name: data1 && data2 && legendNames().name1,
       type: "scattergl",
       mode: "lines+markers",
       marker: {
@@ -32,6 +45,7 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
     },
     {
       y: data2,
+      name: data1 && data2 && legendNames().name2,
       type: "scattergl",
       mode: "lines+markers",
       marker: {
@@ -50,16 +64,76 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
   ] as Data[];
 
   const plotLayout = {
-    title: "Автокореляційний графік",
+    title: {
+      text: "Автокореляційний графік",
+      font: {
+        size: 24,
+        color: "#18181b",
+        family: "Arial",
+        weight: "bold"
+      },
+    },
     xaxis: {
-      title: "Індекс",
+      title: {
+        text: "Індекс",
+        font: {
+          size: 18,
+          color: "#18181b",
+          family: "Arial",
+          weight: "bold"
+        },
+      },
       type: "linear",
+      tickfont: {
+        size: 16, // изменение размера шрифта для подписей оси X
+        color: "#18181b",
+        family: "Inter"
+      },
     },
     yaxis: {
-      title: "Коєфіцієнт корреляції",
+      title: {
+        text:"Коєфіцієнт корреляції",
+        font: {
+          size: 18,
+          color: "#18181b",
+          family: "Arial",
+          weight: "bold"
+        },
+      },
+      tickfont: {
+        size: 16, // изменение размера шрифта для подписей оси X
+        color: "#18181b",
+        family: "Inter"
+      },
       range: [xAxisLimit, yAxisLimit],
     },
-    showlegend: false,
+    hoverlabel: {
+      font: {
+        size: 16,
+        color: "#18181b",
+        family: "Arial",
+      },
+      align: "left",
+      bgcolor: "#fff",
+      bordercolor: "#d1d5db",
+      borderwidth: 2,
+    },
+    legend: {
+      orientation: "h",
+      xanchor: "center",
+      yanchor: "middle",
+      font: {
+        size: 12,
+        color: "#18181b",
+        family: "Arial",
+      },
+      x: 0.5,
+      y: 1,
+    },
+    margin: {
+      t: 60,
+    },
+    showlegend: !!(data1 && data2),
   } as Partial<Layout>;
 
   const plotConfig = {

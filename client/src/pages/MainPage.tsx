@@ -1,21 +1,63 @@
-import Section from "../components/CommonGenComponents/Section.tsx";
-import PageWrapper from "../components/CommonGenComponents/PageWrapper.tsx";
-import MainHeader from "../components/CommonGenComponents/MainHeader.tsx";
+import BlockWrapper from "../components/MainPage/BlockWrapper.tsx";
+import SectionTitle from "../components/MainPage/SectionTitle.tsx";
+import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
+import Section from "../components/PageComponents/Section.tsx";
+import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
+import FeaturesBlock from "../components/MainPage/Features/FeaturesBlock.tsx";
+import InstructionsBlock from "../components/MainPage/Instructions/InstructionsBlock.tsx";
+import BlockFAQ from "../components/MainPage/FAQ/BlockFAQ.tsx";
 
 const MainPage = () => {
   return (
     <Section>
-      <PageWrapper>
-        <h1>Потрібно згенерувати або дослідити бінарні псевдовипадкові послідовності?</h1>
-        <hr/>
-        <p>
-          У цьому застосунку ви зможете це зробити!
-          На сайті розміщені лінійний генератор зі зворотним зв'язком (LSFR),
-          матричний генератор та генератор послідовностей сум та добутків.
-          Також є сторінка де ви зможете дослідити та порівняти side-by-side властивості,
-          значення та особливості лінійного та матричного генераторів псевдовипадкових послідовностей!
-        </p>
-      </PageWrapper>
+      <SectionBlock>
+        <BlockWrapper>
+          <PageHeader
+            title="Дослідження та генерація матричних кодів та послідовностей"
+            paragraph="
+              Вивчення та створення матричних кодів та послідовностей:
+              різноманітні генератори та порівняння їх характеристик на одній платформі.
+            "
+            paragraphWidth={"md"}
+          />
+        </BlockWrapper>
+      </SectionBlock>
+      <SectionBlock>
+        <BlockWrapper>
+          <SectionTitle
+            headerTitle="Особливості та переваги"
+            paragraphText="
+              Дослідіть безліч функцій та переваг,
+              які роблять цей сайт ідеальним вибором для вивчення
+              та генерації матричних кодів та послідовностей.
+            "
+            alignCenter
+          />
+          <FeaturesBlock/>
+        </BlockWrapper>
+      </SectionBlock>
+      <SectionBlock>
+        <BlockWrapper>
+          <SectionTitle
+            headerTitle="Інструкції користувача"
+            paragraphText="Вивчіть функціонал з докладними інструкціями та ілюстраціями"
+            alignCenter
+          />
+          <InstructionsBlock/>
+        </BlockWrapper>
+      </SectionBlock>
+      <SectionBlock>
+        <BlockWrapper>
+          <SectionTitle
+            headerTitle="Питання та відповіді"
+            paragraphText="
+              Є питання? У цьому розділі складено список найпоширеніших запитань,
+              щоб допомогти вам краще пізнати цей застосунок.
+            "
+          />
+          <BlockFAQ/>
+        </BlockWrapper>
+      </SectionBlock>
     </Section>
   );
 };

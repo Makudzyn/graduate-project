@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<svg width="24.000000000000004" height="24.000000000000004" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" version="1.1">
+ <title>list-line</title>
+ <g class="layer">
+  <title>Layer 1</title>
+  <path d="m3.74,1.03l16.48,0c1.51,0 2.75,1.23 2.75,2.74l0,16.45c0,1.51 -1.24,2.74 -2.75,2.74l-16.48,0c-1.51,0 -2.75,-1.23 -2.75,-2.74l0,-16.45c0,-1.51 1.24,-2.74 2.75,-2.74z" fill="none" id="svg_9" stroke="current" stroke-linecap="round" stroke-width="2"/>
+  <rect class="clr-i-outline clr-i-outline-path-1" height="1.55" id="svg_1" rx="0.7" ry="0.7" transform="matrix(1 0 0 1 0 0)" width="12" x="8" y="5.25"/>
+  <circle cx="5" cy="6" id="svg_5" r="0.75" transform="matrix(1 0 0 1 0 0)"/>
+  <rect class="clr-i-outline clr-i-outline-path-1" height="1.55" id="svg_41" rx="0.7" ry="0.7" transform="matrix(1 0 0 1 0 0)" width="12" x="8" y="9.25"/>
+  <circle cx="5" cy="10" id="svg_42" r="0.75" transform="matrix(1 0 0 1 0 0)"/>
+  <rect class="clr-i-outline clr-i-outline-path-1" height="1.55" id="svg_44" rx="0.7" ry="0.7" transform="matrix(1 0 0 1 0 0)" width="12" x="8" y="17.25"/>
+  <circle cx="5" cy="18" id="svg_45" r="0.75" transform="matrix(1 0 0 1 0 0)"/>
+  <rect class="clr-i-outline clr-i-outline-path-1" height="1.55" id="svg_47" rx="0.7" ry="0.7" transform="matrix(1 0 0 1 0 0)" width="12" x="8" y="13.26"/>
+  <circle cx="5" cy="14" id="svg_48" r="0.75" transform="matrix(1 0 0 1 0 0)"/>
+ </g>
+</svg>

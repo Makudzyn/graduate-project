@@ -6,8 +6,8 @@ export const REGISTRATION_ROUTE = "/registration";
 export const POLYNOMIALS_ROUTE = "/polynomials";
 export const LINEAR_GEN_ROUTE = "/linear-generator";
 export const MATRIX_GEN_ROUTE = "/matrix-generator";
-export const SUM_AND_MULTI_GEN_ROUTE = "/sum-and-multiplication-generator";
-export const HAMMING_WEIGHT_ANALYSIS_ROUTE = "/hamming-weight-analysis";
+export const SUM_AND_PRODUCT_GEN_ROUTE = "/sum-and-product-generator";
+export const REGISTER_COMPARISON = "/register-comparison";
 
 //URL query params
 export const PARAMS_DEGREE = "degree";
