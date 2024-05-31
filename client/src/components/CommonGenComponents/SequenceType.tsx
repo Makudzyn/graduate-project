@@ -8,7 +8,7 @@ const SequenceType = ({
   potentialPeriodLength,
 }: SequenceTypeProps) => {
   return (
-    <h5 className="my-1 w-full text-center">
+    <h5 className="my-1 w-full text-center font-medium text-lg">
       Вид послідовності ={" "}
       {periodLengthByFormula === potentialPeriodLength ? "M" : "C"}
       -послідовність

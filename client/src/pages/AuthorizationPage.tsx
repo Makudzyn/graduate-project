@@ -4,7 +4,7 @@ import { FormEvent, useContext, useState } from "react";
 import { Context } from "../main.tsx";
 import { loginReq } from "../http/userAPI.ts";
 import { observer } from "mobx-react-lite";
-import bigDataIco from "../assets/big-data.svg";
+import bigDataIco from "../assets/svg/big-data.svg";
 import FormInput from "../components/Form/FormInput.tsx";
 import FormHeader from "../components/Form/FormHeader.tsx";
 import Checkbox from "../components/Form/Checkbox.tsx";
@@ -39,7 +39,7 @@ const AuthorizationPage = observer(() => {
   }
 
   return (
-    <div className="bg-lightBg flex items-center justify-center min-h-screen pt-16 shadow-md shadow-purpleFirst font-poppins">
+    <div className="bg-lightBg flex items-center justify-center min-h-screen pt-20 shadow-md shadow-purpleFirst font-poppins">
       <div className="w-full max-w-md p-6 rounded-lg">
         <a
           href="#"

@@ -1,5 +1,6 @@
-import { VariableSizeList } from "react-window";
-import { CSSProperties, useRef } from "react";
+import { VariableSizeGrid } from "react-window";
+import { CSSProperties, useEffect, useRef, useState } from "react";
+import "./scrollbar.css";
 
 interface SequenceProps {
   dataArray: number[];
@@ -7,46 +8,48 @@ interface SequenceProps {
 
 const Sequence = ({ dataArray }: SequenceProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const containerWidth =  containerRef.current?.offsetWidth;
+  const [containerWidth, setContainerWidth] = useState<number>(0);
 
-  const chunkArray = (arr: number[], size: number) => {
-    const result: number[][] = [];
-    for (let i = 0; i < arr.length; i += size) {
-      result.push(arr.slice(i, i + size));
-    }
-    return result;
-  };
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
 
-  const itemSize = () => 28;
+    updateWidth(); // Initial width calculation
 
-  const twoDimensionalArray = chunkArray(
-    dataArray,
-    containerWidth === undefined ? 1 : Math.floor(containerWidth / 17.35),
-  );
+    window.addEventListener("resize", updateWidth);
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
-  const Row = ({ index, style }: { index: number; style: CSSProperties }) => (
-    <div style={style}>
-      {twoDimensionalArray[index]?.map((item, i) => (
-        <span className="pl-1.5" key={i}>
-          {item}
-        </span>
-      ))}
-    </div>
+  const itemSize = () => 26;
+  const columnCount = containerWidth
+    ? Math.floor(containerWidth / 19)
+    : 1;
+  const rowCount = Math.ceil(dataArray.length / columnCount);
+
+  const Row = ({ rowIndex, columnIndex, style }: { rowIndex: number; columnIndex: number; style: CSSProperties }) => (
+    <span style={style} className="px-1 mt-2 mx-1.5 text-center">
+      {dataArray[rowIndex * columnCount + columnIndex]}
+    </span>
   );
 
   return (
     <div ref={containerRef}>
-      <VariableSizeList
-        className={
-          "mb-5 rounded-md border border-gray-900 text-xl scroll-smooth"
-        }
-        height={130}
-        itemCount={twoDimensionalArray.length}
-        itemSize={itemSize}
-        width={"100%"}
+      <VariableSizeGrid
+        className="scrollbar font-medium mt-1.5 mb-3 rounded-md ring-1 ring-inset ring-gray-300 shadow-lg text-xl scroll-smooth"
+        columnCount={columnCount}
+        rowCount={rowCount}
+        columnWidth={() => 18.75} // Ширина столбца (в пикселях)
+        rowHeight={itemSize} // Функция для определения высоты строки
+        width={containerWidth === undefined ? 1 : containerWidth}
+        height={92}
       >
         {Row}
-      </VariableSizeList>
+      </VariableSizeGrid>
     </div>
   );
 };

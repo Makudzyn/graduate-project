@@ -1,4 +1,5 @@
 import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
+import Header5 from "../PageComponents/Headers/Header5.tsx";
 
 interface PeriodsConditionProps {
    polynomialTypeFirst?: PolynomialType;
@@ -8,7 +9,7 @@ interface PeriodsConditionProps {
 
 const PeriodsCondition = ({ polynomialTypeFirst, polynomialTypeSecond, condition }: PeriodsConditionProps) => {
  return (
-   <h5 className="my-1 w-full text-center">Умова (T({polynomialTypeFirst}), T({polynomialTypeSecond})) = {condition}</h5>
+   <Header5>Умова (T({polynomialTypeFirst}), T({polynomialTypeSecond})) = {condition}</Header5>
  );
 };
 

@@ -5,17 +5,16 @@ import {
   sendSumAndProductGeneratorData,
 } from "../../http/polynomialsAPI.ts";
 import { Dispatch, SetStateAction } from "react";
-
 import {
   calcHammingWeightSpectre,
-  calcLengthByFormula, calculateFactualPeriodS,
-  createMatrixInitialArray,
+  calcLengthByFormula, createFrobeniusMatrix,
+  createMatrixInitialArray, defineCyclicLimitation,
   findGCD, formatArrayIfCyclic,
   formatHammingWeight,
   generateMatrixBasis,
   generateStructureMatrixA,
-  generateStructureMatrixB,
-  polynomialDestructuring
+  generateStructureMatrixB, inverseMatrix,
+  polynomialDestructuring,
 } from "../generatorFunctions.ts";
 import { getSelectedParam } from "../functions.ts";
 
@@ -74,7 +73,7 @@ export async function linearCalculations(
     setHammingWeight(hammingWeight);
     setCorrelation && setCorrelation(correlation);
   } catch (error: any) {
-    setError(`Error sending data to server: ${error.message}`);
+    setError(`Помилка відправки даних на сервер: ${error.message}`);
   } finally {
     setLoading(false);
   }
@@ -143,17 +142,10 @@ export async function matrixCalculations(
   setFactualPeriodLengthA(factualPeriodLengthA);
   setFactualPeriodLengthB(factualPeriodLengthB);
 
+  const cyclicPeriodLimitation = defineCyclicLimitation(isCyclicA, isCyclicB, factualPeriodLengthA, factualPeriodLengthB);
+
   const condition = findGCD(factualPeriodLengthA, factualPeriodLengthB);
   setConditionS(condition);
-
-  const factualPeriodLengthS = calculateFactualPeriodS(
-    isCyclicA,
-    isCyclicB,
-    factualPeriodLengthA,
-    factualPeriodLengthB,
-    condition,
-  );
-  setFactualPeriodLengthS(factualPeriodLengthS);
 
   const structureMatrixA = generateStructureMatrixA(
     degreeA,
@@ -164,6 +156,7 @@ export async function matrixCalculations(
     degreeB,
     createMatrixInitialArray(degreeB, polynomialArrB),
   );
+
 
   const basisMatrix = generateMatrixBasis(degreeA, degreeB, matrixRank);
 
@@ -190,19 +183,119 @@ export async function matrixCalculations(
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
-      factualPeriodLengthS,
       indexI,
       indexJ,
+      cyclicPeriodLimitation,
     );
+    const factualPeriodLengthS = pseudorandomSequence.length - 1;
+    setFactualPeriodLengthS(factualPeriodLengthS);
     setConditionMatrix(conditionMatrix);
     setPseudorandomSequence(pseudorandomSequence);
     setHammingWeight(hammingWeight);
     setCorrelation && setCorrelation(correlation);
   } catch (error: any) {
-    setError(`Error sending data to server: ${error.message}`);
+    setError(`Помилка відправки данних на сервер: ${error.message}`);
   } finally {
     setLoading(false);
   }
+}
+
+export async function frobeniusCalculations(
+  searchParams: URLSearchParams,
+  degreeParam: string,
+  polynomialParam: string,
+  userValueParam: string,
+  decomposedPolyParam: string,
+  // indexParamI: string,
+  // indexParamJ: string,
+  setStructureMatrixA: Dispatch<SetStateAction<number[][]>>,
+  setStructureMatrixB: Dispatch<SetStateAction<number[][]>>,
+  // setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
+  setBasisMatrix: Dispatch<SetStateAction<number[][]>>,
+  setPotentialPeriodLength: Dispatch<SetStateAction<number>>,
+  setPotentialPeriodLengthS: Dispatch<SetStateAction<number>>,
+  setFactualPeriodLength: Dispatch<SetStateAction<number>>,
+  // setFactualPeriodLengthS: Dispatch<SetStateAction<number>>,
+  // setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
+  // setHammingWeight: Dispatch<SetStateAction<number>>,
+  // setLoading: Dispatch<SetStateAction<boolean>>,
+  // setError: Dispatch<SetStateAction<string | null>>,
+  // setCorrelation: Dispatch<SetStateAction<number[]>>,
+) {
+  const degree = Number(getSelectedParam(degreeParam, searchParams) || "2");
+
+  const polynomial = getSelectedParam(polynomialParam, searchParams) || "1 7 H";
+  const { polyIndex, polyBinary } = polynomialDestructuring(polynomial);
+  const polynomialArr = polyBinary.split("").slice(1);
+
+  const decompositionRule = getSelectedParam(userValueParam, searchParams) || "1-1";
+  const decomposedDegrees = decompositionRule.split("-").map(Number);
+  let decomposedBinaryPolynomialsArr = [];
+  for (let i = 0; i < decomposedDegrees.length; i++) {
+    const decomposedPolynomial = getSelectedParam(decomposedPolyParam+i, searchParams) ;
+    if (decomposedPolynomial) {
+      const { polyBinary } = polynomialDestructuring(decomposedPolynomial);
+      decomposedBinaryPolynomialsArr.push(polyBinary);
+    }
+  }
+
+  console.log(decomposedBinaryPolynomialsArr);
+
+
+  // const indexI = Number(getSelectedParam(indexParamI, searchParams) || "0");
+  // const indexJ = Number(getSelectedParam(indexParamJ, searchParams) || "0");
+
+
+
+  const potentialPeriodLength = Math.pow(2, degree) - 1;
+  const potentialPeriodLengthS = potentialPeriodLength * potentialPeriodLength;
+
+  setPotentialPeriodLength(potentialPeriodLength);
+  setPotentialPeriodLengthS(potentialPeriodLengthS);
+
+  const factualPeriodLength = calcLengthByFormula(degree, polyIndex);
+  setFactualPeriodLength(factualPeriodLength);
+
+
+  const structureMatrixA = generateStructureMatrixA(
+    degree,
+    createMatrixInitialArray(degree, polynomialArr),
+  );
+
+  const structureMatrixB = inverseMatrix(structureMatrixA);
+
+  const basisMatrix = createFrobeniusMatrix(degree, decomposedBinaryPolynomialsArr);
+
+  setStructureMatrixA(structureMatrixA);
+  setStructureMatrixB(structureMatrixB);
+  setBasisMatrix(basisMatrix);
+
+
+  // try {
+  //   setLoading(true);
+  //   const {
+  //     conditionMatrix,
+  //     pseudorandomSequence,
+  //     hammingWeight,
+  //     correlation,
+  //   } = await sendMatrixGeneratorData(
+  //     structureMatrixA,
+  //     structureMatrixB,
+  //     basisMatrix,
+  //     indexI,
+  //     indexJ,
+  //   );
+  //   const factualPeriodLengthS = pseudorandomSequence.length - 1;
+  //   setFactualPeriodLengthS(factualPeriodLengthS);
+  //   setConditionMatrix(conditionMatrix);
+  //   setPseudorandomSequence(pseudorandomSequence);
+  //   setHammingWeight(hammingWeight);
+  //   setCorrelation(correlation);
+  // } catch (error: any) {
+  //   setError(`Помилка відправки данних на сервер: ${error.message}`);
+  // } finally {
+  //   setLoading(false);
+  // }
 }
 
 export async function additionAndMultiplicationCalculations(
@@ -239,7 +332,7 @@ export async function additionAndMultiplicationCalculations(
     setSumCorrelation(sumCorrelation);
     setProductCorrelation(productCorrelation);
   } catch (error: any) {
-    setError(`Error sending data to server: ${error.message}`);
+    setError(`Помилка відправки данних на сервер: ${error.message}`);
   } finally {
     setLoading(false);
   }
@@ -271,8 +364,10 @@ export async function hammingBlockCalculations(
     setMatrixSeqBlockLengths(matrixWeights);
     setSharedWeights(sharedWeights);
   } catch (error: any) {
-    setError(`Error sending data to server: ${error.message}`);
+    setError(`Помилка відправки данних на сервер: ${error.message}`);
   } finally {
     setLoading(false);
   }
 }
+
+

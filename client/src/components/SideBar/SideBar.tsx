@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Chevron from "../../assets/chevron.svg?react";
-import DeleteRecord from "../../assets/delete-clipboard.svg?react";
+import Chevron from "../../assets/svg/chevron.svg?react";
+import DeleteRecord from "../../assets/svg/delete-clipboard.svg?react";
 import { observer } from "mobx-react-lite";
 import { HistoryRecord } from "../../utils/interfacesAndTypes.ts";
 import { useSearchParams } from "react-router-dom";
@@ -29,12 +29,10 @@ const SideBar = observer(({ dataArray, userId }: SideBarProps) => {
       .filter((data) => data.pageName === currentPage),
   );
 
-
-
   return (
-    <aside className="h-screen fixed pt-16 z-40 transition">
+    <aside className="fixed z-40 h-full pt-16 transition">
       <div
-        className={`h-full flex flex-col shadow-sm transition-all duration-1000 ${
+        className={`flex flex-col justify-between h-full shadow-sm transition-all duration-1000 ${
           isOpen ? "bg-gray-800" : "bg-transparent"
         }`}
       >
@@ -66,68 +64,72 @@ const SideBar = observer(({ dataArray, userId }: SideBarProps) => {
           </button>
         </div>
 
-        <div className="flex p-3 h-full">
-          <div
-            className={`
-              flex
-              overflow-hidden transition-all ${
-                isOpen ? "w-[33rem] mx-3" : "w-0"
+        <div
+          className={`
+              flex items-start overflow-y-auto scroll-smooth transition-all ${
+                isOpen ? "w-[35rem] h-full mx-4 my-3" : "w-0"
               }
           `}
-          >
-            <div className="flex flex-col w-full">
-              {filteredData.map((data) => (
-                <Transition
-                  as="button"
-                  show={true}
-                  className="relative flex px-3 items-center leading-4 border border-gray-50 w-full min-h-[2.5rem] max-h-28 mb-3 rounded-md transition hover:border-purpleFirst"
-                  onClick={() =>
-                    setSearchParams(data.parameters, { replace: true })
-                  }
-                  key={data.id}
-                  enter="transition-opacity duration-500"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="transition-opacity duration-1000"
-                  leaveFrom="opacity-100 translate-x-0"
-                  leaveTo="opacity-0 translate-x-2.5"
-                >
-                  <div className="text-sm text-gray-50">
-                    <h5 className="text-start w-[26rem] leading-7 py-2.5">
-                      {formatParameter(data.parameters)}
-                    </h5>
-                    <span className="absolute top-1.5 right-3.5 text-xs text-rose-600">
-                      {formatDateTime(data.createdAt)}
-                    </span>
-                    <div
-                      className={`absolute flex justify-center items-center rounded-r-md top-0 right-0 bg-purpleSecond w-2 h-full transition-all ${
-                        hoveredButtonId === data.id ? "hover:w-7" : ""
-                      }`}
-                      onMouseEnter={() => setHoveredButtonId(data.id)}
-                      onMouseLeave={() => setHoveredButtonId(-1)}
-                      onClick={() =>
-                        handleHistoryRecordDeletion(
-                          data.id,
-                          filteredData,
-                          setFilteredData,
-                        )
-                      }
-                    >
-                      {hoveredButtonId === data.id && (
-                        <DeleteRecord className="stroke-gray-50 w-6 h-6" />
-                      )}
-                    </div>
+        >
+          <div className="flex w-full flex-col mr-1.5">
+            {filteredData.map((data) => (
+              <Transition
+                as="button"
+                show={true}
+                className="relative mb-3 last:mb-0 flex w-full items-center rounded-md border border-gray-50 px-3 transition min-h-[2.85rem] hover:border-purpleFirst"
+                onClick={() =>
+                  setSearchParams(data.parameters, { replace: true })
+                }
+                key={data.id}
+                enter="transition-opacity duration-500"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity duration-1000"
+                leaveFrom="opacity-100 translate-x-0"
+                leaveTo="opacity-0 translate-x-2.5"
+              >
+                <div className="text-sm text-gray-50">
+                  <h5 className="text-start leading-7 w-[26rem] my-2.5">
+                    {formatParameter(data.parameters)}
+                  </h5>
+                  <span className="absolute text-xs text-rose-600 top-1.5 right-3.5">
+                    {formatDateTime(data.createdAt)}
+                  </span>
+                  <div
+                    className={`absolute flex justify-center items-center rounded-r-md top-0 right-0 bg-purpleSecond w-2 h-full transition-all ${
+                      hoveredButtonId === data.id ? "hover:w-7" : ""
+                    }`}
+                    onMouseEnter={() => setHoveredButtonId(data.id)}
+                    onMouseLeave={() => setHoveredButtonId(-1)}
+                    onClick={() =>
+                      handleHistoryRecordDeletion(
+                        data.id,
+                        filteredData,
+                        setFilteredData,
+                      )
+                    }
+                  >
+                    {hoveredButtonId === data.id && (
+                      <DeleteRecord className="h-6 w-6 stroke-gray-50" />
+                    )}
                   </div>
-                </Transition>
-              ))}
-            </div>
+                </div>
+              </Transition>
+            ))}
           </div>
         </div>
+
         <button
-          className={`bg-purpleFirst px-2 py-3 rounded-t-md text-gray-50 transition hover:bg-rose-700 ${
+          className={`bg-purpleFirst px-2 py-4 rounded-t-md text-gray-50 transition hover:bg-rose-700 ${
             isOpen ? "w-full" : "hidden"
           }`}
-          onClick={() => handleHistoryRecordsListDeletion(userId, currentPage, setFilteredData)}
+          onClick={() =>
+            handleHistoryRecordsListDeletion(
+              userId,
+              currentPage,
+              setFilteredData,
+            )
+          }
         >
           Delete all records
         </button>

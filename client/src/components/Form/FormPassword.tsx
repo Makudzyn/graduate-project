@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import EyeOpened from "../../assets/eye-opened.svg?react";
-import EyeClosed from "../../assets/eye-closed.svg?react";
+import EyeOpened from "../../assets/svg/eye-opened.svg?react";
+import EyeClosed from "../../assets/svg/eye-closed.svg?react";
 
 interface FormPasswordProps {
   label: string;

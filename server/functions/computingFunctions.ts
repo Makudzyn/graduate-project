@@ -71,25 +71,53 @@ function matrixMultiply(matrixA: number[][], matrixB: number[][]) {
   return result;
 }
 
+
 function matrixShiftRegister(
   matrixA: number[][],
   matrixB: number[][],
   matrixS: number[][],
-  periodS: number,
   outI: number,
   outJ: number,
+  limitation?: number,
 ) {
-  let currentState = matrixS;
-  let conditionMatrix = [];
-  let pseudorandomSequence = [];
-  for (let i = 0; i < periodS; i++) {
-    currentState = matrixMultiply(matrixA, currentState);
-    currentState = matrixMultiply(currentState, matrixB);
+  const pseudorandomSequence = [matrixS[outI][outJ]];
+  let currentState = matrixShiftStep(matrixS, matrixA, matrixB);
+  const conditionMatrix = [...currentState];
+  pseudorandomSequence.push(currentState[outI][outJ]);
+  let counter = 0;
+  while (!matricesEqual(currentState, matrixS) || (limitation && counter === limitation)) {
+    currentState = matrixShiftStep(currentState, matrixA, matrixB);
     conditionMatrix.push(...currentState);
     pseudorandomSequence.push(currentState[outI][outJ]);
+    counter++;
+  }
+  pseudorandomSequence.pop();
+  return { conditionMatrix, pseudorandomSequence };
+}
+
+function matrixShiftStep(
+  currentState: number[][],
+  matrixA: number[][],
+  matrixB: number[][],
+) {
+  const tmpState = matrixMultiply(matrixA, currentState);
+  return matrixMultiply(tmpState, matrixB);
+}
+
+function matricesEqual(matrix1: number[][], matrix2: number[][]): boolean {
+  if (matrix1.length !== matrix2.length || matrix1[0].length !== matrix2[0].length) {
+    return false;
   }
 
-  return { conditionMatrix, pseudorandomSequence };
+  for (let i = 0; i < matrix1.length; i++) {
+    for (let j = 0; j < matrix1[i].length; j++) {
+      if (matrix1[i][j] !== matrix2[i][j]) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
 
 function hammingWeightBlock(prs: number[], blockLength: number) {
