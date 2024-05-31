@@ -34,7 +34,6 @@ export function generateStructureMatrixA(
   return structureMatrix;
 }
 
-
 export function generateStructureMatrixB(
   degree: number,
   structureColumn: number[],
@@ -78,7 +77,9 @@ export function inverseMatrix(matrix: number[][]): number[][] {
   for (let i = 0; i < m - 1; i++) {
     if (augmentedMatrix[n - 1][i] === 1) {
       for (let j = 0; j < m * 2; j++) {
-        augmentedMatrix[n - 1][j] = convertBinary(augmentedMatrix[n - 1][j] - augmentedMatrix[i][j]);
+        augmentedMatrix[n - 1][j] = convertBinary(
+          augmentedMatrix[n - 1][j] - augmentedMatrix[i][j],
+        );
       }
     }
   }
@@ -94,16 +95,18 @@ export function inverseMatrix(matrix: number[][]): number[][] {
   return inverse;
 }
 
-
 function convertBinary(value: number): number {
-  return (value % 2 + 2) % 2;
+  return ((value % 2) + 2) % 2;
 }
 
 export function createEmptyMatrix(rows: number, cols: number): number[][] {
   return Array.from({ length: rows }, () => Array(cols).fill(0));
 }
 
-export function createFrobeniusMatrix(n: number, polynomials: string[]): number[][] {
+export function createFrobeniusMatrix(
+  n: number,
+  polynomials: string[],
+): number[][] {
   const frobeniusMatrix = createEmptyMatrix(n, n);
   let i = 0;
 
@@ -113,7 +116,6 @@ export function createFrobeniusMatrix(n: number, polynomials: string[]): number[
     if (degree === 0) {
       frobeniusMatrix[i][i] = 1;
       i += 1;
-
     } else {
       const polynomialArr = polynomial.split("").slice(1);
       const structureMatrix = generateStructureMatrixA(
@@ -225,3 +227,91 @@ export function defineCyclicLimitation(
   }
   return undefined;
 }
+
+export function findClosestProductFactors(n: number): [number, number] | null {
+  if (n <= 1) return null;
+
+  let closestPair: [number, number] | null = null;
+  let minDifference = Infinity;
+
+  for (let i = 2; i <= Math.sqrt(n); i++) {
+    if (n % i === 0) {
+      const pair: [number, number] = [i, n / i];
+      const difference = Math.abs(pair[0] - pair[1]);
+
+      if (difference < minDifference) {
+        closestPair = pair;
+        minDifference = difference;
+      }
+    }
+  }
+
+  return closestPair;
+}
+
+export function fillZigZagMatrix(
+  arr: number[],
+  n: number,
+  m: number,
+): (number | null)[][] {
+  const matrix: (number | null)[][] = Array.from({ length: n }, () =>
+    Array(m).fill(null),
+  );
+
+  let arrIndex = 0;
+  let i = 0;
+  let j = 0;
+
+  while (arrIndex !== arr.length) {
+    matrix[i][j] = arr[arrIndex] === 0 ? null : arr[arrIndex];
+    i++;
+    j++;
+    arrIndex++;
+    if (i === n) {
+      i = 0;
+    } else if (j === m) {
+      j = 0;
+    }
+  }
+
+  return matrix;
+}
+
+export function fillZigZagMatrixWithArr(initialMatrix: number[][][], periodA: number, periodB: number): number[][][][] {
+  const matrix: number[][][][] = Array.from({ length: periodA }, () => Array(periodB).fill(null));
+
+  let i = periodA - 1;
+  let j = periodB - 1;
+  let k = 0;
+
+  while (k !== initialMatrix.length) {
+    matrix[i][j] = initialMatrix[k];
+    i--;
+    j--;
+    k++;
+    if (i === -1) {
+      i = periodA - 1;
+    } else if (j === -1) {
+      j = periodB - 1;
+    }
+
+  }
+
+
+  return matrix;
+}
+
+export function mergeSubArrays(matrix: number[][], k: number): number[][][] {
+  const result: number[][][] = [];
+  let tempArray: number[][] = [];
+  for (let i = 0; i < matrix.length; i++) {
+    tempArray.push(matrix[i]);
+    if ((i + 1) % k === 0) {
+      result.push(tempArray);
+      tempArray = [];
+    }
+  }
+
+  return result;
+}
+

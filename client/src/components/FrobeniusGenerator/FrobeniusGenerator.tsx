@@ -109,24 +109,15 @@ const FrobeniusGenerator = ({
       />
 
       <div className="my-5 flex w-full justify-evenly gap-2">
-        <div className="w-[25rem]">
-          <PeriodInfo
-            potentialPeriodLength={potentialPeriodLength}
-            factualPeriodLength={factualPeriodLength}
-            identifier={`(${polynomialTypeA})`}
-          />
-        </div>
-        <div className="w-[25rem]">
-          <PeriodInfo
-            potentialPeriodLength={potentialPeriodLength}
-            factualPeriodLength={factualPeriodLength}
-            identifier={`(${polynomialTypeB})`}
-          />
-        </div>
+        <PeriodInfo
+          potentialPeriodLength={potentialPeriodLength}
+          factualPeriodLength={factualPeriodLength}
+          identifier={`(${polynomialTypeA}, B)`}
+        />
       </div>
 
       <div className="mt-5 flex flex-col items-center justify-center mb-2.5">
-        <div className="flex flex-col items-center ju w-[85.203rem]">
+        <div className="flex flex-col items-center w-[85.203rem]">
           <Header3>Матриці {identifierS}[1..N]</Header3>
           <ConditionMatrixBlock
             conditionMatrix={conditionMatrix}

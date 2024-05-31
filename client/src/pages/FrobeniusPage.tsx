@@ -47,14 +47,9 @@ const FrobeniusPage = observer(() => {
   const [potentialPeriodLengthS, setPotentialPeriodLengthS] = useState<number>(0);
   const [factualPeriodLengthS, setFactualPeriodLengthS] = useState<number>(0);
 
-  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>(
-    [],
-  );
-
+  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
   const [hammingWeight, setHammingWeight] = useState<number>(0);
-
   const [correlation, setCorrelation] = useState<number[]>([]);
-
   const [searchParams, setSearchParams] = useSearchParams("");
 
   const handleGenerateButtonClick = () => {
@@ -116,7 +111,9 @@ const FrobeniusPage = observer(() => {
               "
               paragraphWidth="2xl"
             />
+
             <hr className="border-purpleFirst opacity-30 mb-10" />
+
             <FrobeniusGenerator
               searchParams={searchParams}
               setSearchParams={setSearchParams}
