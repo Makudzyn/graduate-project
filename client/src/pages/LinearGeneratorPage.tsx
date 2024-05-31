@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { linearCalculations } from "../functions/requestFunctions/calculationRequestFunctions.ts";
 import { observer } from "mobx-react-lite";
 import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
@@ -11,10 +10,17 @@ import {
 } from "../utils/consts.ts";
 import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
 import { Context } from "../main.tsx";
-import Spinner from "../components/Spinner.tsx";
+import Spinner from "../components/PageComponents/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
+import Modal from "../components/Modal/Modal.tsx";
+import { linearValidationBeforeCalculations } from "../functions/functions.ts";
+import Section from "../components/PageComponents/Section.tsx";
+import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
+import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
+import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
+import PRTable from "../components/CommonGenComponents/PRTable/PRTable.tsx";
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -41,9 +47,8 @@ const LinearGeneratorPage = observer(() => {
 
   const [searchParams, setSearchParams] = useSearchParams("");
 
-  const handleClick = () => {
-    userStore.isAuth && handleHistoryRecordCreation(userStore.user.id);
-    linearCalculations(
+  const handleGenerateButtonClick = () => {
+    const fulfilled = linearValidationBeforeCalculations(
       searchParams,
       PARAMS_DEGREE,
       PARAMS_POLYNOMIAL,
@@ -58,6 +63,9 @@ const LinearGeneratorPage = observer(() => {
       setError,
       setCorrelation,
     );
+    if (fulfilled && userStore.isAuth) {
+      handleHistoryRecordCreation(userStore.user.id);
+    }
   };
 
   return (
@@ -69,29 +77,53 @@ const LinearGeneratorPage = observer(() => {
         />
       )}
       {loading && <Spinner />}
+      {error && <Modal message={error} setError={setError} type={"error"} />}
 
-      <section className="flex h-full justify-center pt-16 px-5">
-        <div className="h-full w-[calc(100%-2rem)] flex flex-col justify-center">
-          <h1 className="py-5 text-center">Лінійний ЗРЗЗ</h1>
+      <Section>
+        <PageWrapper>
+          <SectionBlock>
+            <PageHeader
+              title="Лінійний генератор"
+              paragraph="
+                Це генератор, який моделює роботу зсувного регістра зі зворотними зв'язками (ЗРЗЗ),
+                він один із найбільш поширених типів генераторів
+                псевдовипадкових бінарних послідовностей.
+                Він працює за принципом послідовної зміни бітів у регістрі на
+                основі зворотного зв'язку від деяких його бітів.
+                Цей процес забезпечує генерацію послідовності бітів, яка,
+                хоч і не випадкова, але має властивості, близькі до випадкових.
+                Особливості LFSR включають простоту реалізації, високу швидкість
+                генерації та широке застосування у різних областях.
+              "
+              paragraphWidth="2xl"
+            />
+            <hr className="border-purpleFirst opacity-30 mb-10"/>
+            <LinearGenerator
+              searchParams={searchParams}
+              setSearchParams={setSearchParams}
+              structureMatrix={structureMatrix}
+              conditionMatrix={conditionMatrix}
+              potentialPeriodLength={potentialPeriodLength}
+              factualPeriodLength={factualPeriodLength}
+              pseudorandomSequence={pseudorandomSequence}
+              hammingWeight={hammingWeight}
+              degreeParam={PARAMS_DEGREE}
+              polynomialParam={PARAMS_POLYNOMIAL}
+              userValueParam={PARAMS_USER_VALUE}
+              onClick={handleGenerateButtonClick}
+            />
 
-          <LinearGenerator
-            searchParams={searchParams}
-            setSearchParams={setSearchParams}
-            structureMatrix={structureMatrix}
-            conditionMatrix={conditionMatrix}
-            potentialPeriodLength={potentialPeriodLength}
-            factualPeriodLength={factualPeriodLength}
-            pseudorandomSequence={pseudorandomSequence}
-            hammingWeight={hammingWeight}
-            degreeParam={PARAMS_DEGREE}
-            polynomialParam={PARAMS_POLYNOMIAL}
-            userValueParam={PARAMS_USER_VALUE}
-            onClick={handleClick}
-          />
+            <PRTable
+              searchParams={searchParams}
+              degreeParamA={PARAMS_DEGREE}
+              factualPeriod={factualPeriodLength}
+              pseudorandomSequence={pseudorandomSequence}
+            />
 
-          <CorrelationChart data1={correlation} />
-        </div>
-      </section>
+            <CorrelationChart data1={correlation} />
+          </SectionBlock>
+        </PageWrapper>
+      </Section>
     </>
   );
 });
