@@ -1,7 +1,19 @@
-import { Polynomial, PolynomialType, SortState } from "../utils/interfacesAndTypes.ts";
-import { inputsValidityCheckLinear, inputsValidityCheckMatrix } from "./validationFunctions.ts";
-import { linearCalculations, matrixCalculations } from "./requestFunctions/calculationRequestFunctions.ts";
-import { Dispatch, SetStateAction } from "react";;
+import {
+  Polynomial,
+  PolynomialType,
+  SortState,
+} from "../utils/interfacesAndTypes.ts";
+import {
+  inputsValidityCheckFrobenius,
+  inputsValidityCheckLinear,
+  inputsValidityCheckMatrix,
+} from "./validationFunctions.ts";
+import {
+  frobeniusCalculations,
+  linearCalculations,
+  matrixCalculations,
+} from "./requestFunctions/calculationRequestFunctions.ts";
+import { Dispatch, SetStateAction } from "react";
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -25,7 +37,9 @@ export function createPlaceholder(polynomial: string): string {
 //Handling generation click
 export const linearValidationBeforeCalculations = (
   searchParams: URLSearchParams,
-  PARAMS_DEGREE: string, PARAMS_POLYNOMIAL: string, PARAMS_USER_VALUE: string,
+  degreeParam: string,
+  polynomialParam: string,
+  userValueParam: string,
   setStructureMatrix: Dispatch<SetStateAction<number[][]>>,
   setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
   setPotentialPeriodLength: Dispatch<SetStateAction<number>>,
@@ -38,29 +52,45 @@ export const linearValidationBeforeCalculations = (
   polynomialType?: PolynomialType,
 ) => {
   let calculated = false;
-  const isValid = inputsValidityCheckLinear(searchParams, PARAMS_DEGREE, PARAMS_POLYNOMIAL, PARAMS_USER_VALUE, setError, polynomialType);
+  const isValid = inputsValidityCheckLinear(
+    searchParams,
+    degreeParam,
+    polynomialParam,
+    userValueParam,
+    setError,
+    polynomialType,
+  );
   if (isValid) {
     linearCalculations(
       searchParams,
-      PARAMS_DEGREE, PARAMS_POLYNOMIAL, PARAMS_USER_VALUE,
-      setStructureMatrix, setConditionMatrix,
-      setPotentialPeriodLength, setFactualPeriodLength,
+      degreeParam,
+      polynomialParam,
+      userValueParam,
+      setStructureMatrix,
+      setConditionMatrix,
+      setPotentialPeriodLength,
+      setFactualPeriodLength,
       setPseudorandomSequence,
       setHammingWeight,
-      setLoading, setError,
+      setLoading,
+      setError,
       setCorrelation,
-    )
-      .then(() => calculated = true);
+    ).then(() => (calculated = true));
   }
   return calculated;
 };
 
 export const matrixValidationBeforeCalculations = (
   searchParams: URLSearchParams,
-  PARAMS_DEGREE_A: string, PARAMS_DEGREE_B: string,
-  PARAMS_POLYNOMIAL_A: string, PARAMS_POLYNOMIAL_B: string,
-  PARAMS_CYCLIC_POLY_A: string, PARAMS_CYCLIC_POLY_B: string,
-  PARAMS_OUTPUT_INDEX_I: string, PARAMS_OUTPUT_INDEX_J: string, PARAMS_MATRIX_RANK: string,
+  degreeParamA: string,
+  degreeParamB: string,
+  polynomialParamA: string,
+  polynomialParamB: string,
+  cyclicParamA: string,
+  cyclicParamB: string,
+  outputIndexParamI: string,
+  outputIndexParamJ: string,
+  matrixRankParam: string,
   setStructureMatrixA: Dispatch<SetStateAction<number[][]>>,
   setStructureMatrixB: Dispatch<SetStateAction<number[][]>>,
   setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
@@ -80,52 +110,139 @@ export const matrixValidationBeforeCalculations = (
   setCorrelation?: Dispatch<SetStateAction<number[]>>,
 ) => {
   let calculated = false;
-  const isValid =
-    inputsValidityCheckMatrix(
-      searchParams,
-      PARAMS_DEGREE_A, PARAMS_DEGREE_B,
-      PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B,
-      PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
-      PARAMS_OUTPUT_INDEX_I, PARAMS_OUTPUT_INDEX_J, PARAMS_MATRIX_RANK,
-      setError
-    );
+  const isValid = inputsValidityCheckMatrix(
+    searchParams,
+    degreeParamA,
+    degreeParamB,
+    polynomialParamA,
+    polynomialParamB,
+    cyclicParamA,
+    cyclicParamB,
+    outputIndexParamI,
+    outputIndexParamJ,
+    matrixRankParam,
+    setError,
+  );
   if (isValid) {
     matrixCalculations(
       searchParams,
-      PARAMS_DEGREE_A, PARAMS_DEGREE_B,
-      PARAMS_POLYNOMIAL_A, PARAMS_POLYNOMIAL_B,
-      PARAMS_CYCLIC_POLY_A, PARAMS_CYCLIC_POLY_B,
-      PARAMS_OUTPUT_INDEX_I, PARAMS_OUTPUT_INDEX_J, PARAMS_MATRIX_RANK,
-      setStructureMatrixA, setStructureMatrixB,
-      setConditionMatrix, setBasisMatrix,
-      setPotentialPeriodLengthA, setPotentialPeriodLengthB, setFactualPeriodLengthS,
-      setFactualPeriodLengthA, setFactualPeriodLengthB, setPotentialPeriodLengthS,
+      degreeParamA,
+      degreeParamB,
+      polynomialParamA,
+      polynomialParamB,
+      cyclicParamA,
+      cyclicParamB,
+      outputIndexParamI,
+      outputIndexParamJ,
+      matrixRankParam,
+      setStructureMatrixA,
+      setStructureMatrixB,
+      setConditionMatrix,
+      setBasisMatrix,
+      setPotentialPeriodLengthA,
+      setPotentialPeriodLengthB,
+      setFactualPeriodLengthS,
+      setFactualPeriodLengthA,
+      setFactualPeriodLengthB,
+      setPotentialPeriodLengthS,
       setConditionS,
       setPseudorandomSequence,
-      setHammingWeight, setHammingWeightSpectre,
-      setLoading, setError,
+      setHammingWeight,
+      setHammingWeightSpectre,
+      setLoading,
+      setError,
       setCorrelation,
-    ).then(() => calculated = true);
+    ).then(() => (calculated = true));
   }
   return calculated;
-}
+};
 
-
+export const frobeniusValidationBeforeCalculations = (
+  searchParams: URLSearchParams,
+  degreeParam: string,
+  polynomialParam: string,
+  userValueParam: string,
+  decomposedPolyParam: string,
+  outputIndexParamI: string,
+  outputIndexParamJ: string,
+  setStructureMatrixA: Dispatch<SetStateAction<number[][]>>,
+  setStructureMatrixB: Dispatch<SetStateAction<number[][]>>,
+  setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
+  setBasisMatrix: Dispatch<SetStateAction<number[][]>>,
+  setPotentialPeriodLength: Dispatch<SetStateAction<number>>,
+  setPotentialPeriodLengthS: Dispatch<SetStateAction<number>>,
+  setFactualPeriodLength: Dispatch<SetStateAction<number>>,
+  setFactualPeriodLengthS: Dispatch<SetStateAction<number>>,
+  setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
+  setHammingWeight: Dispatch<SetStateAction<number>>,
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  setError: Dispatch<SetStateAction<string | null>>,
+  setCorrelation: Dispatch<SetStateAction<number[]>>,
+) => {
+  let calculated = false;
+  const isValid = inputsValidityCheckFrobenius(
+    searchParams,
+    degreeParam,
+    polynomialParam,
+    userValueParam,
+    decomposedPolyParam,
+    outputIndexParamI,
+    outputIndexParamJ,
+    setError,
+  );
+  if (isValid) {
+    frobeniusCalculations(
+      searchParams,
+      degreeParam,
+      polynomialParam,
+      userValueParam,
+      decomposedPolyParam,
+      outputIndexParamI,
+      outputIndexParamJ,
+      setStructureMatrixA,
+      setStructureMatrixB,
+      setConditionMatrix,
+      setBasisMatrix,
+      setPotentialPeriodLength,
+      setPotentialPeriodLengthS,
+      setFactualPeriodLength,
+      setFactualPeriodLengthS,
+      setPseudorandomSequence,
+      setHammingWeight,
+      setLoading,
+      setError,
+      setCorrelation,
+    ).then(() => (calculated = true));
+  }
+  return calculated;
+};
 
 //TABLE FUNCTIONS
 
 //Compare values of two polynomials using sortObj with column (your cols) and order (asc, desc) fields which
-export function compareValues(sortObj: SortState, polyA: Polynomial, polyB: Polynomial): number {
-  if (typeof polyA[sortObj.column] === "string" && sortObj.column !== "polynomial") {
+export function compareValues(
+  sortObj: SortState,
+  polyA: Polynomial,
+  polyB: Polynomial,
+): number {
+  if (
+    typeof polyA[sortObj.column] === "string" &&
+    sortObj.column !== "polynomial"
+  ) {
     return sortObj.order === "ascending"
-      ? (polyA[sortObj.column] as string).localeCompare(polyB[sortObj.column] as string)
-      : (polyB[sortObj.column] as string).localeCompare(polyA[sortObj.column] as string);
+      ? (polyA[sortObj.column] as string).localeCompare(
+          polyB[sortObj.column] as string,
+        )
+      : (polyB[sortObj.column] as string).localeCompare(
+          polyA[sortObj.column] as string,
+        );
   } else {
     return sortObj.order === "ascending"
       ? (polyA[sortObj.column] as number) - (polyB[sortObj.column] as number)
       : (polyB[sortObj.column] as number) - (polyA[sortObj.column] as number);
   }
 }
+
 //Looking for value of query in polynomials field: degree, name, polynomials
 export function filterByQuery(poly: Polynomial, query: string): boolean {
   const searchFields = ["degree", "name", "polynomial"];

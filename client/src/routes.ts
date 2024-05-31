@@ -7,7 +7,7 @@ import {
   POLYNOMIALS_ROUTE,
   REGISTRATION_ROUTE,
   SUM_AND_PRODUCT_GEN_ROUTE,
-  REGISTER_COMPARISON,
+  REGISTER_COMPARISON_ROUTE, FROBENIUS_GEN_ROUTE
 } from "./utils/consts.ts";
 import AdminPanel from "./pages/AdminPanel.tsx";
 import PolynomialsPage from "./pages/PolynomialsPage.tsx";
@@ -18,6 +18,7 @@ import SumAndProductGeneratorPage from "./pages/SumAndProductGeneratorPage.tsx";
 import RegisterComparisonPage from "./pages/RegisterComparisonPage.tsx";
 import MainPage from "./pages/MainPage.tsx";
 import RegistrationPage from "./pages/RegistrationPage.tsx";
+import FrobeniusPage from "./pages/FrobeniusPage.tsx";
 
 export const authRoutes = [
   {
@@ -39,24 +40,29 @@ export const publicRoutes = [
     Component: MainPage,
   },
   {
-    name: "Linear-feedback shift register",
+    name: "LFSR",
     path: LINEAR_GEN_ROUTE,
     Component: LinearGeneratorPage,
   },
   {
-    name: "Matrix register",
+    name: "MSR",
     path: MATRIX_GEN_ROUTE,
     Component: MatrixGeneratorPage,
   },
   {
-    name: "Sum and product register",
+    name: "Sum and product",
     path: SUM_AND_PRODUCT_GEN_ROUTE,
     Component: SumAndProductGeneratorPage,
   },
   {
-    name: "Register comparison",
-    path: REGISTER_COMPARISON,
+    name: "Comparison",
+    path: REGISTER_COMPARISON_ROUTE,
     Component: RegisterComparisonPage,
+  },
+  {
+    name: "Frobenius",
+    path: FROBENIUS_GEN_ROUTE,
+    Component: FrobeniusPage,
   },
 ];
 

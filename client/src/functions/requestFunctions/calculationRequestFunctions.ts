@@ -7,14 +7,14 @@ import {
 import { Dispatch, SetStateAction } from "react";
 import {
   calcHammingWeightSpectre,
-  calcLengthByFormula,
+  calcLengthByFormula, createFrobeniusMatrix,
   createMatrixInitialArray, defineCyclicLimitation,
   findGCD, formatArrayIfCyclic,
   formatHammingWeight,
   generateMatrixBasis,
   generateStructureMatrixA,
-  generateStructureMatrixB,
-  polynomialDestructuring
+  generateStructureMatrixB, inverseMatrix,
+  polynomialDestructuring,
 } from "../generatorFunctions.ts";
 import { getSelectedParam } from "../functions.ts";
 
@@ -200,6 +200,104 @@ export async function matrixCalculations(
   }
 }
 
+export async function frobeniusCalculations(
+  searchParams: URLSearchParams,
+  degreeParam: string,
+  polynomialParam: string,
+  userValueParam: string,
+  decomposedPolyParam: string,
+  // indexParamI: string,
+  // indexParamJ: string,
+  setStructureMatrixA: Dispatch<SetStateAction<number[][]>>,
+  setStructureMatrixB: Dispatch<SetStateAction<number[][]>>,
+  // setConditionMatrix: Dispatch<SetStateAction<number[][]>>,
+  setBasisMatrix: Dispatch<SetStateAction<number[][]>>,
+  setPotentialPeriodLength: Dispatch<SetStateAction<number>>,
+  setPotentialPeriodLengthS: Dispatch<SetStateAction<number>>,
+  setFactualPeriodLength: Dispatch<SetStateAction<number>>,
+  // setFactualPeriodLengthS: Dispatch<SetStateAction<number>>,
+  // setPseudorandomSequence: Dispatch<SetStateAction<number[]>>,
+  // setHammingWeight: Dispatch<SetStateAction<number>>,
+  // setLoading: Dispatch<SetStateAction<boolean>>,
+  // setError: Dispatch<SetStateAction<string | null>>,
+  // setCorrelation: Dispatch<SetStateAction<number[]>>,
+) {
+  const degree = Number(getSelectedParam(degreeParam, searchParams) || "2");
+
+  const polynomial = getSelectedParam(polynomialParam, searchParams) || "1 7 H";
+  const { polyIndex, polyBinary } = polynomialDestructuring(polynomial);
+  const polynomialArr = polyBinary.split("").slice(1);
+
+  const decompositionRule = getSelectedParam(userValueParam, searchParams) || "1-1";
+  const decomposedDegrees = decompositionRule.split("-").map(Number);
+  let decomposedBinaryPolynomialsArr = [];
+  for (let i = 0; i < decomposedDegrees.length; i++) {
+    const decomposedPolynomial = getSelectedParam(decomposedPolyParam+i, searchParams) ;
+    if (decomposedPolynomial) {
+      const { polyBinary } = polynomialDestructuring(decomposedPolynomial);
+      decomposedBinaryPolynomialsArr.push(polyBinary);
+    }
+  }
+
+  console.log(decomposedBinaryPolynomialsArr);
+
+
+  // const indexI = Number(getSelectedParam(indexParamI, searchParams) || "0");
+  // const indexJ = Number(getSelectedParam(indexParamJ, searchParams) || "0");
+
+
+
+  const potentialPeriodLength = Math.pow(2, degree) - 1;
+  const potentialPeriodLengthS = potentialPeriodLength * potentialPeriodLength;
+
+  setPotentialPeriodLength(potentialPeriodLength);
+  setPotentialPeriodLengthS(potentialPeriodLengthS);
+
+  const factualPeriodLength = calcLengthByFormula(degree, polyIndex);
+  setFactualPeriodLength(factualPeriodLength);
+
+
+  const structureMatrixA = generateStructureMatrixA(
+    degree,
+    createMatrixInitialArray(degree, polynomialArr),
+  );
+
+  const structureMatrixB = inverseMatrix(structureMatrixA);
+
+  const basisMatrix = createFrobeniusMatrix(degree, decomposedBinaryPolynomialsArr);
+
+  setStructureMatrixA(structureMatrixA);
+  setStructureMatrixB(structureMatrixB);
+  setBasisMatrix(basisMatrix);
+
+
+  // try {
+  //   setLoading(true);
+  //   const {
+  //     conditionMatrix,
+  //     pseudorandomSequence,
+  //     hammingWeight,
+  //     correlation,
+  //   } = await sendMatrixGeneratorData(
+  //     structureMatrixA,
+  //     structureMatrixB,
+  //     basisMatrix,
+  //     indexI,
+  //     indexJ,
+  //   );
+  //   const factualPeriodLengthS = pseudorandomSequence.length - 1;
+  //   setFactualPeriodLengthS(factualPeriodLengthS);
+  //   setConditionMatrix(conditionMatrix);
+  //   setPseudorandomSequence(pseudorandomSequence);
+  //   setHammingWeight(hammingWeight);
+  //   setCorrelation(correlation);
+  // } catch (error: any) {
+  //   setError(`Помилка відправки данних на сервер: ${error.message}`);
+  // } finally {
+  //   setLoading(false);
+  // }
+}
+
 export async function additionAndMultiplicationCalculations(
   pseudorandomSequenceA: number[],
   pseudorandomSequenceB: number[],
@@ -271,3 +369,5 @@ export async function hammingBlockCalculations(
     setLoading(false);
   }
 }
+
+

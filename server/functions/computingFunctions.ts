@@ -80,21 +80,18 @@ function matrixShiftRegister(
   outJ: number,
   limitation?: number,
 ) {
-  const firstState = matrixShiftStep(matrixS, matrixA, matrixB);
-  let currentState = firstState;
-  let conditionMatrix = [...currentState];
-  let pseudorandomSequence = [currentState[outI][outJ]];
+  const pseudorandomSequence = [matrixS[outI][outJ]];
+  let currentState = matrixShiftStep(matrixS, matrixA, matrixB);
+  const conditionMatrix = [...currentState];
+  pseudorandomSequence.push(currentState[outI][outJ]);
   let counter = 0;
-  while (true) {
-
+  while (!matricesEqual(currentState, matrixS) || (limitation && counter === limitation)) {
     currentState = matrixShiftStep(currentState, matrixA, matrixB);
     conditionMatrix.push(...currentState);
     pseudorandomSequence.push(currentState[outI][outJ]);
     counter++;
-    if(limitation && counter === limitation) break;
-    if (matricesEqual(currentState, firstState)) break;
   }
-
+  pseudorandomSequence.pop();
   return { conditionMatrix, pseudorandomSequence };
 }
 
