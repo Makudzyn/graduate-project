@@ -35,7 +35,7 @@ export const sendMatrixGeneratorData = async (
   basisMatrix: number[][],
   indexI: number,
   indexJ: number,
-  cyclicPeriodLimitation: number | undefined,
+  cyclicPeriodLimitation?: number | undefined,
 ) => {
   try {
     const { data } = await $host.post("api/polynomials/compute-matrix", {

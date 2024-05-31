@@ -1,5 +1,5 @@
 import { $authHost, $host } from "./index.js";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export const registrationReq = async (
   email: string,

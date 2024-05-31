@@ -1,4 +1,4 @@
-import { Listbox } from "@headlessui/react";
+import { ListboxOption, ListboxOptions } from "@headlessui/react";
 import SelectIcon from "../../../assets/svg/select.svg?react";
 import {
   BooleanSelect,
@@ -22,19 +22,18 @@ function GenOptionList<T extends string | number | Polynomial | BooleanSelect>({
       : (option as string);
   };
 
-
   return (
-    <Listbox.Options className="absolute scrollbar z-10 max-h-64 w-full overflow-auto rounded-md bg-white text-sm+ py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-base">
+    <ListboxOptions className="absolute scrollbar z-10 max-h-64 w-full overflow-auto rounded-md bg-white text-sm+ py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-base">
       {options.map((option, index) => (
-        <Listbox.Option
+        <ListboxOption
           key={index}
           value={option}
-          className={({ active }) =>
-            `${active ? "bg-purpleFirst text-white" : "text-gray-900"}
+          className={({ focus }) =>
+            `${focus ? "bg-purpleFirst text-white" : "text-gray-900"}
               relative cursor-default rounded-sm select-none py-2 pl-3 pr-9`
           }
         >
-          {({ active, selected }) => (
+          {({ focus, selected }) => (
             <>
               <div className="flex items-center">
                 <span
@@ -47,7 +46,7 @@ function GenOptionList<T extends string | number | Polynomial | BooleanSelect>({
               </div>
               {selected && (
                 <span
-                  className={`${active ? "text-gray-50" : "text-purpleFirst"}
+                  className={`${focus ? "text-gray-50" : "text-purpleFirst"}
                     absolute inset-y-0 right-0 flex items-center pr-4`}
                 >
                   <SelectIcon
@@ -58,9 +57,9 @@ function GenOptionList<T extends string | number | Polynomial | BooleanSelect>({
               )}
             </>
           )}
-        </Listbox.Option>
+        </ListboxOption>
       ))}
-    </Listbox.Options>
+    </ListboxOptions>
   );
 }
 
