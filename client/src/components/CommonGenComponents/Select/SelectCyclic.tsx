@@ -1,13 +1,11 @@
 import { SetURLSearchParams } from "react-router-dom";
 import GenericSelect from "./GenericSelect.tsx";
-import { useEffect } from "react";
 import { BooleanSelect } from "../../../utils/interfacesAndTypes.ts";
 
 interface SelectCyclicProps {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
   urlParamName: string;
-  polyDegree: number;
   shownPlaceholder?: string;
   selectLabel?: string;
 }
@@ -16,7 +14,6 @@ const SelectCyclic = ({
   searchParams,
   setSearchParams,
   urlParamName,
-  polyDegree,
   selectLabel,
   shownPlaceholder,
 }: SelectCyclicProps) => {
@@ -26,9 +23,6 @@ const SelectCyclic = ({
     { booleanLabel: "Ні", booleanValue: false },
   ];
 
-  useEffect(() => {
-
-  }, [polyDegree]);
 
   function handleChange(targetValue: BooleanSelect) {
     const value = String(targetValue.booleanValue);

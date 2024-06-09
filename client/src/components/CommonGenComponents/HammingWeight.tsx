@@ -5,7 +5,7 @@ interface HammingWeightProps {
 }
 
 const HammingWeight = ({ hammingWeight }: HammingWeightProps) => {
-  return <Header5 align="left">Вага Хеммінгу = {hammingWeight}</Header5>;
+  return <Header5 align="left">Вага Хеммінга = {hammingWeight}</Header5>;
 };
 
 export default HammingWeight;

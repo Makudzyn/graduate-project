@@ -62,7 +62,7 @@ const InputBinary = ({
         <input
           id="binary-input"
           className={`${color === "red" ? "focus:ring-red-500" : "focus:ring-green-500"}
-          mt-2 block w-full truncate rounded-md bg-white text-sm+ px-[1.75em] text-left shadow-lg ring-1 ring-inset ring-gray-300 py-2 focus:outline-none focus:ring-2 `}
+          mt-2 block w-full truncate rounded-md bg-white text-sm+ px-[1.75em] text-left shadow-lg ring-1 ring-inset ring-gray-300 py-2 focus:outline-none focus:ring-2`}
           placeholder={inputPlaceholder}
           onChange={handleChange}
           value={inputValue}

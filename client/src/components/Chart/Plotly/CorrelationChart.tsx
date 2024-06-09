@@ -41,7 +41,7 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
       },
       opacity: 0.9,
       hoverinfo: "none", // Отображаем информацию из text при наведении
-      hovertemplate: "<b>Індекс:</b> %{x}<br><b>Коеф. корреляції:</b> %{y}<br><extra></extra>",
+      hovertemplate: "<b>Індекс:</b> %{x}<br><b>Коеф. кореляції:</b> %{y}<br><extra></extra>",
     },
     {
       y: data2,
@@ -59,7 +59,7 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
       },
       opacity: 0.9,
       hoverinfo: "none",
-      hovertemplate: "<b>Індекс:</b> %{x}<br><b>Коеф. корреляції:</b> %{y}<br><extra></extra>",
+      hovertemplate: "<b>Індекс:</b> %{x}<br><b>Коеф. кореляції:</b> %{y}<br><extra></extra>",
     },
   ] as Data[];
 
@@ -69,7 +69,7 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
       font: {
         size: 24,
         color: "#18181b",
-        family: "Arial",
+        family: "Inter",
         weight: "bold"
       },
     },
@@ -79,7 +79,7 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
         font: {
           size: 18,
           color: "#18181b",
-          family: "Arial",
+          family: "Inter",
           weight: "bold"
         },
       },
@@ -92,11 +92,11 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
     },
     yaxis: {
       title: {
-        text:"Коєфіцієнт корреляції",
+        text:"Коефіцієнт кореляції",
         font: {
           size: 18,
           color: "#18181b",
-          family: "Arial",
+          family: "Inter",
           weight: "bold"
         },
       },
@@ -111,7 +111,7 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
       font: {
         size: 16,
         color: "#18181b",
-        family: "Arial",
+        family: "Inter",
       },
       align: "left",
       bgcolor: "#fff",
@@ -125,7 +125,7 @@ const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
       font: {
         size: 12,
         color: "#18181b",
-        family: "Arial",
+        family: "Inter",
       },
       x: 0.5,
       y: 1,

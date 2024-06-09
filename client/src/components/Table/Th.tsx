@@ -3,7 +3,7 @@ import {
   SortState,
 } from "../../utils/interfacesAndTypes.ts";
 import { Dispatch, SetStateAction } from "react";
-import Triangle from "../../assets/svg/triangle.svg?react";
+import Triangle from "../../assets/svgs/triangle.svg?react";
 
 interface ThProps {
   sortObj: SortState;

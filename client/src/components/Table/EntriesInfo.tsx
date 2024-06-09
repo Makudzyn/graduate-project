@@ -7,13 +7,13 @@ interface EntriesInfoProps {
 const EntriesInfo = ({ offset, limit, totalCount }: EntriesInfoProps) => {
  return (
    <div
-     className="pt-[0.755em]"
+     className="pt-[0.755em] text-lg font-medium text-gray-900"
      id="info"
      role="status"
      aria-live="polite"
    >
-     Showing {offset + 1} to {Math.min(offset + limit, totalCount)} of{" "}
-     {totalCount} entries
+     Поліноми з {offset + 1}-го по {Math.min(offset + limit, totalCount)}-й з{" "}
+     {totalCount} загальних
    </div>
  );
 };

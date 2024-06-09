@@ -20,11 +20,11 @@ interface FrobeniusGeneratorProps {
   structureMatrixB: number[][];
   basisMatrix: number[][];
   conditionMatrix: number[][];
-  potentialPeriodLength: number;
-  potentialPeriodLengthS: number;
-  factualPeriodLength: number;
-  factualPeriodLengthS: number;
-  pseudorandomSequence: number[];
+  potentialPeriod: number;
+  potentialPeriodS: number;
+  factualPeriod: number;
+  factualPeriodS: number;
+  prSequence: number[];
   hammingWeight: number;
   degreeParam: string;
   polynomialParam: string;
@@ -44,11 +44,11 @@ const FrobeniusGenerator = ({
   structureMatrixB,
   basisMatrix,
   conditionMatrix,
-  potentialPeriodLength,
-  potentialPeriodLengthS,
-  factualPeriodLength,
-  factualPeriodLengthS,
-  pseudorandomSequence,
+  potentialPeriod,
+  potentialPeriodS,
+  factualPeriod,
+  factualPeriodS,
+  prSequence,
   hammingWeight,
   degreeParam,
   polynomialParam,
@@ -110,8 +110,8 @@ const FrobeniusGenerator = ({
 
       <div className="my-5 flex w-full justify-evenly gap-2">
         <PeriodInfo
-          potentialPeriodLength={potentialPeriodLength}
-          factualPeriodLength={factualPeriodLength}
+          potentialPeriodLength={potentialPeriod}
+          factualPeriodLength={factualPeriod}
           identifier={`(${polynomialTypeA}, B)`}
         />
       </div>
@@ -129,8 +129,8 @@ const FrobeniusGenerator = ({
       <div className="mt-3 mb-6 flex w-full justify-center h-[6.875rem]">
         <div className="flex w-full flex-col justify-between">
           <PeriodInfo
-            potentialPeriodLength={potentialPeriodLengthS}
-            factualPeriodLength={factualPeriodLengthS}
+            potentialPeriodLength={potentialPeriodS}
+            factualPeriodLength={factualPeriodS}
             identifier={`(${identifierS})`}
           />
         </div>
@@ -138,7 +138,7 @@ const FrobeniusGenerator = ({
 
       <div className="flex w-full flex-col py-2 px-3">
         <Header3 align="left">Згенерована послідовність</Header3>
-        <Sequence dataArray={pseudorandomSequence} />
+        <Sequence dataArray={prSequence} />
         <HammingWeight hammingWeight={hammingWeight} />
       </div>
     </>

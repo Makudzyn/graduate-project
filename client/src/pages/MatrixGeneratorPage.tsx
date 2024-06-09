@@ -46,25 +46,20 @@ const MatrixGeneratorPage = observer(() => {
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
   const [basisMatrix, setBasisMatrix] = useState<number[][]>([]);
 
+  const [potentialPeriodA, setPotentialPeriodA] = useState<number>(0);
+  const [potentialPeriodB, setPotentialPeriodB] = useState<number>(0);
+  const [potentialPeriodS, setPotentialPeriodS] = useState<number>(0);
+
+  const [factualPeriodA, setFactualPeriodA] = useState<number>(0);
+  const [factualPeriodB, setFactualPeriodB] = useState<number>(0);
+  const [factualPeriodS, setFactualPeriodS] = useState<number>(0);
+
   const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
-  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
-  const [potentialPeriodLengthA, setPotentialPeriodLengthA] =
-    useState<number>(0);
-  const [potentialPeriodLengthB, setPotentialPeriodLengthB] =
-    useState<number>(0);
-
-  const [factualPeriodLengthA, setFactualPeriodLengthA] = useState<number>(0);
-  const [factualPeriodLengthB, setFactualPeriodLengthB] = useState<number>(0);
-
-  const [potentialPeriodLengthS, setPotentialPeriodLengthS] =
-    useState<number>(0);
-  const [factualPeriodLengthS, setFactualPeriodLengthS] = useState<number>(0);
+  const [prSequence, setPrSequence] = useState<number[]>([]);
   const [conditionS, setConditionS] = useState<number>(0);
 
   const [hammingWeight, setHammingWeight] = useState<number>(0);
-  const [hammingWeightSpectre, setHammingWeightSpectre] = useState<string[]>([
-    "0",
-  ]);
+  const [weightSpectre, setWeightSpectre] = useState<string[]>(["0"]);
   const [correlation, setCorrelation] = useState<number[]>([]);
 
   const [searchParams, setSearchParams] = useSearchParams({});
@@ -85,16 +80,16 @@ const MatrixGeneratorPage = observer(() => {
       setStructureMatrixB,
       setConditionMatrix,
       setBasisMatrix,
-      setPotentialPeriodLengthA,
-      setPotentialPeriodLengthB,
-      setFactualPeriodLengthS,
-      setFactualPeriodLengthA,
-      setFactualPeriodLengthB,
-      setPotentialPeriodLengthS,
+      setPotentialPeriodA,
+      setPotentialPeriodB,
+      setFactualPeriodS,
+      setFactualPeriodA,
+      setFactualPeriodB,
+      setPotentialPeriodS,
       setConditionS,
-      setPseudorandomSequence,
+      setPrSequence,
       setHammingWeight,
-      setHammingWeightSpectre,
+      setWeightSpectre,
       setLoading,
       setError,
       setCorrelation,
@@ -121,17 +116,17 @@ const MatrixGeneratorPage = observer(() => {
             <PageHeader
               title="Матричний генератор"
               paragraph="
-                Це такий генератор бінарних послідовностей,
+                Це такий генератор на основі матричного зсувного регістра (МЗР),
                 який використовує матриці для створення ПВП.
-                Принцип його роботи полягає у множенні початкового вектора на матрицю,
-                що дозволяє отримати новий вектор,
-                який використовується для генерації бітів послідовності.
+                Принцип його роботи полягає у множенні двох супроводжуючих матриць
+                свого характеристичного поліному на одиничну матрицю,
+                яка є нормальною формою Сміта,
+                що дозволяє отримати нову матрицю наступного стану.
                 Особливості матричного генератора включають
                 високий ступінь випадковості отриманих послідовностей,
                 можливість гнучкої настройки параметрів за допомогою
                 вибору матриць різної розмірності,
-                коефіцієнтів та рангу матриці,
-                а також його застосування в різних областях.
+                коефіцієнтів та рангу матриці.
               "
               paragraphWidth="2xl"
             />
@@ -144,17 +139,17 @@ const MatrixGeneratorPage = observer(() => {
               structureMatrixB={structureMatrixB}
               basisMatrix={basisMatrix}
               conditionMatrix={conditionMatrix}
-              potentialPeriodLengthA={potentialPeriodLengthA}
-              potentialPeriodLengthB={potentialPeriodLengthB}
-              potentialPeriodLengthS={potentialPeriodLengthS}
-              factualPeriodLengthA={factualPeriodLengthA}
-              factualPeriodLengthB={factualPeriodLengthB}
-              factualPeriodLengthS={factualPeriodLengthS}
+              potentialPeriodA={potentialPeriodA}
+              potentialPeriodB={potentialPeriodB}
+              potentialPeriodS={potentialPeriodS}
+              factualPeriodA={factualPeriodA}
+              factualPeriodB={factualPeriodB}
+              factualPeriodS={factualPeriodS}
               conditionS={conditionS}
               identifierS={"S"}
-              pseudorandomSequence={pseudorandomSequence}
+              prSequence={prSequence}
               hammingWeight={hammingWeight}
-              hammingWeightSpectre={hammingWeightSpectre}
+              weightSpectre={weightSpectre}
               degreeParamA={PARAMS_DEGREE_A}
               degreeParamB={PARAMS_DEGREE_B}
               polynomialParamA={PARAMS_POLYNOMIAL_A}
@@ -173,20 +168,20 @@ const MatrixGeneratorPage = observer(() => {
               searchParams={searchParams}
               degreeParamA={PARAMS_DEGREE_A}
               degreeParamB={PARAMS_DEGREE_B}
-              factualPeriod={factualPeriodLengthS}
-              pseudorandomSequence={pseudorandomSequence}
+              factualPeriod={factualPeriodS}
+              pseudorandomSequence={prSequence}
             />
 
             <TorStates
               searchParams={searchParams}
               degreeParamA={PARAMS_DEGREE_A}
               degreeParamB={PARAMS_DEGREE_B}
-              factualPeriodA={factualPeriodLengthA}
-              factualPeriodB={factualPeriodLengthB}
+              factualPeriodA={factualPeriodA}
+              factualPeriodB={factualPeriodB}
               basisMatrix={basisMatrix}
               conditionMatrix={conditionMatrix}
             />
-            
+
             <CorrelationChart data1={correlation} />
           </SectionBlock>
         </PageWrapper>

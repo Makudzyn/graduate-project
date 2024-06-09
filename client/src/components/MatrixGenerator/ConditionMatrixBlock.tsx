@@ -1,7 +1,7 @@
 import { CSSProperties, useState } from "react";
 import { VariableSizeList } from "react-window";
-import ChevronIcon from "../../assets/svg/chevron.svg?react";
-import ChevronDoubleIcon from "../../assets/svg/chevron-double.svg?react";
+import ChevronIcon from "../../assets/svgs/chevron.svg?react";
+import ChevronDoubleIcon from "../../assets/svgs/chevron-double.svg?react";
 
 interface ConditionMatrixBlockProps {
   conditionMatrix: number[][];

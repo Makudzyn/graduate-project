@@ -14,9 +14,9 @@ interface LinearGeneratorProps {
   setSearchParams: SetURLSearchParams;
   structureMatrix: number[][];
   conditionMatrix: number[][];
-  potentialPeriodLength: number;
-  factualPeriodLength: number;
-  pseudorandomSequence: number[];
+  potentialPeriod: number;
+  factualPeriod: number;
+  prSequence: number[];
   hammingWeight: number;
   onClick: () => void;
   degreeParam: string;
@@ -32,9 +32,9 @@ const LinearGenerator = ({
   setSearchParams,
   structureMatrix,
   conditionMatrix,
-  potentialPeriodLength,
-  factualPeriodLength,
-  pseudorandomSequence,
+  potentialPeriod,
+  factualPeriod,
+  prSequence,
   hammingWeight,
   degreeParam,
   polynomialParam,
@@ -70,13 +70,13 @@ const LinearGenerator = ({
       <div className="mt-3 mb-6 flex w-full justify-center h-[6.875rem]">
         <div className="flex flex-col justify-between w-full">
           <PeriodInfo
-            potentialPeriodLength={potentialPeriodLength}
-            factualPeriodLength={factualPeriodLength}
+            potentialPeriodLength={potentialPeriod}
+            factualPeriodLength={factualPeriod}
             identifier={identifier}
           />
           <SequenceType
-            periodLengthByFormula={factualPeriodLength}
-            potentialPeriodLength={potentialPeriodLength}
+            periodLengthByFormula={factualPeriod}
+            potentialPeriodLength={potentialPeriod}
           />
         </div>
       </div>
@@ -85,7 +85,7 @@ const LinearGenerator = ({
         <Header3 align="left">
           Згенерована послідовність {polynomialType}
         </Header3>
-        <Sequence dataArray={pseudorandomSequence} />
+        <Sequence dataArray={prSequence} />
         <HammingWeight hammingWeight={hammingWeight} />
       </div>
     </div>
