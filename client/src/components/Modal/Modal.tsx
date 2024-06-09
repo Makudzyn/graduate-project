@@ -1,8 +1,8 @@
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import { Dialog, DialogTitle } from "@headlessui/react";
-import WarningIcon from "../../assets/svg/warning.svg?react";
-import CheckIcon from "../../assets/svg/success.svg?react";
-import CloseIcon from "../../assets/svg/error.svg?react";
+import WarningIcon from "../../assets/svgs/warning.svg?react";
+import CheckIcon from "../../assets/svgs/success.svg?react";
+import CloseIcon from "../../assets/svgs/error.svg?react";
 
 type ModalType = "warning" | "success" | "error";
 

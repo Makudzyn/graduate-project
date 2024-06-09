@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Chevron from "../../assets/svg/chevron.svg?react";
-import DeleteRecord from "../../assets/svg/delete-clipboard.svg?react";
+import Chevron from "../../assets/svgs/chevron.svg?react";
+import DeleteRecord from "../../assets/svgs/delete-clipboard.svg?react";
 import { observer } from "mobx-react-lite";
 import { HistoryRecord } from "../../utils/interfacesAndTypes.ts";
 import { useSearchParams } from "react-router-dom";
@@ -30,7 +30,7 @@ const SideBar = observer(({ dataArray, userId }: SideBarProps) => {
   );
 
   return (
-    <aside className="fixed z-40 h-full pt-16 transition">
+    <aside className="fixed z-40 h-full pt-[5.5rem] transition">
       <div
         className={`flex flex-col justify-between h-full shadow-sm transition-all duration-1000 ${
           isOpen ? "bg-gray-800" : "bg-transparent"
@@ -42,7 +42,7 @@ const SideBar = observer(({ dataArray, userId }: SideBarProps) => {
           }`}
         >
           <h2
-            className={`overflow-hidden transition text-purpleFirst pl-3 items-center duration-1000 flex font-bold ${
+            className={`overflow-hidden transition text-purpleFirst text-xl leading-6 pl-3 items-center duration-1000 flex font-bold ${
               isOpen ? "w-full" : "hidden"
             }`}
           >
@@ -88,11 +88,11 @@ const SideBar = observer(({ dataArray, userId }: SideBarProps) => {
                 leaveFrom="opacity-100 translate-x-0"
                 leaveTo="opacity-0 translate-x-2.5"
               >
-                <div className="text-sm text-gray-50">
-                  <h5 className="text-start leading-7 w-[26rem] my-2.5">
+                <div className="text-gray-50">
+                  <h5 className="text-start text-base font-medium leading-7 w-full mt-6 mb-4">
                     {formatParameter(data.parameters)}
                   </h5>
-                  <span className="absolute text-xs text-rose-600 top-1.5 right-3.5">
+                  <span className="absolute text-sm leading-5 font-medium text-rose-600 top-1.5 right-3.5">
                     {formatDateTime(data.createdAt)}
                   </span>
                   <div
@@ -120,7 +120,7 @@ const SideBar = observer(({ dataArray, userId }: SideBarProps) => {
         </div>
 
         <button
-          className={`bg-purpleFirst px-2 py-4 rounded-t-md text-gray-50 transition hover:bg-rose-700 ${
+          className={`bg-purpleFirst px-2 py-4 rounded-t-md text-gray-50 text-base uppercase leading-6 font-bold transition hover:bg-rose-700 ${
             isOpen ? "w-full" : "hidden"
           }`}
           onClick={() =>

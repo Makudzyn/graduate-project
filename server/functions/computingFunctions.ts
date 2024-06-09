@@ -19,11 +19,11 @@ function autocorrelation(convertedPrs: (1 | -1)[]) {
 
 function linearFeedbackShiftRegister(
   steps: number,
-  currentStates: number[],
+  initialState: number[],
   structureMatrix: number[][],
 ) {
   let matrix = [];
-  matrix.push(currentStates);
+  matrix.push(initialState);
 
   for (let i = 1; i < steps; i++) {
     let nextStates = [];
@@ -31,13 +31,13 @@ function linearFeedbackShiftRegister(
       let row = structureMatrix[j];
       let sum = 0;
       for (let k = 0; k < row.length; k++) {
-        sum += row[k] * currentStates[k];
+        sum += row[k] * initialState[k];
       }
       nextStates.push(sum % 2);
     }
 
-    currentStates = nextStates;
-    matrix.push(currentStates);
+    initialState = nextStates;
+    matrix.push(initialState);
   }
   return matrix;
 }

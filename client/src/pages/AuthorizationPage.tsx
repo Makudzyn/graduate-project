@@ -4,7 +4,7 @@ import { FormEvent, useContext, useState } from "react";
 import { Context } from "../main.tsx";
 import { loginReq } from "../http/userAPI.ts";
 import { observer } from "mobx-react-lite";
-import bigDataIco from "../assets/svg/big-data.svg";
+import bigDataIco from "../assets/svgs/big-data.svg";
 import FormInput from "../components/Form/FormInput.tsx";
 import FormHeader from "../components/Form/FormHeader.tsx";
 import Checkbox from "../components/Form/Checkbox.tsx";

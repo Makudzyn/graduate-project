@@ -1,5 +1,5 @@
 import { ListboxOption, ListboxOptions } from "@headlessui/react";
-import SelectIcon from "../../../assets/svg/select.svg?react";
+import SelectIcon from "../../../assets/svgs/select.svg?react";
 import {
   BooleanSelect,
   Polynomial,

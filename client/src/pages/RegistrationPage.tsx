@@ -1,4 +1,4 @@
-import bigDataIco from "../assets/svg/big-data.svg";
+import bigDataIco from "../assets/svgs/big-data.svg";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE, MAIN_ROUTE } from "../utils/consts.ts";
 import { FormEvent, useContext, useState } from "react";

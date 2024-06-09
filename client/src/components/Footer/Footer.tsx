@@ -1,5 +1,5 @@
-import BigDataIcon from "../../assets/svg/big-data.svg?react";
-import ToTopIcon from "../../assets/svg/top.svg?react";
+import BigDataIcon from "../../assets/svgs/big-data.svg?react";
+import ToTopIcon from "../../assets/svgs/top.svg?react";
 import { useEffect, useState } from "react";
 
 const Footer = () => {

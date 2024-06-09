@@ -41,7 +41,7 @@ const MatrixSelect = observer(
     const CYCLIC_PLACEHOLDER = `Ні`;
 
     return (
-      <div className="flex flex-col w-[25rem] flex-wrap px-3">
+      <div className="flex flex-col min-w-[14rem] w-[25rem] flex-wrap px-3">
         <SelectValue
           searchParams={searchParams}
           setSearchParams={setSearchParams}
@@ -64,7 +64,6 @@ const MatrixSelect = observer(
           searchParams={searchParams}
           setSearchParams={setSearchParams}
           urlParamName={cyclicPolyParamName}
-          polyDegree={polyDegree}
           selectLabel={CYCLIC_LABEL}
           shownPlaceholder={CYCLIC_PLACEHOLDER}
         />

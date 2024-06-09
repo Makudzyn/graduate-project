@@ -56,47 +56,31 @@ const RegisterComparisonPage = observer(() => {
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
 
-  const [conditionMatrixLinear, setConditionMatrixLinear] = useState<
-    number[][]
-  >([]);
-  const [conditionMatrixMatrices, setConditionMatrixMatrices] = useState<
-    number[][]
-  >([]);
+  const [conditionMatrixLinear, setConditionMatrixLinear] = useState<number[][]>([]);
+  const [conditionMatrixMatrices, setConditionMatrixMatrices] = useState<number[][]>([]);
   const [basisMatrix, setBasisMatrix] = useState<number[][]>([]);
 
-  const [potentialPeriodLength, setPotentialPeriodLength] = useState<number>(0);
-  const [factualPeriodLength, setFactualPeriodLength] = useState<number>(0);
+  const [potentialPeriod, setPotentialPeriod] = useState<number>(0);
+  const [factualPeriod, setFactualPeriod] = useState<number>(0);
 
-  const [potentialPeriodLengthA, setPotentialPeriodLengthA] =
-    useState<number>(0);
-  const [potentialPeriodLengthB, setPotentialPeriodLengthB] =
-    useState<number>(0);
-  const [potentialPeriodLengthS, setPotentialPeriodLengthS] =
-    useState<number>(0);
+  const [potentialPeriodA, setPotentialPeriodA] = useState<number>(0);
+  const [potentialPeriodB, setPotentialPeriodB] = useState<number>(0);
+  const [potentialPeriodS, setPotentialPeriodS] = useState<number>(0);
 
   const [factualPeriodLengthA, setFactualPeriodLengthA] = useState<number>(0);
   const [factualPeriodLengthB, setFactualPeriodLengthB] = useState<number>(0);
   const [factualPeriodLengthS, setFactualPeriodLengthS] = useState<number>(0);
   const [conditionS, setConditionS] = useState<number>(0);
 
-  const [pseudorandomSequenceLinear, setPseudorandomSequenceLinear] = useState<
-    number[]
-  >([]);
-  const [pseudorandomSequenceMatrices, setPseudorandomSequenceMatrices] =
-    useState<number[]>([]);
+  const [prSequenceLinear, setPrSequenceLinear] = useState<number[]>([]);
+  const [prSequenceMatrices, setPrSequenceMatrices] = useState<number[]>([]);
 
   const [hammingWeightLinear, setHammingWeightLinear] = useState<number>(0);
   const [hammingWeightMatrices, setHammingWeightMatrices] = useState<number>(0);
-  const [hammingWeightSpectre, setHammingWeightSpectre] = useState<string[]>([
-    "0",
-  ]);
+  const [weightSpectre, setWeightSpectre] = useState<string[]>(["0"]);
 
-  const [linearSeqBlockLengths, setLinearSeqBlockLengths] = useState<number[]>(
-    [],
-  );
-  const [matrixSeqBlockLengths, setMatrixSeqBlockLengths] = useState<number[]>(
-    [],
-  );
+  const [linearBlockLens, setLinearBlockLens] = useState<number[]>([]);
+  const [matrixBlockLens, setMatrixBlockLens] = useState<number[]>([]);
 
   const [linearCorrelation, setLinearCorrelation] = useState<number[]>([]);
   const [matrixCorrelation, setMatrixCorrelation] = useState<number[]>([]);
@@ -104,14 +88,15 @@ const RegisterComparisonPage = observer(() => {
   const [sharedWeights, setSharedWeights] = useState<number[]>([]);
   const [valueRestriction, setValueRestriction] = useState<number>(0);
   const [selectedChart, setSelectedChart] = useState<boolean>(true);
+
   const [searchParams, setSearchParams] = useSearchParams({});
 
   useEffect(() => {
-    const linearLength = pseudorandomSequenceLinear.length;
-    const matrixLength = pseudorandomSequenceMatrices.length;
+    const linearLength = prSequenceLinear.length;
+    const matrixLength = prSequenceMatrices.length;
     const maxAllowedBlockLength = Math.min(linearLength, matrixLength);
     setValueRestriction(maxAllowedBlockLength);
-  }, [pseudorandomSequenceLinear, pseudorandomSequenceMatrices]);
+  }, [prSequenceLinear, prSequenceMatrices]);
 
   const handleFirstGenClick = () => {
     linearValidationBeforeCalculations(
@@ -121,9 +106,9 @@ const RegisterComparisonPage = observer(() => {
       PARAMS_USER_VALUE,
       setStructureMatrix,
       setConditionMatrixLinear,
-      setPotentialPeriodLength,
-      setFactualPeriodLength,
-      setPseudorandomSequenceLinear,
+      setPotentialPeriod,
+      setFactualPeriod,
+      setPrSequenceLinear,
       setHammingWeightLinear,
       setLoading,
       setError,
@@ -147,16 +132,16 @@ const RegisterComparisonPage = observer(() => {
       setStructureMatrixB,
       setConditionMatrixMatrices,
       setBasisMatrix,
-      setPotentialPeriodLengthA,
-      setPotentialPeriodLengthB,
+      setPotentialPeriodA,
+      setPotentialPeriodB,
       setFactualPeriodLengthS,
       setFactualPeriodLengthA,
       setFactualPeriodLengthB,
-      setPotentialPeriodLengthS,
+      setPotentialPeriodS,
       setConditionS,
-      setPseudorandomSequenceMatrices,
+      setPrSequenceMatrices,
       setHammingWeightMatrices,
-      setHammingWeightSpectre,
+      setWeightSpectre,
       setLoading,
       setError,
       setMatrixCorrelation,
@@ -167,10 +152,10 @@ const RegisterComparisonPage = observer(() => {
     hammingBlockCalculations(
       searchParams,
       PARAMS_HAMMING_BLOCK,
-      pseudorandomSequenceLinear,
-      pseudorandomSequenceMatrices,
-      setLinearSeqBlockLengths,
-      setMatrixSeqBlockLengths,
+      prSequenceLinear,
+      prSequenceMatrices,
+      setLinearBlockLens,
+      setMatrixBlockLens,
       setSharedWeights,
       setLoading,
       setError,
@@ -225,9 +210,9 @@ const RegisterComparisonPage = observer(() => {
                   setSearchParams={setSearchParams}
                   structureMatrix={structureMatrix}
                   conditionMatrix={conditionMatrixLinear}
-                  potentialPeriodLength={potentialPeriodLength}
-                  factualPeriodLength={factualPeriodLength}
-                  pseudorandomSequence={pseudorandomSequenceLinear}
+                  potentialPeriod={potentialPeriod}
+                  factualPeriod={factualPeriod}
+                  prSequence={prSequenceLinear}
                   hammingWeight={hammingWeightLinear}
                   degreeParam={PARAMS_DEGREE}
                   polynomialParam={PARAMS_POLYNOMIAL}
@@ -243,17 +228,17 @@ const RegisterComparisonPage = observer(() => {
                   structureMatrixB={structureMatrixB}
                   basisMatrix={basisMatrix}
                   conditionMatrix={conditionMatrixMatrices}
-                  potentialPeriodLengthA={potentialPeriodLengthA}
-                  potentialPeriodLengthB={potentialPeriodLengthB}
-                  potentialPeriodLengthS={potentialPeriodLengthS}
-                  factualPeriodLengthA={factualPeriodLengthA}
-                  factualPeriodLengthB={factualPeriodLengthB}
-                  factualPeriodLengthS={factualPeriodLengthS}
+                  potentialPeriodA={potentialPeriodA}
+                  potentialPeriodB={potentialPeriodB}
+                  potentialPeriodS={potentialPeriodS}
+                  factualPeriodA={factualPeriodLengthA}
+                  factualPeriodB={factualPeriodLengthB}
+                  factualPeriodS={factualPeriodLengthS}
                   conditionS={conditionS}
                   identifierS={"S"}
-                  pseudorandomSequence={pseudorandomSequenceMatrices}
+                  prSequence={prSequenceMatrices}
                   hammingWeight={hammingWeightMatrices}
-                  hammingWeightSpectre={hammingWeightSpectre}
+                  weightSpectre={weightSpectre}
                   degreeParamA={PARAMS_DEGREE_A}
                   degreeParamB={PARAMS_DEGREE_B}
                   polynomialParamA={PARAMS_POLYNOMIAL_A}
@@ -298,8 +283,8 @@ const RegisterComparisonPage = observer(() => {
                     </GenButton>
                   </div>
                   <HammingChart
-                    data1={linearSeqBlockLengths}
-                    data2={matrixSeqBlockLengths}
+                    data1={linearBlockLens}
+                    data2={matrixBlockLens}
                     xAxisLabels={sharedWeights}
                   />
                 </>

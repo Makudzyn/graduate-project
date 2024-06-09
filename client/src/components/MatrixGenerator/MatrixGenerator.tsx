@@ -18,17 +18,17 @@ interface MatrixGeneratorProps {
   structureMatrixB: number[][];
   basisMatrix: number[][];
   conditionMatrix: number[][];
-  potentialPeriodLengthA: number;
-  potentialPeriodLengthB: number;
-  potentialPeriodLengthS: number;
-  factualPeriodLengthA: number;
-  factualPeriodLengthB: number;
-  factualPeriodLengthS: number;
+  potentialPeriodA: number;
+  potentialPeriodB: number;
+  potentialPeriodS: number;
+  factualPeriodA: number;
+  factualPeriodB: number;
+  factualPeriodS: number;
   conditionS: number;
   identifierS: string;
-  pseudorandomSequence: number[];
+  prSequence: number[];
   hammingWeight: number;
-  hammingWeightSpectre: string[];
+  weightSpectre: string[];
   onClick: () => void;
   degreeParamA: string;
   degreeParamB: string;
@@ -64,15 +64,15 @@ const MatrixGenerator = ({
   basisMatrix,
   structureMatrixA,
   onClick,
-  pseudorandomSequence,
+  prSequence,
   hammingWeight,
-  hammingWeightSpectre,
-  factualPeriodLengthA,
-  factualPeriodLengthB,
-  factualPeriodLengthS,
-  potentialPeriodLengthA,
-  potentialPeriodLengthB,
-  potentialPeriodLengthS,
+  weightSpectre,
+  factualPeriodA,
+  factualPeriodB,
+  factualPeriodS,
+  potentialPeriodA,
+  potentialPeriodB,
+  potentialPeriodS,
 }: MatrixGeneratorProps) => {
   return (
     <div>
@@ -111,8 +111,8 @@ const MatrixGenerator = ({
       <div className="my-5 flex w-full justify-evenly gap-2">
         <div className="w-[25rem]">
           <PeriodInfo
-            potentialPeriodLength={potentialPeriodLengthA}
-            factualPeriodLength={factualPeriodLengthA}
+            potentialPeriodLength={potentialPeriodA}
+            factualPeriodLength={factualPeriodA}
             identifier={`(${polynomialTypeA})`}
           />
         </div>
@@ -125,8 +125,8 @@ const MatrixGenerator = ({
         </div>
         <div className="w-[25rem]">
           <PeriodInfo
-            potentialPeriodLength={potentialPeriodLengthB}
-            factualPeriodLength={factualPeriodLengthB}
+            potentialPeriodLength={potentialPeriodB}
+            factualPeriodLength={factualPeriodB}
             identifier={`(${polynomialTypeB})`}
           />
         </div>
@@ -145,8 +145,8 @@ const MatrixGenerator = ({
       <div className="mt-3 mb-6 flex w-full justify-center h-[6.875rem]">
         <div className="flex w-full flex-col justify-between">
           <PeriodInfo
-            potentialPeriodLength={potentialPeriodLengthS}
-            factualPeriodLength={factualPeriodLengthS}
+            potentialPeriodLength={potentialPeriodS}
+            factualPeriodLength={factualPeriodS}
             identifier={`(${identifierS})`}
           />
         </div>
@@ -154,9 +154,9 @@ const MatrixGenerator = ({
 
       <div className="flex w-full flex-col py-2 px-3">
         <Header3 align="left">Згенерована послідовність</Header3>
-        <Sequence dataArray={pseudorandomSequence} />
+        <Sequence dataArray={prSequence} />
         <HammingWeight hammingWeight={hammingWeight} />
-        <HammingWeightSpectre hammingWeightSpectre={hammingWeightSpectre} />
+        <HammingWeightSpectre hammingWeightSpectre={weightSpectre} />
       </div>
     </div>
   );

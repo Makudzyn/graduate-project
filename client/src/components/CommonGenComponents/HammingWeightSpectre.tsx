@@ -9,7 +9,7 @@ const HammingWeightSpectre = ({
 }: HammingWeightSpectreProps) => {
   return (
     <Header5 align="left">
-      Спектр ваг Хеммінгу:{" "}
+      Спектр ваг Хеммінга:{" "}
       {hammingWeightSpectre.map((item) => (
         <span key={item}>{item};</span>
       ))}

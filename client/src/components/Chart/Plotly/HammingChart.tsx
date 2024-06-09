@@ -62,7 +62,7 @@ const HammingChart = memo(
         font: {
           size: 24,
           color: "#18181b",
-          family: "Arial",
+          family: "Inter",
           weight: "bold",
         },
       },
@@ -72,7 +72,7 @@ const HammingChart = memo(
           font: {
             size: 18,
             color: "#18181b",
-            family: "Arial",
+            family: "Inter",
             weight: "bold",
           },
         },
@@ -91,7 +91,7 @@ const HammingChart = memo(
           font: {
             size: 18,
             color: "#18181b",
-            family: "Arial",
+            family: "Inter",
             weight: "bold",
           },
         },
@@ -105,7 +105,7 @@ const HammingChart = memo(
         font: {
           size: 16,
           color: "#18181b",
-          family: "Arial",
+          family: "Inter",
         },
         align: "left",
         bgcolor: "#fff",
@@ -116,10 +116,11 @@ const HammingChart = memo(
         orientation: "h",
         xanchor: "center",
         yanchor: "middle",
+        indentation: 10,
         font: {
           size: 12,
           color: "#18181b",
-          family: "Arial",
+          family: "Inter",
         },
         x: 0.5,
         y: 1,

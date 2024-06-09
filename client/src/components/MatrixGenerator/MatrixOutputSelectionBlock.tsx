@@ -51,8 +51,7 @@ const MatrixOutputSelectionBlock = ({
   const MATRIX_RANK_PLACEHOLDER = `Ранг матриці ${identifierS}`;
 
   return (
-    <div className="flex items-center justify-center px-3 w-[25rem]">
-      <div className="flex flex-col flex-wrap w-[18rem]">
+    <div className="flex flex-wrap flex-col px-3 min-w-[13rem] max-w-[25rem]">
         <SelectValue
           searchParams={searchParams}
           setSearchParams={setSearchParams}
@@ -79,7 +78,6 @@ const MatrixOutputSelectionBlock = ({
           selectLabel={MATRIX_RANK_LABEL}
           shownPlaceholder={MATRIX_RANK_PLACEHOLDER}
         />
-      </div>
     </div>
   );
 };

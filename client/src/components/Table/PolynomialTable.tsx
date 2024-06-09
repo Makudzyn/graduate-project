@@ -39,8 +39,8 @@ const PolynomialTable = ({ polynomials, totalCount }: PolynomialTableProps) => {
 
   return (
     <div className="container mx-auto w-full px-2">
-      <h1 className="flex items-center break-normal px-2 py-8 font-sans text-xl font-bold text-indigo-500">
-        Polynomials Table
+      <h1 className="flex items-center break-normal px-2 py-8 font-sans text-2xl leading-6 font-bold text-indigo-500">
+        Таблиця поліномів
       </h1>
 
       <div className="mt-6 rounded bg-white p-8 shadow">
@@ -49,8 +49,8 @@ const PolynomialTable = ({ polynomials, totalCount }: PolynomialTableProps) => {
             value={limit}
             setValue={setLimit}
             setPage={setPage}
-            labelStart={"Show"}
-            labelEnd={"entries"}
+            labelStart={"Відображати"}
+            labelEnd={"поліномів"}
             optionsArray={OPTIONS_ARRAY}
           />
           <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

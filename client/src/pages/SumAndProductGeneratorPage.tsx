@@ -48,13 +48,11 @@ const SumAndProductGeneratorPage = observer(() => {
   const [conditionMatrixA, setConditionMatrixA] = useState<number[][]>([]);
   const [conditionMatrixB, setConditionMatrixB] = useState<number[][]>([]);
 
-  const [potentialPeriodLengthA, setPotentialPeriodLengthA] =
-    useState<number>(0);
-  const [potentialPeriodLengthB, setPotentialPeriodLengthB] =
-    useState<number>(0);
+  const [potentialPeriodA, setPotentialPeriodA] = useState<number>(0);
+  const [potentialPeriodB, setPotentialPeriodB] = useState<number>(0);
 
-  const [factualPeriodLengthA, setFactualPeriodLengthA] = useState<number>(0);
-  const [factualPeriodLengthB, setFactualPeriodLengthB] = useState<number>(0);
+  const [factualPeriodA, setFactualPeriodA] = useState<number>(0);
+  const [factualPeriodB, setFactualPeriodB] = useState<number>(0);
 
   const [periodLengthS, setPeriodLengthS] = useState<number>(0);
   const [conditionS, setConditionS] = useState<number>(0);
@@ -64,12 +62,8 @@ const SumAndProductGeneratorPage = observer(() => {
   const [hammingWeightSum, setHammingWeightSum] = useState<number>(0);
   const [hammingWeightProduct, setHammingWeightProduct] = useState<number>(0);
 
-  const [pseudorandomSequenceA, setPseudorandomSequenceA] = useState<number[]>(
-    [],
-  );
-  const [pseudorandomSequenceB, setPseudorandomSequenceB] = useState<number[]>(
-    [],
-  );
+  const [prSequenceA, setPrSequenceA] = useState<number[]>([]);
+  const [prSequenceB, setPrSequenceB] = useState<number[]>([]);
 
   const [sumCorrelation, setSumCorrelation] = useState<number[]>([]);
   const [productCorrelation, setProductCorrelation] = useState<number[]>([]);
@@ -80,16 +74,16 @@ const SumAndProductGeneratorPage = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams({});
 
   useEffect(() => {
-    if (factualPeriodLengthA !== 0 && factualPeriodLengthB !== 0) {
-      const condition = findGCD(factualPeriodLengthA, factualPeriodLengthB);
+    if (factualPeriodA !== 0 && factualPeriodB !== 0) {
+      const condition = findGCD(factualPeriodA, factualPeriodB);
       setConditionS(condition);
       if (condition !== 1) {
         setError("Періоди не взаємно прості. Обчислення сум та добутків не виконано.");
       }
-      const periodLengthS = factualPeriodLengthA * factualPeriodLengthB;
+      const periodLengthS = factualPeriodA * factualPeriodB;
       setPeriodLengthS(periodLengthS);
     }
-  }, [factualPeriodLengthA, factualPeriodLengthB]);
+  }, [factualPeriodA, factualPeriodB]);
 
   const handleFirstGenClick = () => {
     linearValidationBeforeCalculations(
@@ -99,9 +93,9 @@ const SumAndProductGeneratorPage = observer(() => {
       PARAMS_USER_VALUE_A,
       setStructureMatrixA,
       setConditionMatrixA,
-      setPotentialPeriodLengthA,
-      setFactualPeriodLengthA,
-      setPseudorandomSequenceA,
+      setPotentialPeriodA,
+      setFactualPeriodA,
+      setPrSequenceA,
       setHammingWeightA,
       setLoading,
       setError,
@@ -118,9 +112,9 @@ const SumAndProductGeneratorPage = observer(() => {
       PARAMS_USER_VALUE_B,
       setStructureMatrixB,
       setConditionMatrixB,
-      setPotentialPeriodLengthB,
-      setFactualPeriodLengthB,
-      setPseudorandomSequenceB,
+      setPotentialPeriodB,
+      setFactualPeriodB,
+      setPrSequenceB,
       setHammingWeightB,
       setLoading,
       setError,
@@ -131,8 +125,8 @@ const SumAndProductGeneratorPage = observer(() => {
 
   const handleClick = () => {
     additionAndMultiplicationCalculations(
-      pseudorandomSequenceA,
-      pseudorandomSequenceB,
+      prSequenceA,
+      prSequenceB,
       periodLengthS,
       setSumSequence,
       setProductSequence,
@@ -185,16 +179,16 @@ const SumAndProductGeneratorPage = observer(() => {
                 setSearchParams={setSearchParams}
                 structureMatrix={structureMatrixA}
                 conditionMatrix={conditionMatrixA}
-                potentialPeriodLength={potentialPeriodLengthA}
-                factualPeriodLength={factualPeriodLengthA}
-                pseudorandomSequence={pseudorandomSequenceA}
+                potentialPeriod={potentialPeriodA}
+                factualPeriod={factualPeriodA}
+                prSequence={prSequenceA}
                 hammingWeight={hammingWeightA}
                 degreeParam={PARAMS_DEGREE_A}
                 polynomialParam={PARAMS_POLYNOMIAL_A}
                 userValueParam={PARAMS_USER_VALUE_A}
                 polynomialType={POLYNOMIAL_TYPE_A}
                 identifier={`(${POLYNOMIAL_TYPE_A})`}
-                className={"w-[50rem]"}
+                className={"w-1/2"}
                 onClick={handleFirstGenClick}
               />
               <LinearGenerator
@@ -202,16 +196,16 @@ const SumAndProductGeneratorPage = observer(() => {
                 setSearchParams={setSearchParams}
                 structureMatrix={structureMatrixB}
                 conditionMatrix={conditionMatrixB}
-                potentialPeriodLength={potentialPeriodLengthB}
-                factualPeriodLength={factualPeriodLengthB}
-                pseudorandomSequence={pseudorandomSequenceB}
+                potentialPeriod={potentialPeriodB}
+                factualPeriod={factualPeriodB}
+                prSequence={prSequenceB}
                 hammingWeight={hammingWeightB}
                 degreeParam={PARAMS_DEGREE_B}
                 polynomialParam={PARAMS_POLYNOMIAL_B}
                 userValueParam={PARAMS_USER_VALUE_B}
                 polynomialType={POLYNOMIAL_TYPE_B}
                 identifier={`(${POLYNOMIAL_TYPE_B})`}
-                className={"w-[50rem]"}
+                className={"w-1/2"}
                 onClick={handleSecondGenClick}
               />
             </div>

@@ -51,7 +51,6 @@ export const linearValidationBeforeCalculations = (
   setCorrelation?: Dispatch<SetStateAction<number[]>>,
   polynomialType?: PolynomialType,
 ) => {
-  let calculated = false;
   const isValid = inputsValidityCheckLinear(
     searchParams,
     degreeParam,
@@ -75,9 +74,10 @@ export const linearValidationBeforeCalculations = (
       setLoading,
       setError,
       setCorrelation,
-    ).then(() => (calculated = true));
+    )
+    return true;
   }
-  return calculated;
+  return false;
 };
 
 export const matrixValidationBeforeCalculations = (
@@ -109,7 +109,6 @@ export const matrixValidationBeforeCalculations = (
   setError: Dispatch<SetStateAction<string | null>>,
   setCorrelation?: Dispatch<SetStateAction<number[]>>,
 ) => {
-  let calculated = false;
   const isValid = inputsValidityCheckMatrix(
     searchParams,
     degreeParamA,
@@ -152,9 +151,10 @@ export const matrixValidationBeforeCalculations = (
       setLoading,
       setError,
       setCorrelation,
-    ).then(() => (calculated = true));
+    );
+    return true;
   }
-  return calculated;
+  return false;
 };
 
 export const frobeniusValidationBeforeCalculations = (
@@ -179,7 +179,6 @@ export const frobeniusValidationBeforeCalculations = (
   setError: Dispatch<SetStateAction<string | null>>,
   setCorrelation: Dispatch<SetStateAction<number[]>>,
 ) => {
-  let calculated = false;
   const isValid = inputsValidityCheckFrobenius(
     searchParams,
     degreeParam,
@@ -212,9 +211,10 @@ export const frobeniusValidationBeforeCalculations = (
       setLoading,
       setError,
       setCorrelation,
-    ).then(() => (calculated = true));
+    );
+    return true;
   }
-  return calculated;
+  return false;
 };
 
 //TABLE FUNCTIONS

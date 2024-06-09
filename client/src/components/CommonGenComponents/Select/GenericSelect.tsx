@@ -1,5 +1,5 @@
 import { Field, Label, Listbox, ListboxButton } from "@headlessui/react";
-import ChevronIcon from "../../../assets/svg/chevron.svg?react";
+import ChevronIcon from "../../../assets/svgs/chevron.svg?react";
 import { getSelectedParam } from "../../../functions/functions.ts";
 import { useEffect, useState } from "react";
 import {
@@ -34,7 +34,7 @@ function GenericSelect<T extends string | number | Polynomial | BooleanSelect>({
     if (paramValue !== null) {
       setOptionValue(paramValue);
     }
-  }, []);
+  }, [location.search]);
 
   const handleSelectChange = (value: string) => {
     if (typeof formatOptionValue === "function") {

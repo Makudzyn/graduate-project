@@ -42,12 +42,12 @@ const FrobeniusPage = observer(() => {
   const [basisMatrix, setBasisMatrix] = useState<number[][]>([]);
   const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
 
-  const [potentialPeriodLength, setPotentialPeriodLength] = useState<number>(0);
-  const [factualPeriodLength, setFactualPeriodLength] = useState<number>(0);
-  const [potentialPeriodLengthS, setPotentialPeriodLengthS] = useState<number>(0);
-  const [factualPeriodLengthS, setFactualPeriodLengthS] = useState<number>(0);
+  const [potentialPeriod, setPotentialPeriod] = useState<number>(0);
+  const [factualPeriod, setFactualPeriod] = useState<number>(0);
+  const [potentialPeriodS, setPotentialPeriodS] = useState<number>(0);
+  const [factualPeriodS, setFactualPeriodS] = useState<number>(0);
 
-  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>([]);
+  const [prSequence, setPrSequence] = useState<number[]>([]);
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [correlation, setCorrelation] = useState<number[]>([]);
   const [searchParams, setSearchParams] = useSearchParams("");
@@ -65,11 +65,11 @@ const FrobeniusPage = observer(() => {
       setStructureMatrixB,
       setConditionMatrix,
       setBasisMatrix,
-      setPotentialPeriodLength,
-      setPotentialPeriodLengthS,
-      setFactualPeriodLength,
-      setFactualPeriodLengthS,
-      setPseudorandomSequence,
+      setPotentialPeriod,
+      setPotentialPeriodS,
+      setFactualPeriod,
+      setFactualPeriodS,
+      setPrSequence,
       setHammingWeight,
       setLoading,
       setError,
@@ -95,19 +95,14 @@ const FrobeniusPage = observer(() => {
         <PageWrapper>
           <SectionBlock>
             <PageHeader
-              title="Фробеніус генератор"
+              title="МЗР з нормальною формою Фробеніуса"
               paragraph="
-                Це такий генератор бінарних послідовностей,
-                який використовує матриці для створення ПВП.
-                Принцип його роботи полягає у множенні початкового вектора на матрицю,
-                що дозволяє отримати новий вектор,
-                який використовується для генерації бітів послідовності.
-                Особливості матричного генератора включають
-                високий ступінь випадковості отриманих послідовностей,
-                можливість гнучкої настройки параметрів за допомогою
-                вибору матриць різної розмірності,
-                коефіцієнтів та рангу матриці,
-                а також його застосування в різних областях.
+                Це генератор бінарних послідовностей,
+                який базуеться на матричному зсувному регістрі, з тими відмінностями,
+                що матриці, яки використовуються для множення обернені,
+                а матрицею початкового стану є матриця, яка є нормальною формою Фробеніуса.
+                Такий тип МЗР генерує ПВП з кращіми кореляційними властивостями,
+                має більшу криптостійкість та інший розподіл бітів.
               "
               paragraphWidth="2xl"
             />
@@ -121,11 +116,11 @@ const FrobeniusPage = observer(() => {
               structureMatrixB={structureMatrixB}
               basisMatrix={basisMatrix}
               conditionMatrix={conditionMatrix}
-              potentialPeriodLength={potentialPeriodLength}
-              potentialPeriodLengthS={potentialPeriodLengthS}
-              factualPeriodLength={factualPeriodLength}
-              factualPeriodLengthS={factualPeriodLengthS}
-              pseudorandomSequence={pseudorandomSequence}
+              potentialPeriod={potentialPeriod}
+              potentialPeriodS={potentialPeriodS}
+              factualPeriod={factualPeriod}
+              factualPeriodS={factualPeriodS}
+              prSequence={prSequence}
               hammingWeight={hammingWeight}
               degreeParam={PARAMS_DEGREE}
               polynomialParam={PARAMS_POLYNOMIAL}

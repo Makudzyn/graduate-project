@@ -1,5 +1,5 @@
 import { Disclosure, Transition } from "@headlessui/react";
-import ChevronIcon from "../../../assets/svg/chevron.svg?react";
+import ChevronIcon from "../../../assets/svgs/chevron.svg?react";
 
 interface AccordionItemProps {
   title: string;

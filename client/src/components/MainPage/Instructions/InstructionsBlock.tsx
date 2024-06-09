@@ -1,5 +1,9 @@
 import Instruction from "./Instruction.tsx";
-
+import linearImg from "../../../assets/imgs/linear-page.jpg"
+import matrixImg from "../../../assets/imgs/matrix-page.jpg"
+import sumProductImg from "../../../assets/imgs/sum-n-product-page.jpg"
+import frobeniusImg from "../../../assets/imgs/frobenius-page.jpg"
+import comparisonImg from "../../../assets/imgs/comparison-page.jpg"
 const InstructionsBlock = () => {
   return (
     <div className="flex items-center flex-col gap-12">
@@ -15,7 +19,7 @@ const InstructionsBlock = () => {
                 Поточна та потрібна довжина початкового стану будуть відображені у правій частині поля.
                 Після виконання цих дій ви можете створити послідовність, натиснувши відповідну кнопку.
               "
-        picture={"https://via.placeholder.com/800x800"}
+        picture={linearImg}
       />
       <Instruction
         title="Матричний генератор"
@@ -33,7 +37,7 @@ const InstructionsBlock = () => {
                 Також для вибору рангу матриці потрібно визначити ступені для обох матриць.
                 Після виконання цих дій ви можете створити послідовність, натиснувши відповідну кнопку.
               "
-        picture={"https://via.placeholder.com/800x800"}
+        picture={matrixImg}
         reverse
       />
       <Instruction
@@ -49,7 +53,22 @@ const InstructionsBlock = () => {
                 Натисніть на неї,
                 щоб отримати результат генерації послідовностей.
               "
-        picture={"https://via.placeholder.com/800x800"}
+        picture={sumProductImg}
+      />
+      <Instruction
+        title="МЗР з матрицею Фробеніуса"
+        description="
+                Для початку роботи з генератором з матрицею Фробеніуса перейдіть на відповідну сторінку.
+                Оберіть ступінь та поліном, який віповідає цьому ступеню.
+                Виконайте розбиття на допоміжні поліноми
+                за ступенем обраного полінома у форматі n-m-...-k.
+                Після цього оберіть поліноми, яки відповідають розбиттю.
+                Наступним кроком оберіть індекси вихідних елементів.
+                Після цих етапів можна виконати генерацію ПВП,
+                щоб зробите це натисність кнопку для генерації.
+              "
+        picture={frobeniusImg}
+        reverse
       />
       <Instruction
         title="Порівняння генераторів"
@@ -62,9 +81,9 @@ const InstructionsBlock = () => {
                 Щоб порівняти кореляцію, натисніть кнопку генерації без додаткових дій.
                 Якщо бажаєте порівняти вагу Хеммінга, введіть довжину блоку,
                 в якому потрібно розрахувати вагу, та натисніть відповідну кнопку.
+                Щоб переключитися між графіками натисніть кнопку з відповідною назвою.
               "
-        picture={"https://via.placeholder.com/800x800"}
-        reverse
+        picture={comparisonImg}
       />
     </div>
   );

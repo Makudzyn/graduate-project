@@ -5,6 +5,7 @@ import { Context } from "../../main.tsx";
 import { observer } from "mobx-react-lite";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { classNames } from "../../functions/functions.ts";
+import mockAvatarIcon from "../../assets/svgs/account-avatar.svg"
 
 const userMenuNavigation = [
   { name: "My profile", href: "#" },
@@ -30,7 +31,7 @@ const UserProfileMini = observer(() => {
         <span className="sr-only">Open user menu</span>
         <img
           className="w-8 h-8 rounded-full"
-          src=""
+          src={mockAvatarIcon}
           alt="user photo"
         />
       </MenuButton>
@@ -39,9 +40,9 @@ const UserProfileMini = observer(() => {
             <span className="block text-sm font-semibold text-gray-900">
               John Doe
             </span>
-            <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
-              john.doe@company.com
-            </span>
+            {/*<span className="block text-sm text-gray-500 truncate dark:text-gray-400">*/}
+            {/*  john.doe@company.com*/}
+            {/*</span>*/}
           </MenuItem>
 
           {userMenuNavigation.map((item) => (

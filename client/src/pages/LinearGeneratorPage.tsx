@@ -36,11 +36,9 @@ const LinearGeneratorPage = observer(() => {
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
 
-  const [potentialPeriodLength, setPotentialPeriodLength] = useState<number>(0);
-  const [factualPeriodLength, setFactualPeriodLength] = useState<number>(0);
-  const [pseudorandomSequence, setPseudorandomSequence] = useState<number[]>(
-    [],
-  );
+  const [potentialPeriod, setPotentialPeriod] = useState<number>(0);
+  const [factualPeriod, setFactualPeriod] = useState<number>(0);
+  const [prSequence, setPrSequence] = useState<number[]>([]);
 
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [correlation, setCorrelation] = useState<number[]>([]);
@@ -55,9 +53,9 @@ const LinearGeneratorPage = observer(() => {
       PARAMS_USER_VALUE,
       setStructureMatrix,
       setConditionMatrix,
-      setPotentialPeriodLength,
-      setFactualPeriodLength,
-      setPseudorandomSequence,
+      setPotentialPeriod,
+      setFactualPeriod,
+      setPrSequence,
       setHammingWeight,
       setLoading,
       setError,
@@ -85,14 +83,14 @@ const LinearGeneratorPage = observer(() => {
             <PageHeader
               title="Лінійний генератор"
               paragraph="
-                Це генератор, який моделює роботу зсувного регістра зі зворотними зв'язками (ЗРЗЗ),
-                він один із найбільш поширених типів генераторів
+                Генератор, який моделює роботу зсувного регістра зі зворотними зв'язками (ЗРЗЗ),
+                це один із найбільш поширених типів генераторів
                 псевдовипадкових бінарних послідовностей.
                 Він працює за принципом послідовної зміни бітів у регістрі на
                 основі зворотного зв'язку від деяких його бітів.
                 Цей процес забезпечує генерацію послідовності бітів, яка,
                 хоч і не випадкова, але має властивості, близькі до випадкових.
-                Особливості LFSR включають простоту реалізації, високу швидкість
+                Особливості ЗРЗЗ включають простоту реалізації, високу швидкість
                 генерації та широке застосування у різних областях.
               "
               paragraphWidth="2xl"
@@ -103,9 +101,9 @@ const LinearGeneratorPage = observer(() => {
               setSearchParams={setSearchParams}
               structureMatrix={structureMatrix}
               conditionMatrix={conditionMatrix}
-              potentialPeriodLength={potentialPeriodLength}
-              factualPeriodLength={factualPeriodLength}
-              pseudorandomSequence={pseudorandomSequence}
+              potentialPeriod={potentialPeriod}
+              factualPeriod={factualPeriod}
+              prSequence={prSequence}
               hammingWeight={hammingWeight}
               degreeParam={PARAMS_DEGREE}
               polynomialParam={PARAMS_POLYNOMIAL}
@@ -116,8 +114,8 @@ const LinearGeneratorPage = observer(() => {
             <PRTable
               searchParams={searchParams}
               degreeParamA={PARAMS_DEGREE}
-              factualPeriod={factualPeriodLength}
-              pseudorandomSequence={pseudorandomSequence}
+              factualPeriod={factualPeriod}
+              pseudorandomSequence={prSequence}
             />
 
             <CorrelationChart data1={correlation} />

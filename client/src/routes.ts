@@ -55,14 +55,14 @@ export const publicRoutes = [
     Component: SumAndProductGeneratorPage,
   },
   {
-    name: "Comparison",
-    path: REGISTER_COMPARISON_ROUTE,
-    Component: RegisterComparisonPage,
-  },
-  {
     name: "Frobenius",
     path: FROBENIUS_GEN_ROUTE,
     Component: FrobeniusPage,
+  },
+  {
+    name: "Comparison",
+    path: REGISTER_COMPARISON_ROUTE,
+    Component: RegisterComparisonPage,
   },
 ];
 

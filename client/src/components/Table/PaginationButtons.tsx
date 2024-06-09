@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import ChevronIcon from "../../assets/svg/chevron.svg?react";
+import ChevronIcon from "../../assets/svgs/chevron.svg?react";
 interface PaginationButtonsProps {
   totalCount: number;
   limit: number;
@@ -35,7 +35,7 @@ const PaginationButtons = ({
               i === page
                 ? "bg-purpleFirst text-white bg-gradient-to-b"
                 : "bg-transparent hover:bg-purpleSecond hover:text-white"
-            } box-border inline-block border border-transparent px-4 py-2 text-center ml-0.5 w-12 rounded transition`}
+            } box-border font-medium inline-block border border-transparent px-4 py-2 text-center ml-0.5 w-12 rounded transition`}
             onClick={() => setPage(i)}
           >
             {i}
