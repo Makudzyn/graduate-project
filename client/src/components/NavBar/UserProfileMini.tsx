@@ -17,7 +17,13 @@ const userMenuNavigation = [
 const UserProfileMini = observer(() => {
   const { userStore } = useContext(Context)!;
   const logOut = () => {
-    userStore.setUser({});
+    userStore.setUser({
+      id: 0,
+      email: '',
+      password: '',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
     userStore.setIsAuth(false);
   };
 

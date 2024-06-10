@@ -9,11 +9,11 @@ interface CorrelationChartProps {
 }
 
 const CorrelationChart = memo(({ data1, data2 }: CorrelationChartProps) => {
-  let yAxisLimit = 1.1;
-  let xAxisLimit = -1.1;
+  const yAxisLimit = 1.1;
+  const xAxisLimit = -1.1;
 
+  const location = useLocation();
   const legendNames = () => {
-    const location = useLocation();
     if (data1 && data2) {
       if (location.pathname === "/sum-and-product-generator") {
         return {"name1": "Послідовність S (сум)", "name2": "Послідовність P (добутків)"}

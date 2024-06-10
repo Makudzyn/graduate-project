@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 
-function useDataFetching(
-  fetchFunction: () => Promise<any>,
-  dataSetter: (data: any) => void,
+function useDataFetching<T>(
+  fetchFunction: () => Promise<T>,
+  dataSetter: (data: T) => void,
   setLoading: Dispatch<SetStateAction<boolean>>,
   setError: Dispatch<SetStateAction<string | null>>,
 ) {

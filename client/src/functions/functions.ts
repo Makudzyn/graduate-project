@@ -245,11 +245,10 @@ export function compareValues(
 
 //Looking for value of query in polynomials field: degree, name, polynomials
 export function filterByQuery(poly: Polynomial, query: string): boolean {
-  const searchFields = ["degree", "name", "polynomial"];
+  const searchFields: (keyof Polynomial)[] = ["degree", "name", "polynomial"];
   const lowercaseQuery = query.toLowerCase();
 
   return searchFields.some((field) =>
-    // @ts-ignore
     String(poly[field]).toLowerCase().includes(lowercaseQuery),
   );
 }
