@@ -22,7 +22,6 @@ import { Context } from "../main.tsx";
 import Spinner from "../components/PageComponents/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
-import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import Modal from "../components/Modal/Modal.tsx";
 import { linearValidationBeforeCalculations } from "../functions/functions.ts";
 import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
@@ -30,6 +29,7 @@ import Section from "../components/PageComponents/Section.tsx";
 import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
 import SumAndProductBlock from "../components/SumAndProduct/SumAndProductBlock.tsx";
 import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
+import RenderSideBar from "../components/SideBar/RenderSideBar.tsx";
 
 const SumAndProductGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -37,10 +37,6 @@ const SumAndProductGeneratorPage = observer(() => {
   const [error, setError] = useState<string | null>(null);
 
   usePolynomialsFetching(polynomialsStore, setLoading, setError);
-
-  if (userStore.isAuth) {
-    useHistoryFetching(userStore, setLoading, setError);
-  }
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
@@ -142,12 +138,12 @@ const SumAndProductGeneratorPage = observer(() => {
 
   return (
     <>
-      {userStore.isAuth && (
+      <RenderSideBar userStore={userStore} setError={setError} setLoading={setLoading}>
         <SideBar
           dataArray={userStore.historyRecords}
           userId={userStore.user.id}
         />
-      )}
+      </RenderSideBar>
       {loading && <Spinner />}
       {error && <Modal message={error} setError={setError} type={"error"} />}
 

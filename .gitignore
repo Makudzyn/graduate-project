@@ -1,12 +1,8 @@
 .idea
 server/node_modules
-server/*.json
+server/.env
 
 client/node_modules
-client/*.json
-client/.prettierrc
-client/*.d.ts
-client/*.config.*
-client/.eslintrc.cjs
-client/src/vite-env.d.ts
+client/dist
+
 

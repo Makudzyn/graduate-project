@@ -28,7 +28,6 @@ import { Context } from "../main.tsx";
 import Spinner from "../components/PageComponents/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
-import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import InputBlockLength from "../components/RegisterComparison/InputBlockLength.tsx";
 import Modal from "../components/Modal/Modal.tsx";
 import {
@@ -40,6 +39,7 @@ import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
 import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
 import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
 import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
+import RenderSideBar from "../components/SideBar/RenderSideBar.tsx";
 
 const RegisterComparisonPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -47,10 +47,6 @@ const RegisterComparisonPage = observer(() => {
   const [error, setError] = useState<string | null>(null);
 
   usePolynomialsFetching(polynomialsStore, setLoading, setError);
-
-  if (userStore.isAuth) {
-    useHistoryFetching(userStore, setLoading, setError);
-  }
 
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
@@ -169,12 +165,12 @@ const RegisterComparisonPage = observer(() => {
 
   return (
     <>
-      {userStore.isAuth && (
+      <RenderSideBar userStore={userStore} setError={setError} setLoading={setLoading}>
         <SideBar
           dataArray={userStore.historyRecords}
           userId={userStore.user.id}
         />
-      )}
+      </RenderSideBar>
       {loading && <Spinner />}
       {error && <Modal message={error} setError={setError} type={"error"} />}
 

@@ -21,7 +21,6 @@ import { Context } from "../main.tsx";
 import Spinner from "../components/PageComponents/Spinner.tsx";
 import SideBar from "../components/SideBar/SideBar.tsx";
 import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
-import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
 import Modal from "../components/Modal/Modal.tsx";
 import { matrixValidationBeforeCalculations } from "../functions/functions.ts";
 import Section from "../components/PageComponents/Section.tsx";
@@ -30,6 +29,7 @@ import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
 import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
 import PRTable from "../components/CommonGenComponents/PRTable/PRTable.tsx";
 import TorStates from "../components/CommonGenComponents/PRTable/TorStates.tsx";
+import RenderSideBar from "../components/SideBar/RenderSideBar.tsx";
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -37,10 +37,6 @@ const MatrixGeneratorPage = observer(() => {
   const [error, setError] = useState<string | null>(null);
 
   usePolynomialsFetching(polynomialsStore, setLoading, setError);
-
-  if (userStore.isAuth) {
-    useHistoryFetching(userStore, setLoading, setError);
-  }
 
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
@@ -101,12 +97,12 @@ const MatrixGeneratorPage = observer(() => {
 
   return (
     <>
-      {userStore.isAuth && (
+      <RenderSideBar userStore={userStore} setError={setError} setLoading={setLoading}>
         <SideBar
           dataArray={userStore.historyRecords}
           userId={userStore.user.id}
         />
-      )}
+      </RenderSideBar>
       {loading && <Spinner />}
       {error && <Modal message={error} setError={setError} type={"error"} />}
 

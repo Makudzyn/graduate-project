@@ -29,10 +29,6 @@ const LinearGeneratorPage = observer(() => {
 
   usePolynomialsFetching(polynomialsStore, setLoading, setError);
 
-  // if (userStore.isAuth) {
-  //   useHistoryFetching(userStore, setLoading, setError);
-  // }
-
   const [structureMatrix, setStructureMatrix] = useState<number[][]>([]);
   const [conditionMatrix, setConditionMatrix] = useState<number[][]>([]);
 
