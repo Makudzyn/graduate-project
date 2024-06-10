@@ -12,7 +12,7 @@ export function createMatrixInitialArray(
   degree: number,
   polynomial: string[],
 ): number[] {
-  let tmp: number[] = [];
+  const tmp: number[] = [];
   for (let i = 0; i < degree; i++) {
     tmp.push(Number(polynomial[i]));
   }
@@ -23,7 +23,7 @@ export function generateStructureMatrixA(
   degree: number,
   structureRow: number[],
 ): number[][] {
-  let structureMatrix: number[][] = [];
+  const structureMatrix: number[][] = [];
   structureMatrix[0] = structureRow;
   for (let i = 1; i < degree; i++) {
     structureMatrix[i] = [];
@@ -38,7 +38,7 @@ export function generateStructureMatrixB(
   degree: number,
   structureColumn: number[],
 ): number[][] {
-  let structureMatrix: number[][] = [];
+  const structureMatrix: number[][] = [];
   for (let i = 0; i < degree; i++) {
     structureMatrix[i] = [];
     for (let j = 0; j < degree; j++) {
@@ -156,7 +156,7 @@ export function findGCD(
   let a = potentialLength;
   let b = polynomialIndex;
   while (b !== 0) {
-    let remainder = a % b;
+    const remainder = a % b;
     a = b;
     b = remainder;
   }
@@ -176,16 +176,16 @@ export function calcHammingWeightSpectre(
   degreeA: number,
   degreeB: number,
 ) {
-  let result = [];
+  const result = [];
   for (let i = 1; i <= rankS; i++) {
-    let tmp = (Math.pow(2, i) - 1) * Math.pow(2, degreeA + degreeB - 1 - i);
+    const tmp = (Math.pow(2, i) - 1) * Math.pow(2, degreeA + degreeB - 1 - i);
     result.push(tmp);
   }
   return result;
 }
 
 export function formatHammingWeight(weightSpectre: number[]) {
-  let textHammingWeight = [];
+  const textHammingWeight = [];
   for (let i = 0; i < weightSpectre.length; i++) {
     textHammingWeight.push(` wt(C(${i + 1})) = ${weightSpectre[i]}`);
   }

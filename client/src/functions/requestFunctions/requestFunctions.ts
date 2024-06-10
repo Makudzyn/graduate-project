@@ -11,8 +11,12 @@ export async function handleHistoryRecordCreation(userId: number) {
   const parameters = location.search;
   try {
     await createHistoryRecordRequest(userId, pageName, parameters);
-  } catch (error: any) {
-    console.error("Error creating history record in DB: ", error.message);
+  } catch (error) {
+    let errorMessage = 'Error creating history record in DB';
+    if (error instanceof Error) {
+      errorMessage += `: ${error.message}`;
+    }
+    console.error(errorMessage);
   }
 }
 
@@ -25,8 +29,12 @@ export async function handleHistoryRecordDeletion(
     await deleteHistoryRecordRequest(recordId);
     const updatedDataArray = dataArray.filter((data) => data.id !== recordId);
     setFilteredData(updatedDataArray);
-  } catch (error: any) {
-    console.error("Error deleting history record: ", error.message);
+  } catch (error) {
+    let errorMessage = 'Error deleting history record';
+    if (error instanceof Error) {
+      errorMessage += `: ${error.message}`;
+    }
+    console.error(errorMessage);
   }
 }
 
@@ -38,7 +46,11 @@ export async function handleHistoryRecordsListDeletion(
   try {
     await deleteAllHistoryRecordsRequest(userId, pageName);
     setFilteredData([]);
-  } catch (error: any) {
-    console.error("Error deleting list of history records: ", error.message);
+  } catch (error) {
+    let errorMessage = 'Error deleting list of history records';
+    if (error instanceof Error) {
+      errorMessage += `: ${error.message}`;
+    }
+    console.error(errorMessage);
   }
 }

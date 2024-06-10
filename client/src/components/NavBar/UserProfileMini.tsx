@@ -8,10 +8,10 @@ import { classNames } from "../../functions/functions.ts";
 import mockAvatarIcon from "../../assets/svgs/account-avatar.svg"
 
 const userMenuNavigation = [
-  { name: "My profile", href: "#" },
-  { name: "Account settings", href: "#" },
-  { name: "Polynomials", href: POLYNOMIALS_ROUTE },
-  { name: "Admin panel", href: ADMIN_PANEL_ROUTE },
+  { name: "Мій профіль", href: "#" },
+  { name: "Налаштування акаунта", href: "#" },
+  { name: "Таблиця поліномів", href: POLYNOMIALS_ROUTE },
+  { name: "Адмін панель", href: ADMIN_PANEL_ROUTE },
 ];
 
 const UserProfileMini = observer(() => {
@@ -70,7 +70,7 @@ const UserProfileMini = observer(() => {
                   "block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer",
                 )}
               >
-                Sign out
+                Вихід з облікового запису
               </div>
             )}
           </MenuItem>

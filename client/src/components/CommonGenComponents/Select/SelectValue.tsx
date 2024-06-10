@@ -22,7 +22,7 @@ const SelectValue = ({
     const value = String(targetValue);
 
     setSearchParams(
-      (prev: any) => {
+      (prev: URLSearchParams) => {
         prev.set(urlParamName, value);
         return prev;
       },

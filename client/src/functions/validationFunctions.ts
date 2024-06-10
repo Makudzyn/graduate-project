@@ -36,8 +36,8 @@ export function inputsValidityCheckLinear(
     return false;
   }
 
-  // @ts-ignore
-  const { polyBinary } = polynomialDestructuring(polynomial); //We're checking if it`s null in previous function but TS don`t see it
+  // @ts-expect-error We're checking if it`s null in previous function but TS don`t see it
+  const { polyBinary } = polynomialDestructuring(polynomial);
   if (polynomialAccordanceValidity(degree, polyBinary)) {
     setError(`Поліном ${polynomialType || ""} не відповідає обраному ступеню.`);
     return false;
@@ -81,8 +81,8 @@ export function inputsValidityCheckMatrix(
     return false;
   }
 
-  // @ts-ignore
-  const { polyBinary: polyBinaryA } = polynomialDestructuring(polynomialA); //We're checking if it`s null in previous function but TS don`t see it
+  // @ts-expect-error We're checking if it`s null in previous function but TS don`t see it
+  const { polyBinary: polyBinaryA } = polynomialDestructuring(polynomialA);
   if (polynomialAccordanceValidity(degreeA, polyBinaryA)) {
     setError("Поліном матриці A не відповідає обраному ступеню.");
     return false;
@@ -106,8 +106,8 @@ export function inputsValidityCheckMatrix(
     return false;
   }
 
-  // @ts-ignore
-  const { polyBinary: polyBinaryB } = polynomialDestructuring(polynomialB); //We're checking if it`s null in previous function but TS don`t see it
+  // @ts-expect-error We're checking if it`s null in previous function but TS don`t see it
+  const { polyBinary: polyBinaryB } = polynomialDestructuring(polynomialB);
   if (polynomialAccordanceValidity(degreeB, polyBinaryB)) {
     setError("Поліном матриці B не відповідає обраному ступеню.");
     return false;
@@ -162,8 +162,8 @@ export function inputsValidityCheckFrobenius(
     return false;
   }
 
-  // @ts-ignore
-  const { polyBinary } = polynomialDestructuring(polynomial); //We're checking if it`s null in previous function but TS don`t see it
+  // @ts-expect-error We're checking if it`s null in previous function but TS don`t see it
+  const { polyBinary } = polynomialDestructuring(polynomial);
   if (polynomialAccordanceValidity(degree, polyBinary)) {
     setError("Поліном матриці A не відповідає обраному ступеню.");
     return false;

@@ -72,8 +72,12 @@ export async function linearCalculations(
     setPrSequence(pseudorandomSequence);
     setHammingWeight(hammingWeight);
     setCorrelation && setCorrelation(correlation);
-  } catch (error: any) {
-    setError(`Помилка відправки даних на сервер: ${error.message}`);
+  } catch (error) {
+    let errorMessage = 'Помилка відправки даних на сервер';
+    if (error instanceof Error) {
+      errorMessage += `: ${error.message}`;
+    }
+    setError(errorMessage);
   } finally {
     setLoading(false);
   }
@@ -193,8 +197,12 @@ export async function matrixCalculations(
     setPseudorandomSequence(pseudorandomSequence);
     setHammingWeight(hammingWeight);
     setCorrelation && setCorrelation(correlation);
-  } catch (error: any) {
-    setError(`Помилка відправки данних на сервер: ${error.message}`);
+  } catch (error) {
+    let errorMessage = 'Помилка відправки даних на сервер';
+    if (error instanceof Error) {
+      errorMessage += `: ${error.message}`;
+    }
+    setError(errorMessage);
   } finally {
     setLoading(false);
   }
@@ -230,7 +238,7 @@ export async function frobeniusCalculations(
 
   const decompositionRule = getSelectedParam(userValueParam, searchParams) || "1-1";
   const decomposedDegrees = decompositionRule.split("-").map(Number);
-  let decomposedBinaryPolynomialsArr = [];
+  const decomposedBinaryPolynomialsArr = [];
   for (let i = 0; i < decomposedDegrees.length; i++) {
     const decomposedPolynomial = getSelectedParam(decomposedPolyParam+i, searchParams) ;
     if (decomposedPolynomial) {
@@ -284,8 +292,12 @@ export async function frobeniusCalculations(
     setPseudorandomSequence(pseudorandomSequence);
     setHammingWeight(hammingWeight);
     setCorrelation(correlation);
-  } catch (error: any) {
-    setError(`Помилка відправки данних на сервер: ${error.message}`);
+  } catch (error) {
+    let errorMessage = 'Помилка відправки даних на сервер';
+    if (error instanceof Error) {
+      errorMessage += `: ${error.message}`;
+    }
+    setError(errorMessage);
   } finally {
     setLoading(false);
   }
@@ -324,8 +336,12 @@ export async function additionAndMultiplicationCalculations(
     setHammingWeightProduct(hammingWeightProduct);
     setSumCorrelation(sumCorrelation);
     setProductCorrelation(productCorrelation);
-  } catch (error: any) {
-    setError(`Помилка відправки данних на сервер: ${error.message}`);
+  } catch (error) {
+    let errorMessage = 'Помилка відправки даних на сервер';
+    if (error instanceof Error) {
+      errorMessage += `: ${error.message}`;
+    }
+    setError(errorMessage);
   } finally {
     setLoading(false);
   }
@@ -356,8 +372,12 @@ export async function hammingBlockCalculations(
     setLinearSeqBlockLengths(linearWeights);
     setMatrixSeqBlockLengths(matrixWeights);
     setSharedWeights(sharedWeights);
-  } catch (error: any) {
-    setError(`Помилка відправки данних на сервер: ${error.message}`);
+  } catch (error) {
+    let errorMessage = 'Помилка відправки даних на сервер';
+    if (error instanceof Error) {
+      errorMessage += `: ${error.message}`;
+    }
+    setError(errorMessage);
   } finally {
     setLoading(false);
   }

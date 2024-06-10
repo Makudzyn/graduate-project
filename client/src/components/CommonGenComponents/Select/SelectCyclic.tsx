@@ -28,7 +28,7 @@ const SelectCyclic = ({
     const value = String(targetValue.booleanValue);
 
     setSearchParams(
-      (prev: any) => {
+      (prev: URLSearchParams) => {
         prev.set(urlParamName, value);
         return prev;
       },

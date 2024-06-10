@@ -4,7 +4,7 @@ interface TorMatrixProps {
 
 const TorMatrix = ({ statesArray }: TorMatrixProps) => {
   return (
-    <div className="flex flex-col items-center scrollbar text-xl font-medium py-6 h-64 overflow-y-auto w-full text-center rounded-md ring-1 ring-inset ring-gray-300 scroll-smooth shadow-lg">
+    <div className="flex flex-col scrollbar text-xl font-medium py-6 h-64 overflow-y-auto w-full text-center rounded-md ring-1 ring-inset ring-gray-300 scroll-smooth shadow-lg">
       {statesArray.map((subArray, subIndex) => (
         <div key={subIndex} className="flex items-center mx-1">
           {subArray.map((subSubArray, subSubIndex) => (

@@ -36,7 +36,7 @@ const SelectPolynomial = observer(({
     const value = targetValue.name;
 
     setSearchParams(
-      (prev: any) => {
+      (prev: URLSearchParams) => {
         prev.set(urlParamName, value);
         return prev;
       },
