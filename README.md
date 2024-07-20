@@ -81,7 +81,7 @@ npm install
 4. Start the client application: 
 ```shell
 cd client 
-npm run dev.
+npm run dev
 ```
 5. Start the server application: 
 ```shell
