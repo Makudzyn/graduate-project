@@ -1,6 +1,6 @@
-import UserStore from "../../store/UserStore.ts";
-import { Dispatch, ReactNode, SetStateAction } from "react";
-import useHistoryFetching from "../../hooks/fetching/useHistoryFetching.ts";
+import UserStore from '../../store/UserStore.ts';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
+import useHistoryFetching from '../../hooks/fetching/useHistoryFetching.ts';
 
 interface RenderSideBarProps {
   userStore: UserStore;
@@ -9,11 +9,15 @@ interface RenderSideBarProps {
   children: ReactNode;
 }
 
-const RenderSideBar = ({ userStore, setLoading, setError, children }: RenderSideBarProps) => {
-  useHistoryFetching(userStore, setLoading, setError);
-  if (!userStore.isAuth) {
-    return null;
-  }
+const RenderSideBar = ({
+  userStore,
+  setLoading,
+  setError,
+  children,
+}: RenderSideBarProps) => {
+  if (userStore.isAuth) {
+    useHistoryFetching(userStore, setLoading, setError);
+  } else return null;
 
   return <>{children}</>;
 };
