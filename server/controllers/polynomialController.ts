@@ -29,13 +29,19 @@ async function addPolynomial(
   }
 }
 
+interface PolynomialData {
+  name: string;
+  degree: number;
+  polynomial: string;
+}
+
 async function addManyPolynomials(
-  req: Request,
+  req: Request<{}, {}, PolynomialData[]>,
   res: Response,
   next: NextFunction,
 ): Promise<Response | void> {
   try {
-    const polynomials = req.body;
+    const polynomials: PolynomialData[] = req.body;
 
     const createdPolynomials = [];
 
@@ -91,7 +97,7 @@ async function editPolynomial(
   res: Response,
   next: NextFunction,
 ): Promise<Response | void> {
-  // Типизированный код редактирования полинома
+  // TODO Add Typed polynomial editing code
 }
 
 async function linearComputation(
