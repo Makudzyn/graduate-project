@@ -1,6 +1,6 @@
-import { NavLink } from "react-router-dom";
-import { MAIN_ROUTE } from "../../utils/consts.ts";
-import BigDataIcon from "../../assets/svgs/big-data.svg?react";
+import { NavLink } from 'react-router-dom';
+import { MAIN_ROUTE } from '../../utils/consts.ts';
+import BigDataIcon from '../../assets/svgs/big-data.svg?react';
 
 const TitleBrand = () => {
   return (

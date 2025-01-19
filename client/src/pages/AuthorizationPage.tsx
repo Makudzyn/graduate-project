@@ -1,23 +1,23 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { MAIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts.ts";
-import { FormEvent, useContext, useState } from "react";
-import { Context } from "../main.tsx";
-import { loginReq } from "../http/userAPI.ts";
-import { observer } from "mobx-react-lite";
-import BigDataIco from "../assets/svgs/big-data.svg?react";
-import FormInput from "../components/Form/FormInput.tsx";
-import FormHeader from "../components/Form/FormHeader.tsx";
-import Checkbox from "../components/Form/Checkbox.tsx";
-import FormButton from "../components/Form/FormButton.tsx";
-import FormPassword from "../components/Form/FormPassword.tsx";
-import Modal from "../components/Modal/Modal.tsx";
+import { NavLink, useNavigate } from 'react-router-dom';
+import { MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts.ts';
+import { FormEvent, useContext, useState } from 'react';
+import { Context } from '../main.tsx';
+import { loginReq } from '../http/userAPI.ts';
+import { observer } from 'mobx-react-lite';
+import BigDataIco from '../assets/svgs/big-data.svg?react';
+import FormInput from '../components/Form/FormInput.tsx';
+import FormHeader from '../components/Form/FormHeader.tsx';
+import Checkbox from '../components/Form/Checkbox.tsx';
+import FormButton from '../components/Form/FormButton.tsx';
+import FormPassword from '../components/Form/FormPassword.tsx';
+import Modal from '../components/Modal/Modal.tsx';
 
 const AuthorizationPage = observer(() => {
   const { userStore } = useContext(Context)!;
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   async function loginAttempt(e: FormEvent, email: string, password: string) {
     e.preventDefault();
@@ -29,14 +29,14 @@ const AuthorizationPage = observer(() => {
       navigate(MAIN_ROUTE, { replace: true });
     } catch (error) {
       setError(
-        "Помилка. Було введено не вірні данні або такого акаунту не існує.",
+        'Помилка. Було введено не вірні данні або такого акаунту не існує.',
       );
     }
   }
 
   return (
     <>
-      {error && <Modal message={error} setError={setError} type={"error"} />}
+      {error && <Modal message={error} setError={setError} type={'error'} />}
       <div className="bg-lightBg flex items-center justify-center min-h-screen pt-20 shadow-md shadow-purpleFirst font-poppins">
         <div className="w-full max-w-md p-6 rounded-lg">
           <a

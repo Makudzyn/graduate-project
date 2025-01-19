@@ -4,14 +4,20 @@ interface SectionTitleProps {
   alignCenter?: boolean;
 }
 
-const SectionTitle = ({ headerTitle, paragraphText, alignCenter }: SectionTitleProps) => {
+const SectionTitle = ({
+  headerTitle,
+  paragraphText,
+  alignCenter,
+}: SectionTitleProps) => {
   return (
-    <div className={`flex flex-col ${alignCenter ? "items-center text-center" : ""}`}>
+    <div
+      className={`flex flex-col ${alignCenter ? 'items-center text-center' : ''}`}
+    >
       <h2 className="relative m-0 font-extrabold font-libreFranklin text-3xl sm:text-5xl">
         {headerTitle}
         <span
           className={`
-            ${alignCenter ? "left-1/2 transform -translate-x-1/2 w-4/5" : "left-0 w-1/3"}
+            ${alignCenter ? 'left-1/2 transform -translate-x-1/2 w-4/5' : 'left-0 w-1/3'}
             absolute -bottom-1.5 h-0.5 rounded-lg bg-purpleFirst
             `}
         />

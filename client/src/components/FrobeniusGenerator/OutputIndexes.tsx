@@ -1,8 +1,8 @@
-import SelectValue from "../CommonGenComponents/Select/SelectValue.tsx";
-import { SetURLSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getSelectedParam } from "../../functions/functions.ts";
-import { calculatePossibleValues } from "../../functions/generatorFunctions.ts";
+import SelectValue from '../CommonGenComponents/Select/SelectValue.tsx';
+import { SetURLSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getSelectedParam } from '../../functions/functions.ts';
+import { calculatePossibleValues } from '../../functions/generatorFunctions.ts';
 
 interface OutputIndexesProps {
   searchParams: URLSearchParams;
@@ -35,9 +35,9 @@ const OutputIndexes = ({
     } else setIsShown(false);
   }, [location.search]);
 
-  const INDEX_I_LABEL = "Оберіть i вихідного елементу";
+  const INDEX_I_LABEL = 'Оберіть i вихідного елементу';
   const INDEX_I_PLACEHOLDER = `Значення i`;
-  const INDEX_J_LABEL = "Оберіть j вихідного елементу";
+  const INDEX_J_LABEL = 'Оберіть j вихідного елементу';
   const INDEX_J_PLACEHOLDER = `Значення j`;
 
   return (

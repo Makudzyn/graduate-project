@@ -3,20 +3,24 @@ import {
   sendLinearGeneratorData,
   sendMatrixGeneratorData,
   sendSumAndProductGeneratorData,
-} from "../../http/polynomialsAPI.ts";
-import { Dispatch, SetStateAction } from "react";
+} from '../../http/polynomialsAPI.ts';
+import { Dispatch, SetStateAction } from 'react';
 import {
   calcHammingWeightSpectre,
-  calcLengthByFormula, createFrobeniusMatrix,
-  createMatrixInitialArray, defineCyclicLimitation,
-  findGCD, formatArrayIfCyclic,
+  calcLengthByFormula,
+  createFrobeniusMatrix,
+  createMatrixInitialArray,
+  defineCyclicLimitation,
+  findGCD,
+  formatArrayIfCyclic,
   formatHammingWeight,
   generateMatrixBasis,
   generateStructureMatrixA,
-  generateStructureMatrixB, inverseMatrix,
+  generateStructureMatrixB,
+  inverseMatrix,
   polynomialDestructuring,
-} from "../generatorFunctions.ts";
-import { getSelectedParam } from "../functions.ts";
+} from '../generatorFunctions.ts';
+import { getSelectedParam } from '../functions.ts';
 
 export async function linearCalculations(
   searchParams: URLSearchParams,
@@ -31,17 +35,16 @@ export async function linearCalculations(
   setHammingWeight: Dispatch<SetStateAction<number>>,
   setLoading: Dispatch<SetStateAction<boolean>>,
   setError: Dispatch<SetStateAction<string | null>>,
-  setCorrelation?: Dispatch<SetStateAction<number[]>>
+  setCorrelation?: Dispatch<SetStateAction<number[]>>,
 ) {
-
-  const degree = Number(getSelectedParam(degreeParam, searchParams) || "2");
-  const polynomial = getSelectedParam(polynomialParam, searchParams) || "1 7 H";
-  const userValue = getSelectedParam(userValueParam, searchParams) || "11";
+  const degree = Number(getSelectedParam(degreeParam, searchParams) || '2');
+  const polynomial = getSelectedParam(polynomialParam, searchParams) || '1 7 H';
+  const userValue = getSelectedParam(userValueParam, searchParams) || '11';
 
   const { polyIndex, polyBinary } = polynomialDestructuring(polynomial);
-  const polynomialArr = polyBinary.split("").slice(1);
+  const polynomialArr = polyBinary.split('').slice(1);
 
-  const userValueArr = userValue.split("").map(Number);
+  const userValueArr = userValue.split('').map(Number);
 
   const potentialLength = Math.pow(2, degree) - 1;
   setPotentialPeriod(potentialLength);
@@ -54,7 +57,6 @@ export async function linearCalculations(
     createMatrixInitialArray(degree, polynomialArr),
   );
   setStructureMatrix(structureMatrix);
-
 
   try {
     setLoading(true);
@@ -112,17 +114,21 @@ export async function matrixCalculations(
   setError: Dispatch<SetStateAction<string | null>>,
   setCorrelation?: Dispatch<SetStateAction<number[]>>,
 ) {
-  const degreeA = Number(getSelectedParam(degreeParamA, searchParams) || "2");
-  const polynomialA = getSelectedParam(polynomialParamA, searchParams) || "1 7 H";
-  const isCyclicA = getSelectedParam(cyclicPolyParamA, searchParams) || "false";
+  const degreeA = Number(getSelectedParam(degreeParamA, searchParams) || '2');
+  const polynomialA =
+    getSelectedParam(polynomialParamA, searchParams) || '1 7 H';
+  const isCyclicA = getSelectedParam(cyclicPolyParamA, searchParams) || 'false';
 
-  const degreeB = Number(getSelectedParam(degreeParamB, searchParams) || "2");
-  const polynomialB = getSelectedParam(polynomialParamB, searchParams) || "1 7 H";
-  const isCyclicB = getSelectedParam(cyclicPolyParamB, searchParams) || "false";
+  const degreeB = Number(getSelectedParam(degreeParamB, searchParams) || '2');
+  const polynomialB =
+    getSelectedParam(polynomialParamB, searchParams) || '1 7 H';
+  const isCyclicB = getSelectedParam(cyclicPolyParamB, searchParams) || 'false';
 
-  const indexI = Number(getSelectedParam(indexParamI, searchParams) || "0");
-  const indexJ = Number(getSelectedParam(indexParamJ, searchParams) || "0");
-  const matrixRank = Number(getSelectedParam(matrixRankParam, searchParams) || "1");
+  const indexI = Number(getSelectedParam(indexParamI, searchParams) || '0');
+  const indexJ = Number(getSelectedParam(indexParamJ, searchParams) || '0');
+  const matrixRank = Number(
+    getSelectedParam(matrixRankParam, searchParams) || '1',
+  );
 
   const { polyIndex: polyIndexA, polyBinary: polyBinaryA } =
     polynomialDestructuring(polynomialA);
@@ -134,7 +140,8 @@ export async function matrixCalculations(
 
   const potentialPeriodLengthA = Math.pow(2, degreeA) - 1;
   const potentialPeriodLengthB = Math.pow(2, degreeB) - 1;
-  const potentialPeriodLengthS = potentialPeriodLengthA * potentialPeriodLengthB;
+  const potentialPeriodLengthS =
+    potentialPeriodLengthA * potentialPeriodLengthB;
 
   setPotentialPeriodLengthA(potentialPeriodLengthA);
   setPotentialPeriodLengthB(potentialPeriodLengthB);
@@ -146,7 +153,12 @@ export async function matrixCalculations(
   setFactualPeriodLengthA(factualPeriodLengthA);
   setFactualPeriodLengthB(factualPeriodLengthB);
 
-  const cyclicPeriodLimitation = defineCyclicLimitation(isCyclicA, isCyclicB, factualPeriodLengthA, factualPeriodLengthB);
+  const cyclicPeriodLimitation = defineCyclicLimitation(
+    isCyclicA,
+    isCyclicB,
+    factualPeriodLengthA,
+    factualPeriodLengthB,
+  );
 
   const condition = findGCD(factualPeriodLengthA, factualPeriodLengthB);
   setConditionS(condition);
@@ -160,7 +172,6 @@ export async function matrixCalculations(
     degreeB,
     createMatrixInitialArray(degreeB, polynomialArrB),
   );
-
 
   const basisMatrix = generateMatrixBasis(degreeA, degreeB, matrixRank);
 
@@ -230,25 +241,29 @@ export async function frobeniusCalculations(
   setError: Dispatch<SetStateAction<string | null>>,
   setCorrelation: Dispatch<SetStateAction<number[]>>,
 ) {
-  const degree = Number(getSelectedParam(degreeParam, searchParams) || "2");
+  const degree = Number(getSelectedParam(degreeParam, searchParams) || '2');
 
-  const polynomial = getSelectedParam(polynomialParam, searchParams) || "1 7 H";
+  const polynomial = getSelectedParam(polynomialParam, searchParams) || '1 7 H';
   const { polyIndex, polyBinary } = polynomialDestructuring(polynomial);
-  const polynomialArr = polyBinary.split("").slice(1);
+  const polynomialArr = polyBinary.split('').slice(1);
 
-  const decompositionRule = getSelectedParam(userValueParam, searchParams) || "1-1";
-  const decomposedDegrees = decompositionRule.split("-").map(Number);
+  const decompositionRule =
+    getSelectedParam(userValueParam, searchParams) || '1-1';
+  const decomposedDegrees = decompositionRule.split('-').map(Number);
   const decomposedBinaryPolynomialsArr = [];
   for (let i = 0; i < decomposedDegrees.length; i++) {
-    const decomposedPolynomial = getSelectedParam(decomposedPolyParam+i, searchParams) ;
+    const decomposedPolynomial = getSelectedParam(
+      decomposedPolyParam + i,
+      searchParams,
+    );
     if (decomposedPolynomial) {
       const { polyBinary } = polynomialDestructuring(decomposedPolynomial);
       decomposedBinaryPolynomialsArr.push(polyBinary);
     }
   }
 
-  const indexI = Number(getSelectedParam(indexParamI, searchParams) || "0");
-  const indexJ = Number(getSelectedParam(indexParamJ, searchParams) || "0");
+  const indexI = Number(getSelectedParam(indexParamI, searchParams) || '0');
+  const indexJ = Number(getSelectedParam(indexParamJ, searchParams) || '0');
 
   const potentialPeriodLength = Math.pow(2, degree) - 1;
   const potentialPeriodLengthS = potentialPeriodLength;
@@ -266,7 +281,10 @@ export async function frobeniusCalculations(
 
   const structureMatrixB = inverseMatrix(structureMatrixA);
 
-  const basisMatrix = createFrobeniusMatrix(degree, decomposedBinaryPolynomialsArr);
+  const basisMatrix = createFrobeniusMatrix(
+    degree,
+    decomposedBinaryPolynomialsArr,
+  );
 
   setStructureMatrixA(structureMatrixA);
   setStructureMatrixB(structureMatrixB);
@@ -359,7 +377,7 @@ export async function hammingBlockCalculations(
   setError: Dispatch<SetStateAction<string | null>>,
 ) {
   const hammingBlockLength = Number(
-    getSelectedParam(hammingBlockParam, searchParams) || "2",
+    getSelectedParam(hammingBlockParam, searchParams) || '2',
   );
   try {
     setLoading(true);
@@ -382,5 +400,3 @@ export async function hammingBlockCalculations(
     setLoading(false);
   }
 }
-
-

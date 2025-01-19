@@ -1,9 +1,9 @@
 import {
   PolynomialWithoutDate,
   SortState,
-} from "../../utils/interfacesAndTypes.ts";
-import { Dispatch, SetStateAction } from "react";
-import Triangle from "../../assets/svgs/triangle.svg?react";
+} from '../../utils/interfacesAndTypes.ts';
+import { Dispatch, SetStateAction } from 'react';
+import Triangle from '../../assets/svgs/triangle.svg?react';
 
 interface ThProps {
   sortObj: SortState;
@@ -29,10 +29,10 @@ const Th = ({
       if (prevSortBy.column === column) {
         return {
           column,
-          order: prevSortBy.order === "ascending" ? "descending" : "ascending",
+          order: prevSortBy.order === 'ascending' ? 'descending' : 'ascending',
         };
       } else {
-        return { column, order: "ascending" };
+        return { column, order: 'ascending' };
       }
     });
   };
@@ -43,7 +43,7 @@ const Th = ({
       className={`cursor-pointer border-b-2 border-indigo-500 px-2.5 py-4 ${classNames}`}
       tabIndex={0}
       aria-controls={ariaControls}
-      aria-sort={sortObj.column === columnName ? sortObj.order : "none"}
+      aria-sort={sortObj.column === columnName ? sortObj.order : 'none'}
       aria-label={`${columnName}: activate to sort column`}
       onClick={() => handleSort(columnName)}
     >
@@ -52,31 +52,32 @@ const Th = ({
         <span className="absolute right-0" role="presentation">
           <Triangle
             className={`w-2 h-2 transition ${
-              sortObj.column === columnName && sortObj.order === "ascending"
-                ? "fill-purpleFirst"
-                : sortObj.column === columnName && sortObj.order === "descending"
-                  ? "fill-transparent"
-                  : "fill-gray-400"
+              sortObj.column === columnName && sortObj.order === 'ascending'
+                ? 'fill-purpleFirst'
+                : sortObj.column === columnName &&
+                    sortObj.order === 'descending'
+                  ? 'fill-transparent'
+                  : 'fill-gray-400'
             }`}
             data-sort-direction={
-              sortObj.column === columnName && sortObj.order === "ascending"
-                ? "ascending"
-                : "none"
+              sortObj.column === columnName && sortObj.order === 'ascending'
+                ? 'ascending'
+                : 'none'
             }
             aria-hidden="true"
           />
           <Triangle
             className={`w-2 h-2 transition -rotate-180 fill-gray-400 ${
-              sortObj.column === columnName && sortObj.order === "descending"
-                ? "fill-purpleFirst"
-                : sortObj.column === columnName && sortObj.order === "ascending"
-                  ? "fill-transparent"
-                  : "fill-gray-400"
+              sortObj.column === columnName && sortObj.order === 'descending'
+                ? 'fill-purpleFirst'
+                : sortObj.column === columnName && sortObj.order === 'ascending'
+                  ? 'fill-transparent'
+                  : 'fill-gray-400'
             }`}
             data-sort-direction={
-              sortObj.column === columnName && sortObj.order === "descending"
-                ? "descending"
-                : "none"
+              sortObj.column === columnName && sortObj.order === 'descending'
+                ? 'descending'
+                : 'none'
             }
             aria-hidden="true"
           />

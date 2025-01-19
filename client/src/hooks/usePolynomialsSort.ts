@@ -1,6 +1,6 @@
-import { useMemo } from "react";
-import { Polynomial, SortState } from "../utils/interfacesAndTypes.ts";
-import { compareValues } from "../functions/functions.ts";
+import { useMemo } from 'react';
+import { Polynomial, SortState } from '../utils/interfacesAndTypes.ts';
+import { compareValues } from '../functions/functions.ts';
 
 function useSortPolynomials(polynomials: Polynomial[], sortBy: SortState) {
   return useMemo(() => {

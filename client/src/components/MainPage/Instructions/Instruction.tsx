@@ -5,10 +5,15 @@ interface InstructionProps {
   reverse?: boolean;
 }
 
-const Instruction = ({ title, description, picture, reverse }: InstructionProps) => {
+const Instruction = ({
+  title,
+  description,
+  picture,
+  reverse,
+}: InstructionProps) => {
   return (
     <div
-      className={`flex items-center gap-10 text-center flex-col md:text-start md:gap-20 ${reverse ? "md:flex-row-reverse" : "md:flex-row"}`}
+      className={`flex items-center gap-10 text-center flex-col md:text-start md:gap-20 ${reverse ? 'md:flex-row-reverse' : 'md:flex-row'}`}
     >
       <div className="flex-grow basis-0 px-4">
         <h3 className="relative text-primary mb-1.5 text-2xl md:text-3xl font-semibold">
@@ -18,7 +23,7 @@ const Instruction = ({ title, description, picture, reverse }: InstructionProps)
         <p className="text-xl md:text-2xl text-paragraph">{description}</p>
       </div>
       <div className="flex-grow basis-0">
-        <img src={picture} alt={"placehold.it"} />
+        <img src={picture} alt={'placehold.it'} />
       </div>
     </div>
   );

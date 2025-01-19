@@ -1,8 +1,8 @@
-import GenButton from "../CommonGenComponents/GenButton.tsx";
-import Sequence from "../CommonGenComponents/Sequence.tsx";
-import HammingWeight from "../CommonGenComponents/HammingWeight.tsx";
-import CorrelationChart from "../Chart/Plotly/CorrelationChart.tsx";
-import Header3 from "../PageComponents/Headers/Header3.tsx";
+import GenButton from '../CommonGenComponents/GenButton.tsx';
+import Sequence from '../CommonGenComponents/Sequence.tsx';
+import HammingWeight from '../CommonGenComponents/HammingWeight.tsx';
+import CorrelationChart from '../Chart/Plotly/CorrelationChart.tsx';
+import Header3 from '../PageComponents/Headers/Header3.tsx';
 
 interface SumAndProductBlockProps {
   conditionS: number;

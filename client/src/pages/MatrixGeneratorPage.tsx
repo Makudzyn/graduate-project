@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
-import { observer } from "mobx-react-lite";
-import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
-import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
+import { useContext, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import usePolynomialsFetching from '../hooks/fetching/usePolynomialsFetching.ts';
+import CorrelationChart from '../components/Chart/Plotly/CorrelationChart.tsx';
 import {
   PARAMS_CYCLIC_POLY_A,
   PARAMS_CYCLIC_POLY_B,
@@ -14,22 +14,22 @@ import {
   PARAMS_POLYNOMIAL_B,
   POLYNOMIAL_TYPE_A,
   POLYNOMIAL_TYPE_B,
-} from "../utils/consts.ts";
-import { useSearchParams } from "react-router-dom";
-import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
-import { Context } from "../main.tsx";
-import Spinner from "../components/PageComponents/Spinner.tsx";
-import SideBar from "../components/SideBar/SideBar.tsx";
-import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
-import Modal from "../components/Modal/Modal.tsx";
-import { matrixValidationBeforeCalculations } from "../functions/functions.ts";
-import Section from "../components/PageComponents/Section.tsx";
-import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
-import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
-import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
-import PRTable from "../components/CommonGenComponents/PRTable/PRTable.tsx";
-import TorStates from "../components/CommonGenComponents/PRTable/TorStates.tsx";
-import RenderSideBar from "../components/SideBar/RenderSideBar.tsx";
+} from '../utils/consts.ts';
+import { useSearchParams } from 'react-router-dom';
+import MatrixGenerator from '../components/MatrixGenerator/MatrixGenerator.tsx';
+import { Context } from '../main.tsx';
+import Spinner from '../components/PageComponents/Spinner.tsx';
+import SideBar from '../components/SideBar/SideBar.tsx';
+import { handleHistoryRecordCreation } from '../functions/requestFunctions/requestFunctions.ts';
+import Modal from '../components/Modal/Modal.tsx';
+import { matrixValidationBeforeCalculations } from '../functions/functions.ts';
+import Section from '../components/PageComponents/Section.tsx';
+import PageWrapper from '../components/PageComponents/PageWrapper.tsx';
+import PageHeader from '../components/PageComponents/Headers/PageHeader.tsx';
+import SectionBlock from '../components/PageComponents/SectionBlock.tsx';
+import PRTable from '../components/CommonGenComponents/PRTable/PRTable.tsx';
+import TorStates from '../components/CommonGenComponents/PRTable/TorStates.tsx';
+import RenderSideBar from '../components/SideBar/RenderSideBar.tsx';
 
 const MatrixGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -55,7 +55,7 @@ const MatrixGeneratorPage = observer(() => {
   const [conditionS, setConditionS] = useState<number>(0);
 
   const [hammingWeight, setHammingWeight] = useState<number>(0);
-  const [weightSpectre, setWeightSpectre] = useState<string[]>(["0"]);
+  const [weightSpectre, setWeightSpectre] = useState<string[]>(['0']);
   const [correlation, setCorrelation] = useState<number[]>([]);
 
   const [searchParams, setSearchParams] = useSearchParams({});
@@ -97,14 +97,18 @@ const MatrixGeneratorPage = observer(() => {
 
   return (
     <>
-      <RenderSideBar userStore={userStore} setError={setError} setLoading={setLoading}>
+      <RenderSideBar
+        userStore={userStore}
+        setError={setError}
+        setLoading={setLoading}
+      >
         <SideBar
           dataArray={userStore.historyRecords}
           userId={userStore.user.id}
         />
       </RenderSideBar>
       {loading && <Spinner />}
-      {error && <Modal message={error} setError={setError} type={"error"} />}
+      {error && <Modal message={error} setError={setError} type={'error'} />}
 
       <Section>
         <PageWrapper>
@@ -142,7 +146,7 @@ const MatrixGeneratorPage = observer(() => {
               factualPeriodB={factualPeriodB}
               factualPeriodS={factualPeriodS}
               conditionS={conditionS}
-              identifierS={"S"}
+              identifierS={'S'}
               prSequence={prSequence}
               hammingWeight={hammingWeight}
               weightSpectre={weightSpectre}

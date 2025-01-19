@@ -10,7 +10,10 @@ const TorMatrix = ({ statesArray }: TorMatrixProps) => {
           {subArray.map((subSubArray, subSubIndex) => (
             <div key={subSubIndex} className="flex flex-col items-center mx-2">
               {subSubArray.map((chunk, chunkIndex) => (
-                <div className="flex justify-center items-center" key={chunkIndex}>
+                <div
+                  className="flex justify-center items-center"
+                  key={chunkIndex}
+                >
                   {chunk.map((item, itemIndex) => (
                     <span className="w-3.5" key={itemIndex}>
                       {item}

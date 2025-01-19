@@ -1,4 +1,4 @@
-import Header5 from "../PageComponents/Headers/Header5.tsx";
+import Header5 from '../PageComponents/Headers/Header5.tsx';
 
 interface HammingWeightSpectreProps {
   hammingWeightSpectre: string[];
@@ -9,7 +9,7 @@ const HammingWeightSpectre = ({
 }: HammingWeightSpectreProps) => {
   return (
     <Header5 align="left">
-      Спектр ваг Хеммінга:{" "}
+      Спектр ваг Хеммінга:{' '}
       {hammingWeightSpectre.map((item) => (
         <span key={item}>{item};</span>
       ))}

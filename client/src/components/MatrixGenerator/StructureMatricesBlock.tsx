@@ -1,6 +1,6 @@
-import Matrix from "../CommonGenComponents/Matrices/Matrix.tsx";
-import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
-import Header3 from "../PageComponents/Headers/Header3.tsx";
+import Matrix from '../CommonGenComponents/Matrices/Matrix.tsx';
+import { PolynomialType } from '../../utils/interfacesAndTypes.ts';
+import Header3 from '../PageComponents/Headers/Header3.tsx';
 
 interface StructureMatricesBlockProps {
   structureMatrixA: number[][];

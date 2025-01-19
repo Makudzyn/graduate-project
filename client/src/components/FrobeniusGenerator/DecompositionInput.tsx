@@ -1,6 +1,6 @@
-import { SetURLSearchParams } from "react-router-dom";
-import { ChangeEvent, useEffect, useState } from "react";
-import { getSelectedParam } from "../../functions/functions.ts";
+import { SetURLSearchParams } from 'react-router-dom';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { getSelectedParam } from '../../functions/functions.ts';
 
 interface DecompositionInputProps {
   searchParams: URLSearchParams;
@@ -19,8 +19,8 @@ const DecompositionInput = ({
   inputPlaceholder,
   degreeRestriction,
 }: DecompositionInputProps) => {
-  const [inputValue, setInputValue] = useState<string>("");
-  const [color, setColor] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>('');
+  const [color, setColor] = useState<string>('');
 
   useEffect(() => {
     const paramValue = getSelectedParam(urlParamName, searchParams);
@@ -31,11 +31,12 @@ const DecompositionInput = ({
   }, [location.search]);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    const sanitizedValue = e.target.value.replace(/[^1-9-]/g, "");
-    const numbers = sanitizedValue.split("-").map(Number).filter(Boolean);
-    const validDecomposition = numbers.reduce((acc, num) => acc + num, 0) === degreeRestriction;
+    const sanitizedValue = e.target.value.replace(/[^1-9-]/g, '');
+    const numbers = sanitizedValue.split('-').map(Number).filter(Boolean);
+    const validDecomposition =
+      numbers.reduce((acc, num) => acc + num, 0) === degreeRestriction;
 
-    if (sanitizedValue !== "" && validDecomposition) {
+    if (sanitizedValue !== '' && validDecomposition) {
       setSearchParams(
         (prevSearchParams: URLSearchParams) => {
           prevSearchParams.set(urlParamName, sanitizedValue);
@@ -58,14 +59,14 @@ const DecompositionInput = ({
         <input
           id="decomposition-input"
           className={`${
-            color === "red" ? "focus:ring-red-500" : "focus:ring-green-500"
+            color === 'red' ? 'focus:ring-red-500' : 'focus:ring-green-500'
           }
           mt-2 block w-full truncate rounded-md bg-white text-sm+ px-[1.75em] text-left shadow-lg ring-1 ring-inset ring-gray-300 py-2 focus:outline-none focus:ring-2 `}
           placeholder={inputPlaceholder}
           onChange={handleChange}
           value={inputValue}
           required
-          title={"Розбийте поліном на менші ступені у форматі (n-m-...-k)"}
+          title={'Розбийте поліном на менші ступені у форматі (n-m-...-k)'}
         />
       </div>
     </div>

@@ -1,12 +1,12 @@
-import { $host } from "./index.ts";
+import { $host } from './index.ts';
 
 export const fetchPolynomials = async () => {
   try {
-    const { data } = await $host.get("api/polynomials/get-polynomials");
+    const { data } = await $host.get('api/polynomials/get-polynomials');
     const { polynomials, count } = data;
     return { polynomials, count };
   } catch (error) {
-    throw new Error("Помилка отримання данних про поліноми з сервера.");
+    throw new Error('Помилка отримання данних про поліноми з сервера.');
   }
 };
 
@@ -16,7 +16,7 @@ export const sendLinearGeneratorData = async (
   factualLength: number,
 ) => {
   try {
-    const { data } = await $host.post("api/polynomials/compute-linear", {
+    const { data } = await $host.post('api/polynomials/compute-linear', {
       structureMatrix,
       userValueArr,
       factualLength,
@@ -24,7 +24,7 @@ export const sendLinearGeneratorData = async (
     return data;
   } catch (error) {
     throw new Error(
-      "Помилка відправки данних лінійного генератора для обчислень на сервер.",
+      'Помилка відправки данних лінійного генератора для обчислень на сервер.',
     );
   }
 };
@@ -38,18 +38,18 @@ export const sendMatrixGeneratorData = async (
   cyclicPeriodLimitation?: number | undefined,
 ) => {
   try {
-    const { data } = await $host.post("api/polynomials/compute-matrix", {
+    const { data } = await $host.post('api/polynomials/compute-matrix', {
       structureMatrixA,
       structureMatrixB,
       basisMatrix,
       indexI,
       indexJ,
-      cyclicPeriodLimitation
+      cyclicPeriodLimitation,
     });
     return data;
   } catch (error) {
     throw new Error(
-      "Помилка відправки данних матричного генератора для обчислень на сервер.",
+      'Помилка відправки данних матричного генератора для обчислень на сервер.',
     );
   }
 };
@@ -61,7 +61,7 @@ export const sendSumAndProductGeneratorData = async (
 ) => {
   try {
     const { data } = await $host.post(
-      "api/polynomials/compute-sum-and-product",
+      'api/polynomials/compute-sum-and-product',
       {
         pseudorandomSequenceA,
         pseudorandomSequenceB,
@@ -71,7 +71,7 @@ export const sendSumAndProductGeneratorData = async (
     return data;
   } catch (error) {
     throw new Error(
-      "Помилка відправки данних генератора сум та добутків для обчислень на сервер.",
+      'Помилка відправки данних генератора сум та добутків для обчислень на сервер.',
     );
   }
 };
@@ -83,7 +83,7 @@ export const sendHammingWeightAnalysisData = async (
 ) => {
   try {
     const { data } = await $host.post(
-      "api/polynomials/compute-hamming-weight-block",
+      'api/polynomials/compute-hamming-weight-block',
       {
         linearSequence,
         matrixSequence,
@@ -92,6 +92,8 @@ export const sendHammingWeightAnalysisData = async (
     );
     return data;
   } catch (error) {
-    throw new Error("Помилка відправки данних ваг Хеммінгу для обчислень на сервер.");
+    throw new Error(
+      'Помилка відправки данних ваг Хеммінгу для обчислень на сервер.',
+    );
   }
 };

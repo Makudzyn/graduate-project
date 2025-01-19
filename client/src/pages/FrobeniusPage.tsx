@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
-import { observer } from "mobx-react-lite";
-import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
-import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
+import { useContext, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import usePolynomialsFetching from '../hooks/fetching/usePolynomialsFetching.ts';
+import CorrelationChart from '../components/Chart/Plotly/CorrelationChart.tsx';
 import {
   PARAMS_DECOMPOSED_POLYNOMIAL,
   PARAMS_DEGREE,
@@ -10,21 +10,21 @@ import {
   PARAMS_POLYNOMIAL,
   PARAMS_USER_VALUE,
   POLYNOMIAL_TYPE_A,
-  POLYNOMIAL_TYPE_B
-} from "../utils/consts.ts";
-import { useSearchParams } from "react-router-dom";
-import { Context } from "../main.tsx";
-import Spinner from "../components/PageComponents/Spinner.tsx";
-import SideBar from "../components/SideBar/SideBar.tsx";
-import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
-import useHistoryFetching from "../hooks/fetching/useHistoryFetching.ts";
-import Modal from "../components/Modal/Modal.tsx";
-import { frobeniusValidationBeforeCalculations } from "../functions/functions.ts";
-import Section from "../components/PageComponents/Section.tsx";
-import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
-import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
-import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
-import FrobeniusGenerator from "../components/FrobeniusGenerator/FrobeniusGenerator.tsx";
+  POLYNOMIAL_TYPE_B,
+} from '../utils/consts.ts';
+import { useSearchParams } from 'react-router-dom';
+import { Context } from '../main.tsx';
+import Spinner from '../components/PageComponents/Spinner.tsx';
+import SideBar from '../components/SideBar/SideBar.tsx';
+import { handleHistoryRecordCreation } from '../functions/requestFunctions/requestFunctions.ts';
+import useHistoryFetching from '../hooks/fetching/useHistoryFetching.ts';
+import Modal from '../components/Modal/Modal.tsx';
+import { frobeniusValidationBeforeCalculations } from '../functions/functions.ts';
+import Section from '../components/PageComponents/Section.tsx';
+import PageWrapper from '../components/PageComponents/PageWrapper.tsx';
+import PageHeader from '../components/PageComponents/Headers/PageHeader.tsx';
+import SectionBlock from '../components/PageComponents/SectionBlock.tsx';
+import FrobeniusGenerator from '../components/FrobeniusGenerator/FrobeniusGenerator.tsx';
 
 const FrobeniusPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -50,7 +50,7 @@ const FrobeniusPage = observer(() => {
   const [prSequence, setPrSequence] = useState<number[]>([]);
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [correlation, setCorrelation] = useState<number[]>([]);
-  const [searchParams, setSearchParams] = useSearchParams("");
+  const [searchParams, setSearchParams] = useSearchParams('');
 
   const handleGenerateButtonClick = () => {
     const fulfilled = frobeniusValidationBeforeCalculations(
@@ -73,8 +73,8 @@ const FrobeniusPage = observer(() => {
       setHammingWeight,
       setLoading,
       setError,
-      setCorrelation
-    )
+      setCorrelation,
+    );
     if (fulfilled && userStore.isAuth) {
       handleHistoryRecordCreation(userStore.user.id);
     }
@@ -89,7 +89,7 @@ const FrobeniusPage = observer(() => {
         />
       )}
       {loading && <Spinner />}
-      {error && <Modal message={error} setError={setError} type={"error"} />}
+      {error && <Modal message={error} setError={setError} type={'error'} />}
 
       <Section>
         <PageWrapper>
@@ -129,7 +129,7 @@ const FrobeniusPage = observer(() => {
               indexParamJ={PARAMS_OUTPUT_INDEX_J}
               polynomialTypeA={POLYNOMIAL_TYPE_A}
               polynomialTypeB={POLYNOMIAL_TYPE_B}
-              identifierS={"S"}
+              identifierS={'S'}
               onClick={handleGenerateButtonClick}
             />
 

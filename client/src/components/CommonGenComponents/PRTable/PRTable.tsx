@@ -1,12 +1,12 @@
 import {
   fillZigZagMatrix,
   findClosestProductFactors,
-} from "../../../functions/generatorFunctions.ts";
-import { useEffect, useState } from "react";
-import { getSelectedParam } from "../../../functions/functions.ts";
-import Header3 from "../../PageComponents/Headers/Header3.tsx";
-import GenButton from "../GenButton.tsx";
-import Matrix from "../Matrices/Matrix.tsx";
+} from '../../../functions/generatorFunctions.ts';
+import { useEffect, useState } from 'react';
+import { getSelectedParam } from '../../../functions/functions.ts';
+import Header3 from '../../PageComponents/Headers/Header3.tsx';
+import GenButton from '../GenButton.tsx';
+import Matrix from '../Matrices/Matrix.tsx';
 
 interface PrTableProps {
   searchParams: URLSearchParams;
@@ -33,12 +33,12 @@ const PRTable = ({
     if (factualPeriod !== 0) {
       const prtTmp = findClosestProductFactors(factualPeriod);
       const degreeA = Number(
-        getSelectedParam(degreeParamA, searchParams) || "0",
+        getSelectedParam(degreeParamA, searchParams) || '0',
       );
       let degreeSplit;
       if (degreeParamB) {
         const degreeB = Number(
-          getSelectedParam(degreeParamB, searchParams) || "0",
+          getSelectedParam(degreeParamB, searchParams) || '0',
         );
         degreeSplit = [degreeB, degreeA];
       } else {

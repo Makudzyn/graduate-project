@@ -2,21 +2,21 @@ import {
   Polynomial,
   PolynomialType,
   SortState,
-} from "../utils/interfacesAndTypes.ts";
+} from '../utils/interfacesAndTypes.ts';
 import {
   inputsValidityCheckFrobenius,
   inputsValidityCheckLinear,
   inputsValidityCheckMatrix,
-} from "./validationFunctions.ts";
+} from './validationFunctions.ts';
 import {
   frobeniusCalculations,
   linearCalculations,
   matrixCalculations,
-} from "./requestFunctions/calculationRequestFunctions.ts";
-import { Dispatch, SetStateAction } from "react";
+} from './requestFunctions/calculationRequestFunctions.ts';
+import { Dispatch, SetStateAction } from 'react';
 
 export function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export function generateOptions() {
@@ -31,10 +31,10 @@ export function getSelectedParam(
 }
 
 export function createPlaceholder(polynomial: string): string {
-  return "0".repeat(polynomial.length - 2) + "1";
+  return '0'.repeat(polynomial.length - 2) + '1';
 }
 
-//Handling generation click
+// Handling generation click
 export const linearValidationBeforeCalculations = (
   searchParams: URLSearchParams,
   degreeParam: string,
@@ -74,7 +74,7 @@ export const linearValidationBeforeCalculations = (
       setLoading,
       setError,
       setCorrelation,
-    )
+    );
     return true;
   }
   return false;
@@ -217,19 +217,19 @@ export const frobeniusValidationBeforeCalculations = (
   return false;
 };
 
-//TABLE FUNCTIONS
+// TABLE FUNCTIONS
 
-//Compare values of two polynomials using sortObj with column (your cols) and order (asc, desc) fields which
+// Compare values of two polynomials using sortObj with column (your cols) and order (asc, desc) fields which
 export function compareValues(
   sortObj: SortState,
   polyA: Polynomial,
   polyB: Polynomial,
 ): number {
   if (
-    typeof polyA[sortObj.column] === "string" &&
-    sortObj.column !== "polynomial"
+    typeof polyA[sortObj.column] === 'string' &&
+    sortObj.column !== 'polynomial'
   ) {
-    return sortObj.order === "ascending"
+    return sortObj.order === 'ascending'
       ? (polyA[sortObj.column] as string).localeCompare(
           polyB[sortObj.column] as string,
         )
@@ -237,15 +237,15 @@ export function compareValues(
           polyA[sortObj.column] as string,
         );
   } else {
-    return sortObj.order === "ascending"
+    return sortObj.order === 'ascending'
       ? (polyA[sortObj.column] as number) - (polyB[sortObj.column] as number)
       : (polyB[sortObj.column] as number) - (polyA[sortObj.column] as number);
   }
 }
 
-//Looking for value of query in polynomials field: degree, name, polynomials
+// Looking for value of query in polynomials field: degree, name, polynomials
 export function filterByQuery(poly: Polynomial, query: string): boolean {
-  const searchFields: (keyof Polynomial)[] = ["degree", "name", "polynomial"];
+  const searchFields: (keyof Polynomial)[] = ['degree', 'name', 'polynomial'];
   const lowercaseQuery = query.toLowerCase();
 
   return searchFields.some((field) =>
@@ -253,21 +253,21 @@ export function filterByQuery(poly: Polynomial, query: string): boolean {
   );
 }
 
-//SIDEBAR FUNCTIONS
+// SIDEBAR FUNCTIONS
 export function formatParameter(parameter: string) {
   return parameter
     .slice(1)
-    .replace(/\+/g, " ")
-    .replace(/&/g, "; ")
-    .replace(/=/g, ": ");
+    .replace(/\+/g, ' ')
+    .replace(/&/g, '; ')
+    .replace(/=/g, ': ');
 }
 
 export function formatDateTime(dateTimeString: Date) {
   const date = new Date(dateTimeString);
-  const formattedTime = date.toLocaleTimeString("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
+  const formattedTime = date.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
   });
-  const formattedDate = date.toLocaleDateString("en-GB").replace(/\//g, ".");
+  const formattedDate = date.toLocaleDateString('en-GB').replace(/\//g, '.');
   return `${formattedTime} ${formattedDate}`;
 }

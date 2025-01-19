@@ -1,5 +1,5 @@
-import { makeAutoObservable } from "mobx";
-import { Polynomial } from "../utils/interfacesAndTypes.ts";
+import { makeAutoObservable } from 'mobx';
+import { Polynomial } from '../utils/interfacesAndTypes.ts';
 
 export default class PolynomialsStore {
   private _polynomials: Polynomial[] = [];
@@ -22,5 +22,4 @@ export default class PolynomialsStore {
   get polynomials(): Polynomial[] {
     return this._polynomials;
   }
-
 }

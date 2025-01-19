@@ -1,12 +1,12 @@
-import { Field, Label, Listbox, ListboxButton } from "@headlessui/react";
-import ChevronIcon from "../../../assets/svgs/chevron.svg?react";
-import { getSelectedParam } from "../../../functions/functions.ts";
-import { useEffect, useState } from "react";
+import { Field, Label, Listbox, ListboxButton } from '@headlessui/react';
+import ChevronIcon from '../../../assets/svgs/chevron.svg?react';
+import { getSelectedParam } from '../../../functions/functions.ts';
+import { useEffect, useState } from 'react';
 import {
   BooleanSelect,
   Polynomial,
-} from "../../../utils/interfacesAndTypes.ts";
-import GenericOptionList from "./GenericOptionList.tsx";
+} from '../../../utils/interfacesAndTypes.ts';
+import GenericOptionList from './GenericOptionList.tsx';
 
 interface GenericSelectProps<T> {
   searchParams: URLSearchParams;
@@ -27,7 +27,7 @@ function GenericSelect<T extends string | number | Polynomial | BooleanSelect>({
   shownPlaceholder,
   selectLabel,
 }: GenericSelectProps<T>) {
-  const [optionValue, setOptionValue] = useState<string>("");
+  const [optionValue, setOptionValue] = useState<string>('');
 
   useEffect(() => {
     const paramValue = getSelectedParam(urlParamName, searchParams);
@@ -37,7 +37,7 @@ function GenericSelect<T extends string | number | Polynomial | BooleanSelect>({
   }, [location.search]);
 
   const handleSelectChange = (value: string) => {
-    if (typeof formatOptionValue === "function") {
+    if (typeof formatOptionValue === 'function') {
       const formattedValue = formatOptionValue(value as T);
       setOptionValue(formattedValue);
     } else {
@@ -50,7 +50,7 @@ function GenericSelect<T extends string | number | Polynomial | BooleanSelect>({
     <Listbox
       value={optionValue}
       onChange={handleSelectChange}
-      as={"div"}
+      as={'div'}
       className="pt-2 pb-5"
     >
       {({ open }) => (
@@ -62,22 +62,22 @@ function GenericSelect<T extends string | number | Polynomial | BooleanSelect>({
             <ListboxButton className="relative w-full cursor-pointer rounded-md bg-white text-sm+ pr-10 pl-3 text-left text-paragraph shadow-md ring-1 ring-inset ring-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm+ sm:leading-6">
               <span className="flex items-center">
                 <span className="ml-3 block truncate font-medium">
-                  {optionValue === "" ? shownPlaceholder : optionValue}
+                  {optionValue === '' ? shownPlaceholder : optionValue}
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                   <ChevronIcon
                     className={`h-5 w-5 stroke-paragraph transition ${
-                      open && "rotate-180"
+                      open && 'rotate-180'
                     }`}
                     aria-hidden="true"
                   />
                 </span>
               </span>
             </ListboxButton>
-              <GenericOptionList
-                options={optionsArray}
-                formatFunction={formatOptionValue}
-              />
+            <GenericOptionList
+              options={optionsArray}
+              formatFunction={formatOptionValue}
+            />
           </div>
         </Field>
       )}

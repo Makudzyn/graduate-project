@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
-import InputBinary from "./InputBinary.tsx";
-import { observer } from "mobx-react-lite";
-import { SetURLSearchParams } from "react-router-dom";
-import { polynomialDestructuring } from "../../functions/generatorFunctions.ts";
+import { useEffect, useState } from 'react';
+import InputBinary from './InputBinary.tsx';
+import { observer } from 'mobx-react-lite';
+import { SetURLSearchParams } from 'react-router-dom';
+import { polynomialDestructuring } from '../../functions/generatorFunctions.ts';
 import {
-  createPlaceholder, generateOptions,
-  getSelectedParam
-} from "../../functions/functions.ts";
-import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
-import SelectValue from "../CommonGenComponents/Select/SelectValue.tsx";
-import SelectPolynomial from "../CommonGenComponents/Select/SelectPolynomial.tsx";
+  createPlaceholder,
+  generateOptions,
+  getSelectedParam,
+} from '../../functions/functions.ts';
+import { PolynomialType } from '../../utils/interfacesAndTypes.ts';
+import SelectValue from '../CommonGenComponents/Select/SelectValue.tsx';
+import SelectPolynomial from '../CommonGenComponents/Select/SelectPolynomial.tsx';
 
 interface LinearInputBlockProps {
   searchParams: URLSearchParams;
@@ -29,7 +30,7 @@ const LinearInputBlock = observer(
     polynomialType,
     userValueParam,
   }: LinearInputBlockProps) => {
-    const [inputPlaceholder, setInputPlaceholder] = useState<string>("01");
+    const [inputPlaceholder, setInputPlaceholder] = useState<string>('01');
     const [polyDegree, setPolyDegree] = useState<number>(0);
     const degreesArray = generateOptions();
 
@@ -43,11 +44,11 @@ const LinearInputBlock = observer(
       }
     }, [location.search]);
 
-    const DEGREE_LABEL = `Оберіть ступінь поліному ${polynomialType || ""}`;
-    const DEGREE_PLACEHOLDER = `Ступінь поліному ${polynomialType || ""}`;
-    const POLYNOMIAL_LABEL = `Оберіть поліном ${polynomialType || ""}`;
-    const POLYNOMIAL_PLACEHOLDER = `Поліном ${polynomialType || ""}`;
-    const INPUT_LABEL = `Введіть початковий стан ${polynomialType || ""}`;
+    const DEGREE_LABEL = `Оберіть ступінь поліному ${polynomialType || ''}`;
+    const DEGREE_PLACEHOLDER = `Ступінь поліному ${polynomialType || ''}`;
+    const POLYNOMIAL_LABEL = `Оберіть поліном ${polynomialType || ''}`;
+    const POLYNOMIAL_PLACEHOLDER = `Поліном ${polynomialType || ''}`;
+    const INPUT_LABEL = `Введіть початковий стан ${polynomialType || ''}`;
 
     return (
       <div className="flex flex-col justify-center w-[25rem] px-3">

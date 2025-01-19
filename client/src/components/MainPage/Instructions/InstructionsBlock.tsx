@@ -1,9 +1,9 @@
-import Instruction from "./Instruction.tsx";
-import linearImg from "../../../assets/imgs/linear-page.jpg"
-import matrixImg from "../../../assets/imgs/matrix-page.jpg"
-import sumProductImg from "../../../assets/imgs/sum-n-product-page.jpg"
-import frobeniusImg from "../../../assets/imgs/frobenius-page.jpg"
-import comparisonImg from "../../../assets/imgs/comparison-page.jpg"
+import Instruction from './Instruction.tsx';
+import linearImg from '../../../assets/imgs/linear-page.jpg';
+import matrixImg from '../../../assets/imgs/matrix-page.jpg';
+import sumProductImg from '../../../assets/imgs/sum-n-product-page.jpg';
+import frobeniusImg from '../../../assets/imgs/frobenius-page.jpg';
+import comparisonImg from '../../../assets/imgs/comparison-page.jpg';
 const InstructionsBlock = () => {
   return (
     <div className="flex items-center flex-col gap-12">

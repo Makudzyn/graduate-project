@@ -1,26 +1,26 @@
-import { useContext, useState } from "react";
-import { observer } from "mobx-react-lite";
-import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
-import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
-import { useSearchParams } from "react-router-dom";
+import { useContext, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import usePolynomialsFetching from '../hooks/fetching/usePolynomialsFetching.ts';
+import CorrelationChart from '../components/Chart/Plotly/CorrelationChart.tsx';
+import { useSearchParams } from 'react-router-dom';
 import {
   PARAMS_DEGREE,
   PARAMS_POLYNOMIAL,
   PARAMS_USER_VALUE,
-} from "../utils/consts.ts";
-import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
-import { Context } from "../main.tsx";
-import Spinner from "../components/PageComponents/Spinner.tsx";
-import SideBar from "../components/SideBar/SideBar.tsx";
-import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
-import Modal from "../components/Modal/Modal.tsx";
-import { linearValidationBeforeCalculations } from "../functions/functions.ts";
-import Section from "../components/PageComponents/Section.tsx";
-import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
-import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
-import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
-import PRTable from "../components/CommonGenComponents/PRTable/PRTable.tsx";
-import RenderSideBar from "../components/SideBar/RenderSideBar.tsx";
+} from '../utils/consts.ts';
+import LinearGenerator from '../components/LinearGenerator/LinearGenerator.tsx';
+import { Context } from '../main.tsx';
+import Spinner from '../components/PageComponents/Spinner.tsx';
+import SideBar from '../components/SideBar/SideBar.tsx';
+import { handleHistoryRecordCreation } from '../functions/requestFunctions/requestFunctions.ts';
+import Modal from '../components/Modal/Modal.tsx';
+import { linearValidationBeforeCalculations } from '../functions/functions.ts';
+import Section from '../components/PageComponents/Section.tsx';
+import PageWrapper from '../components/PageComponents/PageWrapper.tsx';
+import PageHeader from '../components/PageComponents/Headers/PageHeader.tsx';
+import SectionBlock from '../components/PageComponents/SectionBlock.tsx';
+import PRTable from '../components/CommonGenComponents/PRTable/PRTable.tsx';
+import RenderSideBar from '../components/SideBar/RenderSideBar.tsx';
 
 const LinearGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -39,7 +39,7 @@ const LinearGeneratorPage = observer(() => {
   const [hammingWeight, setHammingWeight] = useState<number>(0);
   const [correlation, setCorrelation] = useState<number[]>([]);
 
-  const [searchParams, setSearchParams] = useSearchParams("");
+  const [searchParams, setSearchParams] = useSearchParams('');
 
   const handleGenerateButtonClick = () => {
     const fulfilled = linearValidationBeforeCalculations(
@@ -64,14 +64,18 @@ const LinearGeneratorPage = observer(() => {
 
   return (
     <>
-      <RenderSideBar userStore={userStore} setError={setError} setLoading={setLoading}>
+      <RenderSideBar
+        userStore={userStore}
+        setError={setError}
+        setLoading={setLoading}
+      >
         <SideBar
           dataArray={userStore.historyRecords}
           userId={userStore.user.id}
         />
       </RenderSideBar>
       {loading && <Spinner />}
-      {error && <Modal message={error} setError={setError} type={"error"} />}
+      {error && <Modal message={error} setError={setError} type={'error'} />}
 
       <Section>
         <PageWrapper>
@@ -91,7 +95,7 @@ const LinearGeneratorPage = observer(() => {
               "
               paragraphWidth="2xl"
             />
-            <hr className="border-purpleFirst opacity-30 mb-10"/>
+            <hr className="border-purpleFirst opacity-30 mb-10" />
             <LinearGenerator
               searchParams={searchParams}
               setSearchParams={setSearchParams}

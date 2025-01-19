@@ -1,14 +1,11 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from 'react';
 
 interface SearchProps {
   searchQuery: string;
   setSearchQuery: Dispatch<SetStateAction<string>>;
 }
 
-const Search = ({
-  searchQuery,
-  setSearchQuery,
-}: SearchProps) => {
+const Search = ({ searchQuery, setSearchQuery }: SearchProps) => {
   return (
     <div className="top-0 right-0 flex items-center justify-between w-[20rem]">
       <label className="py-2 px-3 text-base font-medium leading-6">

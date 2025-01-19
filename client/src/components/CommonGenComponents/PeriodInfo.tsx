@@ -1,4 +1,4 @@
-import Header5 from "../PageComponents/Headers/Header5.tsx";
+import Header5 from '../PageComponents/Headers/Header5.tsx';
 
 interface PeriodInfoProps {
   potentialPeriodLength?: number;

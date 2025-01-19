@@ -1,6 +1,6 @@
-import { SetURLSearchParams } from "react-router-dom";
-import SelectPolynomial from "../CommonGenComponents/Select/SelectPolynomial.tsx";
-import { PARAMS_DECOMPOSED_POLYNOMIAL } from "../../utils/consts.ts";
+import { SetURLSearchParams } from 'react-router-dom';
+import SelectPolynomial from '../CommonGenComponents/Select/SelectPolynomial.tsx';
+import { PARAMS_DECOMPOSED_POLYNOMIAL } from '../../utils/consts.ts';
 
 interface DecomposedPolynomialsBlockProps {
   searchParams: URLSearchParams;
@@ -13,7 +13,6 @@ const DecomposedPolynomialsBlock = ({
   setSearchParams,
   decompositionValues,
 }: DecomposedPolynomialsBlockProps) => {
-
   return (
     <div className="flex flex-wrap justify-evenly w-full my-3.5 gap-2 px-3">
       {decompositionValues.map((decomposition, i) => (
@@ -24,7 +23,7 @@ const DecomposedPolynomialsBlock = ({
           urlParamName={PARAMS_DECOMPOSED_POLYNOMIAL + i}
           polyDegree={decomposition}
           selectLabel={`Оберіть допоміжний поліном ${decomposition}-ого ступеня`}
-          shownPlaceholder={"Допоміжний поліном"}
+          shownPlaceholder={'Допоміжний поліном'}
         />
       ))}
     </div>

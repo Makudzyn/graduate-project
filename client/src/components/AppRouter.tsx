@@ -1,19 +1,20 @@
-import { Route, Routes, Navigate } from "react-router-dom";
-import { MAIN_ROUTE } from "../utils/consts.ts";
-import { authRoutes, publicRoutes, regAndLoginRoutes } from "../routes.ts";
-import { useContext } from "react";
-import { Context } from "../main.tsx";
+import { Route, Routes, Navigate } from 'react-router-dom';
+import { MAIN_ROUTE } from '../utils/consts.ts';
+import { authRoutes, publicRoutes, regAndLoginRoutes } from '../routes.ts';
+import { useContext } from 'react';
+import { Context } from '../main.tsx';
 
 const AppRouter = () => {
-  const { userStore } = useContext(Context)!; // Данные о пользователе из стора
+  const { userStore } = useContext(Context)!; // User data from the store
   return (
     <Routes>
-      {/*Если пользователь авторизирован выводим дополнительные маршруты*/}
-      {userStore.isAuth && authRoutes.map(({ path, Component }) => (
+      {/* If the user is authorized, output additional routes */}
+      {userStore.isAuth &&
+        authRoutes.map(({ path, Component }) => (
           <Route key={path} path={path} element={<Component />} />
         ))}
 
-      {/*Если пользователь не авторизирован он получает только публичные маршруты*/}
+      {/* If the user is not authorized, he receives only public routes */}
       {publicRoutes.map(({ path, Component }) => (
         <Route key={path} path={path} element={<Component />} />
       ))}
@@ -22,7 +23,7 @@ const AppRouter = () => {
         <Route key={path} path={path} element={<Component />} />
       ))}
 
-      {/*Если пользователь переходит по неопределенному пути редиректим на главную страницу*/}
+      {/* If the user goes to an undefined path redirect to the main page */}
       <Route path="*" element={<Navigate to={MAIN_ROUTE} />} />
     </Routes>
   );

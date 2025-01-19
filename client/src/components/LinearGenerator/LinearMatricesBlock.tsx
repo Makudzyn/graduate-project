@@ -1,7 +1,7 @@
-import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
-import Matrix from "../CommonGenComponents/Matrices/Matrix.tsx";
-import { useEffect, useRef, useState } from "react";
-import Header3 from "../PageComponents/Headers/Header3.tsx";
+import { PolynomialType } from '../../utils/interfacesAndTypes.ts';
+import Matrix from '../CommonGenComponents/Matrices/Matrix.tsx';
+import { useEffect, useRef, useState } from 'react';
+import Header3 from '../PageComponents/Headers/Header3.tsx';
 
 interface LinearMatricesBlockProps {
   polynomialType: PolynomialType | undefined;
@@ -35,9 +35,9 @@ function LinearMatricesBlock({
 
   let dynamicClass;
   if (containerWidth < 500) {
-    dynamicClass = "flex-col justify-between h-[44.5rem]";
+    dynamicClass = 'flex-col justify-between h-[44.5rem]';
   } else {
-    dynamicClass = "flex-wrap justify-center gap-5";
+    dynamicClass = 'flex-wrap justify-center gap-5';
   }
 
   return (
@@ -47,9 +47,7 @@ function LinearMatricesBlock({
         <Matrix dataArray={structureMatrix} />
       </div>
       <div className="flex flex-col">
-        <Header3>
-          Послідовність станів регістру {polynomialType}
-        </Header3>
+        <Header3>Послідовність станів регістру {polynomialType}</Header3>
         <Matrix dataArray={conditionMatrix} />
       </div>
     </div>

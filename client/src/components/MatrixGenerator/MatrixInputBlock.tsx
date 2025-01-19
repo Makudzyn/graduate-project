@@ -1,8 +1,8 @@
-import MatrixSelect from "./MatrixSelect.tsx";
-import MatrixOutputSelectionBlock from "./MatrixOutputSelectionBlock.tsx";
-import { SetURLSearchParams } from "react-router-dom";
-import { observer } from "mobx-react-lite";
-import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
+import MatrixSelect from './MatrixSelect.tsx';
+import MatrixOutputSelectionBlock from './MatrixOutputSelectionBlock.tsx';
+import { SetURLSearchParams } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { PolynomialType } from '../../utils/interfacesAndTypes.ts';
 
 interface MatrixInputBlockProps {
   searchParams: URLSearchParams;

@@ -1,5 +1,5 @@
-import { ListboxOption, ListboxOptions } from "@headlessui/react";
-import { classNames } from "../../../functions/functions.ts";
+import { ListboxOption, ListboxOptions } from '@headlessui/react';
+import { classNames } from '../../../functions/functions.ts';
 
 interface TableOptionListProps {
   options: number[];
@@ -14,8 +14,8 @@ const TableOptionList = ({ options }: TableOptionListProps) => {
           value={option}
           className={({ focus }) =>
             classNames(
-              focus ? "bg-indigo-600 text-white" : "text-gray-900",
-              "relative cursor-default select-none py-2 px-3 rounded",
+              focus ? 'bg-indigo-600 text-white' : 'text-gray-900',
+              'relative cursor-default select-none py-2 px-3 rounded',
             )
           }
         >
@@ -24,22 +24,21 @@ const TableOptionList = ({ options }: TableOptionListProps) => {
               <div className="flex items-center">
                 <span
                   className={classNames(
-                    selected ? "font-bold" : "font-normal",
-                    "mx-1 block truncate",
+                    selected ? 'font-bold' : 'font-normal',
+                    'mx-1 block truncate',
                   )}
                 >
                   {option}
                 </span>
               </div>
-              {selected &&
+              {selected && (
                 <span
                   className={classNames(
-                    focus ? "text-white" : "text-indigo-600",
-                    "absolute inset-y-0 right-0 flex items-center pr-4",
+                    focus ? 'text-white' : 'text-indigo-600',
+                    'absolute inset-y-0 right-0 flex items-center pr-4',
                   )}
-                >
-                </span>
-              }
+                ></span>
+              )}
             </>
           )}
         </ListboxOption>

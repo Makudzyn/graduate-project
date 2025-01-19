@@ -1,6 +1,6 @@
-import { SetURLSearchParams } from "react-router-dom";
-import GenericSelect from "./GenericSelect.tsx";
-import { BooleanSelect } from "../../../utils/interfacesAndTypes.ts";
+import { SetURLSearchParams } from 'react-router-dom';
+import GenericSelect from './GenericSelect.tsx';
+import { BooleanSelect } from '../../../utils/interfacesAndTypes.ts';
 
 interface SelectCyclicProps {
   searchParams: URLSearchParams;
@@ -17,12 +17,10 @@ const SelectCyclic = ({
   selectLabel,
   shownPlaceholder,
 }: SelectCyclicProps) => {
-
   const cyclicSelection: BooleanSelect[] = [
-    { booleanLabel: "Так", booleanValue: true },
-    { booleanLabel: "Ні", booleanValue: false },
+    { booleanLabel: 'Так', booleanValue: true },
+    { booleanLabel: 'Ні', booleanValue: false },
   ];
-
 
   function handleChange(targetValue: BooleanSelect) {
     const value = String(targetValue.booleanValue);
@@ -39,7 +37,6 @@ const SelectCyclic = ({
   function formatCyclic(optionValue: BooleanSelect) {
     return optionValue.booleanLabel;
   }
-
 
   return (
     <GenericSelect

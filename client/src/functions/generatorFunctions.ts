@@ -1,5 +1,5 @@
 export function polynomialDestructuring(poly: string) {
-  const parts = poly.split(" ");
+  const parts = poly.split(' ');
 
   const polyIndex = parseInt(parts[0]);
   const polyBinary = parseInt(parts[1], 8).toString(2);
@@ -117,7 +117,7 @@ export function createFrobeniusMatrix(
       frobeniusMatrix[i][i] = 1;
       i += 1;
     } else {
-      const polynomialArr = polynomial.split("").slice(1);
+      const polynomialArr = polynomial.split('').slice(1);
       const structureMatrix = generateStructureMatrixA(
         degree,
         createMatrixInitialArray(degree, polynomialArr),
@@ -197,7 +197,7 @@ export function calculatePossibleValues(degree: number, start: number = 0) {
 }
 
 export function generateCyclicPolynomial(degree: number) {
-  return ("1" + "0".repeat(degree - 1)).split("");
+  return ('1' + '0'.repeat(degree - 1)).split('');
 }
 
 export function formatArrayIfCyclic(
@@ -206,10 +206,10 @@ export function formatArrayIfCyclic(
   polyBinary: string,
 ) {
   let polynomialArr;
-  if (isCyclic === "true") {
+  if (isCyclic === 'true') {
     polynomialArr = generateCyclicPolynomial(degree);
   } else {
-    polynomialArr = polyBinary.split("").slice(1);
+    polynomialArr = polyBinary.split('').slice(1);
   }
   return polynomialArr;
 }
@@ -220,9 +220,9 @@ export function defineCyclicLimitation(
   factualPeriodLengthA: number,
   factualPeriodLengthB: number,
 ) {
-  if (isCyclicA === "true") {
+  if (isCyclicA === 'true') {
     return factualPeriodLengthB;
-  } else if (isCyclicB === "true") {
+  } else if (isCyclicB === 'true') {
     return factualPeriodLengthA;
   }
   return undefined;
@@ -277,8 +277,14 @@ export function fillZigZagMatrix(
   return matrix;
 }
 
-export function fillZigZagMatrixWithArr(initialMatrix: number[][][], periodA: number, periodB: number): number[][][][] {
-  const matrix: number[][][][] = Array.from({ length: periodA }, () => Array(periodB).fill(null));
+export function fillZigZagMatrixWithArr(
+  initialMatrix: number[][][],
+  periodA: number,
+  periodB: number,
+): number[][][][] {
+  const matrix: number[][][][] = Array.from({ length: periodA }, () =>
+    Array(periodB).fill(null),
+  );
 
   let i = periodA - 1;
   let j = periodB - 1;
@@ -294,9 +300,7 @@ export function fillZigZagMatrixWithArr(initialMatrix: number[][][], periodA: nu
     } else if (j === -1) {
       j = periodB - 1;
     }
-
   }
-
 
   return matrix;
 }
@@ -314,4 +318,3 @@ export function mergeSubArrays(matrix: number[][], k: number): number[][][] {
 
   return result;
 }
-

@@ -1,6 +1,6 @@
-import Th from "./Th.tsx";
-import { SortState } from "../../utils/interfacesAndTypes.ts";
-import { Dispatch, SetStateAction } from "react";
+import Th from './Th.tsx';
+import { SortState } from '../../utils/interfacesAndTypes.ts';
+import { Dispatch, SetStateAction } from 'react';
 
 interface TheadProps {
   sortBy: SortState;
@@ -12,42 +12,42 @@ const Thead = ({ sortBy, setSortBy }: TheadProps) => {
     <thead>
       <tr role="row">
         <Th
-          columnName={"id"}
+          columnName={'id'}
           classNames="w-[10%]"
           sortObj={sortBy}
           setSortObj={setSortBy}
-          dataPriority={"1"}
-          ariaControls={"polynomials"}
+          dataPriority={'1'}
+          ariaControls={'polynomials'}
         >
           Id
         </Th>
         <Th
-          columnName={"degree"}
+          columnName={'degree'}
           classNames="w-[10%]"
           sortObj={sortBy}
           setSortObj={setSortBy}
-          dataPriority={"2"}
-          ariaControls={"polynomials"}
+          dataPriority={'2'}
+          ariaControls={'polynomials'}
         >
           Degree
         </Th>
         <Th
-          columnName={"name"}
+          columnName={'name'}
           classNames="w-[30%]"
           sortObj={sortBy}
           setSortObj={setSortBy}
-          dataPriority={"3"}
-          ariaControls={"polynomials"}
+          dataPriority={'3'}
+          ariaControls={'polynomials'}
         >
           Name
         </Th>
         <Th
-          columnName={"polynomial"}
+          columnName={'polynomial'}
           classNames="w-[50%]"
           sortObj={sortBy}
           setSortObj={setSortBy}
-          dataPriority={"4"}
-          ariaControls={"polynomials"}
+          dataPriority={'4'}
+          ariaControls={'polynomials'}
         >
           Polynomial
         </Th>

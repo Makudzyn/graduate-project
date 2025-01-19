@@ -1,7 +1,7 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       height: {
@@ -11,13 +11,13 @@ export default {
         'sm+': '0.95rem',
       },
       colors: {
-        'purpleFirst': "#6161ff",
-        'purpleSecond': "#7878ff",
-        'lightBg': "#f0f5fa",
-        'primary': "#212529",
-        'paragraph': "#343a40",
-        'secondary': "#c8c8c8",
-        'bgSecondary': "#18181b"
+        purpleFirst: '#6161ff',
+        purpleSecond: '#7878ff',
+        lightBg: '#f0f5fa',
+        primary: '#212529',
+        paragraph: '#343a40',
+        secondary: '#c8c8c8',
+        bgSecondary: '#18181b',
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
@@ -26,7 +26,7 @@ export default {
       },
       transitionTimingFunction: {
         spline: 'ease-in-out',
-      }
+      },
     },
   },
   plugins: [],

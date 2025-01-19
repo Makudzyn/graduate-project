@@ -1,13 +1,13 @@
-import { SetURLSearchParams } from "react-router-dom";
-import LinearInputBlock from "./LinearInputBlock.tsx";
-import GenButton from "../CommonGenComponents/GenButton.tsx";
-import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
-import PeriodInfo from "../CommonGenComponents/PeriodInfo.tsx";
-import SequenceType from "../CommonGenComponents/SequenceType.tsx";
-import Sequence from "../CommonGenComponents/Sequence.tsx";
-import HammingWeight from "../CommonGenComponents/HammingWeight.tsx";
-import LinearMatricesBlock from "./LinearMatricesBlock.tsx";
-import Header3 from "../PageComponents/Headers/Header3.tsx";
+import { SetURLSearchParams } from 'react-router-dom';
+import LinearInputBlock from './LinearInputBlock.tsx';
+import GenButton from '../CommonGenComponents/GenButton.tsx';
+import { PolynomialType } from '../../utils/interfacesAndTypes.ts';
+import PeriodInfo from '../CommonGenComponents/PeriodInfo.tsx';
+import SequenceType from '../CommonGenComponents/SequenceType.tsx';
+import Sequence from '../CommonGenComponents/Sequence.tsx';
+import HammingWeight from '../CommonGenComponents/HammingWeight.tsx';
+import LinearMatricesBlock from './LinearMatricesBlock.tsx';
+import Header3 from '../PageComponents/Headers/Header3.tsx';
 
 interface LinearGeneratorProps {
   searchParams: URLSearchParams;

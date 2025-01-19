@@ -1,10 +1,10 @@
-import { ListboxOption, ListboxOptions } from "@headlessui/react";
-import SelectIcon from "../../../assets/svgs/select.svg?react";
+import { ListboxOption, ListboxOptions } from '@headlessui/react';
+import SelectIcon from '../../../assets/svgs/select.svg?react';
 import {
   BooleanSelect,
   Polynomial,
-} from "../../../utils/interfacesAndTypes.ts";
-import "../scrollbar.css";
+} from '../../../utils/interfacesAndTypes.ts';
+import '../scrollbar.css';
 
 interface OptionListProps<T> {
   options: T[];
@@ -15,9 +15,8 @@ function GenOptionList<T extends string | number | Polynomial | BooleanSelect>({
   options,
   formatFunction,
 }: OptionListProps<T>) {
-
   const handleOptionFormatting = (option: T) => {
-    return typeof formatFunction === "function"
+    return typeof formatFunction === 'function'
       ? formatFunction(option)
       : (option as string);
   };
@@ -29,7 +28,7 @@ function GenOptionList<T extends string | number | Polynomial | BooleanSelect>({
           key={index}
           value={option}
           className={({ focus }) =>
-            `${focus ? "bg-purpleFirst text-white" : "text-gray-900"}
+            `${focus ? 'bg-purpleFirst text-white' : 'text-gray-900'}
               relative cursor-default rounded-sm select-none py-2 pl-3 pr-9`
           }
         >
@@ -38,7 +37,7 @@ function GenOptionList<T extends string | number | Polynomial | BooleanSelect>({
               <div className="flex items-center">
                 <span
                   className={`${
-                    selected ? "font-bold" : "font-normal"
+                    selected ? 'font-bold' : 'font-normal'
                   } ml-3 block truncate`}
                 >
                   {handleOptionFormatting(option)}
@@ -46,7 +45,7 @@ function GenOptionList<T extends string | number | Polynomial | BooleanSelect>({
               </div>
               {selected && (
                 <span
-                  className={`${focus ? "text-gray-50" : "text-purpleFirst"}
+                  className={`${focus ? 'text-gray-50' : 'text-purpleFirst'}
                     absolute inset-y-0 right-0 flex items-center pr-4`}
                 >
                   <SelectIcon

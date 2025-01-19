@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import EyeOpened from "../../assets/svgs/eye-opened.svg?react";
-import EyeClosed from "../../assets/svgs/eye-closed.svg?react";
+import { Dispatch, SetStateAction, useState } from 'react';
+import EyeOpened from '../../assets/svgs/eye-opened.svg?react';
+import EyeClosed from '../../assets/svgs/eye-closed.svg?react';
 
 interface FormPasswordProps {
   label: string;
@@ -18,7 +18,7 @@ const FormPassword = ({
   setValue,
 }: FormPasswordProps) => {
   const eyeClasses =
-    "absolute block stroke-gray-400 fill-none w-6 h-6 cursor-pointer right-3 top-1/2 transform -translate-y-1/2";
+    'absolute block stroke-gray-400 fill-none w-6 h-6 cursor-pointer right-3 top-1/2 transform -translate-y-1/2';
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -35,18 +35,18 @@ const FormPassword = ({
       </label>
       <div className="relative">
         <input
-          type={showPassword ? "text" : "password"}
+          type={showPassword ? 'text' : 'password'}
           name={name}
           id={id}
           className="block w-full rounded-lg border border-gray-600 bg-gray-700 text-white p-2.5 placeholder-gray-400 focus:border-purpleSecond focus:ring-purpleSecond sm:text-sm"
-          placeholder={"••••••••"}
+          placeholder={'••••••••'}
           required
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
         <span
           onClick={togglePasswordVisibility}
-          aria-labelledby={showPassword ? "Hide password" : "Show password"}
+          aria-labelledby={showPassword ? 'Hide password' : 'Show password'}
         >
           {showPassword ? (
             <EyeClosed className={eyeClasses} />

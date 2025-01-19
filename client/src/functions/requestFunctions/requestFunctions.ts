@@ -2,9 +2,9 @@ import {
   createHistoryRecordRequest,
   deleteAllHistoryRecordsRequest,
   deleteHistoryRecordRequest,
-} from "../../http/historyRecordsAPI.ts";
-import { HistoryRecord } from "../../utils/interfacesAndTypes.ts";
-import { Dispatch, SetStateAction } from "react";
+} from '../../http/historyRecordsAPI.ts';
+import { HistoryRecord } from '../../utils/interfacesAndTypes.ts';
+import { Dispatch, SetStateAction } from 'react';
 
 export async function handleHistoryRecordCreation(userId: number) {
   const pageName = location.pathname;

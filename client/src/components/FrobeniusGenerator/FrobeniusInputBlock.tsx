@@ -1,14 +1,14 @@
-import { SetURLSearchParams } from "react-router-dom";
-import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
-import { observer } from "mobx-react-lite";
-import SelectValue from "../CommonGenComponents/Select/SelectValue.tsx";
-import SelectPolynomial from "../CommonGenComponents/Select/SelectPolynomial.tsx";
-import { useEffect, useState } from "react";
+import { SetURLSearchParams } from 'react-router-dom';
+import { PolynomialType } from '../../utils/interfacesAndTypes.ts';
+import { observer } from 'mobx-react-lite';
+import SelectValue from '../CommonGenComponents/Select/SelectValue.tsx';
+import SelectPolynomial from '../CommonGenComponents/Select/SelectPolynomial.tsx';
+import { useEffect, useState } from 'react';
 import {
   generateOptions,
   getSelectedParam,
-} from "../../functions/functions.ts";
-import DecompositionInput from "./DecompositionInput.tsx";
+} from '../../functions/functions.ts';
+import DecompositionInput from './DecompositionInput.tsx';
 
 interface FrobeniusInputBlockProps {
   searchParams: URLSearchParams;
@@ -36,11 +36,11 @@ const FrobeniusInputBlock = observer(
       setPolyDegree(degree);
     }, [location.search]);
 
-    const DEGREE_LABEL = `Оберіть ступінь поліному ${polynomialType || ""}`;
-    const DEGREE_PLACEHOLDER = `Ступінь поліному ${polynomialType || ""}`;
-    const POLYNOMIAL_LABEL = `Оберіть поліном ${polynomialType || ""}`;
-    const POLYNOMIAL_PLACEHOLDER = `Поліном ${polynomialType || ""}`;
-    const INPUT_LABEL = `Розбийте поліном на допоміжні ${polynomialType || ""}`;
+    const DEGREE_LABEL = `Оберіть ступінь поліному ${polynomialType || ''}`;
+    const DEGREE_PLACEHOLDER = `Ступінь поліному ${polynomialType || ''}`;
+    const POLYNOMIAL_LABEL = `Оберіть поліном ${polynomialType || ''}`;
+    const POLYNOMIAL_PLACEHOLDER = `Поліном ${polynomialType || ''}`;
+    const INPUT_LABEL = `Розбийте поліном на допоміжні ${polynomialType || ''}`;
 
     return (
       <div className="flex flex-col justify-center w-[25rem] px-3">
@@ -67,7 +67,7 @@ const FrobeniusInputBlock = observer(
           setSearchParams={setSearchParams}
           urlParamName={userValueParam}
           inputLabel={INPUT_LABEL}
-          inputPlaceholder={"n-m-...-k"}
+          inputPlaceholder={'n-m-...-k'}
           degreeRestriction={polyDegree}
         />
       </div>

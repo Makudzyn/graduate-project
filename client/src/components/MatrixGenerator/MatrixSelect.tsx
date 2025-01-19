@@ -1,11 +1,14 @@
-import { observer } from "mobx-react-lite";
-import { SetURLSearchParams } from "react-router-dom";
-import SelectCyclic from "../CommonGenComponents/Select/SelectCyclic.tsx";
-import { useEffect, useState } from "react";
-import { generateOptions, getSelectedParam } from "../../functions/functions.ts";
-import SelectValue from "../CommonGenComponents/Select/SelectValue.tsx";
-import SelectPolynomial from "../CommonGenComponents/Select/SelectPolynomial.tsx";
-import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
+import { observer } from 'mobx-react-lite';
+import { SetURLSearchParams } from 'react-router-dom';
+import SelectCyclic from '../CommonGenComponents/Select/SelectCyclic.tsx';
+import { useEffect, useState } from 'react';
+import {
+  generateOptions,
+  getSelectedParam,
+} from '../../functions/functions.ts';
+import SelectValue from '../CommonGenComponents/Select/SelectValue.tsx';
+import SelectPolynomial from '../CommonGenComponents/Select/SelectPolynomial.tsx';
+import { PolynomialType } from '../../utils/interfacesAndTypes.ts';
 
 interface MatrixSelectProps {
   searchParams: URLSearchParams;
@@ -33,7 +36,7 @@ const MatrixSelect = observer(
       setPolyDegree(degree);
     }, [location.search]);
 
-    const DEGREE_LABEL = `Оберіть ступінь поліному F(${polynomialType})`
+    const DEGREE_LABEL = `Оберіть ступінь поліному F(${polynomialType})`;
     const DEGREE_PLACEHOLDER = `Ступінь поліному F(${polynomialType})`;
     const POLYNOMIAL_LABEL = `Оберіть поліном F(${polynomialType})`;
     const POLYNOMIAL_PLACEHOLDER = `Поліном F(${polynomialType})`;

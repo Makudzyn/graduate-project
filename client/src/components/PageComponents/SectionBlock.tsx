@@ -1,15 +1,11 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 interface SectionBlockProps {
-   children?: ReactNode;
+  children?: ReactNode;
 }
 
 const SectionBlock = ({ children }: SectionBlockProps) => {
- return (
-   <section className="relative pt-12 pb-12">
-     {children}
-   </section>
- );
+  return <section className="relative pt-12 pb-12">{children}</section>;
 };
 
 export default SectionBlock;

@@ -1,7 +1,7 @@
-import { NavLink } from "react-router-dom";
-import { publicRoutes } from "../../../routes.ts";
-import { DisclosureButton, DisclosurePanel } from "@headlessui/react";
-import { classNames } from "../../../functions/functions.ts";
+import { NavLink } from 'react-router-dom';
+import { publicRoutes } from '../../../routes.ts';
+import { DisclosureButton, DisclosurePanel } from '@headlessui/react';
+import { classNames } from '../../../functions/functions.ts';
 
 const NavPagesBurger = ({ currentPage }: { currentPage: string }) => {
   return (
@@ -12,11 +12,11 @@ const NavPagesBurger = ({ currentPage }: { currentPage: string }) => {
             key={item.name}
             className={classNames(
               currentPage === item.path
-                ? "bg-gray-900 text-white"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white",
-              "block rounded-md px-3 py-2 text-base font-medium",
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+              'block rounded-md px-3 py-2 text-base font-medium',
             )}
-            aria-current={currentPage === item.path ? "page" : undefined}
+            aria-current={currentPage === item.path ? 'page' : undefined}
           >
             <NavLink to={item.path}>{item.name}</NavLink>
           </DisclosureButton>

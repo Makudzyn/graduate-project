@@ -1,10 +1,10 @@
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
-import { Dialog, DialogTitle } from "@headlessui/react";
-import WarningIcon from "../../assets/svgs/warning.svg?react";
-import CheckIcon from "../../assets/svgs/success.svg?react";
-import CloseIcon from "../../assets/svgs/error.svg?react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
+import { Dialog, DialogTitle } from '@headlessui/react';
+import WarningIcon from '../../assets/svgs/warning.svg?react';
+import CheckIcon from '../../assets/svgs/success.svg?react';
+import CloseIcon from '../../assets/svgs/error.svg?react';
 
-type ModalType = "warning" | "success" | "error";
+type ModalType = 'warning' | 'success' | 'error';
 
 interface ModalProps {
   message: string;
@@ -15,33 +15,33 @@ interface ModalProps {
 const Modal = ({ message, setError, type }: ModalProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const [modalFields, setModalFields] = useState({
-    title: "",
+    title: '',
     iconComponent: <Fragment />,
   });
 
   useEffect(() => {
     switch (type) {
-      case "warning":
+      case 'warning':
         setModalFields({
-          title: "Увага!",
+          title: 'Увага!',
           iconComponent: (
-            <WarningIcon className={"stroke-gray-50 fill-yellow-500"} />
+            <WarningIcon className={'stroke-gray-50 fill-yellow-500'} />
           ),
         });
         break;
-      case "success":
+      case 'success':
         setModalFields({
-          title: "Успішно виконано.",
+          title: 'Успішно виконано.',
           iconComponent: (
-            <CheckIcon className={"stroke-gray-50 fill-green-600"} />
+            <CheckIcon className={'stroke-gray-50 fill-green-600'} />
           ),
         });
         break;
-      case "error":
+      case 'error':
         setModalFields({
-          title: "Ой... щось пішло не так!",
+          title: 'Ой... щось пішло не так!',
           iconComponent: (
-            <CloseIcon className={"stroke-gray-50 fill-red-600"} />
+            <CloseIcon className={'stroke-gray-50 fill-red-600'} />
           ),
         });
         break;

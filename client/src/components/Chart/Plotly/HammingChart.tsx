@@ -1,7 +1,7 @@
-import Plot from "react-plotly.js";
-import { Config, Data, Layout } from "plotly.js";
-import "./plotly-styles.css";
-import { memo } from "react";
+import Plot from 'react-plotly.js';
+import { Config, Data, Layout } from 'plotly.js';
+import './plotly-styles.css';
+import { memo } from 'react';
 
 interface HammingChartProps {
   data1: number[];
@@ -13,135 +13,142 @@ const HammingChart = memo(
   ({ data1, data2, xAxisLabels }: HammingChartProps) => {
     const plotData = [
       {
-        y: data1,
-        name: "Вага лінійної послідовності",
-        type: "scattergl",
-        mode: "lines+markers",
+        // First dataset configuration
+        y: data1, // Array of y-axis values for the first dataset
+        name: 'Вага лінійної послідовності', // Name of the first dataset
+        type: 'scattergl', // Use WebGL-accelerated scatter plot for performance
+        mode: 'lines+markers',
         marker: {
-          color: "#8884d8",
+          color: '#8884d8',
           size: 8,
         },
         line: {
-          shape: "spline",
-          color: "#8884d8",
+          shape: 'spline',
+          color: '#8884d8',
           width: 3,
         },
-        fill: "tozeroy",
-        fillcolor: "rgba(136, 132, 216, 0.2)",
+        fill: 'tozeroy', // Fill area under the line to the zero value on the Y-axis
+        fillcolor: 'rgba(136, 132, 216, 0.2)',
         opacity: 0.9,
-        hoverinfo: "none", // Отображаем информацию из text при наведении
+        hoverinfo: 'none', // Disable default hover information
         hovertemplate:
-          "<b>Вага Хеммінга:</b> %{x}<br><b>Кількість:</b> %{y}<extra></extra>",
+          '<b>Вага Хеммінга:</b> %{x}<br><b>Кількість:</b> %{y}<extra></extra>', // Custom hover template
       },
       {
-        y: data2,
-        name: "Вага матричної послідовності",
-        type: "scattergl",
-        mode: "lines+markers",
+        // Second dataset configuration
+        y: data2, // Array of y-axis values for the second dataset
+        name: 'Вага матричної послідовності', // Name of the second dataset
+        type: 'scattergl', // Use WebGL-accelerated scatter plot
+        mode: 'lines+markers',
         marker: {
-          color: "#82ca9d",
+          color: '#82ca9d',
           size: 8,
         },
         line: {
-          shape: "spline",
-          color: "#82ca9d",
+          shape: 'spline',
+          color: '#82ca9d',
           width: 3,
         },
-        fill: "tozeroy",
-        fillcolor: "rgba(136, 132, 216, 0.2)",
+        fill: 'tozeroy', // Fill area under the line to the zero value on the Y-axis
+        fillcolor: 'rgba(136, 132, 216, 0.2)',
         opacity: 0.9,
-        hoverinfo: "none",
+        hoverinfo: 'none', // Disable default hover information
         hovertemplate:
-          "<b>Вага Хеммінга:</b> %{x}<br><b>Кількість:</b> %{y}<extra></extra>",
+          '<b>Вага Хеммінга:</b> %{x}<br><b>Кількість:</b> %{y}<extra></extra>', // Custom hover template
       },
     ] as Data[];
 
     const plotLayout = {
       title: {
-        text: "Розподіл ваг Хеммінга у блоці",
+        text: 'Розподіл ваг Хеммінга у блоці', // Title of the plot
         font: {
           size: 24,
-          color: "#18181b",
-          family: "Inter",
-          weight: "bold",
+          color: '#18181b',
+          family: 'Inter',
+          weight: 'bold',
         },
       },
+      // Configuration for the X-axis
       xaxis: {
         title: {
-          text: "Вага",
+          text: 'Вага', // Title of the X-axis
           font: {
             size: 18,
-            color: "#18181b",
-            family: "Inter",
-            weight: "bold",
+            color: '#18181b',
+            family: 'Inter',
+            weight: 'bold',
           },
         },
-        type: "linear",
+        type: 'linear', // Linear scale for the X-axis
         tickfont: {
-          size: 16, // изменение размера шрифта для подписей оси X
-          color: "#18181b",
-          family: "Inter",
+          size: 16,
+          color: '#18181b',
+          family: 'Inter',
         },
-        tickvals: xAxisLabels,
-        ticktext: xAxisLabels?.map((value) => value.toString()),
+        tickvals: xAxisLabels, // Custom tick values for the X-axis
+        ticktext: xAxisLabels?.map((value) => value.toString()), // Custom tick labels for the X-axis
       },
+      // Configuration for the Y-axis
       yaxis: {
         title: {
-          text: "Кількість",
+          text: 'Кількість', // Title of the Y-axis
           font: {
             size: 18,
-            color: "#18181b",
-            family: "Inter",
-            weight: "bold",
+            color: '#18181b',
+            family: 'Inter',
+            weight: 'bold',
           },
         },
         tickfont: {
-          size: 16, // изменение размера шрифта для подписей оси X
-          color: "#18181b",
-          family: "Inter"
+          size: 16,
+          color: '#18181b',
+          family: 'Inter',
         },
       },
+      // Configuration for hover labels
       hoverlabel: {
         font: {
           size: 16,
-          color: "#18181b",
-          family: "Inter",
+          color: '#18181b',
+          family: 'Inter',
         },
-        align: "left",
-        bgcolor: "#fff",
-        bordercolor: "#d1d5db",
+        align: 'left',
+        bgcolor: '#fff',
+        bordercolor: '#d1d5db',
         borderwidth: 2,
       },
+      // Configuration for the legend
       legend: {
-        orientation: "h",
-        xanchor: "center",
-        yanchor: "middle",
-        indentation: 10,
+        orientation: 'h',
+        xanchor: 'center', // Anchor the legend to the center of the X-axis
+        yanchor: 'middle', // Anchor the legend to the middle of the Y-axis
+        indentation: 10, // Additional space for legend items
         font: {
           size: 12,
-          color: "#18181b",
-          family: "Inter",
+          color: '#18181b',
+          family: 'Inter',
         },
-        x: 0.5,
-        y: 1,
+        x: 0.5, // Position the legend at the center of the X-axis
+        y: 1, // Position the legend above the plot
       },
       margin: {
-        t: 60,
+        t: 60, // Top margin for the plot layout
       },
-      showlegend: true,
+      showlegend: true, // Always show the legend
     } as Partial<Layout>;
 
+    // Configuration for the plot's behavior and UI
     const plotConfig = {
-      showEditInChartStudio: true,
-      modeBarButtonsToRemove: ["lasso2d", "select2d"],
-      plotlyServerURL: "https://chart-studio.plotly.com",
-      locale: "ua",
-      displaylogo: false,
+      showEditInChartStudio: true, // Enable editing in Plotly Chart Studio
+      modeBarButtonsToRemove: ['lasso2d', 'select2d'], // Remove specific mode bar buttons
+      plotlyServerURL: 'https://chart-studio.plotly.com', // URL for the Plotly Chart Studio server
+      locale: 'ua', // Set locale to Ukrainian
+      displaylogo: false, // Hide the Plotly logo in the mode bar
     } as Partial<Config>;
 
     return (
       <Plot
-        className={"w-full h-[50rem]"}
+        className="w-full h-[50rem]"
         data={plotData}
         layout={plotLayout}
         config={plotConfig}
@@ -151,4 +158,5 @@ const HammingChart = memo(
   },
 );
 
+HammingChart.displayName = 'HammingChart'; // For DevTools
 export default HammingChart;

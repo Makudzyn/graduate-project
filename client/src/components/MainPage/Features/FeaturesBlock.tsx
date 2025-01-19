@@ -1,13 +1,13 @@
-import Card from "./Card.tsx";
-import TableIcon from "../../../assets/svgs/table-tree.svg?react";
-import ChartIcon from "../../../assets/svgs/chart-line.svg?react";
-import DataIcon from "../../../assets/svgs/data.svg?react";
-import StatsIcon from "../../../assets/svgs/stats.svg?react";
-import FastIcon from "../../../assets/svgs/speed-alt.svg?react";
-import SmileIcon from "../../../assets/svgs/slightly-smiling-face.svg?react";
-import AllInIcon from "../../../assets/svgs/all-in.svg?react";
-import ManyIcon from "../../../assets/svgs/list.svg?react";
-import ShareIcon from "../../../assets/svgs/share.svg?react";
+import Card from './Card.tsx';
+import TableIcon from '../../../assets/svgs/table-tree.svg?react';
+import ChartIcon from '../../../assets/svgs/chart-line.svg?react';
+import DataIcon from '../../../assets/svgs/data.svg?react';
+import StatsIcon from '../../../assets/svgs/stats.svg?react';
+import FastIcon from '../../../assets/svgs/speed-alt.svg?react';
+import SmileIcon from '../../../assets/svgs/slightly-smiling-face.svg?react';
+import AllInIcon from '../../../assets/svgs/all-in.svg?react';
+import ManyIcon from '../../../assets/svgs/list.svg?react';
+import ShareIcon from '../../../assets/svgs/share.svg?react';
 
 const FeaturesBlock = () => {
   return (

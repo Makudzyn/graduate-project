@@ -1,8 +1,8 @@
-import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
-import { useSearchParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { hammingBlockCalculations } from "../functions/requestFunctions/calculationRequestFunctions.ts";
-import { observer } from "mobx-react-lite";
+import LinearGenerator from '../components/LinearGenerator/LinearGenerator.tsx';
+import { useSearchParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { hammingBlockCalculations } from '../functions/requestFunctions/calculationRequestFunctions.ts';
+import { observer } from 'mobx-react-lite';
 import {
   PARAMS_CYCLIC_POLY_A,
   PARAMS_CYCLIC_POLY_B,
@@ -19,27 +19,27 @@ import {
   PARAMS_USER_VALUE,
   POLYNOMIAL_TYPE_A,
   POLYNOMIAL_TYPE_B,
-} from "../utils/consts.ts";
-import MatrixGenerator from "../components/MatrixGenerator/MatrixGenerator.tsx";
-import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
-import GenButton from "../components/CommonGenComponents/GenButton.tsx";
-import HammingChart from "../components/Chart/Plotly/HammingChart.tsx";
-import { Context } from "../main.tsx";
-import Spinner from "../components/PageComponents/Spinner.tsx";
-import SideBar from "../components/SideBar/SideBar.tsx";
-import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
-import InputBlockLength from "../components/RegisterComparison/InputBlockLength.tsx";
-import Modal from "../components/Modal/Modal.tsx";
+} from '../utils/consts.ts';
+import MatrixGenerator from '../components/MatrixGenerator/MatrixGenerator.tsx';
+import usePolynomialsFetching from '../hooks/fetching/usePolynomialsFetching.ts';
+import GenButton from '../components/CommonGenComponents/GenButton.tsx';
+import HammingChart from '../components/Chart/Plotly/HammingChart.tsx';
+import { Context } from '../main.tsx';
+import Spinner from '../components/PageComponents/Spinner.tsx';
+import SideBar from '../components/SideBar/SideBar.tsx';
+import { handleHistoryRecordCreation } from '../functions/requestFunctions/requestFunctions.ts';
+import InputBlockLength from '../components/RegisterComparison/InputBlockLength.tsx';
+import Modal from '../components/Modal/Modal.tsx';
 import {
   linearValidationBeforeCalculations,
   matrixValidationBeforeCalculations,
-} from "../functions/functions.ts";
-import Section from "../components/PageComponents/Section.tsx";
-import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
-import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
-import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
-import CorrelationChart from "../components/Chart/Plotly/CorrelationChart.tsx";
-import RenderSideBar from "../components/SideBar/RenderSideBar.tsx";
+} from '../functions/functions.ts';
+import Section from '../components/PageComponents/Section.tsx';
+import PageWrapper from '../components/PageComponents/PageWrapper.tsx';
+import PageHeader from '../components/PageComponents/Headers/PageHeader.tsx';
+import SectionBlock from '../components/PageComponents/SectionBlock.tsx';
+import CorrelationChart from '../components/Chart/Plotly/CorrelationChart.tsx';
+import RenderSideBar from '../components/SideBar/RenderSideBar.tsx';
 
 const RegisterComparisonPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -52,8 +52,12 @@ const RegisterComparisonPage = observer(() => {
   const [structureMatrixA, setStructureMatrixA] = useState<number[][]>([]);
   const [structureMatrixB, setStructureMatrixB] = useState<number[][]>([]);
 
-  const [conditionMatrixLinear, setConditionMatrixLinear] = useState<number[][]>([]);
-  const [conditionMatrixMatrices, setConditionMatrixMatrices] = useState<number[][]>([]);
+  const [conditionMatrixLinear, setConditionMatrixLinear] = useState<
+    number[][]
+  >([]);
+  const [conditionMatrixMatrices, setConditionMatrixMatrices] = useState<
+    number[][]
+  >([]);
   const [basisMatrix, setBasisMatrix] = useState<number[][]>([]);
 
   const [potentialPeriod, setPotentialPeriod] = useState<number>(0);
@@ -73,7 +77,7 @@ const RegisterComparisonPage = observer(() => {
 
   const [hammingWeightLinear, setHammingWeightLinear] = useState<number>(0);
   const [hammingWeightMatrices, setHammingWeightMatrices] = useState<number>(0);
-  const [weightSpectre, setWeightSpectre] = useState<string[]>(["0"]);
+  const [weightSpectre, setWeightSpectre] = useState<string[]>(['0']);
 
   const [linearBlockLens, setLinearBlockLens] = useState<number[]>([]);
   const [matrixBlockLens, setMatrixBlockLens] = useState<number[]>([]);
@@ -165,14 +169,18 @@ const RegisterComparisonPage = observer(() => {
 
   return (
     <>
-      <RenderSideBar userStore={userStore} setError={setError} setLoading={setLoading}>
+      <RenderSideBar
+        userStore={userStore}
+        setError={setError}
+        setLoading={setLoading}
+      >
         <SideBar
           dataArray={userStore.historyRecords}
           userId={userStore.user.id}
         />
       </RenderSideBar>
       {loading && <Spinner />}
-      {error && <Modal message={error} setError={setError} type={"error"} />}
+      {error && <Modal message={error} setError={setError} type={'error'} />}
 
       <Section>
         <PageWrapper>
@@ -231,7 +239,7 @@ const RegisterComparisonPage = observer(() => {
                   factualPeriodB={factualPeriodLengthB}
                   factualPeriodS={factualPeriodLengthS}
                   conditionS={conditionS}
-                  identifierS={"S"}
+                  identifierS={'S'}
                   prSequence={prSequenceMatrices}
                   hammingWeight={hammingWeightMatrices}
                   weightSpectre={weightSpectre}

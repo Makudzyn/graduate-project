@@ -1,5 +1,5 @@
-import { SetURLSearchParams } from "react-router-dom";
-import GenericSelect from "./GenericSelect.tsx";
+import { SetURLSearchParams } from 'react-router-dom';
+import GenericSelect from './GenericSelect.tsx';
 
 interface SelectValueProps {
   searchParams: URLSearchParams;

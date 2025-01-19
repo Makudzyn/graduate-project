@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { Polynomial, SortState } from "../../utils/interfacesAndTypes.ts";
-import Search from "./Search.tsx";
-import useSortPolynomials from "../../hooks/usePolynomialsSort.ts";
-import useFilterPolynomials from "../../hooks/useFilteredPolynomials.ts";
-import TableSelect from "./Select/TableSelect.tsx";
-import PaginationButtons from "./PaginationButtons.tsx";
-import EntriesInfo from "./EntriesInfo.tsx";
-import Thead from "./Thead.tsx";
-import Tbody from "./Tbody.tsx";
+import { useState } from 'react';
+import { Polynomial, SortState } from '../../utils/interfacesAndTypes.ts';
+import Search from './Search.tsx';
+import useSortPolynomials from '../../hooks/usePolynomialsSort.ts';
+import useFilterPolynomials from '../../hooks/useFilteredPolynomials.ts';
+import TableSelect from './Select/TableSelect.tsx';
+import PaginationButtons from './PaginationButtons.tsx';
+import EntriesInfo from './EntriesInfo.tsx';
+import Thead from './Thead.tsx';
+import Tbody from './Tbody.tsx';
 
 interface PolynomialTableProps {
   polynomials: Polynomial[];
@@ -15,10 +15,10 @@ interface PolynomialTableProps {
 }
 
 const PolynomialTable = ({ polynomials, totalCount }: PolynomialTableProps) => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<SortState>({
-    column: "id",
-    order: "ascending",
+    column: 'id',
+    order: 'ascending',
   });
 
   const [limit, setLimit] = useState<number>(25);
@@ -49,8 +49,8 @@ const PolynomialTable = ({ polynomials, totalCount }: PolynomialTableProps) => {
             value={limit}
             setValue={setLimit}
             setPage={setPage}
-            labelStart={"Відображати"}
-            labelEnd={"поліномів"}
+            labelStart={'Відображати'}
+            labelEnd={'поліномів'}
             optionsArray={OPTIONS_ARRAY}
           />
           <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -62,13 +62,13 @@ const PolynomialTable = ({ polynomials, totalCount }: PolynomialTableProps) => {
           role="grid"
           aria-describedby="info"
         >
-          <Thead sortBy={sortBy} setSortBy={setSortBy}/>
+          <Thead sortBy={sortBy} setSortBy={setSortBy} />
 
-          <Tbody polynomialsArray={paginatedPolynomials}/>
+          <Tbody polynomialsArray={paginatedPolynomials} />
         </table>
 
         <div className="my-2 flex h-12 w-full items-center justify-between">
-          <EntriesInfo offset={offset} limit={limit} totalCount={totalCount}/>
+          <EntriesInfo offset={offset} limit={limit} totalCount={totalCount} />
 
           <PaginationButtons
             totalCount={totalCount}

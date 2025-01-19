@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
 function useDataFetching<T>(
   fetchFunction: () => Promise<T>,
@@ -10,7 +10,7 @@ function useDataFetching<T>(
     setLoading(true);
     fetchFunction()
       .then((data) => dataSetter(data))
-      .catch(() => setError("Помилка отримання данних з сервера."))
+      .catch(() => setError('Помилка отримання данних з сервера.'))
       .finally(() => setLoading(false));
   }, []);
 }

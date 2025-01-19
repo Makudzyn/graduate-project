@@ -1,10 +1,10 @@
-import { LOGIN_ROUTE } from "../../utils/consts.ts";
-import { useNavigate } from "react-router-dom";
-import { Context } from "../../main.tsx";
-import { useContext } from "react";
-import { observer } from "mobx-react-lite";
-import UserProfileMini from "./UserProfileMini.tsx";
-import GuestIcon from "../../assets/svgs/guest.svg?react";
+import { LOGIN_ROUTE } from '../../utils/consts.ts';
+import { useNavigate } from 'react-router-dom';
+import { Context } from '../../main.tsx';
+import { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
+import UserProfileMini from './UserProfileMini.tsx';
+import GuestIcon from '../../assets/svgs/guest.svg?react';
 
 const NavIcons = observer(() => {
   const { userStore } = useContext(Context)!;

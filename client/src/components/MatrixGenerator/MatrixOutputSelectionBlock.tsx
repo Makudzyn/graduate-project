@@ -1,8 +1,8 @@
-import { SetURLSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getSelectedParam } from "../../functions/functions.ts";
-import { calculatePossibleValues } from "../../functions/generatorFunctions.ts";
-import SelectValue from "../CommonGenComponents/Select/SelectValue.tsx";
+import { SetURLSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getSelectedParam } from '../../functions/functions.ts';
+import { calculatePossibleValues } from '../../functions/generatorFunctions.ts';
+import SelectValue from '../CommonGenComponents/Select/SelectValue.tsx';
 
 interface MatrixOutputSelectProps {
   searchParams: URLSearchParams;
@@ -43,41 +43,41 @@ const MatrixOutputSelectionBlock = ({
     setMatrixRanks(rankValues);
   }, [location.search]);
 
-  const INDEX_I_LABEL = "Оберіть i вихідного елементу";
+  const INDEX_I_LABEL = 'Оберіть i вихідного елементу';
   const INDEX_I_PLACEHOLDER = `Значення i`;
-  const INDEX_J_LABEL = "Оберіть j вихідного елементу";
+  const INDEX_J_LABEL = 'Оберіть j вихідного елементу';
   const INDEX_J_PLACEHOLDER = `Значення j`;
   const MATRIX_RANK_LABEL = `Оберіть ранг матриці ${identifierS}`;
   const MATRIX_RANK_PLACEHOLDER = `Ранг матриці ${identifierS}`;
 
   return (
     <div className="flex flex-wrap flex-col px-3 min-w-[13rem] max-w-[25rem]">
-        <SelectValue
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
-          urlParamName={indexParamI}
-          optionsArray={indexesArrayI}
-          selectLabel={INDEX_I_LABEL}
-          shownPlaceholder={INDEX_I_PLACEHOLDER}
-        />
+      <SelectValue
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+        urlParamName={indexParamI}
+        optionsArray={indexesArrayI}
+        selectLabel={INDEX_I_LABEL}
+        shownPlaceholder={INDEX_I_PLACEHOLDER}
+      />
 
-        <SelectValue
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
-          urlParamName={indexParamJ}
-          optionsArray={indexesArrayJ}
-          selectLabel={INDEX_J_LABEL}
-          shownPlaceholder={INDEX_J_PLACEHOLDER}
-        />
+      <SelectValue
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+        urlParamName={indexParamJ}
+        optionsArray={indexesArrayJ}
+        selectLabel={INDEX_J_LABEL}
+        shownPlaceholder={INDEX_J_PLACEHOLDER}
+      />
 
-        <SelectValue
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
-          urlParamName={matrixRankParam}
-          optionsArray={matrixRanks}
-          selectLabel={MATRIX_RANK_LABEL}
-          shownPlaceholder={MATRIX_RANK_PLACEHOLDER}
-        />
+      <SelectValue
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+        urlParamName={matrixRankParam}
+        optionsArray={matrixRanks}
+        selectLabel={MATRIX_RANK_LABEL}
+        shownPlaceholder={MATRIX_RANK_PLACEHOLDER}
+      />
     </div>
   );
 };

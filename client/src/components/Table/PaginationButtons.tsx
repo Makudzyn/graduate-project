@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import ChevronIcon from "../../assets/svgs/chevron.svg?react";
+import { Dispatch, SetStateAction } from 'react';
+import ChevronIcon from '../../assets/svgs/chevron.svg?react';
 interface PaginationButtonsProps {
   totalCount: number;
   limit: number;
@@ -33,16 +33,16 @@ const PaginationButtons = ({
             aria-controls="polynomials"
             className={`${
               i === page
-                ? "bg-purpleFirst text-white bg-gradient-to-b"
-                : "bg-transparent hover:bg-purpleSecond hover:text-white"
+                ? 'bg-purpleFirst text-white bg-gradient-to-b'
+                : 'bg-transparent hover:bg-purpleSecond hover:text-white'
             } box-border font-medium inline-block border border-transparent px-4 py-2 text-center ml-0.5 w-12 rounded transition`}
             onClick={() => setPage(i)}
           >
             {i}
-          </button>
+          </button>,
         );
-      } else if (buttons[buttons.length - 1] !== " ... ") {
-        buttons.push(" ... ");
+      } else if (buttons[buttons.length - 1] !== ' ... ') {
+        buttons.push(' ... ');
       }
     }
 
@@ -50,7 +50,10 @@ const PaginationButtons = ({
   };
 
   return (
-    <div className="flex justify-between items-center text-right pt-[0.25em] max-w-[28rem]" id="paginate">
+    <div
+      className="flex justify-between items-center text-right pt-[0.25em] max-w-[28rem]"
+      id="paginate"
+    >
       <button
         onClick={() => setPage(Math.max(page - 1, 1))}
         disabled={page === 1}
@@ -59,7 +62,7 @@ const PaginationButtons = ({
         aria-controls="polynomials"
         className="box-border inline-block cursor-pointer w-[3.625rem] h-10 px-4 py-2 rounded-md border border-gray-150 shadow-lg mr-2.5 disabled:bg-gray-300 disabled:cursor-auto enabled:hover:border-purpleSecond enabled:hover:ring-1 enabled:hover:text-white transition"
       >
-        <ChevronIcon className={"h-6 w-6 rotate-90 stroke-purpleFirst"} />
+        <ChevronIcon className={'h-6 w-6 rotate-90 stroke-purpleFirst'} />
       </button>
       <div>{generateButtons()}</div>
       <button
@@ -70,7 +73,7 @@ const PaginationButtons = ({
         aria-controls="polynomials"
         id="next"
       >
-          <ChevronIcon className={"h-6 w-6 -rotate-90 stroke-purpleFirst"} />
+        <ChevronIcon className={'h-6 w-6 -rotate-90 stroke-purpleFirst'} />
       </button>
     </div>
   );

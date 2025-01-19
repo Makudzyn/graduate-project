@@ -1,22 +1,22 @@
-import bigDataIco from "../assets/svgs/big-data.svg";
-import { NavLink, useNavigate } from "react-router-dom";
-import { LOGIN_ROUTE, MAIN_ROUTE } from "../utils/consts.ts";
-import { FormEvent, useContext, useState } from "react";
-import { Context } from "../main.tsx";
-import FormInput from "../components/Form/FormInput.tsx";
-import FormHeader from "../components/Form/FormHeader.tsx";
-import FormButton from "../components/Form/FormButton.tsx";
-import FormPassword from "../components/Form/FormPassword.tsx";
-import { observer } from "mobx-react-lite";
-import { registrationReq } from "../http/userAPI.ts";
-import Modal from "../components/Modal/Modal.tsx";
+import bigDataIco from '../assets/svgs/big-data.svg';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { LOGIN_ROUTE, MAIN_ROUTE } from '../utils/consts.ts';
+import { FormEvent, useContext, useState } from 'react';
+import { Context } from '../main.tsx';
+import FormInput from '../components/Form/FormInput.tsx';
+import FormHeader from '../components/Form/FormHeader.tsx';
+import FormButton from '../components/Form/FormButton.tsx';
+import FormPassword from '../components/Form/FormPassword.tsx';
+import { observer } from 'mobx-react-lite';
+import { registrationReq } from '../http/userAPI.ts';
+import Modal from '../components/Modal/Modal.tsx';
 
 const RegistrationPage = observer(() => {
   const { userStore } = useContext(Context)!;
   const [error, setError] = useState<string | null>(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordRepeat, setPasswordRepeat] = useState('');
 
   const navigate = useNavigate();
 
@@ -28,11 +28,11 @@ const RegistrationPage = observer(() => {
   ) {
     e.preventDefault();
     if (password !== passwordRepeat) {
-      setError("Паролі не співпадають! Перевірте правильність введення.");
+      setError('Паролі не співпадають! Перевірте правильність введення.');
       return;
     }
     if (!email || !password) {
-      setError("Порожне поле електронної адреси або паролю.");
+      setError('Порожне поле електронної адреси або паролю.');
       return;
     }
     try {
@@ -42,13 +42,13 @@ const RegistrationPage = observer(() => {
       userStore.setIsAuth(true);
       navigate(MAIN_ROUTE, { replace: true });
     } catch (error) {
-      setError("Помилка, реєстрація не була виконана.");
+      setError('Помилка, реєстрація не була виконана.');
     }
   }
 
   return (
     <>
-      {error && <Modal message={error} setError={setError} type={"error"} />}
+      {error && <Modal message={error} setError={setError} type={'error'} />}
       <div className="bg-lightBg flex items-center justify-center min-h-screen pt-20 shadow-md shadow-purpleFirst font-poppins">
         <div className="w-full max-w-md p-6 rounded-lg">
           <a
@@ -79,7 +79,7 @@ const RegistrationPage = observer(() => {
                   setValue={setPassword}
                 />
                 <FormPassword
-                  label={"Repeat password"}
+                  label={'Repeat password'}
                   name="passwordRepeat"
                   id="passwordRepeat"
                   value={passwordRepeat}

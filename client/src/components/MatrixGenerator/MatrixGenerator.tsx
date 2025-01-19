@@ -1,15 +1,15 @@
-import { SetURLSearchParams } from "react-router-dom";
-import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
-import MatrixInputBlock from "./MatrixInputBlock.tsx";
-import GenButton from "../CommonGenComponents/GenButton.tsx";
-import StructureMatricesBlock from "./StructureMatricesBlock.tsx";
-import PeriodInfo from "../CommonGenComponents/PeriodInfo.tsx";
-import ConditionMatrixBlock from "./ConditionMatrixBlock.tsx";
-import PeriodsCondition from "../CommonGenComponents/PeriodsCondition.tsx";
-import Sequence from "../CommonGenComponents/Sequence.tsx";
-import HammingWeight from "../CommonGenComponents/HammingWeight.tsx";
-import HammingWeightSpectre from "../CommonGenComponents/HammingWeightSpectre.tsx";
-import Header3 from "../PageComponents/Headers/Header3.tsx";
+import { SetURLSearchParams } from 'react-router-dom';
+import { PolynomialType } from '../../utils/interfacesAndTypes.ts';
+import MatrixInputBlock from './MatrixInputBlock.tsx';
+import GenButton from '../CommonGenComponents/GenButton.tsx';
+import StructureMatricesBlock from './StructureMatricesBlock.tsx';
+import PeriodInfo from '../CommonGenComponents/PeriodInfo.tsx';
+import ConditionMatrixBlock from './ConditionMatrixBlock.tsx';
+import PeriodsCondition from '../CommonGenComponents/PeriodsCondition.tsx';
+import Sequence from '../CommonGenComponents/Sequence.tsx';
+import HammingWeight from '../CommonGenComponents/HammingWeight.tsx';
+import HammingWeightSpectre from '../CommonGenComponents/HammingWeightSpectre.tsx';
+import Header3 from '../PageComponents/Headers/Header3.tsx';
 
 interface MatrixGeneratorProps {
   searchParams: URLSearchParams;

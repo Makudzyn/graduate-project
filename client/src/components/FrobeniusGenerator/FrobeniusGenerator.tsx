@@ -1,17 +1,17 @@
-import { SetURLSearchParams } from "react-router-dom";
-import FrobeniusInputBlock from "./FrobeniusInputBlock.tsx";
-import GenButton from "../CommonGenComponents/GenButton.tsx";
-import DecomposedPolynomialsBlock from "./DecomposedPolynomialsBlock.tsx";
-import OutputIndexes from "./OutputIndexes.tsx";
-import { useEffect, useState } from "react";
-import { getSelectedParam } from "../../functions/functions.ts";
-import FrobeniusMatricesBlock from "../LinearGenerator/FrobeniusMatricesBlock.tsx";
-import { PolynomialType } from "../../utils/interfacesAndTypes.ts";
-import PeriodInfo from "../CommonGenComponents/PeriodInfo.tsx";
-import Header3 from "../PageComponents/Headers/Header3.tsx";
-import ConditionMatrixBlock from "../MatrixGenerator/ConditionMatrixBlock.tsx";
-import Sequence from "../CommonGenComponents/Sequence.tsx";
-import HammingWeight from "../CommonGenComponents/HammingWeight.tsx";
+import { SetURLSearchParams } from 'react-router-dom';
+import FrobeniusInputBlock from './FrobeniusInputBlock.tsx';
+import GenButton from '../CommonGenComponents/GenButton.tsx';
+import DecomposedPolynomialsBlock from './DecomposedPolynomialsBlock.tsx';
+import OutputIndexes from './OutputIndexes.tsx';
+import { useEffect, useState } from 'react';
+import { getSelectedParam } from '../../functions/functions.ts';
+import FrobeniusMatricesBlock from '../LinearGenerator/FrobeniusMatricesBlock.tsx';
+import { PolynomialType } from '../../utils/interfacesAndTypes.ts';
+import PeriodInfo from '../CommonGenComponents/PeriodInfo.tsx';
+import Header3 from '../PageComponents/Headers/Header3.tsx';
+import ConditionMatrixBlock from '../MatrixGenerator/ConditionMatrixBlock.tsx';
+import Sequence from '../CommonGenComponents/Sequence.tsx';
+import HammingWeight from '../CommonGenComponents/HammingWeight.tsx';
 
 interface FrobeniusGeneratorProps {
   searchParams: URLSearchParams;
@@ -65,7 +65,7 @@ const FrobeniusGenerator = ({
   useEffect(() => {
     const decomposition = getSelectedParam(userValueParam, searchParams);
     if (decomposition !== null) {
-      const values = decomposition.split("-").map(Number);
+      const values = decomposition.split('-').map(Number);
       setDecompositionValues(values);
     }
   }, [location.search]);

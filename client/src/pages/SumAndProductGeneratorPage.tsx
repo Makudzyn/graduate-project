@@ -1,4 +1,4 @@
-import { observer } from "mobx-react-lite";
+import { observer } from 'mobx-react-lite';
 import {
   PARAMS_DEGREE_A,
   PARAMS_DEGREE_B,
@@ -8,28 +8,28 @@ import {
   PARAMS_USER_VALUE_B,
   POLYNOMIAL_TYPE_A,
   POLYNOMIAL_TYPE_B,
-} from "../utils/consts.ts";
-import { useSearchParams } from "react-router-dom";
-import { findGCD } from "../functions/generatorFunctions.ts";
-import { additionAndMultiplicationCalculations } from "../functions/requestFunctions/calculationRequestFunctions.ts";
-import { useContext, useEffect, useState } from "react";
-import usePolynomialsFetching from "../hooks/fetching/usePolynomialsFetching.ts";
-import LinearGenerator from "../components/LinearGenerator/LinearGenerator.tsx";
-import PeriodsCondition from "../components/CommonGenComponents/PeriodsCondition.tsx";
-import PeriodInfo from "../components/CommonGenComponents/PeriodInfo.tsx";
-import CoprimeCondition from "../components/CommonGenComponents/CoprimeCondition.tsx";
-import { Context } from "../main.tsx";
-import Spinner from "../components/PageComponents/Spinner.tsx";
-import SideBar from "../components/SideBar/SideBar.tsx";
-import { handleHistoryRecordCreation } from "../functions/requestFunctions/requestFunctions.ts";
-import Modal from "../components/Modal/Modal.tsx";
-import { linearValidationBeforeCalculations } from "../functions/functions.ts";
-import PageHeader from "../components/PageComponents/Headers/PageHeader.tsx";
-import Section from "../components/PageComponents/Section.tsx";
-import PageWrapper from "../components/PageComponents/PageWrapper.tsx";
-import SumAndProductBlock from "../components/SumAndProduct/SumAndProductBlock.tsx";
-import SectionBlock from "../components/PageComponents/SectionBlock.tsx";
-import RenderSideBar from "../components/SideBar/RenderSideBar.tsx";
+} from '../utils/consts.ts';
+import { useSearchParams } from 'react-router-dom';
+import { findGCD } from '../functions/generatorFunctions.ts';
+import { additionAndMultiplicationCalculations } from '../functions/requestFunctions/calculationRequestFunctions.ts';
+import { useContext, useEffect, useState } from 'react';
+import usePolynomialsFetching from '../hooks/fetching/usePolynomialsFetching.ts';
+import LinearGenerator from '../components/LinearGenerator/LinearGenerator.tsx';
+import PeriodsCondition from '../components/CommonGenComponents/PeriodsCondition.tsx';
+import PeriodInfo from '../components/CommonGenComponents/PeriodInfo.tsx';
+import CoprimeCondition from '../components/CommonGenComponents/CoprimeCondition.tsx';
+import { Context } from '../main.tsx';
+import Spinner from '../components/PageComponents/Spinner.tsx';
+import SideBar from '../components/SideBar/SideBar.tsx';
+import { handleHistoryRecordCreation } from '../functions/requestFunctions/requestFunctions.ts';
+import Modal from '../components/Modal/Modal.tsx';
+import { linearValidationBeforeCalculations } from '../functions/functions.ts';
+import PageHeader from '../components/PageComponents/Headers/PageHeader.tsx';
+import Section from '../components/PageComponents/Section.tsx';
+import PageWrapper from '../components/PageComponents/PageWrapper.tsx';
+import SumAndProductBlock from '../components/SumAndProduct/SumAndProductBlock.tsx';
+import SectionBlock from '../components/PageComponents/SectionBlock.tsx';
+import RenderSideBar from '../components/SideBar/RenderSideBar.tsx';
 
 const SumAndProductGeneratorPage = observer(() => {
   const { polynomialsStore, userStore } = useContext(Context)!;
@@ -74,7 +74,9 @@ const SumAndProductGeneratorPage = observer(() => {
       const condition = findGCD(factualPeriodA, factualPeriodB);
       setConditionS(condition);
       if (condition !== 1) {
-        setError("Періоди не взаємно прості. Обчислення сум та добутків не виконано.");
+        setError(
+          'Періоди не взаємно прості. Обчислення сум та добутків не виконано.',
+        );
       }
       const periodLengthS = factualPeriodA * factualPeriodB;
       setPeriodLengthS(periodLengthS);
@@ -138,14 +140,18 @@ const SumAndProductGeneratorPage = observer(() => {
 
   return (
     <>
-      <RenderSideBar userStore={userStore} setError={setError} setLoading={setLoading}>
+      <RenderSideBar
+        userStore={userStore}
+        setError={setError}
+        setLoading={setLoading}
+      >
         <SideBar
           dataArray={userStore.historyRecords}
           userId={userStore.user.id}
         />
       </RenderSideBar>
       {loading && <Spinner />}
-      {error && <Modal message={error} setError={setError} type={"error"} />}
+      {error && <Modal message={error} setError={setError} type={'error'} />}
 
       <Section>
         <PageWrapper>
@@ -184,7 +190,7 @@ const SumAndProductGeneratorPage = observer(() => {
                 userValueParam={PARAMS_USER_VALUE_A}
                 polynomialType={POLYNOMIAL_TYPE_A}
                 identifier={`(${POLYNOMIAL_TYPE_A})`}
-                className={"w-1/2"}
+                className={'w-1/2'}
                 onClick={handleFirstGenClick}
               />
               <LinearGenerator
@@ -201,14 +207,14 @@ const SumAndProductGeneratorPage = observer(() => {
                 userValueParam={PARAMS_USER_VALUE_B}
                 polynomialType={POLYNOMIAL_TYPE_B}
                 identifier={`(${POLYNOMIAL_TYPE_B})`}
-                className={"w-1/2"}
+                className={'w-1/2'}
                 onClick={handleSecondGenClick}
               />
             </div>
             <div className="flex justify-center flex-col my-5">
               <PeriodInfo
                 factualPeriodLength={periodLengthS}
-                identifier={"(S)"}
+                identifier={'(S)'}
               />
               <PeriodsCondition
                 polynomialTypeFirst={POLYNOMIAL_TYPE_A}

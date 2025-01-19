@@ -1,11 +1,11 @@
-import { makeAutoObservable } from "mobx";
-import { HistoryRecord, User } from "../utils/interfacesAndTypes.ts";
+import { makeAutoObservable } from 'mobx';
+import { HistoryRecord, User } from '../utils/interfacesAndTypes.ts';
 export default class UserStore {
   private _isAuth = false;
   private _user: User = {
     id: 0,
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     createdAt: new Date(),
     updatedAt: new Date(),
   };
