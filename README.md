@@ -1,4 +1,4 @@
-# Graduate project
+# PRBS Generators and Analysis Tool
 
 A web application for generating pseudo-random sequences using vector and matrix generators, studying their properties and tools for their analysis.
 
